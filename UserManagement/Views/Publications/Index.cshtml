@@ -1,0 +1,166 @@
+﻿@model PagedList.IPagedList<UserManagement.Models.db.Publication>
+@using PagedList.Mvc;
+@using UserManagement.Models.db;
+@{
+    ViewBag.Title = "Публікації";
+}
+
+<h2>Публікації</h2>
+
+<form asp-controller="Publications" asp-action="Index" id="mainFrom" style="width: 100%; text-align: center;">
+    <div style="display: flex; justify-content: space-between">
+        <div>
+            <label>Назва</label>
+            <input type="text" name="SearchString" value="@ViewBag.searchString">
+        </div>
+        <div>
+            <label>З: </label>
+            <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
+        </div>
+        <div>
+            <label>До: </label>
+            <input type="date" name="dateTo" value="@ViewBag.dateTo">
+        </div>
+    </div>
+    <div style="height: 50%;padding-top: 15px; display: inline-block;">
+        <input type="submit" value="Пошук" style="width: 100%"/>
+    </div>
+</form>
+<div style="display: flex; justify-content: space-between">
+    @Html.ActionLink("Створити", "Create")
+    @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index",
+        new
+            {
+                searchString = ViewBag.searchString,
+            isMine = !ViewBag.isMine,
+            page = ViewBag.page,
+            dateFrom = ViewBag.dateFrom,
+            dateTo = ViewBag.dateTo
+            })
+</div>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Назва
+        </th>
+        <th>
+            Дата
+        </th>
+        <th>
+            Тип
+        </th>
+        <th>
+            Автори
+        </th>
+        <th>
+            Інші автори
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @item.PublicationType.ToString().Replace('_', ' ')
+            </td>
+            <td>
+                @foreach (var user in item.User)
+                {
+                    foreach (var initial in user.I18nUserInitials)
+                    {
+                        if (initial.Language == item.Language)
+                        {
+                            <label style="font-weight:unset">@initial.FirstName @initial.LastName</label>
+                            break;
+                        }
+                    }
+                }
+            </td>
+            <td>
+                @if (item.OtherAuthors == null || item.OtherAuthors == "")
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.OtherAuthors)
+                }
+            </td>
+            <td>
+
+                @if (item.User.Any(x => x.UserName == User.Identity.Name))
+                {
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.ID })
+                }
+                @Html.ActionLink("Деталі", "Details", new { id = item.ID })
+
+                @if (item.User.Any(x => x.UserName == User.Identity.Name))
+                {
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.ID })
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, isMine = ViewBag.isMine, isFaculty = ViewBag.isFaculty }))
+
+<link rel="stylesheet" href="../Scripts/docsupport/style.css">
+<link rel="stylesheet" href="../Scripts/docsupport/prism.css">
+<link rel="stylesheet" href="../Scripts/chosen.css">
+<style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop {
+        left: -9000px;
+    }
+
+    .find {
+        height: 30px;
+        margin-left: 15px;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="../Scripts/chosen.jquery.js" type="text/javascript"></script>
+<script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+    function updateSelect() {
+        $('.chosen-select').on("change", function () {
+            $('#cathedraForm').submit();
+        })
+        $('.chosen-select-faculty').on("change", function () {
+            $('#facultyForm').submit();
+        })
+        $('.chosen-select').chosen(
+            {
+                allow_single_deselect: false,
+                disable_search_threshold: 10,
+                no_results_text: 'Не знайдено',
+            }
+        );
+        $('.chosen-select-faculty').chosen(
+            {
+                allow_single_deselect: false,
+                disable_search_threshold: 10,
+                no_results_text: 'Не знайдено',
+            }
+        );
+    }
+
+    function submitDate() {
+        $('#dateForm').submit();
+    }
+    updateSelect();
+</script>

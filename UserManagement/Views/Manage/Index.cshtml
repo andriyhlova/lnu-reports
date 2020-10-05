@@ -1,0 +1,31 @@
+﻿@model UserManagement.Models.IndexViewModel
+@{
+    ViewBag.Title = "Керування";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Змінити налаштування профілю</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Пароль:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Змінити пароль", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Створити", "SetPassword")
+            }
+            ]
+            </dd>
+        <dt>Персональна інформація:</dt>
+        <dd>
+           @Html.ActionLink("Змінити персональну інформацію", "Update")
+        </dd>
+    </dl>
+</div>

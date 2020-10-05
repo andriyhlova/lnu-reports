@@ -1,0 +1,133 @@
+﻿@model UserManagement.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Деталі</h2>
+
+<div>
+    <h4>Користувач</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        @foreach (var i in Model.I18nUserInitials)
+        {
+            <dt>
+                Ім'я (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.FirstName
+            </dd>
+
+            <dt>
+                По-батькові (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.FathersName
+            </dd>
+
+            <dt>
+                Прізвище (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.LastName
+            </dd>
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduationDate.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefenseYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefenseYear.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AwardingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AwardingDate.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt>
+            Кафедра
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cathedra.Name)
+        </dd>
+        <dt>
+            Факультет
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cathedra.Faculty.Name)
+        </dd>
+        <dt>
+            Науковий ступінь
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcademicStatus.Value)
+        </dd>
+        <dt>
+            Вчене звання
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScienceDegree.Value)
+        </dd>
+        <dt>
+            Посада
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Position.Value)
+        </dd>
+        <dt>
+            Ролі
+        </dt>
+
+        <dd>
+            @foreach (var i in ViewBag.RolesForThisUser)
+            {
+                <div>@i</div>
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

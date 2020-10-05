@@ -1,0 +1,164 @@
+﻿@model PagedList.IPagedList<UserManagement.Models.db.Report>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Звіти";
+}
+
+<h2>Персональні звіти</h2>
+
+@if (User.IsInRole("Керівник кафедри"))
+{
+    @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
+}
+<form asp-controller="ReportList" asp-action="Index" id="dateForm" style="display:flex">
+    <div style="margin: 10px">
+        <label style="display:block">З: </label>
+        <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
+    </div>
+    <div style="margin: 10px">
+        <label style="display:block">До: </label>
+        <input type="date" name="dateTo" value="@ViewBag.dateTo" />
+    </div>
+    <div style="height:50%; margin: 10px; padding-top:25px">
+        <input type="submit" value="Пошук" />
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            Протокол
+        </th>
+        <th>
+            Дата
+        </th>
+        <th>
+            Підписаний
+        </th>
+        <th>
+            Підтверджений
+        </th>
+        <th>
+            Користувач
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Protocol)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @if (!item.IsSigned)
+                {
+                    if (item.Date == null || item.Protocol == null)
+                    {
+                        @Html.DisplayFor(modelItem => item.IsSigned)
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.ID }))
+                        {
+                            @Html.Hidden("reportId", item.ID)
+                        }
+                        @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.ID })
+                    }
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.IsSigned)
+                }
+            </td>
+            <td>
+                @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
+                {
+                    using (Html.BeginForm("Confirm", "ReportList", FormMethod.Get, new { @id = "confirmCheckboxForm_" + item.ID }))
+                    {
+                        @Html.Hidden("reportId", item.ID)
+                    }
+                    @Html.CheckBoxFor(modelItem => item.IsConfirmed, new { @id = "confirmCheckbox_" + item.ID })
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.IsConfirmed)
+                }
+            </td>
+            <td>
+                @foreach (var initial in item.User.I18nUserInitials)
+                {
+                    if (initial.Language == UserManagement.Models.db.Language.UA)
+                    {
+                        <span>@initial.FirstName&nbsp;@initial.LastName</span>
+                        break;
+                    }
+                }
+            </td>
+            <td>
+                <a href="@Url.Action("Preview", "Reports", new { reportId = item.ID })"
+                   target="_blank">
+                    Переглянути
+                </a>
+                @if (!item.IsSigned)
+                {
+                    if (@item.User.UserName == @User.Identity.Name)
+                    {
+                        @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                    }
+                }
+                @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
+                {
+                    @Html.ActionLink("Повернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                }
+
+                @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.ID }, new { @target = "_blank" })
+                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.ID }, new { @style = "margin-left:5px;" })
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+    function submitDate() {
+        $('#dateForm').submit();
+    }
+    function events() {
+
+        $('[id^="signCheckbox"]').on('click', function (ev) {
+            if (this.checked == true) {
+                if (confirm('Після підписання ви не будете мати право редагувати звіт.\n' +
+                    'Лише завідувач кафедри може зняти підпис.\n' +
+                    'Ви впевнені, що бажаєте підписати звіт?') == false) {
+
+                    return false;
+                }
+                else {
+                    console.log(this.id.split("_")[1]);
+                    $('#signCheckboxForm_' + this.id.split("_")[1]).submit();
+                }
+            }
+        });
+
+        $('[id^="confirmCheckbox"]').on('click', function (ev) {
+            if (this.checked == true) {
+                if (confirm('Після затвердження підпис зможе зняти лише адміністратор деканату.\n' +
+                    'Ви впевнені, що бажаєте затвердити звіт?') == false) {
+                    return false;
+                }
+                else {
+                    $('#confirmCheckboxForm_' + this.id.split("_")[1]).submit();
+                }
+            }
+        });
+    }
+    events();
+</script>
+Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index"))

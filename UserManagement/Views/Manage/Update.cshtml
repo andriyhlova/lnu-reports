@@ -1,0 +1,201 @@
+﻿@model UserManagement.Models.UpdateViewModel
+@{
+    ViewBag.Title = "Персональна інформація";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Update", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.EditorFor(x => x.I18nUserInitials)
+<div class="form-group">
+    @Html.LabelFor(m => m.MonographCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.MonographCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.MonographCounterBeforeRegistration, @Type = "number", Min = 0 })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.BookCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.BookCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.BookCounterBeforeRegistration, @Type = "number", Min = 0 })
+    </div>
+</div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.TrainingBookCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.TrainingBookCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.TrainingBookCounterBeforeRegistration, @Type = "number", Min = 0 })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublicationsBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PublicationsBeforeRegistration, new { @class = "form-control", @Value = ViewBag.PublicationsBeforeRegistration, @Type = "number", Min=0 })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.OtherWritingCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.OtherWritingCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.OtherWritingCounterBeforeRegistration, @Type = "number", Min = 0 })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConferenceCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ConferenceCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.ConferenceCounterBeforeRegistration, @Type = "number", Min = 0 })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PatentCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PatentCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.PatentCounterBeforeRegistration, @Type = "number", Min = 0 })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input name="BirthDate" type="date" class="form-control" value="@ViewBag.BirthDate" id="BirthDate" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GraduationDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="GraduationYear" name="GraduationYear" type="number" value="@ViewBag.GraduationDate" min="1900" max="@DateTime.Now.Year">
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DefenseYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*<input name="DefenseYear" type="date" class="form-control" value="@ViewBag.DefenseYear" />*@
+            <input class="form-control text-box single-line" id="DefenseDate" name="DefenseDate" type="number" value="@ViewBag.DefenseYear" min="1900" max="@DateTime.Now.Year">
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*<input name="AwardingDate" type="date" class="form-control" value="@ViewBag.AwardingDate" />*@
+            <input class="form-control text-box single-line" id="AwardingYear" name="AwardingYear" type="number" value="@ViewBag.AwardingDate" min="1900" max="@DateTime.Now.Year">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AspirantStartYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="AspirantStartYear" name="AspirantStartYear" type="number" value="@ViewBag.AspirantStartYear" min="1900" max="@DateTime.Now.Year">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AspirantFinishYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="AspirantFinishYear" name="AspirantFinishYear" type="number" value="@ViewBag.AspirantFinishYear" min="1900" max="@DateTime.Now.Year">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoctorStartYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="DoctorStartYear" name="DoctorStartYear" type="number" value="@ViewBag.DoctorStartYear" min="1900" max="@DateTime.Now.Year">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoctorFinishYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="DoctorFinishYear" name="DoctorFinishYear" type="number" value="@ViewBag.DoctorFinishYear" min="1900" max="@DateTime.Now.Year">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Науковий ступінь</label>
+        @Html.DropDownList("AcademicStatus",
+                    new SelectList(ViewBag.AllAcademicStatuses),
+                    new { @class = "form-control chosen-select", @Value = ViewBag.AcademicStatus == null ? "" : ViewBag.AcademicStatus })
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Вчене звання</label>
+        @Html.DropDownList("ScienceDegree",
+                    new SelectList(ViewBag.AllScienceDegrees),
+                    new { @class = "form-control chosen-select", @Value = ViewBag.ScienceDegree == null ? "" : ViewBag.ScienceDegree })
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Посада</label>
+        @Html.DropDownList("Position",
+                    new SelectList(ViewBag.AllPositions),
+                    new { @class = "form-control chosen-select", @Value = ViewBag.Position == null ? "" : ViewBag.Position })
+    </div>
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Email)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" id="submit_btn" value="Оновити" />
+        </div>
+    </div>
+}
+
+<link rel="stylesheet" href="/../Scripts/docsupport/style.css">
+<link rel="stylesheet" href="/../Scripts/docsupport/prism.css">
+<link rel="stylesheet" href="/../Scripts/chosen.css">
+<style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop {
+        left: -9000px;
+    }
+
+    .chosen-container {
+        margin-left: 15px;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="/../Scripts/chosen.jquery.js" type="text/javascript"></script>
+<script src="/../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+    function updateSelect() {
+        $('.chosen-select').chosen(
+            {
+                allow_single_deselect: true,
+                disable_search_threshold: 10,
+                placeholder_text_multiple: 'Виберіть всіх авторів',
+                no_results_text: 'Не знайдено'
+            }
+        );
+    }
+    $(function () {
+        $('[type="date"][id="BirthDate"]').prop('max', function () {
+            return new Date().toJSON().split('T')[0];
+        })
+    });
+    updateSelect();
+    $('form').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            document.activeElement.blur();
+            $.confirm({
+                title: 'Збереження даних',
+                content: 'Ви впевнені, що бажаєте зберегти дані і вийти?',
+                buttons: {
+                    submit: {
+                        text: 'Зберегти',
+                        action: function () {
+                            $("#submit_btn").click();
+                        }
+                    },
+                    cancel: {
+                        text: 'Скасувати',
+                        action: function () {
+                        }
+                    }
+                }
+            });
+            return false;
+        }
+    });
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+}
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+}

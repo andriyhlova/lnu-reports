@@ -1,0 +1,57 @@
+﻿@model UserManagement.Models.db.ThemeOfScientificWork
+
+@{
+    ViewBag.Title = "Деталі";
+}
+
+<h2>Деталі</h2>
+
+<div>
+    <h4>Наукова робота</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Номер ДР
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThemeNumber)
+        </dd>
+        <dt>
+            Шифр
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <dt>
+            Тема наукової роботи
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+        <dt>
+            Науковий керівник
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScientificHead)
+        </dd>
+        <dt>
+            Період з
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PeriodFrom)
+        </dd>
+        <dt>
+            Період до
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PeriodTo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Повернутись до списку", "Index")
+</p>
