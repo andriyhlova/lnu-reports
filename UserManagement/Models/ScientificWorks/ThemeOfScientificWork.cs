@@ -23,10 +23,8 @@ namespace UserManagement.Models.db
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime PeriodTo { get; set; }
         public Financial Financial { get; set; }
-        public int FacultyId { get; set; }
         public virtual ICollection<Report> Report { get; set; }
         public virtual Cathedra Cathedra { get; set; }
-        public virtual Faculty Faculty { get; set; }
     }
 
     public enum Financial
