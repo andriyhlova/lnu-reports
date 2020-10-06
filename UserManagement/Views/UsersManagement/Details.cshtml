@@ -54,7 +54,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.GraduationDate.Year)
+            @(Model.GraduationDate.HasValue ? Model.GraduationDate.Value.Year : (int?)null)
         </dd>
 
         <dt>
@@ -62,7 +62,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DefenseYear.Year)
+            @(Model.DefenseYear.HasValue ? Model.DefenseYear.Value.Year : (int?)null)
         </dd>
 
         <dt>
@@ -70,7 +70,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AwardingDate.Year)
+            @(Model.AwardingDate.HasValue ? Model.AwardingDate.Value.Year : (int?)null)
         </dd>
 
         <dt>
