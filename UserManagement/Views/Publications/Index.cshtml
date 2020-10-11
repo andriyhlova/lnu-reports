@@ -13,6 +13,40 @@
             <label>Назва</label>
             <input type="text" name="SearchString" value="@ViewBag.searchString">
         </div>
+        <input type="hidden" name="isMine" value="@((bool)ViewBag.isMine ? "True" : "False")"/>
+        @if ((ViewBag.isMine && User.IsInRole("Адміністрація ректорату")) || !ViewBag.isMine)
+        {
+        <div>
+            <label>Факультет</label>
+            @Html.DropDownList("faculty",
+                          new SelectList(ViewBag.AllFaculties, "Value", "Text", ViewBag.facultyNumber),
+                          "Виберіть факультет",
+                          new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
+        </div>
+        }
+        @if ((ViewBag.isMine && User.IsInRole("Адміністрація деканату")) || !ViewBag.isMine)
+        {
+        <div>
+            <label>Кафедра</label>
+            @Html.DropDownList("cathedra",
+                          new SelectList(ViewBag.AllCathedras, "Value", "Text", ViewBag.cathedraNumber),
+                          "Виберіть кафедру",
+                          new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
+        </div>
+        }
+        @if ((ViewBag.isMine 
+            && (User.IsInRole("Адміністрація ректорату") 
+            || User.IsInRole("Адміністрація деканату") 
+            || User.IsInRole("Керівник кафедри"))) || !ViewBag.isMine)
+        {
+        <div>
+            <label>Користувач</label>
+            @Html.DropDownList("user",
+                          new SelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.userId),
+                          "Виберіть користувача",
+                          new { @class = "form-control chosen-select", @Value = ViewBag.user })
+        </div>
+        }
         <div>
             <label>З: </label>
             <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
@@ -28,7 +62,13 @@
 </form>
 <div style="display: flex; justify-content: space-between">
     @Html.ActionLink("Створити", "Create")
-    @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index",
+    @{ 
+        var text = User.IsInRole("Адміністрація ректорату") ? "Публікації університету"
+            : User.IsInRole("Адміністрація деканату") ? "Публікації факультету"
+            : User.IsInRole("Керівник кафедри") ? "Публікації кафедри"
+            : "Мої публікації";
+    }
+    @Html.ActionLink(!ViewBag.isMine ? text : "Всі публікації", "Index",
         new
             {
                 searchString = ViewBag.searchString,

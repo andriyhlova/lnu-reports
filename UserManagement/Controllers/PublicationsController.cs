@@ -35,7 +35,7 @@ namespace UserManagement.Controllers
 
         private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         // GET: Publications
-        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty)
+        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty, string user)
         {
             db = new ApplicationDbContext();
             int pageSize = 15;
@@ -48,12 +48,15 @@ namespace UserManagement.Controllers
             ViewBag.isMine = isMineWihoutNull;
             ViewBag.cathedra = cathedraNumber;
             ViewBag.faculty = facultyNumber;
+            ViewBag.user = user;
             ViewBag.searchString = searchString;
             ViewBag.dateFrom = dateFrom;
             ViewBag.dateTo = dateTo;
             ViewBag.page = pageNumber;
-            PutCathedraAndFacultyIntoViewBag();
+            PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
+            bool hasUser = !string.IsNullOrEmpty(user);
             var allPublications = db.Publication
+                .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))
                 .ToList();
@@ -64,10 +67,38 @@ namespace UserManagement.Controllers
             return GetRightPublicationView(allPublications, isMineWihoutNull, pageNumber, pageSize, searchString);
         }
 
-        private void PutCathedraAndFacultyIntoViewBag()
+        private void PutCathedraAndFacultyIntoViewBag(bool isMine = false)
         {
+            var users = db.Users.Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
             var cathedas = db.Cathedra.ToList();
             var faculties = db.Faculty.ToList();
+            var currentUser = UserManager.FindByName(User.Identity.Name);
+            //UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+            //    || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")
+            if(isMine)
+            {
+                if(User.IsInRole("Адміністрація деканату"))
+                {
+                    cathedas = cathedas.Where(x => x.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
+                    users = users.Where(x=>x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
+                }
+                else if (User.IsInRole("Керівник кафедри"))
+                {
+                    users = users.Where(x => x.Cathedra.ID == currentUser.Cathedra.ID).ToList();
+                }
+            }
+            ViewBag.AllUsers = users
+                .Select(x =>
+                {
+                    var init = x.I18nUserInitials.First(y => y.Language == Language.UA);
+                    return new SelectListItem
+                    {
+                        Text = String.Join(" ", init.LastName,
+                                                init.FirstName,
+                                                init.FathersName),
+                        Value = x.Id
+                    };
+                }).ToList();
             ViewBag.AllCathedras = cathedas
                 .Select(x =>
                      new SelectListItem
@@ -87,26 +118,36 @@ namespace UserManagement.Controllers
         private ActionResult GetRightPublicationView(List<Publication> allPublications, bool isMineWihoutNull,
                                                         int pageNumber, int pageSize, string searchString)
         {
+            var publications = allPublications.ToList();
+            var currentUser = UserManager.FindByName(User.Identity.Name);
             if (!String.IsNullOrEmpty(searchString))
             {
-                return View(allPublications
-                    .Where(s => s.Name.Contains(searchString))
-                    .ToList()
-                    .ToPagedList(pageNumber, pageSize));
+                publications = publications.Where(s => s.Name.Contains(searchString))
+                    .ToList();
             }
-            if (isMineWihoutNull)
+            else if (isMineWihoutNull)
             {
-                return View(allPublications
-                .Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
-                .ToList()
-                .ToPagedList(pageNumber, pageSize));
+                if (User.IsInRole("Адміністрація деканату"))
+                {
+                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name 
+                    || y.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID))
+                    .ToList();
+                }
+                else if (User.IsInRole("Керівник кафедри"))
+                {
+                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name
+                    || y.Cathedra.ID == currentUser.Cathedra.ID))
+                    .ToList();
+                }
+                else if(User.IsInRole("Викладач"))
+                {
+                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
+                    .ToList();
+                }
             }
-            else
-            {
-                return View(allPublications
-                .ToList()
+
+            return View(publications
                 .ToPagedList(pageNumber, pageSize));
-            }
         }
 
         // GET: Publications/Details/5
@@ -461,19 +502,19 @@ namespace UserManagement.Controllers
                         user.Publication.Add(publicationFromDB);
                     }
                 }
-                if (changeMainAuthor.Value)
+                if (mainAuthorFromOthers.Value)
                 {
-                    if (mainAuthorFromOthers.Value)
+                    if (!string.IsNullOrEmpty(publication.OtherAuthors))
                     {
-                        if(!string.IsNullOrEmpty(publication.OtherAuthors))
-                        {
-                            var value = publication.OtherAuthors.Split(',');
-                            value = value[0].Split();
-                            if(value.Length == 3)
-                                publicationFromDB.MainAuthor = value[0] + " " + value[1] + " " + value[2];
-                        }
+                        var value = publication.OtherAuthors.Split(',');
+                        value = value[0].Split();
+                        if (value.Length == 3)
+                            publicationFromDB.MainAuthor = value[0] + " " + value[1] + " " + value[2];
                     }
-                    else if(userToAdd != null && userToAdd.Count > 0)
+                }
+                else if (changeMainAuthor.Value)
+                {
+                    if(userToAdd != null && userToAdd.Count > 0)
                     {
                         var user = db.Users.Find(userToAdd[0]);
                         var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
