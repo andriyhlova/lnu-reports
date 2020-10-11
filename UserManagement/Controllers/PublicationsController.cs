@@ -509,7 +509,7 @@ namespace UserManagement.Controllers
                         var value = publication.OtherAuthors.Split(',');
                         value = value[0].Split();
                         if (value.Length == 3)
-                            publicationFromDB.MainAuthor = value[0] + " " + value[1] + " " + value[2];
+                            publicationFromDB.MainAuthor = value[2] + " " + value[0] + " " + value[1];
                     }
                 }
                 else if (changeMainAuthor.Value)
