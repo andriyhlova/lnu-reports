@@ -41,6 +41,11 @@ namespace UserManagement.Controllers
                 _userManager = value;
             }
         }
+        private Services.EmailService emailService;
+        public UsersManagementController()
+        {
+            emailService = new Services.EmailService();
+        }
 
         // GET: UsersManagement
         public ActionResult Index(int? page, string sortOrder, int? cathedra, int? faculty)
@@ -210,6 +215,12 @@ namespace UserManagement.Controllers
                 .Roles.Any(x => DB.Roles.Find(x.RoleId).Equals(roleToAdd)))
             {
                 UserManager.AddToRole(applicationUser.Id, roleToAdd);
+            }
+            if(!user.IsActive && applicationUser.IsActive)
+            {
+                emailService.SendEmail(user.Email, "Підтвердження користувача",
+                "Ваш профіль підтверджено в системі звітування <a href=\"https://swr.abtollc.com\">https://swr.abtollc.com</a>.");
+                //send email
             }
             user.IsActive = applicationUser.IsActive;
             DB.SaveChanges();

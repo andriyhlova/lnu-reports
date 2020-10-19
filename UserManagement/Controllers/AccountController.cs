@@ -14,6 +14,7 @@ using MailKit.Net.Smtp;
 using UserManagement.Models;
 using UserManagement.Models.db;
 using UserManagement.Utilities;
+using UserManagement.Services;
 
 namespace UserManagement.Controllers
 {
@@ -23,9 +24,10 @@ namespace UserManagement.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         public ApplicationDbContext db = new ApplicationDbContext();
-
+        private Services.EmailService emailService;
         public AccountController()
         {
+            emailService = new Services.EmailService();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -199,27 +201,7 @@ namespace UserManagement.Controllers
                     return View(model);                    
                 }
 
-                string smtpHost = ConfigurationManager.AppSettings["smtpHost"];
-                int smtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["smtpPort"]);
-                bool smtpUseSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["smtpUseSSL"]);
-                string smtpUserName = ConfigurationManager.AppSettings["smtpUserName"];
-                string smtpPassword = ConfigurationManager.AppSettings["smtpPassword"];
-
                 // get change password page
-
-                MimeMessage message = new MimeMessage();
-
-                string address = "no-reply@lnu.edu.ua";
-
-                MailboxAddress from = new MailboxAddress("LnuReports", address);
-                message.From.Add(from);
-
-                MailboxAddress to = new MailboxAddress("User", user.Email);
-                message.To.Add(to);
-
-                message.Subject = "Відновлення паролю";
-
-                BodyBuilder bodyBuilder = new BodyBuilder();
 
 
                 //var provider = new DpapiDataProtectionProvider("SampleAppName");
@@ -233,22 +215,8 @@ namespace UserManagement.Controllers
 
                 string recoveryLink = Request.Url.ToString()
                     .Replace("ForgotPassword", $"ResetPassword?code=" + hashedGuId );
-
-                // generate body
-                //bodyBuilder.HtmlBody = body;
-                bodyBuilder.HtmlBody = $"<a href=\"{recoveryLink}\">Натисніть тут для відновлення паролю</a>";
-
-                message.Body = bodyBuilder.ToMessageBody();
-
-                SmtpClient client = new SmtpClient();
-
-                client.Connect(smtpHost, smtpPort, smtpUseSSL);
-
-                client.Authenticate(smtpUserName, smtpPassword);
-
-                client.Send(message);
-                client.Disconnect(true);
-                client.Dispose();
+                emailService.SendEmail(user.Email, "Відновлення паролю",
+                    $"<a href=\"{recoveryLink}\">Натисніть тут для відновлення паролю</a>");
             }
             return View("ForgotPasswordConfirmation");
         }
