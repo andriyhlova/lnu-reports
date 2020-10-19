@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UserManagement.Models;
 using System.Data.Entity.Infrastructure;
+using ScientificReport.DAL;
 
 namespace UserManagement.Controllers
 {

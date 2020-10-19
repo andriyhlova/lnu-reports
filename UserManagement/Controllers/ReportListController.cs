@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using PagedList;
+using ScientificReport.DAL;
+using ScientificReport.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,8 +10,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using UserManagement.Models;
-using UserManagement.Models.db;
 
 namespace UserManagement.Controllers
 {

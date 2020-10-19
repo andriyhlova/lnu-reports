@@ -2,11 +2,10 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using ScientificReport.DAL;
+using ScientificReport.DAL.Models;
 using System;
 using System.Data.Entity;
-using UserManagement.Migrations;
-using UserManagement.Models;
-using UserManagement.Models.db;
 
 [assembly: OwinStartup(typeof(UserManagement.Startup))]
 namespace UserManagement

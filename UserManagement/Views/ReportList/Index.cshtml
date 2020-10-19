@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<UserManagement.Models.db.Report>
+﻿@model PagedList.IPagedList<ScientificReport.DAL.Models.Report>
 @using PagedList.Mvc;
 
 @{
@@ -92,7 +92,7 @@
             <td>
                 @foreach (var initial in item.User.I18nUserInitials)
                 {
-                    if (initial.Language == UserManagement.Models.db.Language.UA)
+                    if (initial.Language == ScientificReport.DAL.Models.Language.UA)
                     {
                         <span>@initial.FirstName&nbsp;@initial.LastName</span>
                         break;

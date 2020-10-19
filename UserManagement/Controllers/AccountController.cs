@@ -12,8 +12,10 @@ using Microsoft.Owin.Security;
 using MimeKit;
 using MailKit.Net.Smtp;
 using UserManagement.Models;
-using UserManagement.Models.db;
 using UserManagement.Utilities;
+using ScientificReport.DAL;
+using ScientificReport.DAL.Models;
+using ScientificReport.DAL.Enums;
 
 namespace UserManagement.Controllers
 {

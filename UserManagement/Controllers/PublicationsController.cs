@@ -2,6 +2,9 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
+using ScientificReport.DAL;
+using ScientificReport.DAL.Enums;
+using ScientificReport.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,9 +14,6 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
-using UserManagement.Models;
-using UserManagement.Models.db;
-using UserManagement.Models.PublicationDB;
 
 namespace UserManagement.Controllers
 {

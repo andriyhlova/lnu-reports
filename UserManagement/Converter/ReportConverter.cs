@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ScientificReport.DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using UserManagement.Models.db;
 using UserManagement.Models.Reports;
 
 namespace UserManagement.Converter

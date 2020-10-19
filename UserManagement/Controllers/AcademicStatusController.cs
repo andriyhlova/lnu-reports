@@ -1,20 +1,29 @@
-﻿using System.Data.Entity;
+﻿using AutoMapper;
+using ScientificReport.DAL.Models;
+using ScientificReport.Services.Abstraction;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UserManagement.Models;
-using UserManagement.Models.db;
 
 namespace UserManagement.Controllers
 {
     [Authorize(Roles = "Superadmin")]
-    public class AcademicStatusController : Controller
+    public class AcademicStatusController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly IServiceBase<AcademicStatus> academicStatusService;
 
+        public AcademicStatusController(IServiceBase<AcademicStatus> academicStatusService,
+            IMapper mapper): base(mapper)
+        {
+            this.academicStatusService = academicStatusService;
+        }
         public async Task<ActionResult> Index()
         {
-            return View(await db.AcademicStatus.ToListAsync());
+            var academicStatuses = await academicStatusService.GetAllAsync();
+            var data = mapper.Map<IEnumerable<AcademicStatus>, IEnumerable<AcademicStatusViewModel>>(academicStatuses);
+            return View(data);
         }
 
         public ActionResult Create()
@@ -24,76 +33,59 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Value")] AcademicStatus academicStatus)
+        public async Task<ActionResult> Create(AcademicStatusViewModel academicStatusModel)
         {
             if (ModelState.IsValid)
             {
-                db.AcademicStatus.Add(academicStatus);
-                await db.SaveChangesAsync();
+                var academicStatus = mapper.Map<AcademicStatusViewModel, AcademicStatus>(academicStatusModel);
+                await academicStatusService.CreateAsync(academicStatus);
                 return RedirectToAction("Index");
             }
 
-            return View(academicStatus);
+            return View(academicStatusModel);
         }
 
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AcademicStatus academicStatus = await db.AcademicStatus.FindAsync(id);
+            var academicStatus = await academicStatusService.GetByIdAsync(id);
             if (academicStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(academicStatus);
+            var academicStatusModel = mapper.Map<AcademicStatus, AcademicStatusViewModel>(academicStatus);
+            return View(academicStatusModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Value")] AcademicStatus academicStatus)
+        public async Task<ActionResult> Edit(AcademicStatusViewModel academicStatusModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(academicStatus).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                var academicStatus = mapper.Map<AcademicStatusViewModel, AcademicStatus>(academicStatusModel);
+                await academicStatusService.UpdateAsync(academicStatus);
                 return RedirectToAction("Index");
             }
-            return View(academicStatus);
+            return View(academicStatusModel);
         }
 
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AcademicStatus academicStatus = await db.AcademicStatus.FindAsync(id);
+            var academicStatus = await academicStatusService.GetByIdAsync(id);
             if (academicStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(academicStatus);
+            var academicStatusModel = mapper.Map<AcademicStatus, AcademicStatusViewModel>(academicStatus);
+            return View(academicStatusModel);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            AcademicStatus academicStatus = await db.AcademicStatus.FindAsync(id);
-            db.AcademicStatus.Remove(academicStatus);
-            await db.SaveChangesAsync();
+            await academicStatusService.DeleteAsync(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

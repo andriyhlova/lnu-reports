@@ -1,11 +1,10 @@
-﻿ using System;
+﻿using ScientificReport.DAL;
+using ScientificReport.DAL.Enums;
+using ScientificReport.DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using UserManagement.Models;
-using UserManagement.Models.db;
-using UserManagement.Models.PublicationDB;
-using UserManagement.Models.Reports;
 
 namespace UserManagement.Services
 {

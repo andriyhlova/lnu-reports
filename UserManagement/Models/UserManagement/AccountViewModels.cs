@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ScientificReport.DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using UserManagement.Models.db;
 
 namespace UserManagement.Models
 {

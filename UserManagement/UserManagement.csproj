@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
@@ -53,6 +56,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MimeKit, Version=2.6.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.2.6.0\lib\net45\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -68,6 +80,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -117,6 +132,9 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -202,10 +220,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Controllers\AcademicStatusController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
@@ -219,45 +240,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005152142311_pages changes.cs" />
-    <Compile Include="Migrations\202005152142311_pages changes.Designer.cs">
-      <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005291609229_orderfix.cs" />
-    <Compile Include="Migrations\202005291609229_orderfix.Designer.cs">
-      <DependentUpon>202005291609229_orderfix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009291752343_AddedCodeColumn.cs" />
-    <Compile Include="Migrations\202009291752343_AddedCodeColumn.Designer.cs">
-      <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010011842449_AddedCountersColumns.cs" />
-    <Compile Include="Migrations\202010011842449_AddedCountersColumns.Designer.cs">
-      <DependentUpon>202010011842449_AddedCountersColumns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010052043383_AddedNonRequiredYearColumns.cs" />
-    <Compile Include="Migrations\202010052043383_AddedNonRequiredYearColumns.Designer.cs">
-      <DependentUpon>202010052043383_AddedNonRequiredYearColumns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\PublicationDB\Publication.cs" />
-    <Compile Include="Models\PublicationDB\PublicationType.cs" />
-    <Compile Include="Models\Reports\OtherDefenses.cs" />
-    <Compile Include="Models\Reports\CoworkersDefenses.cs" />
-    <Compile Include="Models\Reports\CathedraDefenses.cs" />
-    <Compile Include="Models\Reports\CathedraReport.cs" />
-    <Compile Include="Models\Reports\Report.cs" />
+    <Compile Include="Models\AcademicStatusViewModel.cs" />
     <Compile Include="Models\Reports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Reports\ReportViewModel.cs" />
-    <Compile Include="Models\ScientificWorks\ThemeOfScientificWork.cs" />
     <Compile Include="Models\UserManagement\AccountViewModels.cs" />
-    <Compile Include="Models\UserManagement\db\AcademicStatus.cs" />
-    <Compile Include="Models\UserManagement\db\Cathedra.cs" />
-    <Compile Include="Models\UserManagement\db\Faculty.cs" />
-    <Compile Include="Models\UserManagement\db\I18nUserInitials.cs" />
-    <Compile Include="Models\UserManagement\db\Position.cs" />
-    <Compile Include="Models\UserManagement\db\ScienceDegree.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\UserManagement\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PublicationService.cs" />
@@ -375,6 +361,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -394,21 +381,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005152142311_pages changes.resx">
-      <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005291609229_orderfix.resx">
-      <DependentUpon>202005291609229_orderfix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009291752343_AddedCodeColumn.resx">
-      <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010011842449_AddedCountersColumns.resx">
-      <DependentUpon>202010011842449_AddedCountersColumns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010052043383_AddedNonRequiredYearColumns.resx">
-      <DependentUpon>202010052043383_AddedNonRequiredYearColumns.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\ScientificReport.DAL\ScientificReport.DAL.csproj">
+      <Project>{ff365c16-921c-4d2c-abb6-aa11b1035a60}</Project>
+      <Name>ScientificReport.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScientificReport.Services\ScientificReport.Services.csproj">
+      <Project>{270BAF66-0381-4BE3-92FB-19B1FAD3D982}</Project>
+      <Name>ScientificReport.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

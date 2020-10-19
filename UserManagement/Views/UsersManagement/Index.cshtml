@@ -1,5 +1,6 @@
-﻿@model PagedList.IPagedList<UserManagement.Models.ApplicationUser>
+﻿@model PagedList.IPagedList<ScientificReport.DAL.Models.ApplicationUser>
 @using PagedList.Mvc;
+@using ScientificReport.DAL.Enums;
 @{
     ViewBag.Title = "Користувачі";
 }
@@ -60,7 +61,7 @@
             <td>
                 @foreach (var i in item.I18nUserInitials)
                 {
-                    if (i.Language == UserManagement.Models.db.Language.UA)
+                    if (i.Language == Language.UA)
                     {
                         @Html.DisplayFor(modelItem => i.FirstName)
                         break;
@@ -70,7 +71,7 @@
             <td>
                 @foreach (var i in item.I18nUserInitials)
                 {
-                    if (i.Language == UserManagement.Models.db.Language.UA)
+                    if (i.Language == Language.UA)
                     {
                         @Html.DisplayFor(modelItem => i.LastName)
                         break;
