@@ -125,8 +125,8 @@ namespace UserManagement.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
-            ViewBag.AllFaculties = db.Faculty.ToList().Select(x => x.Name);
+            ViewBag.AllCathedras = db.Cathedra.OrderBy(x=> x.Name).ToList().Select(x => x.Name);
+            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList().Select(x => x.Name);
             
             return View();
         }
@@ -143,7 +143,7 @@ namespace UserManagement.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    BirthDate = DateTime.Now,
+                    BirthDate = new DateTime(1950,1,1),
                     PublicationCounterBeforeRegistration = 0,
                     MonographCounterBeforeRegistration = 0,
                     BookCounterBeforeRegistration = 0,
@@ -155,7 +155,7 @@ namespace UserManagement.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Викладач");
+                    UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Працівник");
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     var u = db.Users.Where(x => x.UserName == model.Email).First();
                     u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
@@ -176,8 +176,8 @@ namespace UserManagement.Controllers
                 }
                 AddErrors(result);
             }
-            ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
-            ViewBag.AllFaculties = db.Faculty.ToList().Select(x => x.Name);
+            ViewBag.AllCathedras = db.Cathedra.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList().Select(x => x.Name);
             return View(model);
         }
 

@@ -27,7 +27,7 @@
             </dd>
 
             <dt>
-                По-батькові (@i.Language.ToString())
+                По батькові (@i.Language.ToString())
             </dt>
             <dd>
                 @i.FathersName
@@ -128,6 +128,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (Model.UserName != User.Identity.Name)
+    {
+        @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id })
+        <span>|</span>
+    }
+    @Html.ActionLink("Назад до списку", "Index")
 </p>

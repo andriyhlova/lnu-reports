@@ -103,7 +103,7 @@ namespace UserManagement.Models
         public DateTime BirthDate { get; set; }
 
         [Required]
-        [Display(Name = "Рік закінчення ВНЗ")]
+        [Display(Name = "Рік закінчення ЗВО")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime GraduationDate { get; set; }

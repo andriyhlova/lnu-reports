@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace UserManagement.Controllers
 {
-    [Authorize(Roles = "Викладач, Керівник кафедри")]
+    [Authorize(Roles = "Працівник, Керівник кафедри")]
     public class ReportListController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
