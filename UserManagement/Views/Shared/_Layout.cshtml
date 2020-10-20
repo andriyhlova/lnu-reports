@@ -38,7 +38,7 @@
                         {
                             <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
                         }
-                        if (User.IsInRole("Викладач"))
+                        if (User.IsInRole("Працівник"))
                         {
                             <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
                         }
@@ -47,11 +47,11 @@
                             <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
                             <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
                         }
-                        if (User.IsInRole("Викладач"))
+                        if (User.IsInRole("Працівник"))
                         {
-                            <li>@Html.ActionLink("Звіт викладача", "Index", "Reports")</li>
+                            <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
                         }
-                        if (User.IsInRole("Викладач") || User.IsInRole("Керівник кафедри"))
+                        if (User.IsInRole("Працівник") || User.IsInRole("Керівник кафедри"))
                         {
                             <li>@Html.ActionLink("Звіти", "Index", "ReportList")</li>
                         }

@@ -56,10 +56,10 @@ namespace UserManagement
                 }
             }
 
-            if (!roleManager.RoleExists("Викладач"))
+            if (!roleManager.RoleExists("Працівник"))
             {
                 var role = new IdentityRole();
-                role.Name = "Викладач";
+                role.Name = "Працівник";
                 roleManager.Create(role);
             }
 

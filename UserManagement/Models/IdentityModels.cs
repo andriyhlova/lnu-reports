@@ -35,7 +35,7 @@ namespace UserManagement.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Рік закінчення ВНЗ")]
+        [Display(Name = "Рік закінчення ЗВО")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? GraduationDate { get; set; }
         [DataType(DataType.Date)]

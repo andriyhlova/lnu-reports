@@ -234,7 +234,7 @@ namespace UserManagement.Services
                 + USER_NAME_CONST
                 + "</i></p></div><div class=\"input-text\"><p><b>Відомості про вченого:</b></p><p>Рік народження: "
                 + BIRTHDAY_CONST
-                + "</p><p> Рік закінчення ВНЗ: "
+                + "</p><p> Рік закінчення ЗВО: "
                 + GRADUATION_YEAR_CONST
                 + ASPIRANTURA
                 + DOCTORANTURA

@@ -70,12 +70,12 @@ namespace UserManagement.Controllers
         private void PutCathedraAndFacultyIntoViewBag(bool isMine = false)
         {
             var users = db.Users.Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
-            var cathedas = db.Cathedra.ToList();
-            var faculties = db.Faculty.ToList();
+            var cathedas = db.Cathedra.OrderBy(x => x.Name).ToList();
+            var faculties = db.Faculty.OrderBy(x => x.Name).ToList();
             var currentUser = UserManager.FindByName(User.Identity.Name);
-            //UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+            //UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
             //    || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")
-            if(isMine)
+            if (isMine)
             {
                 if(User.IsInRole("Адміністрація деканату"))
                 {
@@ -139,7 +139,7 @@ namespace UserManagement.Controllers
                     || y.Cathedra.ID == currentUser.Cathedra.ID))
                     .ToList();
                 }
-                else if(User.IsInRole("Викладач"))
+                else if(User.IsInRole("Працівник"))
                 {
                     publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
                     .ToList();
@@ -180,7 +180,7 @@ namespace UserManagement.Controllers
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
                 || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
                 .Select(x =>
                      new SelectListItem
@@ -214,7 +214,7 @@ namespace UserManagement.Controllers
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var filtered = users
-                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
                 || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")).ToList();
             ViewBag.AllUsers = filtered
                 .Select(x =>
@@ -373,7 +373,7 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") ||
+                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") ||
                 UserManager.IsInRole(x.Id, "Адміністрація деканату") || UserManager.IsInRole(x.Id, "Керівник кафедри"))
                 .Where(y => !publication.User.Contains(y) && y.IsActive)
                 .Select(x =>
@@ -417,7 +417,7 @@ namespace UserManagement.Controllers
             var publicationFromDB = db.Publication.Find(publication.ID);
             var filtered = users
                 .Where(y => !publicationFromDB.User.Contains(y))
-                .Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                .Where(x => (UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
                 || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
             ViewBag.AllUsers = filtered.Select(x =>
                      new SelectListItem
