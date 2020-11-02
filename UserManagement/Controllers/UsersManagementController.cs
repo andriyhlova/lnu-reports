@@ -119,6 +119,9 @@ namespace UserManagement.Controllers
                     users = users.OrderBy(x => x.IsActive).ToList();
                     break;
             }
+            ViewBag.SelectedFaculty = faculty;
+            ViewBag.SelectedCathedra = cathedra;
+            ViewBag.SortOrder = sortOrder;
             return View(users.ToPagedList(pageNumber, pageSize));
         }
 

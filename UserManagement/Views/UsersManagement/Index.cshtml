@@ -12,23 +12,27 @@
 
         @if (!User.IsInRole("Адміністрація деканату"))
         {
-            <form asp-controller="UserManagement" asp-action="Index" style="margin-right: 50px" id="facultyForm">
-                <p>
-                    @Html.DropDownList("faculty",
-                             new SelectList(ViewBag.AllFaculties, "Value", "Text"),
-                             "Виберіть факультет",
-                             new { @class = "form-control chosen-select-faculty" })
-                </p>
-            </form>
-        }
-        <form asp-controller="UserManagement" asp-action="Index" id="cathedraForm">
+        <form asp-controller="UserManagement" asp-action="Index" style="margin-right: 50px" id="facultyForm">
             <p>
-                @Html.DropDownList("cathedra",
-                           new SelectList(ViewBag.AllCathedras, "Value", "Text"),
-                           "Виберіть кафедру",
-                           new { @class = "form-control chosen-select" })
+                @Html.DropDownList("faculty",
+                              new SelectList(ViewBag.AllFaculties, "Value", "Text"),
+                              "Виберіть факультет",
+                              new { @class = "form-control chosen-select-faculty" })
             </p>
+            <input type="hidden" name="cathedra" value="@ViewBag.SelectedCathedra" />
+            <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
         </form>
+        }
+    <form asp-controller="UserManagement" asp-action="Index" id="cathedraForm">
+        <p>
+            @Html.DropDownList("cathedra",
+                            new SelectList(ViewBag.AllCathedras, "Value", "Text"),
+                            "Виберіть кафедру",
+                            new { @class = "form-control chosen-select" })
+        </p>
+        <input type="hidden" name="faculty" value="@ViewBag.SelectedFaculty" />
+        <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
+    </form>
     </div>
 }
 <table class="table">
@@ -43,7 +47,7 @@
             Прізвище
         </th>
         <th>
-            @Html.ActionLink("Активний", "Index", new { sortOrder = ViewBag.IsActiveSortParm })
+            @Html.ActionLink("Активний", "Index", new { sortOrder = ViewBag.IsActiveSortParm, cathedra=ViewBag.SelectedCathedra, faculty=ViewBag.SelectedFaculty })
         </th>
         <th>
             Ролі
@@ -99,7 +103,7 @@
 </table>
     Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.SortOrder, cathedra = ViewBag.SelectedCathedra, faculty = ViewBag.SelectedFaculty }))
 
     <link rel="stylesheet" href="../Scripts/docsupport/style.css">
     <link rel="stylesheet" href="../Scripts/docsupport/prism.css">
