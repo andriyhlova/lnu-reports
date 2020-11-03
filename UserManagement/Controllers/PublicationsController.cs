@@ -51,8 +51,8 @@ namespace UserManagement.Controllers
             string dateFromVerified = dateFrom ?? "";
             string dateToVerified = dateTo ?? "";
             ViewBag.isMine = isMineWihoutNull;
-            ViewBag.cathedra = cathedraNumber;
-            ViewBag.faculty = facultyNumber;
+            ViewBag.cathedra = cathedra;
+            ViewBag.faculty = faculty;
             ViewBag.user = user;
             ViewBag.searchString = searchString;
             ViewBag.dateFrom = dateFrom;
