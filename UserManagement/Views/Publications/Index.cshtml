@@ -154,7 +154,16 @@
 </table>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, isMine = ViewBag.isMine, isFaculty = ViewBag.isFaculty }))
+@Html.PagedListPager(Model, page => Url.Action("Index", 
+    new { page, isMine = ViewBag.isMine,
+        isFaculty = ViewBag.isFaculty,
+        faculty=ViewBag.faculty,
+        cathedra=ViewBag.cathedra,
+        user=ViewBag.user,
+        searchString = ViewBag.searchString,
+        dateFrom = ViewBag.dateFrom,
+        dateTo = ViewBag.dateTo
+    }))
 
 <link rel="stylesheet" href="../Scripts/docsupport/style.css">
 <link rel="stylesheet" href="../Scripts/docsupport/prism.css">

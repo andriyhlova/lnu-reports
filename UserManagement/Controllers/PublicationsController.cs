@@ -20,7 +20,7 @@ namespace UserManagement.Controllers
     [Authorize]
     public class PublicationsController : Controller
     {
-        private static ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         //public static ApplicationDbContext db
         //{
         //    get
@@ -33,11 +33,16 @@ namespace UserManagement.Controllers
         //    }
         //}
 
-        private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        private UserManager<ApplicationUser> UserManager;
+        
+        public PublicationsController()
+        {
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
+        
         // GET: Publications
         public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty, string user)
         {
-            db = new ApplicationDbContext();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             bool isMineWihoutNull = isMine ?? true;
@@ -46,8 +51,8 @@ namespace UserManagement.Controllers
             string dateFromVerified = dateFrom ?? "";
             string dateToVerified = dateTo ?? "";
             ViewBag.isMine = isMineWihoutNull;
-            ViewBag.cathedra = cathedraNumber;
-            ViewBag.faculty = facultyNumber;
+            ViewBag.cathedra = cathedra;
+            ViewBag.faculty = faculty;
             ViewBag.user = user;
             ViewBag.searchString = searchString;
             ViewBag.dateFrom = dateFrom;
