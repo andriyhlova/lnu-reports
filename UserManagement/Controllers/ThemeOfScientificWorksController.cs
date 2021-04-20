@@ -56,7 +56,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber,Code")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Create([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber,Code")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,ThemeNumber,Financial,Code")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Edit([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,ThemeNumber,Financial,Code")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {

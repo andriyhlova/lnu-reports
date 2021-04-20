@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ScientificReport.DAL.Abstraction
 {
-    public interface IBaseEntity
+    public interface IBaseEntity<T>
     {
-        int ID { get; set; }
+        T Id { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Web;
 
 namespace ScientificReport.DAL.Models
 {
-    public class Publication : IBaseEntity
+    public class Publication : IBaseEntity<int>
     {
         public Publication()
         {
@@ -17,7 +17,7 @@ namespace ScientificReport.DAL.Models
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public String Name { get; set; }
         public String OtherAuthors { get; set; }
         [DataType(DataType.Date)]

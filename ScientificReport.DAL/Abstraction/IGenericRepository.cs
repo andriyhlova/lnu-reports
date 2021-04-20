@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ScientificReport.DAL.Abstraction
 {
-    public interface IGenericRepository<TEntity>
+    public interface IGenericRepository<TEntity,T>
     {
-        Task<int> CreateAsync(TEntity item);
+        Task<T> CreateAsync(TEntity item);
         Task RemoveAsync(TEntity item);
         Task UpdateAsync(TEntity item);
-        Task<TEntity> FindByIdAsync(int id);
+        Task<TEntity> FindByIdAsync(T id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> GetAsync<TOrder>(QuerySpecification<TEntity,TOrder> specification);
     }

@@ -8,11 +8,11 @@ using System.Web;
 
 namespace ScientificReport.DAL.Models
 {
-    public class OtherDefenses : IBaseEntity
+    public class OtherDefenses : IBaseEntity<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public String SurnameAndInitials { get; set; }
         public String ScientificHead { get; set; }
         public String Spetiality { get; set; }

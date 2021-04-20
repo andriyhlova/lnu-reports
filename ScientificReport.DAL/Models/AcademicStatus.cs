@@ -8,7 +8,7 @@ using System.Web;
 
 namespace ScientificReport.DAL.Models
 {
-    public class AcademicStatus: IBaseEntity
+    public class AcademicStatus: IBaseEntity<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

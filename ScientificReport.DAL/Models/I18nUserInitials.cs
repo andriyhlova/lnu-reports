@@ -9,11 +9,11 @@ using System.Web;
 
 namespace ScientificReport.DAL.Models
 {
-    public class I18nUserInitials : IBaseEntity
+    public class I18nUserInitials : IBaseEntity<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public Language Language { get; set; }
 
         public String FirstName { get; set; } = "";
