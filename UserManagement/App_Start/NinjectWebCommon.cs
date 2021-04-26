@@ -69,8 +69,8 @@ namespace UserManagement.App_Start
         {
             kernel.Bind<IMapper>().ToMethod(ctx => new Mapper(AutoMapperConfig.Instance));
             kernel.Bind<IDbContext>().To<ApplicationDbContext>();
-            kernel.Bind<IGenericRepository<AcademicStatus>>().To<BaseRepository<AcademicStatus>>();
-            kernel.Bind<IServiceBase<AcademicStatus>>().To<ServiceBase<AcademicStatus>>();
+            kernel.Bind<IGenericRepository<AcademicStatus,int>>().To<BaseRepository<AcademicStatus,int>>();
+            kernel.Bind<IServiceBase<AcademicStatus,int>>().To<ServiceBase<AcademicStatus,int>>();
         }        
     }
 }

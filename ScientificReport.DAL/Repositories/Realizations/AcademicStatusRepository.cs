@@ -5,7 +5,7 @@ using ScientificReport.DAL.Repositories.Interfaces;
 
 namespace ScientificReport.DAL.Repositories.Realizations
 {
-    public class AcademicStatusRepository:BaseRepository<AcademicStatus>, IAcademicStatusRepository
+    public class AcademicStatusRepository:BaseRepository<AcademicStatus,int>, IAcademicStatusRepository
     {
         public AcademicStatusRepository(IDbContext context) : base(context)
         {

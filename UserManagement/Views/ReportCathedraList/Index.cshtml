@@ -45,12 +45,12 @@
                 }
             </td>
             <td>
-                <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = item.ID })"
+                <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = item.Id })"
                    target="_blank">
                     Переглянути
                 </a>
-                @Html.ActionLink("PDF", "PreviewPdf", "ReportsCathedra", new { reportId = item.ID }, new { @target = "_blank", @style = "margin-left:5px;" })
-                @Html.ActionLink("LaTex", "GetLatex", "ReportsCathedra", new { reportId = item.ID }, new { @style="margin-left:5px;"})
+                @Html.ActionLink("PDF", "PreviewPdf", "ReportsCathedra", new { reportId = item.Id }, new { @target = "_blank", @style = "margin-left:5px;" })
+                @Html.ActionLink("LaTex", "GetLatex", "ReportsCathedra", new { reportId = item.Id }, new { @style="margin-left:5px;"})
             </td>
         </tr>
     }

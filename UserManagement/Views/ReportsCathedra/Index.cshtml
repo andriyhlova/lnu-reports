@@ -140,7 +140,7 @@
             </div>
             <input hidden name="stepIndex" id="stepIndex_1" />
             <input hidden name="oldIndex" id="oldIndex_1" />
-                    <input hidden name="Id" value="@Model.ID" />
+                    <input hidden name="Id" value="@Model.Id" />
         }
     </section>
     <h3>Теми в межах робочого часу</h3>
@@ -236,7 +236,7 @@
             </div>
             <input hidden name="stepIndex" id="stepIndex_2" />
             <input hidden name="oldIndex" id="oldIndex_2" />
-            <input hidden name="Id" value="@Model.ID" />
+            <input hidden name="Id" value="@Model.Id" />
         }
     </section>
 
@@ -333,7 +333,7 @@
             </div>
             <input hidden name="stepIndex" id="stepIndex_3" />
             <input hidden name="oldIndex" id="oldIndex_3" />
-            <input hidden name="Id" value="@Model.ID" />
+            <input hidden name="Id" value="@Model.Id" />
         }
     </section>
     <h3>Інше</h3>
@@ -499,7 +499,7 @@
             </div>
             <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
             <input hidden name="oldIndex" id="oldIndex_4" />
-            <input hidden name="Id" value="@Model.ID" />
+            <input hidden name="Id" value="@Model.Id" />
         }
     </section>
     <h3>Дата та протокол</h3>
@@ -531,7 +531,7 @@
             </div>
             <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_5" />
             <input hidden name="oldIndex" id="oldIndex_5" />
-            <input hidden name="Id" value="@Model.ID" />
+            <input hidden name="Id" value="@Model.Id" />
         }
     </section>
     <h3>Завершення</h3>
@@ -547,16 +547,16 @@
             <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportsCathedra", new { reportId = Model.ID }, new { @class = "btn btn-default", @target = "_blank" })
-                @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportsCathedra", new { reportId = Model.ID }, new { @class = "btn btn-default" })
-                <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = Model.ID })"
+                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportsCathedra", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+                @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportsCathedra", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = Model.Id })"
                    target="_blank"
                    class="btn btn-default">
                     Переглянути
                 </a>
                 <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_6" />
                 <input hidden name="oldIndex" id="oldIndex_6" />
-                <input hidden name="Id" value="@Model.ID" />
+                <input hidden name="Id" value="@Model.Id" />
             </div>
         }
         </section>

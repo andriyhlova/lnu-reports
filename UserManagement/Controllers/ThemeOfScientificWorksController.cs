@@ -24,7 +24,7 @@ namespace UserManagement.Controllers
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-            var scientifthemes = db.ThemeOfScientificWork.Where(x => x.Cathedra.ID == user.Cathedra.ID).ToList();
+            var scientifthemes = db.ThemeOfScientificWork.Where(x => x.Cathedra.Id == user.Cathedra.Id).ToList();
             return View(scientifthemes.ToPagedList(pageNumber, pageSize));
         }
 
@@ -61,7 +61,7 @@ namespace UserManagement.Controllers
             if (ModelState.IsValid)
             {
                 var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-                themeOfScientificWork.Cathedra = db.Cathedra.Where(x => x.ID == user.Cathedra.ID).First();
+                themeOfScientificWork.Cathedra = db.Cathedra.Where(x => x.Id == user.Cathedra.Id).First();
                 db.ThemeOfScientificWork.Add(themeOfScientificWork);
                 db.SaveChanges();
                 return RedirectToAction("Index");

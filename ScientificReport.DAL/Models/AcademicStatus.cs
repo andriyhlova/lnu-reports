@@ -12,7 +12,7 @@ namespace ScientificReport.DAL.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Value { get; set; }
     }
 }

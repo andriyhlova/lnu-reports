@@ -62,8 +62,8 @@ namespace UserManagement.Controllers
             bool hasUser = !string.IsNullOrEmpty(user);
             var allPublications = db.Publication
                 .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
-                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
-                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))
+                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.Id == cathedraNumber)))
+                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.Id == facultyNumber)))
                 .ToList();
             allPublications = allPublications
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && Convert.ToDateTime(x.Date) >= DateTime.Parse(dateFromVerified)))
@@ -84,12 +84,12 @@ namespace UserManagement.Controllers
             {
                 if(User.IsInRole("Адміністрація деканату"))
                 {
-                    cathedas = cathedas.Where(x => x.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
-                    users = users.Where(x=>x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
+                    cathedas = cathedas.Where(x => x.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
+                    users = users.Where(x=>x.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
                 }
                 else if (User.IsInRole("Керівник кафедри"))
                 {
-                    users = users.Where(x => x.Cathedra.ID == currentUser.Cathedra.ID).ToList();
+                    users = users.Where(x => x.Cathedra.Id == currentUser.Cathedra.Id).ToList();
                 }
             }
             ViewBag.AllUsers = users
@@ -109,14 +109,14 @@ namespace UserManagement.Controllers
                      new SelectListItem
                      {
                          Text = x.Name,
-                         Value = x.ID.ToString()
+                         Value = x.Id.ToString()
                      }).ToList();
             ViewBag.AllFaculties = faculties
                 .Select(x =>
                      new SelectListItem
                      {
                          Text = x.Name,
-                         Value = x.ID.ToString()
+                         Value = x.Id.ToString()
                      }).ToList();
         }
 
@@ -135,13 +135,13 @@ namespace UserManagement.Controllers
                 if (User.IsInRole("Адміністрація деканату"))
                 {
                     publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name 
-                    || y.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID))
+                    || y.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id))
                     .ToList();
                 }
                 else if (User.IsInRole("Керівник кафедри"))
                 {
                     publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name
-                    || y.Cathedra.ID == currentUser.Cathedra.ID))
+                    || y.Cathedra.Id == currentUser.Cathedra.Id))
                     .ToList();
                 }
                 else if(User.IsInRole("Працівник"))
@@ -208,7 +208,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
+        public ActionResult Create([Bind(Include = "Id,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
             [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include = "authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
             [Bind(Include = "PagesTo")] int pagesTo = -1)
@@ -410,7 +410,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,AuthorsOrder,Date,PagesFrom,PagesTo,PublicationType,Language," +
+        public ActionResult Edit([Bind(Include = "Id,Name,OtherAuthors,AuthorsOrder,Date,PagesFrom,PagesTo,PublicationType,Language," +
             "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication, [Bind(Include = "authorsIds")] string[] authorsIds, int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor, 
             [Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
@@ -419,7 +419,7 @@ namespace UserManagement.Controllers
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
-            var publicationFromDB = db.Publication.Find(publication.ID);
+            var publicationFromDB = db.Publication.Find(publication.Id);
             var filtered = users
                 .Where(y => !publicationFromDB.User.Contains(y))
                 .Where(x => (UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
@@ -463,7 +463,7 @@ namespace UserManagement.Controllers
                 {
                     var publicationExists = db.Publication
                         .Any(x =>
-                        x.ID != publication.ID
+                        x.Id != publication.Id
                         && x.Name == publication.Name
                         && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
                         && x.PublicationType == publication.PublicationType

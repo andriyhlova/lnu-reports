@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace ScientificReport.Services.Implementation
 {
-    public class ServiceBase<TEntity> : IServiceBase<TEntity> where TEntity : IBaseEntity
+    public class ServiceBase<TEntity,T> : IServiceBase<TEntity,T> where TEntity : IBaseEntity<T>
     {
-        protected readonly IGenericRepository<TEntity> repository;
+        protected readonly IGenericRepository<TEntity,T> repository;
 
-        public ServiceBase(IGenericRepository<TEntity> repository)
+        public ServiceBase(IGenericRepository<TEntity,T> repository)
         {
             this.repository = repository;
         }
 
-        public async Task<bool> DeleteAsync(int entityId)
+        public async Task<bool> DeleteAsync(T entityId)
         {
             var found = await repository.FindByIdAsync(entityId);
             if (found == null)
@@ -39,7 +39,7 @@ namespace ScientificReport.Services.Implementation
             return found;
         }
 
-        public async Task<TEntity> GetByIdAsync(int entityId)
+        public async Task<TEntity> GetByIdAsync(T entityId)
         {
             var found = await repository.FindByIdAsync(entityId);
             return found;

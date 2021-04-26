@@ -4027,7 +4027,7 @@ var Sizzle = function(selector, context, results, seed) {
 		}
 	} else {
 		if ( !seed && parts.length > 1 && context.nodeType === 9 && !contextXML &&
-				Expr.match.ID.test(parts[0]) && !Expr.match.ID.test(parts[parts.length - 1]) ) {
+				Expr.match.Id.test(parts[0]) && !Expr.match.Id.test(parts[parts.length - 1]) ) {
 			var ret = Sizzle.find( parts.shift(), context, contextXML );
 			context = ret.expr ? Sizzle.filter( ret.expr, ret.set )[0] : ret.set[0];
 		}
@@ -4726,14 +4726,14 @@ if ( document.documentElement.compareDocumentPosition ) {
 	root.insertBefore( form, root.firstChild );
 
 	if ( !!document.getElementById( id ) ) {
-		Expr.find.ID = function(match, context, isXML){
+		Expr.find.Id = function(match, context, isXML){
 			if ( typeof context.getElementById !== "undefined" && !isXML ) {
 				var m = context.getElementById(match[1]);
 				return m ? m.id === match[1] || typeof m.getAttributeNode !== "undefined" && m.getAttributeNode("id").nodeValue === match[1] ? [m] : undefined : [];
 			}
 		};
 
-		Expr.filter.ID = function(elem, match){
+		Expr.filter.Id = function(elem, match){
 			var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
 			return elem.nodeType === 1 && node && node.nodeValue === match;
 		};

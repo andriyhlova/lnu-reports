@@ -34,7 +34,7 @@ namespace UserManagement.Controllers
             List<CathedraReport> reports;
             var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
             var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            reports = db.CathedraReport.Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID)
+            reports = db.CathedraReport.Where(x => x.User.Cathedra.Id == currentUser.Cathedra.Id)
             .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
             .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
             .ToList();

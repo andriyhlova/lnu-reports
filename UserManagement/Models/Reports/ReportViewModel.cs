@@ -8,7 +8,7 @@ namespace UserManagement.Models.Reports
 {
     public class ReportViewModel
     {
-        public int? ID { get; set; }
+        public int? Id { get; set; }
         public String ParticipationInGrands { get; set; }
         public String ScientificTrainings { get; set; }
         public String ScientificControlDoctorsWork { get; set; }

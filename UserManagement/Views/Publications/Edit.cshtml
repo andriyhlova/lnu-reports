@@ -13,7 +13,7 @@
                     <h4>Публікації</h4>
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.ID)
+                    @Html.HiddenFor(model => model.Id)
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Мова публікації</label>
@@ -51,7 +51,7 @@
             <div>@initial.FirstName&nbsp;@initial.LastName</div> break;
                                     }
                                 }
-            @Html.ActionLink("Видалити", "DeleteUser", new { publicationId = Model.ID, userId = i.Id })}
+            @Html.ActionLink("Видалити", "DeleteUser", new { publicationId = Model.Id, userId = i.Id })}
                         </div>
                     </div>
 
