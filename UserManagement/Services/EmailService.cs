@@ -31,12 +31,12 @@ namespace UserManagement.Services
 
             MimeMessage message = GetMailMessage(email, subject, htmlBody);
 
-            //client.Connect(smtpHost, smtpPort, smtpUseSSL);
+            client.Connect(smtpHost, smtpPort, smtpUseSSL);
       
-            //client.Authenticate(smtpUserName, smtpPassword);
+            client.Authenticate(smtpUserName, smtpPassword);
 
-            //client.Send(message);
-           // client.Disconnect(true);
+            client.Send(message);
+            client.Disconnect(true);
         }
         private MimeMessage GetMailMessage(string email, string subject, string htmlBody)
         {
