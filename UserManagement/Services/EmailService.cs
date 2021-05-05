@@ -32,7 +32,7 @@ namespace UserManagement.Services
             MimeMessage message = GetMailMessage(email, subject, htmlBody);
 
             client.Connect(smtpHost, smtpPort, smtpUseSSL);
-
+      
             client.Authenticate(smtpUserName, smtpPassword);
 
             client.Send(message);
