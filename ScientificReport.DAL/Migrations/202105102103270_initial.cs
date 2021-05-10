@@ -1,9 +1,9 @@
-namespace UserManagement.Migrations
+namespace ScientificReport.DAL.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class test : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -11,54 +11,55 @@ namespace UserManagement.Migrations
                 "dbo.AcademicStatus",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Value = c.String(),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Cathedras",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        Faculty_ID = c.Int(),
+                        Faculty_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Faculties", t => t.Faculty_ID)
-                .Index(t => t.Faculty_ID);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Faculties", t => t.Faculty_Id)
+                .Index(t => t.Faculty_Id);
             
             CreateTable(
                 "dbo.Faculties",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.ThemeOfScientificWorks",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Value = c.String(),
                         ThemeNumber = c.String(),
+                        Code = c.String(),
                         ScientificHead = c.String(),
                         PeriodFrom = c.DateTime(nullable: false),
                         PeriodTo = c.DateTime(nullable: false),
                         Financial = c.Int(nullable: false),
-                        Cathedra_ID = c.Int(),
+                        Cathedra_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Cathedras", t => t.Cathedra_ID)
-                .Index(t => t.Cathedra_ID);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Cathedras", t => t.Cathedra_Id)
+                .Index(t => t.Cathedra_Id);
             
             CreateTable(
                 "dbo.Reports",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         ParticipationInGrands = c.String(),
                         ScientificTrainings = c.String(),
                         ScientificControlDoctorsWork = c.String(),
@@ -73,23 +74,24 @@ namespace UserManagement.Migrations
                         Date = c.DateTime(),
                         IsSigned = c.Boolean(nullable: false),
                         IsConfirmed = c.Boolean(nullable: false),
-                        ThemeOfScientificWork_ID = c.Int(),
+                        ThemeOfScientificWork_Id = c.Int(),
                         User_Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.ThemeOfScientificWork_ID)
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.ThemeOfScientificWork_Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
-                .Index(t => t.ThemeOfScientificWork_ID)
+                .Index(t => t.ThemeOfScientificWork_Id)
                 .Index(t => t.User_Id);
             
             CreateTable(
                 "dbo.Publications",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         OtherAuthors = c.String(),
                         Date = c.DateTime(nullable: false),
+                        Pages = c.String(),
                         SizeOfPages = c.Double(nullable: false),
                         PublicationType = c.Int(nullable: false),
                         Language = c.Int(nullable: false),
@@ -100,15 +102,16 @@ namespace UserManagement.Migrations
                         Tome = c.String(),
                         Place = c.String(),
                         MainAuthor = c.String(),
+                        AuthorsOrder = c.String(),
                         IsMainAuthorRegistered = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.CathedraReports",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         AchivementSchool = c.String(),
                         AllDescriptionBudgetTheme = c.String(),
                         CVBudgetTheme = c.String(),
@@ -136,19 +139,19 @@ namespace UserManagement.Migrations
                         PropositionForNewForms = c.String(),
                         Protocol = c.String(),
                         Date = c.DateTime(),
-                        BudgetTheme_ID = c.Int(),
-                        HospDohovirTheme_ID = c.Int(),
-                        ThemeInWorkTime_ID = c.Int(),
+                        BudgetTheme_Id = c.Int(),
+                        HospDohovirTheme_Id = c.Int(),
+                        ThemeInWorkTime_Id = c.Int(),
                         User_Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.BudgetTheme_ID)
-                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.HospDohovirTheme_ID)
-                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.ThemeInWorkTime_ID)
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.BudgetTheme_Id)
+                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.HospDohovirTheme_Id)
+                .ForeignKey("dbo.ThemeOfScientificWorks", t => t.ThemeInWorkTime_Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
-                .Index(t => t.BudgetTheme_ID)
-                .Index(t => t.HospDohovirTheme_ID)
-                .Index(t => t.ThemeInWorkTime_ID)
+                .Index(t => t.BudgetTheme_Id)
+                .Index(t => t.HospDohovirTheme_Id)
+                .Index(t => t.ThemeInWorkTime_Id)
                 .Index(t => t.User_Id);
             
             CreateTable(
@@ -161,11 +164,11 @@ namespace UserManagement.Migrations
                         Spetiality = c.String(),
                         DateOfDefense = c.DateTime(nullable: false),
                         ThemeOfWork = c.String(),
-                        CathedraReport_ID = c.Int(),
+                        CathedraReport_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID)
-                .Index(t => t.CathedraReport_ID);
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id)
+                .Index(t => t.CathedraReport_Id);
             
             CreateTable(
                 "dbo.CathedraDefenses",
@@ -178,11 +181,11 @@ namespace UserManagement.Migrations
                         DateOfInning = c.DateTime(nullable: false),
                         DateOfDefense = c.DateTime(nullable: false),
                         ThemeOfWork = c.String(),
-                        CathedraReport_ID = c.Int(),
+                        CathedraReport_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID)
-                .Index(t => t.CathedraReport_ID);
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id)
+                .Index(t => t.CathedraReport_Id);
             
             CreateTable(
                 "dbo.OtherDefenses",
@@ -194,11 +197,11 @@ namespace UserManagement.Migrations
                         Spetiality = c.String(),
                         DateOfDefense = c.DateTime(nullable: false),
                         ThemeOfWork = c.String(),
-                        CathedraReport_ID = c.Int(),
+                        CathedraReport_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID)
-                .Index(t => t.CathedraReport_ID);
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id)
+                .Index(t => t.CathedraReport_Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -206,11 +209,21 @@ namespace UserManagement.Migrations
                     {
                         Id = c.String(nullable: false, maxLength: 128),
                         PublicationCounterBeforeRegistration = c.Int(nullable: false),
+                        MonographCounterBeforeRegistration = c.Int(nullable: false),
+                        BookCounterBeforeRegistration = c.Int(nullable: false),
+                        TrainingBookCounterBeforeRegistration = c.Int(nullable: false),
+                        OtherWritingCounterBeforeRegistration = c.Int(nullable: false),
+                        ConferenceCounterBeforeRegistration = c.Int(nullable: false),
+                        PatentCounterBeforeRegistration = c.Int(nullable: false),
                         IsActive = c.Boolean(nullable: false),
                         BirthDate = c.DateTime(nullable: false),
-                        GraduationDate = c.DateTime(nullable: false),
-                        AwardingDate = c.DateTime(nullable: false),
-                        DefenseYear = c.DateTime(nullable: false),
+                        GraduationDate = c.DateTime(),
+                        AwardingDate = c.DateTime(),
+                        DefenseYear = c.DateTime(),
+                        AspirantStartYear = c.DateTime(),
+                        AspirantFinishYear = c.DateTime(),
+                        DoctorStartYear = c.DateTime(),
+                        DoctorFinishYear = c.DateTime(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -222,21 +235,21 @@ namespace UserManagement.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        AcademicStatus_ID = c.Int(),
-                        Cathedra_ID = c.Int(),
-                        Position_ID = c.Int(),
-                        ScienceDegree_ID = c.Int(),
+                        AcademicStatus_Id = c.Int(),
+                        Cathedra_Id = c.Int(),
+                        Position_Id = c.Int(),
+                        ScienceDegree_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AcademicStatus", t => t.AcademicStatus_ID)
-                .ForeignKey("dbo.Cathedras", t => t.Cathedra_ID)
-                .ForeignKey("dbo.Positions", t => t.Position_ID)
-                .ForeignKey("dbo.ScienceDegrees", t => t.ScienceDegree_ID)
+                .ForeignKey("dbo.AcademicStatus", t => t.AcademicStatus_Id)
+                .ForeignKey("dbo.Cathedras", t => t.Cathedra_Id)
+                .ForeignKey("dbo.Positions", t => t.Position_Id)
+                .ForeignKey("dbo.ScienceDegrees", t => t.ScienceDegree_Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => t.AcademicStatus_ID)
-                .Index(t => t.Cathedra_ID)
-                .Index(t => t.Position_ID)
-                .Index(t => t.ScienceDegree_ID);
+                .Index(t => t.AcademicStatus_Id)
+                .Index(t => t.Cathedra_Id)
+                .Index(t => t.Position_Id)
+                .Index(t => t.ScienceDegree_Id);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -255,14 +268,14 @@ namespace UserManagement.Migrations
                 "dbo.I18nUserInitials",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Language = c.Int(nullable: false),
                         FirstName = c.String(),
                         LastName = c.String(),
                         FathersName = c.String(),
                         User_Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
                 .Index(t => t.User_Id);
             
@@ -282,10 +295,10 @@ namespace UserManagement.Migrations
                 "dbo.Positions",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Value = c.String(),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetUserRoles",
@@ -304,10 +317,10 @@ namespace UserManagement.Migrations
                 "dbo.ScienceDegrees",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Value = c.String(),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -323,105 +336,105 @@ namespace UserManagement.Migrations
                 "dbo.CathedraReportPublications",
                 c => new
                     {
-                        CathedraReport_ID = c.Int(nullable: false),
-                        Publication_ID = c.Int(nullable: false),
+                        CathedraReport_Id = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.CathedraReport_ID, t.Publication_ID })
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
-                .Index(t => t.CathedraReport_ID)
-                .Index(t => t.Publication_ID);
+                .PrimaryKey(t => new { t.CathedraReport_Id, t.Publication_Id })
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
+                .Index(t => t.CathedraReport_Id)
+                .Index(t => t.Publication_Id);
             
             CreateTable(
                 "dbo.CathedraReportPublication1",
                 c => new
                     {
-                        CathedraReport_ID = c.Int(nullable: false),
-                        Publication_ID = c.Int(nullable: false),
+                        CathedraReport_Id = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.CathedraReport_ID, t.Publication_ID })
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
-                .Index(t => t.CathedraReport_ID)
-                .Index(t => t.Publication_ID);
+                .PrimaryKey(t => new { t.CathedraReport_Id, t.Publication_Id })
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
+                .Index(t => t.CathedraReport_Id)
+                .Index(t => t.Publication_Id);
             
             CreateTable(
                 "dbo.CathedraReportPublication2",
                 c => new
                     {
-                        CathedraReport_ID = c.Int(nullable: false),
-                        Publication_ID = c.Int(nullable: false),
+                        CathedraReport_Id = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.CathedraReport_ID, t.Publication_ID })
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
-                .Index(t => t.CathedraReport_ID)
-                .Index(t => t.Publication_ID);
+                .PrimaryKey(t => new { t.CathedraReport_Id, t.Publication_Id })
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
+                .Index(t => t.CathedraReport_Id)
+                .Index(t => t.Publication_Id);
             
             CreateTable(
                 "dbo.ApplicationUserPublications",
                 c => new
                     {
                         ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
-                        Publication_ID = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.ApplicationUser_Id, t.Publication_ID })
+                .PrimaryKey(t => new { t.ApplicationUser_Id, t.Publication_Id })
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
                 .Index(t => t.ApplicationUser_Id)
-                .Index(t => t.Publication_ID);
+                .Index(t => t.Publication_Id);
             
             CreateTable(
                 "dbo.CathedraReportReports",
                 c => new
                     {
-                        CathedraReport_ID = c.Int(nullable: false),
-                        Report_ID = c.Int(nullable: false),
+                        CathedraReport_Id = c.Int(nullable: false),
+                        Report_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.CathedraReport_ID, t.Report_ID })
-                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Reports", t => t.Report_ID, cascadeDelete: true)
-                .Index(t => t.CathedraReport_ID)
-                .Index(t => t.Report_ID);
+                .PrimaryKey(t => new { t.CathedraReport_Id, t.Report_Id })
+                .ForeignKey("dbo.CathedraReports", t => t.CathedraReport_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Reports", t => t.Report_Id, cascadeDelete: true)
+                .Index(t => t.CathedraReport_Id)
+                .Index(t => t.Report_Id);
             
             CreateTable(
                 "dbo.ReportPublications",
                 c => new
                     {
-                        Report_ID = c.Int(nullable: false),
-                        Publication_ID = c.Int(nullable: false),
+                        Report_Id = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Report_ID, t.Publication_ID })
-                .ForeignKey("dbo.Reports", t => t.Report_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
-                .Index(t => t.Report_ID)
-                .Index(t => t.Publication_ID);
+                .PrimaryKey(t => new { t.Report_Id, t.Publication_Id })
+                .ForeignKey("dbo.Reports", t => t.Report_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
+                .Index(t => t.Report_Id)
+                .Index(t => t.Publication_Id);
             
             CreateTable(
                 "dbo.ReportPublication1",
                 c => new
                     {
-                        Report_ID = c.Int(nullable: false),
-                        Publication_ID = c.Int(nullable: false),
+                        Report_Id = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Report_ID, t.Publication_ID })
-                .ForeignKey("dbo.Reports", t => t.Report_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
-                .Index(t => t.Report_ID)
-                .Index(t => t.Publication_ID);
+                .PrimaryKey(t => new { t.Report_Id, t.Publication_Id })
+                .ForeignKey("dbo.Reports", t => t.Report_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
+                .Index(t => t.Report_Id)
+                .Index(t => t.Publication_Id);
             
             CreateTable(
                 "dbo.ReportPublication2",
                 c => new
                     {
-                        Report_ID = c.Int(nullable: false),
-                        Publication_ID = c.Int(nullable: false),
+                        Report_Id = c.Int(nullable: false),
+                        Publication_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Report_ID, t.Publication_ID })
-                .ForeignKey("dbo.Reports", t => t.Report_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Publications", t => t.Publication_ID, cascadeDelete: true)
-                .Index(t => t.Report_ID)
-                .Index(t => t.Publication_ID);
+                .PrimaryKey(t => new { t.Report_Id, t.Publication_Id })
+                .ForeignKey("dbo.Reports", t => t.Report_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Publications", t => t.Publication_Id, cascadeDelete: true)
+                .Index(t => t.Report_Id)
+                .Index(t => t.Publication_Id);
             
         }
         
@@ -429,78 +442,78 @@ namespace UserManagement.Migrations
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Reports", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Reports", "ThemeOfScientificWork_ID", "dbo.ThemeOfScientificWorks");
-            DropForeignKey("dbo.ReportPublication2", "Publication_ID", "dbo.Publications");
-            DropForeignKey("dbo.ReportPublication2", "Report_ID", "dbo.Reports");
-            DropForeignKey("dbo.ReportPublication1", "Publication_ID", "dbo.Publications");
-            DropForeignKey("dbo.ReportPublication1", "Report_ID", "dbo.Reports");
-            DropForeignKey("dbo.ReportPublications", "Publication_ID", "dbo.Publications");
-            DropForeignKey("dbo.ReportPublications", "Report_ID", "dbo.Reports");
-            DropForeignKey("dbo.CathedraReportReports", "Report_ID", "dbo.Reports");
-            DropForeignKey("dbo.CathedraReportReports", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.AspNetUsers", "ScienceDegree_ID", "dbo.ScienceDegrees");
+            DropForeignKey("dbo.Reports", "ThemeOfScientificWork_Id", "dbo.ThemeOfScientificWorks");
+            DropForeignKey("dbo.ReportPublication2", "Publication_Id", "dbo.Publications");
+            DropForeignKey("dbo.ReportPublication2", "Report_Id", "dbo.Reports");
+            DropForeignKey("dbo.ReportPublication1", "Publication_Id", "dbo.Publications");
+            DropForeignKey("dbo.ReportPublication1", "Report_Id", "dbo.Reports");
+            DropForeignKey("dbo.ReportPublications", "Publication_Id", "dbo.Publications");
+            DropForeignKey("dbo.ReportPublications", "Report_Id", "dbo.Reports");
+            DropForeignKey("dbo.CathedraReportReports", "Report_Id", "dbo.Reports");
+            DropForeignKey("dbo.CathedraReportReports", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.AspNetUsers", "ScienceDegree_Id", "dbo.ScienceDegrees");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.ApplicationUserPublications", "Publication_ID", "dbo.Publications");
+            DropForeignKey("dbo.ApplicationUserPublications", "Publication_Id", "dbo.Publications");
             DropForeignKey("dbo.ApplicationUserPublications", "ApplicationUser_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "Position_ID", "dbo.Positions");
+            DropForeignKey("dbo.AspNetUsers", "Position_Id", "dbo.Positions");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.I18nUserInitials", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.CathedraReports", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "Cathedra_ID", "dbo.Cathedras");
-            DropForeignKey("dbo.AspNetUsers", "AcademicStatus_ID", "dbo.AcademicStatus");
-            DropForeignKey("dbo.CathedraReports", "ThemeInWorkTime_ID", "dbo.ThemeOfScientificWorks");
-            DropForeignKey("dbo.CathedraReportPublication2", "Publication_ID", "dbo.Publications");
-            DropForeignKey("dbo.CathedraReportPublication2", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.CathedraReportPublication1", "Publication_ID", "dbo.Publications");
-            DropForeignKey("dbo.CathedraReportPublication1", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.CathedraReportPublications", "Publication_ID", "dbo.Publications");
-            DropForeignKey("dbo.CathedraReportPublications", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.CathedraReports", "HospDohovirTheme_ID", "dbo.ThemeOfScientificWorks");
-            DropForeignKey("dbo.OtherDefenses", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.CathedraDefenses", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.CoworkersDefenses", "CathedraReport_ID", "dbo.CathedraReports");
-            DropForeignKey("dbo.CathedraReports", "BudgetTheme_ID", "dbo.ThemeOfScientificWorks");
-            DropForeignKey("dbo.ThemeOfScientificWorks", "Cathedra_ID", "dbo.Cathedras");
-            DropForeignKey("dbo.Cathedras", "Faculty_ID", "dbo.Faculties");
-            DropIndex("dbo.ReportPublication2", new[] { "Publication_ID" });
-            DropIndex("dbo.ReportPublication2", new[] { "Report_ID" });
-            DropIndex("dbo.ReportPublication1", new[] { "Publication_ID" });
-            DropIndex("dbo.ReportPublication1", new[] { "Report_ID" });
-            DropIndex("dbo.ReportPublications", new[] { "Publication_ID" });
-            DropIndex("dbo.ReportPublications", new[] { "Report_ID" });
-            DropIndex("dbo.CathedraReportReports", new[] { "Report_ID" });
-            DropIndex("dbo.CathedraReportReports", new[] { "CathedraReport_ID" });
-            DropIndex("dbo.ApplicationUserPublications", new[] { "Publication_ID" });
+            DropForeignKey("dbo.AspNetUsers", "Cathedra_Id", "dbo.Cathedras");
+            DropForeignKey("dbo.AspNetUsers", "AcademicStatus_Id", "dbo.AcademicStatus");
+            DropForeignKey("dbo.CathedraReports", "ThemeInWorkTime_Id", "dbo.ThemeOfScientificWorks");
+            DropForeignKey("dbo.CathedraReportPublication2", "Publication_Id", "dbo.Publications");
+            DropForeignKey("dbo.CathedraReportPublication2", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.CathedraReportPublication1", "Publication_Id", "dbo.Publications");
+            DropForeignKey("dbo.CathedraReportPublication1", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.CathedraReportPublications", "Publication_Id", "dbo.Publications");
+            DropForeignKey("dbo.CathedraReportPublications", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.CathedraReports", "HospDohovirTheme_Id", "dbo.ThemeOfScientificWorks");
+            DropForeignKey("dbo.OtherDefenses", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.CathedraDefenses", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.CoworkersDefenses", "CathedraReport_Id", "dbo.CathedraReports");
+            DropForeignKey("dbo.CathedraReports", "BudgetTheme_Id", "dbo.ThemeOfScientificWorks");
+            DropForeignKey("dbo.ThemeOfScientificWorks", "Cathedra_Id", "dbo.Cathedras");
+            DropForeignKey("dbo.Cathedras", "Faculty_Id", "dbo.Faculties");
+            DropIndex("dbo.ReportPublication2", new[] { "Publication_Id" });
+            DropIndex("dbo.ReportPublication2", new[] { "Report_Id" });
+            DropIndex("dbo.ReportPublication1", new[] { "Publication_Id" });
+            DropIndex("dbo.ReportPublication1", new[] { "Report_Id" });
+            DropIndex("dbo.ReportPublications", new[] { "Publication_Id" });
+            DropIndex("dbo.ReportPublications", new[] { "Report_Id" });
+            DropIndex("dbo.CathedraReportReports", new[] { "Report_Id" });
+            DropIndex("dbo.CathedraReportReports", new[] { "CathedraReport_Id" });
+            DropIndex("dbo.ApplicationUserPublications", new[] { "Publication_Id" });
             DropIndex("dbo.ApplicationUserPublications", new[] { "ApplicationUser_Id" });
-            DropIndex("dbo.CathedraReportPublication2", new[] { "Publication_ID" });
-            DropIndex("dbo.CathedraReportPublication2", new[] { "CathedraReport_ID" });
-            DropIndex("dbo.CathedraReportPublication1", new[] { "Publication_ID" });
-            DropIndex("dbo.CathedraReportPublication1", new[] { "CathedraReport_ID" });
-            DropIndex("dbo.CathedraReportPublications", new[] { "Publication_ID" });
-            DropIndex("dbo.CathedraReportPublications", new[] { "CathedraReport_ID" });
+            DropIndex("dbo.CathedraReportPublication2", new[] { "Publication_Id" });
+            DropIndex("dbo.CathedraReportPublication2", new[] { "CathedraReport_Id" });
+            DropIndex("dbo.CathedraReportPublication1", new[] { "Publication_Id" });
+            DropIndex("dbo.CathedraReportPublication1", new[] { "CathedraReport_Id" });
+            DropIndex("dbo.CathedraReportPublications", new[] { "Publication_Id" });
+            DropIndex("dbo.CathedraReportPublications", new[] { "CathedraReport_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.I18nUserInitials", new[] { "User_Id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", new[] { "ScienceDegree_ID" });
-            DropIndex("dbo.AspNetUsers", new[] { "Position_ID" });
-            DropIndex("dbo.AspNetUsers", new[] { "Cathedra_ID" });
-            DropIndex("dbo.AspNetUsers", new[] { "AcademicStatus_ID" });
+            DropIndex("dbo.AspNetUsers", new[] { "ScienceDegree_Id" });
+            DropIndex("dbo.AspNetUsers", new[] { "Position_Id" });
+            DropIndex("dbo.AspNetUsers", new[] { "Cathedra_Id" });
+            DropIndex("dbo.AspNetUsers", new[] { "AcademicStatus_Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.OtherDefenses", new[] { "CathedraReport_ID" });
-            DropIndex("dbo.CathedraDefenses", new[] { "CathedraReport_ID" });
-            DropIndex("dbo.CoworkersDefenses", new[] { "CathedraReport_ID" });
+            DropIndex("dbo.OtherDefenses", new[] { "CathedraReport_Id" });
+            DropIndex("dbo.CathedraDefenses", new[] { "CathedraReport_Id" });
+            DropIndex("dbo.CoworkersDefenses", new[] { "CathedraReport_Id" });
             DropIndex("dbo.CathedraReports", new[] { "User_Id" });
-            DropIndex("dbo.CathedraReports", new[] { "ThemeInWorkTime_ID" });
-            DropIndex("dbo.CathedraReports", new[] { "HospDohovirTheme_ID" });
-            DropIndex("dbo.CathedraReports", new[] { "BudgetTheme_ID" });
+            DropIndex("dbo.CathedraReports", new[] { "ThemeInWorkTime_Id" });
+            DropIndex("dbo.CathedraReports", new[] { "HospDohovirTheme_Id" });
+            DropIndex("dbo.CathedraReports", new[] { "BudgetTheme_Id" });
             DropIndex("dbo.Reports", new[] { "User_Id" });
-            DropIndex("dbo.Reports", new[] { "ThemeOfScientificWork_ID" });
-            DropIndex("dbo.ThemeOfScientificWorks", new[] { "Cathedra_ID" });
-            DropIndex("dbo.Cathedras", new[] { "Faculty_ID" });
+            DropIndex("dbo.Reports", new[] { "ThemeOfScientificWork_Id" });
+            DropIndex("dbo.ThemeOfScientificWorks", new[] { "Cathedra_Id" });
+            DropIndex("dbo.Cathedras", new[] { "Faculty_Id" });
             DropTable("dbo.ReportPublication2");
             DropTable("dbo.ReportPublication1");
             DropTable("dbo.ReportPublications");

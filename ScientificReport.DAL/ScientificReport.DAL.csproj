@@ -58,34 +58,15 @@
     <Compile Include="Abstraction\IUnitOfWork.cs" />
     <Compile Include="Abstraction\IGenericRepository.cs" />
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Configuration\Roles.cs" />
     <Compile Include="Enums\Financial.cs" />
     <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\PublicationType.cs" />
     <Compile Include="Implementation\UnitOfWork.cs" />
     <Compile Include="Implementation\BaseRepository.cs" />
-    <Compile Include="Migrations\202005152142311_pages changes.cs" />
-    <Compile Include="Migrations\202005152142311_pages changes.Designer.cs">
-      <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005291609229_orderfix.cs" />
-    <Compile Include="Migrations\202005291609229_orderfix.Designer.cs">
-      <DependentUpon>202005291609229_orderfix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009291752343_AddedCodeColumn.cs" />
-    <Compile Include="Migrations\202009291752343_AddedCodeColumn.Designer.cs">
-      <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010011842449_AddedCountersColumns.cs" />
-    <Compile Include="Migrations\202010011842449_AddedCountersColumns.Designer.cs">
-      <DependentUpon>202010011842449_AddedCountersColumns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010052043383_AddedNonRequiredYearColumns.cs" />
-    <Compile Include="Migrations\202010052043383_AddedNonRequiredYearColumns.Designer.cs">
-      <DependentUpon>202010052043383_AddedNonRequiredYearColumns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010181315114_AddedChanges.cs" />
-    <Compile Include="Migrations\202010181315114_AddedChanges.Designer.cs">
-      <DependentUpon>202010181315114_AddedChanges.cs</DependentUpon>
+    <Compile Include="Migrations\202105102103270_initial.cs" />
+    <Compile Include="Migrations\202105102103270_initial.Designer.cs">
+      <DependentUpon>202105102103270_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -122,30 +103,15 @@
     <Compile Include="Repositories\Realizations\FacultyRepository.cs" />
     <Compile Include="Specifications\QuerySpecification.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202105102103270_initial.resx">
+      <DependentUpon>202105102103270_initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005152142311_pages changes.resx">
-      <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005291609229_orderfix.resx">
-      <DependentUpon>202005291609229_orderfix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009291752343_AddedCodeColumn.resx">
-      <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010011842449_AddedCountersColumns.resx">
-      <DependentUpon>202010011842449_AddedCountersColumns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010052043383_AddedNonRequiredYearColumns.resx">
-      <DependentUpon>202010052043383_AddedNonRequiredYearColumns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010181315114_AddedChanges.resx">
-      <DependentUpon>202010181315114_AddedChanges.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
