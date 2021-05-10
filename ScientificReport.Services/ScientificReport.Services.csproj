@@ -31,6 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,11 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstraction\ICathedraService.cs" />
     <Compile Include="Abstraction\IServiceBase.cs" />
+    <Compile Include="Abstraction\IThemeOfScientificWorksService.cs" />
+    <Compile Include="Abstraction\IUserService.cs" />
+    <Compile Include="Implementation\CathedraService.cs" />
     <Compile Include="Implementation\ServiceBase.cs" />
+    <Compile Include="Implementation\ThemeOfScientificWorksService.cs" />
+    <Compile Include="Implementation\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScientificReport.DAL\ScientificReport.DAL.csproj">
       <Project>{FF365C16-921C-4D2C-ABB6-AA11B1035A60}</Project>

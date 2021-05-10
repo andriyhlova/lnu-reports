@@ -1,3 +1,6 @@
+using ScientificReport.DAL.Repositories.Interfaces;
+using ScientificReport.DAL.Repositories.Realizations;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UserManagement.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(UserManagement.App_Start.NinjectWebCommon), "Stop")]
 
@@ -69,8 +72,13 @@ namespace UserManagement.App_Start
         {
             kernel.Bind<IMapper>().ToMethod(ctx => new Mapper(AutoMapperConfig.Instance));
             kernel.Bind<IDbContext>().To<ApplicationDbContext>();
-            kernel.Bind<IGenericRepository<AcademicStatus,int>>().To<BaseRepository<AcademicStatus,int>>();
-            kernel.Bind<IServiceBase<AcademicStatus,int>>().To<ServiceBase<AcademicStatus,int>>();
+            kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            kernel.Bind<ICathedraRepository>().To<CathedraRepository>();
+            kernel.Bind<IThemeOfScientificWorkRepository>().To<ThemeOfScientificWorkRepository>();
+
+            kernel.Bind<IUserService>().To<UserService>();
+            kernel.Bind<ICathedraService>().To<CathedraService>();
+            kernel.Bind<IThemeOfScientificWorksService>().To<ThemeOfScientificWorksService>();
         }        
     }
 }
