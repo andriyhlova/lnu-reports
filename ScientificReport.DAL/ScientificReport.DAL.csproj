@@ -55,11 +55,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstraction\IDbContext.cs" />
+    <Compile Include="Abstraction\IUnitOfWork.cs" />
     <Compile Include="Abstraction\IGenericRepository.cs" />
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Enums\Financial.cs" />
     <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\PublicationType.cs" />
+    <Compile Include="Implementation\UnitOfWork.cs" />
     <Compile Include="Implementation\BaseRepository.cs" />
     <Compile Include="Migrations\202005152142311_pages changes.cs" />
     <Compile Include="Migrations\202005152142311_pages changes.Designer.cs">
@@ -102,9 +104,19 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\ScienceDegree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Interfaces\IThemeOfScientificWork.cs" />
+    <Compile Include="Repositories\Interfaces\IPublicationRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPositionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICathedraRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IScienceDegreeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAcademicStatusRepository.cs" />
     <Compile Include="Repositories\Interfaces\IApplicationUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IFacultyRepository.cs" />
+    <Compile Include="Repositories\Realizations\ThemeOfScientificWorkRepository.cs" />
+    <Compile Include="Repositories\Realizations\PublicationRepository.cs" />
+    <Compile Include="Repositories\Realizations\PositionRepository.cs" />
+    <Compile Include="Repositories\Realizations\CathedraRepository.cs" />
+    <Compile Include="Repositories\Realizations\ScienceDegreeRepository.cs" />
     <Compile Include="Repositories\Realizations\AcademicStatusRepository.cs" />
     <Compile Include="Repositories\Realizations\ApplicationUserRepository.cs" />
     <Compile Include="Repositories\Realizations\FacultyRepository.cs" />
