@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ScientificReport.DAL.Implementation
 {
-    public class BaseRepository<TEntity>: IGenericRepository<TEntity> where TEntity:class,IBaseEntity
+    public class BaseRepository<TEntity,T>: IGenericRepository<TEntity,T> where TEntity:class,IBaseEntity<T>
     {
         private readonly IDbContext context;
         private readonly DbSet<TEntity> dbSet;
@@ -17,11 +17,11 @@ namespace ScientificReport.DAL.Implementation
             dbSet = context.Set<TEntity>();
         }
 
-        public async Task<int> CreateAsync(TEntity item)
+        public async Task<T> CreateAsync(TEntity item)
         {
             dbSet.Add(item);
             await context.SaveChangesAsync();
-            return item.ID;
+            return item.Id;
         }
         public async Task RemoveAsync(TEntity item)
         {
@@ -34,9 +34,9 @@ namespace ScientificReport.DAL.Implementation
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
-        public async Task<TEntity> FindByIdAsync(int id)
+        public async Task<TEntity> FindByIdAsync(T id)
         {
-            return await dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.ID == id);
+            return await dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {

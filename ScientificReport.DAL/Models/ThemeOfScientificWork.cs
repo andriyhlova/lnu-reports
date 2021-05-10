@@ -9,11 +9,11 @@ using System.Web;
 
 namespace ScientificReport.DAL.Models
 {
-    public class ThemeOfScientificWork : IBaseEntity
+    public class ThemeOfScientificWork : IBaseEntity<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public String Value { get; set; }
         public String ThemeNumber { get; set; }
         public String Code { get; set; }

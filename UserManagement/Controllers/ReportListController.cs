@@ -35,7 +35,7 @@ namespace UserManagement.Controllers
             var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
             if (User.IsInRole("Керівник кафедри"))
             {
-                reports = db.Reports.Where(x => (x.User.Cathedra.ID == currentUser.Cathedra.ID)
+                reports = db.Reports.Where(x => (x.User.Cathedra.Id == currentUser.Cathedra.Id)
                 && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))

@@ -70,46 +70,46 @@ namespace UserManagement.Controllers
                      new SelectListItem
                      {
                          Text = x.Name,
-                         Value = x.ID.ToString()
+                         Value = x.Id.ToString()
                      }).ToList();
             ViewBag.AllFaculties = faculties
                 .Select(x =>
                      new SelectListItem
                      {
                          Text = x.Name,
-                         Value = x.ID.ToString()
+                         Value = x.Id.ToString()
                      }).ToList();
             ViewBag.RolesForThisUser = map;
             var users = DB.Users
-                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.ID == cathedraNumber))
-                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.ID == facultyNumber))
+                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.Id == cathedraNumber))
+                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.Id == facultyNumber))
                 .ToList();
             var currentUser = UserManager.FindByName(User.Identity.Name);
             if (User.IsInRole("Керівник кафедри"))
             {
                 users = DB.Users
-                .Where(x => x.Cathedra.ID == currentUser.Cathedra.ID).ToList();
+                .Where(x => x.Cathedra.Id == currentUser.Cathedra.Id).ToList();
             }
             if (User.IsInRole("Адміністрація деканату"))
             {
                 users = DB.Users
-                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.ID == cathedraNumber))
-                .Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
+                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.Id == cathedraNumber))
+                .Where(x => x.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
 
                 ViewBag.AllCathedras = cathedas
-                    .Where(x => x.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                    .Where(x => x.Faculty.Id == currentUser.Cathedra.Faculty.Id)
                     .Select(x =>
                          new SelectListItem
                          {
                              Text = x.Name,
-                             Value = x.ID.ToString()
+                             Value = x.Id.ToString()
                          }).ToList();
             }
             if (User.IsInRole("Адміністрація ректорату") || User.IsInRole("Superadmin"))
             {
                 users = DB.Users
-                    .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.ID == cathedraNumber))
-                    .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.ID == facultyNumber))
+                    .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.Id == cathedraNumber))
+                    .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.Id == facultyNumber))
                     .ToList();
             }
             switch (sortOrder)
