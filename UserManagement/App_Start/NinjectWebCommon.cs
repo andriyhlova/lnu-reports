@@ -1,5 +1,6 @@
 using ScientificReport.DAL.Repositories.Interfaces;
 using ScientificReport.DAL.Repositories.Realizations;
+using UserManagement.Services;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UserManagement.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(UserManagement.App_Start.NinjectWebCommon), "Stop")]
@@ -72,6 +73,17 @@ namespace UserManagement.App_Start
         {
             kernel.Bind<IMapper>().ToMethod(ctx => new Mapper(AutoMapperConfig.Instance));
             kernel.Bind<IDbContext>().To<ApplicationDbContext>();
+            kernel.Bind<IAcademicStatusRepository>().To<AcademicStatusRepository>();
+            kernel.Bind<IApplicationUserRepository>().To<ApplicationUserRepository>();
+            kernel.Bind<ICathedraReportRepository>().To<CathedraReportRepository>();
+            kernel.Bind<ICathedraRepository>().To<CathedraRepository>();
+            kernel.Bind<IFacultyRepository>().To<FacultyRepository>();
+            kernel.Bind<IPositionRepository>().To<PositionRepository>();
+            kernel.Bind<IPublicationRepository>().To<PublicationRepository>();
+            kernel.Bind<IReportRepository>().To<ReportRepository>();
+            kernel.Bind<IScienceDegreeRepository>().To<ScienceDegreeRepository>();
+            kernel.Bind<IThemeOfScientificWorkRepository>().To<ThemeOfScientificWorkRepository>();
+
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
             kernel.Bind<ICathedraRepository>().To<CathedraRepository>();
             kernel.Bind<IThemeOfScientificWorkRepository>().To<ThemeOfScientificWorkRepository>();
@@ -79,6 +91,10 @@ namespace UserManagement.App_Start
             kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<ICathedraService>().To<CathedraService>();
             kernel.Bind<IThemeOfScientificWorksService>().To<ThemeOfScientificWorksService>();
+            kernel.Bind<ICathedraReportService>().To<CathedraReportService>();
+            kernel.Bind<IEmailService>().To<EmailService>();
+            kernel.Bind<IPublicationService>().To<PublicationService>();
+            kernel.Bind<IReportService>().To<ReportService>();
         }        
     }
 }

@@ -28,7 +28,8 @@ namespace ScientificReport.DAL.Implementation
         public IScienceDegreeRepository ScienceDegrees { get; }
 
         public IThemeOfScientificWorkRepository ThemeOfScientificWorks { get; }
-
+        public ICathedraReportRepository CathedraReports { get; }
+        public IReportRepository Reports { get; }
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -40,6 +41,8 @@ namespace ScientificReport.DAL.Implementation
             Publications = new PublicationRepository(context);
             ScienceDegrees = new ScienceDegreeRepository(context);
             ThemeOfScientificWorks = new ThemeOfScientificWorkRepository(context);
+            CathedraReports = new CathedraReportRepository(context);
+            Reports = new ReportRepository(context);
         }
 
         public int SaveChanges()

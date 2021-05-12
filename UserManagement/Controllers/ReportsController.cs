@@ -10,16 +10,22 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using ScientificReport.Services.Abstraction;
 using UserManagement.Converter;
 using UserManagement.Models.Reports;
-using UserManagement.Services;
 
 namespace UserManagement.Controllers
 {
     public class ReportsController : Controller
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
-        private ReportService reportService = new ReportService(db);
+        private IReportService reportService;
+
+        public ReportsController(IReportService reportService)
+        {
+            this.reportService = reportService;
+        }
+
         // GET: Report
         public ActionResult Index(string dateFrom, string dateTo, int? stepIndex, int? reportId)
         {

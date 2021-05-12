@@ -1,18 +1,18 @@
-﻿using ScientificReport.DAL;
-using ScientificReport.DAL.Enums;
-using ScientificReport.DAL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using UserManagement.Models;
+using ScientificReport.DAL;
+using ScientificReport.DAL.Abstraction;
+using ScientificReport.DAL.Enums;
+using ScientificReport.DAL.Models;
+using ScientificReport.Services.Abstraction;
 
-namespace UserManagement.Services
+namespace ScientificReport.Services.Implementation
 {
-    public class ReportService
+    public class ReportService : IReportService
     {
-        private ApplicationDbContext db;
-        private PublicationService publicationService = new PublicationService();
+        private IUnitOfWork db;
+        private IPublicationService publicationService;
 
         private static String REPORT_HEADER = "{REPORT_HEADER}";
         private static String PUNKT_1 = "{PUNKT_1}";
@@ -91,13 +91,14 @@ namespace UserManagement.Services
         private static String PATENTS_ALL_CONST = "{PATENTS_ALL_CONST}";
         private static String PATENTS_PERIOD_CONST = "{PATENTS_PERIOD_CONST}";
 
-        public ReportService(ApplicationDbContext db)
+        public ReportService(IUnitOfWork db, IPublicationService publicationService)
         {
             this.db = db;
+            this.publicationService = publicationService;
         }
         public String GenerateHTMLReport(int reportId)
         {
-            return GenerateHTMLReport(db.Reports.Find(reportId));
+            return GenerateHTMLReport(db.Reports.FindByIdAsync(reportId).Result);
         }
 
         public String GenerateHTMLReport(Report report)
@@ -410,7 +411,7 @@ namespace UserManagement.Services
             var allConferences = user.ConferenceCounterBeforeRegistration;
             var allPatents = user.PatentCounterBeforeRegistration;
 
-            var allPulications = db.Publication.Where(x => x.User.Any(y => y.Id == report.User.Id)).ToList();
+            var allPulications = db.Publications.GetAllAsync().Result.Where(x => x.User.Any(y => y.Id == report.User.Id)).ToList();
             var dictionary = allPulications.GroupBy(x => x.PublicationType).ToDictionary(x => x.Key, x => x.Count());
             var allPublicationInReport = report.PrintedPublication.Union(report.RecomendedPublication).Union(report.AcceptedToPrintPublication);
             var dictionaryInReport = allPublicationInReport.GroupBy(x => x.PublicationType).ToDictionary(x => x.Key, x => x.Count());
@@ -519,7 +520,7 @@ namespace UserManagement.Services
 
         private string GetFooter(Report report)
         {
-            var lead = db.Users.FirstOrDefault(x => x.Position.Id == 2 && x.Cathedra.Id == report.User.Cathedra.Id);
+            var lead = db.Users.GetAllAsync().Result.FirstOrDefault(x => x.Position.Id == 2 && x.Cathedra.Id == report.User.Cathedra.Id);
             var cathedraLeadInitials = lead?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)

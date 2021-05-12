@@ -5,13 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ScientificReport.DAL.Abstraction;
+using ScientificReport.DAL.Implementation;
+using ScientificReport.Services.Abstraction;
+using ScientificReport.Services.Implementation;
 
 namespace UserManagement.Services
 {
-    public class CathedraReportService
+    public class CathedraReportService : ICathedraReportService
     {
-        private ApplicationDbContext db;
-        private PublicationService publicationService = new PublicationService();
+        private readonly IUnitOfWork db;
+        private IPublicationService publicationService;
 
         private static String REPORT_HEADER = "{REPORT_HEADER}";
         private static String PUNKT_1 = "{PUNKT_1}";
@@ -84,13 +88,14 @@ namespace UserManagement.Services
         private static String FACULTY_LEAD = "{FACULTY_LEAD}";
         private static String FACULTY_LEAD_STATUS = "{FACULTY_LEAD_STATUS}";
 
-        public CathedraReportService(ApplicationDbContext db)
+        public CathedraReportService(IUnitOfWork db, IPublicationService publicationService)
         {
             this.db = db;
+            this.publicationService = publicationService;
         }
         public String GenerateHTMLReport(int reportId)
         {
-            return GenerateHTMLReport(db.CathedraReport.Find(reportId));
+            return GenerateHTMLReport(db.CathedraReports.FindByIdAsync(reportId).Result);
         }
 
         public String GenerateHTMLReport(CathedraReport report)
@@ -649,7 +654,7 @@ namespace UserManagement.Services
 
         private string GetFooter(CathedraReport report)
         {
-            var lead = db.Users.FirstOrDefault(x => x.Position.Id == 1 && x.Cathedra.Faculty.Id == report.User.Cathedra.Faculty.Id);
+            var lead = db.Users.GetAllAsync().Result.FirstOrDefault(x => x.Position.Id == 1 && x.Cathedra.Faculty.Id == report.User.Cathedra.Faculty.Id);
             var cathedraLeadInitials = lead?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)

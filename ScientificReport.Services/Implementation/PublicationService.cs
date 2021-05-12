@@ -1,13 +1,13 @@
-﻿using ScientificReport.DAL.Enums;
-using ScientificReport.DAL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using ScientificReport.DAL.Enums;
+using ScientificReport.DAL.Models;
+using ScientificReport.Services.Abstraction;
 
-namespace UserManagement.Services
+namespace ScientificReport.Services.Implementation
 {
-    public class PublicationService
+    public class PublicationService : IPublicationService
     {
         private static String GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
 
