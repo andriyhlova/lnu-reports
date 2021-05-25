@@ -85,6 +85,8 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\ScienceDegree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Interfaces\ICathedraReportRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IReportRepository.cs" />
     <Compile Include="Repositories\Interfaces\IThemeOfScientificWork.cs" />
     <Compile Include="Repositories\Interfaces\IPublicationRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionRepository.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="Repositories\Interfaces\IAcademicStatusRepository.cs" />
     <Compile Include="Repositories\Interfaces\IApplicationUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IFacultyRepository.cs" />
+    <Compile Include="Repositories\Realizations\CathedraReportRepository.cs" />
+    <Compile Include="Repositories\Realizations\ReportRepository.cs" />
     <Compile Include="Repositories\Realizations\ThemeOfScientificWorkRepository.cs" />
     <Compile Include="Repositories\Realizations\PublicationRepository.cs" />
     <Compile Include="Repositories\Realizations\PositionRepository.cs" />

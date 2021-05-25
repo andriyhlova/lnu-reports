@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using ScientificReport.Services.Abstraction;
 using UserManagement.Converter;
 using UserManagement.Models.Reports;
 using UserManagement.Services;
@@ -20,7 +21,13 @@ namespace UserManagement.Controllers
     public class ReportsCathedraController : Controller
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
-        private CathedraReportService cathedraReportService = new CathedraReportService(db);
+        private ICathedraReportService cathedraReportService;
+
+        public ReportsCathedraController(ICathedraReportService cathedraReportService)
+        {
+            this.cathedraReportService = cathedraReportService;
+        }
+
         // GET: Report
         public ActionResult Index(int? stepIndex, int? reportId)
         {

@@ -16,6 +16,7 @@ using UserManagement.Utilities;
 using ScientificReport.DAL;
 using ScientificReport.DAL.Models;
 using ScientificReport.DAL.Enums;
+using ScientificReport.Services.Abstraction;
 using UserManagement.Services;
 
 namespace UserManagement.Controllers
@@ -26,10 +27,10 @@ namespace UserManagement.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         public ApplicationDbContext db = new ApplicationDbContext();
-        private Services.EmailService emailService;
-        public AccountController()
+        private IEmailService emailService;
+        public AccountController(IEmailService emailService)
         {
-            emailService = new Services.EmailService();
+            this.emailService = emailService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)

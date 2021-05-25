@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ScientificReport.Services.Abstraction;
 using UserManagement.Models;
 
 namespace UserManagement.Controllers
@@ -43,10 +44,10 @@ namespace UserManagement.Controllers
                 _userManager = value;
             }
         }
-        private Services.EmailService emailService;
-        public UsersManagementController()
+        private IEmailService emailService;
+        public UsersManagementController(IEmailService emailService)
         {
-            emailService = new Services.EmailService();
+            this.emailService = emailService;
         }
 
         // GET: UsersManagement
