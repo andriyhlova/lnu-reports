@@ -12,7 +12,7 @@ namespace UserManagement
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
     }
 }

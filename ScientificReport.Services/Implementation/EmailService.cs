@@ -14,13 +14,14 @@ namespace ScientificReport.Services.Implementation
         private string smtpUserName;
         private string smtpPassword;
         private SmtpClient client;
-        public EmailService()
+        public EmailService(string smtpHost, string smtpPort, string smtpUserName, string smtpPassword, string smtpUseSsl)
         {
-            smtpHost = ConfigurationManager.AppSettings["smtpHost"];
-            smtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["smtpPort"]);
-            smtpUseSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["smtpUseSSL"]);
-            smtpUserName = ConfigurationManager.AppSettings["smtpUserName"];
-            smtpPassword = ConfigurationManager.AppSettings["smtpPassword"];
+            this.smtpHost = smtpHost;
+            this.smtpPort = Convert.ToInt32(smtpPort);
+            this.smtpUserName = smtpUserName;
+            this.smtpPassword = smtpPassword;
+            this.smtpUseSSL = Convert.ToBoolean(smtpUseSsl);
+
             client = new SmtpClient();
         }
         public void SendEmail(string email, string subject, string htmlBody)

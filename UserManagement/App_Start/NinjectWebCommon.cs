@@ -1,3 +1,4 @@
+using System.Configuration;
 using ScientificReport.DAL.Repositories.Interfaces;
 using ScientificReport.DAL.Repositories.Realizations;
 using UserManagement.Services;
@@ -21,6 +22,8 @@ namespace UserManagement.App_Start
     using ScientificReport.DAL.Models;
     using ScientificReport.Services.Abstraction;
     using ScientificReport.Services.Implementation;
+    using UserManagement;
+
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -92,7 +95,12 @@ namespace UserManagement.App_Start
             kernel.Bind<ICathedraService>().To<CathedraService>();
             kernel.Bind<IThemeOfScientificWorksService>().To<ThemeOfScientificWorksService>();
             kernel.Bind<ICathedraReportService>().To<CathedraReportService>();
-            kernel.Bind<IEmailService>().To<EmailService>();
+            kernel.Bind<IEmailService>().To<ScientificReport.Services.Implementation.EmailService>()
+                .WithConstructorArgument("smtpHost",ConfigurationManager.AppSettings["smtpHost"])
+                .WithConstructorArgument("smtpPort", ConfigurationManager.AppSettings["smtpPort"])
+                .WithConstructorArgument("smtpUserName", ConfigurationManager.AppSettings["smtpUserName"])
+                .WithConstructorArgument("smtpPassword", ConfigurationManager.AppSettings["smtpPassword"])
+                .WithConstructorArgument("smtpUseSsl", ConfigurationManager.AppSettings["smtpUseSSL"]);
             kernel.Bind<IPublicationService>().To<PublicationService>();
             kernel.Bind<IReportService>().To<ReportService>();
         }        
