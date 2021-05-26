@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ScientificReport.DAL;
+using ScientificReport.DAL.DTO;
 using ScientificReport.DAL.Models;
 using UserManagement.Models;
 
@@ -14,6 +16,8 @@ namespace UserManagement
             var res = new MapperConfiguration(config =>
             {
                 config.CreateMap<AcademicStatus, AcademicStatusViewModel>().ReverseMap();
+                config.CreateMap<RegisterViewModel, RegisterDTO>().ReverseMap();
+                config.CreateMap<UpdateViewModel, UpdateDTO>().ReverseMap();
             });
             return res;
         }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -14,6 +16,8 @@ using MailKit.Net.Smtp;
 using UserManagement.Models;
 using UserManagement.Utilities;
 using ScientificReport.DAL;
+using ScientificReport.DAL.Abstraction;
+using ScientificReport.DAL.DTO;
 using ScientificReport.DAL.Models;
 using ScientificReport.DAL.Enums;
 using ScientificReport.Services.Abstraction;
@@ -22,45 +26,17 @@ using UserManagement.Services;
 namespace UserManagement.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-        public ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationSignInManager _signInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        private ApplicationUserManager _userManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private IEmailService emailService;
-        public AccountController(IEmailService emailService)
+        private IAccountService accountService;
+
+        public AccountController(IEmailService emailService, IAccountService accountService, IMapper mapper) : base(mapper)
         {
             this.emailService = emailService;
-        }
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            this.accountService = accountService;
         }
 
         //
@@ -85,7 +61,7 @@ namespace UserManagement.Controllers
                 return View(model);
             }
 
-            ApplicationUser user = UserManager.FindByEmail(model.Email);
+            ApplicationUser user = _userManager.FindByEmail(model.Email);
             if (user != null && !user.IsActive)
             {
                 ModelState.AddModelError("", "This user is not active.");
@@ -103,7 +79,7 @@ namespace UserManagement.Controllers
             
 
 
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
             switch (result)
             {
@@ -126,8 +102,8 @@ namespace UserManagement.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.AllCathedras = db.Cathedra.OrderBy(x=> x.Name).ToList().Select(x => x.Name);
-            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            ViewBag.AllCathedras = accountService.GetCathedrasNames();
+            ViewBag.AllFaculties = accountService.GetFacultiesNames();
             
             return View();
         }
@@ -153,32 +129,20 @@ namespace UserManagement.Controllers
                     ConferenceCounterBeforeRegistration = 0,
                     PatentCounterBeforeRegistration = 0
                 };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Працівник");
+                    _userManager.AddToRole(_userManager.FindByName(model.Email).Id, "Працівник");
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    var u = db.Users.Where(x => x.UserName == model.Email).First();
-                    u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
-                    foreach (var i in Enum.GetNames(typeof(Language)))
-                    {
-                        u.I18nUserInitials.Add(new I18nUserInitials()
-                        {
-                            Language = (Language)Enum.Parse(typeof(Language), i),
-                            FirstName = "",
-                            LastName = "",
-                            FathersName = "",
-                            User = u,
-                        });
-                    }
-                    db.SaveChanges();
+                    var userDto = mapper.Map<RegisterViewModel, RegisterDTO>(model);
+                    accountService.Initialize(userDto);
                     TempData["Success"] = true;
                     return  RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }
-            ViewBag.AllCathedras = db.Cathedra.OrderBy(x => x.Name).ToList().Select(x => x.Name);
-            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            ViewBag.AllCathedras = accountService.GetCathedrasNames();
+            ViewBag.AllFaculties = accountService.GetFacultiesNames();
             return View(model);
         }
 
@@ -198,7 +162,7 @@ namespace UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
                     return View(model);                    
@@ -212,7 +176,7 @@ namespace UserManagement.Controllers
                 //UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
                 //    provider.Create("SampleTokenName"));
 
-                string hashedGuId = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                string hashedGuId = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
 
                 hashedGuId = hashedGuId.Crypt();
 
@@ -250,13 +214,13 @@ namespace UserManagement.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }            
 
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code.Decrypt(), model.Password);
+            var result = await _userManager.ResetPasswordAsync(user.Id, model.Code.Decrypt(), model.Password);
 
 
             if (result.Succeeded)
@@ -297,13 +261,7 @@ namespace UserManagement.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -357,8 +315,6 @@ namespace UserManagement.Controllers
             if (disposing && _userManager != null)
             {
                 _userManager.Dispose();
-                _userManager = null;
-                db.Dispose();
             }
 
             base.Dispose(disposing);

@@ -59,8 +59,10 @@
     <Compile Include="Abstraction\IGenericRepository.cs" />
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Configuration\Roles.cs" />
+    <Compile Include="DTO\UpdateDTO.cs" />
     <Compile Include="Enums\Financial.cs" />
     <Compile Include="Enums\Language.cs" />
+    <Compile Include="Enums\ManageMessageId.cs" />
     <Compile Include="Enums\PublicationType.cs" />
     <Compile Include="Implementation\UnitOfWork.cs" />
     <Compile Include="Implementation\BaseRepository.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\ScienceDegree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DTO\RegisterDTO.cs" />
     <Compile Include="Repositories\Interfaces\ICathedraReportRepository.cs" />
     <Compile Include="Repositories\Interfaces\IReportRepository.cs" />
     <Compile Include="Repositories\Interfaces\IThemeOfScientificWork.cs" />

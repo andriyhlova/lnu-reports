@@ -8,49 +8,24 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UserManagement.Models;
 using System.Data.Entity.Infrastructure;
+using AutoMapper;
 using ScientificReport.DAL;
+using ScientificReport.DAL.DTO;
+using ScientificReport.DAL.Enums;
+using ScientificReport.Services.Abstraction;
 
 namespace UserManagement.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-        public ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationSignInManager _signInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        private ApplicationUserManager _userManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private IManageService manageService;
 
-        public ManageController()
+        public ManageController(IMapper mapper, IManageService manageService):base(mapper)
         {
-        }
-
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            this.manageService = manageService;
         }
 
         //
@@ -70,9 +45,9 @@ namespace UserManagement.Controllers
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
+                PhoneNumber = await _userManager.GetPhoneNumberAsync(userId),
+                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(userId),
+                Logins = await _userManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
@@ -85,13 +60,13 @@ namespace UserManagement.Controllers
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            var result = await _userManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await _userManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -119,13 +94,13 @@ namespace UserManagement.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await _userManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await _userManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
@@ -148,13 +123,13 @@ namespace UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                var result = await _userManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                 if (result.Succeeded)
                 {
-                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    var user = await _userManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
                     return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                 }
@@ -170,31 +145,10 @@ namespace UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                var updateDto = mapper.Map<UpdateViewModel, UpdateDTO>(model);
                 var currentUserId = User.Identity.GetUserId();
-                var user = db.Users.First(x => x.Id == currentUserId);
-                user.I18nUserInitials.Clear();
-                user.BirthDate = model.BirthDate;
-                user.AwardingDate = AwardingYear.HasValue ? new DateTime(AwardingYear.Value, 1, 1) : (DateTime?)null;
-                user.GraduationDate = GraduationYear.HasValue ? new DateTime(GraduationYear.Value, 1, 1) : (DateTime?)null;
-                user.DefenseYear = DefenseDate.HasValue ? new DateTime(DefenseDate.Value, 1, 1) : (DateTime?)null;
-                user.AspirantStartYear = AspirantStartYear != null ? new DateTime(AspirantStartYear.Value, 1, 1) : (DateTime?)null;
-                user.AspirantFinishYear = AspirantFinishYear != null ? new DateTime(AspirantFinishYear.Value, 1, 1) : (DateTime?)null;
-                user.DoctorStartYear = DoctorStartYear != null ? new DateTime(DoctorStartYear.Value, 1, 1) : (DateTime?)null;
-                user.DoctorFinishYear = DoctorFinishYear != null ? new DateTime(DoctorFinishYear.Value, 1, 1) : (DateTime?)null;
-                
-                user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegistration;
-                user.MonographCounterBeforeRegistration = model.MonographCounterBeforeRegistration;
-                user.BookCounterBeforeRegistration = model.BookCounterBeforeRegistration;
-                user.TrainingBookCounterBeforeRegistration = model.TrainingBookCounterBeforeRegistration;
-                user.OtherWritingCounterBeforeRegistration = model.OtherWritingCounterBeforeRegistration;
-                user.ConferenceCounterBeforeRegistration = model.ConferenceCounterBeforeRegistration;
-                user.PatentCounterBeforeRegistration = model.PatentCounterBeforeRegistration;
-
-                user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
-                user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
-                user.Position = db.Position.First(x => x.Value == model.Position);
-                user.I18nUserInitials = model.I18nUserInitials;
-                db.SaveChanges();
+                 var user = manageService.UpdateUser(updateDto, currentUserId, year, GraduationYear, DefenseDate, AwardingYear,
+                    AspirantStartYear, AspirantFinishYear, DoctorStartYear, DoctorFinishYear);
 
                 ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
                 ViewBag.AwardingDate = user.AwardingDate?.ToString("yyyy-MM-dd");
@@ -202,19 +156,19 @@ namespace UserManagement.Controllers
                 ViewBag.DefenseYear = user.DefenseYear?.ToString("yyyy-MM-dd");
                 return RedirectToAction("Index", "Manage");
             }
-            
-            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
-            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
-            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
+
+            ViewBag.AllAcademicStatuses = manageService.GetAcademicStatuses();
+            ViewBag.AllScienceDegrees = manageService.GetScienceDegrees();
+            ViewBag.AllPositions = manageService.GetPositions();
             return View(model);
         }
         
         public ActionResult Update()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
-            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
-            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
+            var user = _userManager.FindById(User.Identity.GetUserId());
+            ViewBag.AllAcademicStatuses = manageService.GetAcademicStatuses();
+            ViewBag.AllScienceDegrees = manageService.GetScienceDegrees();
+            ViewBag.AllPositions = manageService.GetPositions();
             ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
             ViewBag.AwardingDate = user.AwardingDate?.ToString("yyyy");
             ViewBag.GraduationDate = user.GraduationDate?.ToString("yyyy");
@@ -249,7 +203,6 @@ namespace UserManagement.Controllers
             if (disposing && _userManager != null)
             {
                 _userManager.Dispose();
-                _userManager = null;
             }
 
             base.Dispose(disposing);
@@ -277,7 +230,7 @@ namespace UserManagement.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = _userManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PasswordHash != null;
@@ -287,23 +240,12 @@ namespace UserManagement.Controllers
 
         private bool HasPhoneNumber()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = _userManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PhoneNumber != null;
             }
             return false;
-        }
-
-        public enum ManageMessageId
-        {
-            AddPhoneSuccess,
-            ChangePasswordSuccess,
-            SetTwoFactorSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
-            RemovePhoneSuccess,
-            Error
         }
 
         #endregion

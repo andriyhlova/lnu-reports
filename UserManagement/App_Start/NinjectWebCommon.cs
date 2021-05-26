@@ -103,6 +103,10 @@ namespace UserManagement.App_Start
                 .WithConstructorArgument("smtpUseSsl", ConfigurationManager.AppSettings["smtpUseSSL"]);
             kernel.Bind<IPublicationService>().To<PublicationService>();
             kernel.Bind<IReportService>().To<ReportService>();
+            kernel.Bind<IAccountService>().To<AccountService>();
+            kernel.Bind<IManageService>().To<ManageService>();
+            kernel.Bind<IReportCathedraListService>().To<ReportCathedraListService>();
+            kernel.Bind<IReportListService>().To<ReportListService>();
         }        
     }
 }

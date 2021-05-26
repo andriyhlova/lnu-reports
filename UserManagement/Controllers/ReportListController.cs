@@ -10,77 +10,48 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ScientificReport.DAL.Configuration;
+using ScientificReport.Services.Abstraction;
 
 namespace UserManagement.Controllers
 {
     [Authorize(Roles = "Працівник, Керівник кафедри")]
     public class ReportListController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+       private readonly IReportListService _reportListService;
+       public ReportListController(IReportListService reportListService)
+       {
+           this._reportListService = reportListService;
+       }
         // GET: ReportList
         public ActionResult Index(int? page, string dateFrom, string dateTo)
         {
-            db = new ApplicationDbContext();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
-            string dateFromVerified = dateFrom ?? "";
-            string dateToVerified = dateTo ?? "";
             ViewBag.dateFrom = dateFrom;
             ViewBag.dateTo = dateTo;
             ViewBag.page = pageNumber;
-            var currentUser = db.Users.Find(User.Identity.GetUserId());
-            List<Report> reports;
-            var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
-            var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            if (User.IsInRole("Керівник кафедри"))
-            {
-                reports = db.Reports.Where(x => (x.User.Cathedra.Id == currentUser.Cathedra.Id)
-                && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
-                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
-                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
-                .ToList();
-            }
-            else
-            {
-                reports = db.Reports.Where(x => x.User.Id == currentUser.Id)
-                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
-                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
-                .ToList();
-            }
+            var currentUserId = User.Identity.GetUserId();
+            var reports = User.IsInRole(Roles.CathedraManager)
+                ? _reportListService.GetReportsForCathedraManager(currentUserId, dateFrom, dateTo).ToList()
+                : _reportListService.GetReports(currentUserId, dateFrom, dateTo).ToList();
             return View(reports.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Sign(int reportId)
         {
-            var report = db.Reports.Find(reportId);
-            report.IsSigned = true;
-            db.SaveChanges();
+            _reportListService.SignReport(reportId);
             return RedirectToAction("Index", "ReportList");
         }
         public ActionResult Negate(int reportId)
         {
-            var report = db.Reports.Find(reportId);
-            report.IsSigned = false;
-            report.IsConfirmed = false;
-            db.SaveChanges();
+            _reportListService.NegateReport(reportId);
             return RedirectToAction("Index", "ReportList");
         }
         public ActionResult Confirm(int reportId)
         {
-            var report = db.Reports.Find(reportId);
-            report.IsConfirmed = true;
-            db.SaveChanges();
+            _reportListService.ConfirmReport(reportId);
             return RedirectToAction("Index", "ReportList");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
