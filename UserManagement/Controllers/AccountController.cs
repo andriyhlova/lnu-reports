@@ -104,8 +104,23 @@ namespace UserManagement.Controllers
         {
             ViewBag.AllCathedras = accountService.GetCathedrasNames();
             ViewBag.AllFaculties = accountService.GetFacultiesNames();
-            
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public PartialViewResult DisplayCathedras(string facultyName)
+        {
+            int? facultyId = db.Faculty.FirstOrDefault(x => x.Name.Equals(facultyName))?.Id;
+
+            var cathedras = new System.Collections.Generic.List<string>();
+
+            if (facultyId != null)
+            {
+                cathedras = db.Cathedra.Where(x => x.Faculty.Id == facultyId).OrderBy(x => x.Name).Select(x => x.Name).ToList();
+            }
+
+            return PartialView(cathedras);
         }
 
         //
@@ -116,6 +131,11 @@ namespace UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                var facultyId = int.Parse(model.Faculty);
+                model.Faculty = db.Faculty.First(x => x.Id == facultyId).Name;
+                model.Cathedra = db.Cathedra.ToList()
+                    .First(x => x.Name.StartsWith(model.Cathedra.Substring(model.Cathedra.IndexOf('-') + 2))).Name;
+
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,

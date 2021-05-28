@@ -31,12 +31,14 @@ namespace UserManagement.Controllers
         }
         
         // GET: Publications
-        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty, string user)
+        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, string cathedra, int? faculty, string user)
         {
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             bool isMineWihoutNull = isMine ?? true;
-            int cathedraNumber = cathedra ?? -1;
+            int cathedraNumber = string.IsNullOrEmpty(cathedra) ? -1 :
+                db.Cathedra.ToList()
+                    .First(x => x.Name.StartsWith(cathedra.Substring(cathedra.IndexOf('-') + 2))).Id;
             int facultyNumber = faculty ?? -1;
             string dateFromVerified = dateFrom ?? "";
             string dateToVerified = dateTo ?? "";
@@ -82,6 +84,7 @@ namespace UserManagement.Controllers
                     users = users.Where(x => x.Cathedra.Id == currentUser.Cathedra.Id).ToList();
                 }
             }
+
             ViewBag.AllUsers = users
                 .Select(x =>
                 {
@@ -96,20 +99,9 @@ namespace UserManagement.Controllers
                                                 init.FathersName),
                     };
                 }).ToList();
-            ViewBag.AllCathedras = cathedas
-                .Select(x =>
-                     new SelectListItem
-                     {
-                         Text = x.Name,
-                         Value = x.Id.ToString()
-                     }).ToList();
-            ViewBag.AllFaculties = faculties
-                .Select(x =>
-                     new SelectListItem
-                     {
-                         Text = x.Name,
-                         Value = x.Id.ToString()
-                     }).ToList();
+
+            ViewBag.AllCathedras = cathedas.OrderBy(x => x.Faculty.Id).Select(x => $"{x.Faculty.Id} - {x.Name.Replace("\\", "")}").ToList();
+            ViewBag.AllFaculties = faculties.OrderBy(x => x.Name).ToList();
         }
 
         private ActionResult GetRightPublicationView(List<Publication> allPublications, bool isMineWihoutNull,
