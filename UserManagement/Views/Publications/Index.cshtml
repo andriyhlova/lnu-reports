@@ -13,39 +13,47 @@
             <label>Назва</label>
             <input type="text" name="SearchString" value="@ViewBag.searchString">
         </div>
-        <input type="hidden" name="isMine" value="@((bool)ViewBag.isMine ? "True" : "False")"/>
+        <input type="hidden" name="isMine" value="@((bool)ViewBag.isMine ? "True" : "False")" />
         @if ((ViewBag.isMine && User.IsInRole("Адміністрація ректорату")) || !ViewBag.isMine)
         {
-        <div>
-            <label>Факультет</label>
-            @Html.DropDownList("faculty",
-                          new SelectList(ViewBag.AllFaculties, "Value", "Text", ViewBag.facultyNumber),
-                          "Виберіть факультет",
-                          new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
-        </div>
+            <div class="form-group">
+                <label>Факультет</label>
+                <select id="faculty-selector" class="form-control chosen-select" name="faculty">
+                    <option value="">Виберіть факультет</option>
+                    @foreach (var faculty in ViewBag.AllFaculties)
+                    {
+                        <option value="@faculty.Id">@faculty.Name</option>
+                    }
+                </select>
+            </div>
         }
         @if ((ViewBag.isMine && User.IsInRole("Адміністрація деканату")) || !ViewBag.isMine)
         {
-        <div>
-            <label>Кафедра</label>
-            @Html.DropDownList("cathedra",
-                          new SelectList(ViewBag.AllCathedras, "Value", "Text", ViewBag.cathedraNumber),
-                          "Виберіть кафедру",
-                          new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
-        </div>
+            <div>
+                <div class="form-group">
+                    <label>Кафедра</label>
+                    <input list="cathedra-selector" name="cathedra" autocomplete="off" style="height:25px;" />
+                    <datalist id="cathedra-selector">
+                        @foreach (var cathedra in ViewBag.AllCathedras)
+                        {
+                            <option value='@cathedra'>@cathedra</option>
+                        }
+                    </datalist>
+                </div>
+            </div>
         }
-        @if ((ViewBag.isMine 
-            && (User.IsInRole("Адміністрація ректорату") 
-            || User.IsInRole("Адміністрація деканату") 
+        @if ((ViewBag.isMine
+            && (User.IsInRole("Адміністрація ректорату")
+            || User.IsInRole("Адміністрація деканату")
             || User.IsInRole("Керівник кафедри"))) || !ViewBag.isMine)
         {
-        <div>
-            <label>Користувач</label>
-            @Html.DropDownList("user",
-                          new SelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.userId),
-                          "Виберіть користувача",
-                          new { @class = "form-control chosen-select", @Value = ViewBag.user })
-        </div>
+            <div>
+                <label>Користувач</label>
+                @Html.DropDownList("user",
+                              new SelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.userId),
+                              "Виберіть користувача",
+                              new { @class = "form-control chosen-select", @Value = ViewBag.user })
+            </div>
         }
         <div>
             <label>З: </label>
@@ -57,12 +65,12 @@
         </div>
     </div>
     <div style="height: 50%;padding-top: 15px; display: inline-block;">
-        <input type="submit" value="Пошук" style="width: 100%"/>
+        <input type="submit" value="Пошук" style="width: 100%" />
     </div>
 </form>
 <div style="display: flex; justify-content: space-between">
     @Html.ActionLink("Створити", "Create")
-    @{ 
+    @{
         var text = User.IsInRole("Адміністрація ректорату") ? "Публікації університету"
             : User.IsInRole("Адміністрація деканату") ? "Публікації факультету"
             : User.IsInRole("Керівник кафедри") ? "Публікації кафедри"
@@ -154,12 +162,15 @@
 </table>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", 
-    new { page, isMine = ViewBag.isMine,
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new
+    {
+        page,
+        isMine = ViewBag.isMine,
         isFaculty = ViewBag.isFaculty,
-        faculty=ViewBag.faculty,
-        cathedra=ViewBag.cathedra,
-        user=ViewBag.user,
+        faculty = ViewBag.faculty,
+        cathedra = ViewBag.cathedra,
+        user = ViewBag.user,
         searchString = ViewBag.searchString,
         dateFrom = ViewBag.dateFrom,
         dateTo = ViewBag.dateTo
@@ -185,6 +196,12 @@
 <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
+    let cathedrasSelectOptions = document.getElementById("cathedra-selector").options;
+    var opts = []
+    for (var i = 0; i < cathedrasSelectOptions.length; i++) {
+        opts.push(cathedrasSelectOptions[i].value);
+    }
+    console.log(opts);
     function updateSelect() {
         $('.chosen-select').on("change", function () {
             $('#cathedraForm').submit();
@@ -207,9 +224,28 @@
             }
         );
     }
-
     function submitDate() {
         $('#dateForm').submit();
     }
+    function addFacultyPickerListener() {
+        let facultyElem = document.getElementById("faculty-selector");
+        $('#faculty-selector').change(function (e) {
+            var str = "";
+            if (facultyElem.value === "") {
+                for (var i = 0; i < opts.length; i++) {
+                    str += "<option value='" + opts[i] + "'>" + opts[i] + "</option>"
+                }
+            } else {
+                for (var i = 0; i < opts.length; i++) {
+                    if (opts[i].startsWith(facultyElem.value + ' -')) {
+                        str += "<option value='" + opts[i] + "'>" + opts[i] + "</option>"
+                    }
+                }
+            }
+            console.log(str);
+            document.getElementById("cathedra-selector").innerHTML = str;
+        });
+    }
+    addFacultyPickerListener();
     updateSelect();
 </script>
