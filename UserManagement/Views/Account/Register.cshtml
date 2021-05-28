@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Реєстрація";
 }
-
+@using ScientificReport.DAL.Models;
 <h2>@ViewBag.Title.</h2>
 
 
@@ -28,19 +28,28 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
+
     <div class="form-group">
         <label class="control-label col-md-2">Факультет</label>
-        @Html.DropDownList("Faculty",
-                    new SelectList(ViewBag.AllFaculties),
-                           "Виберіть факультет",
-                    new { @class = "form-control chosen-select" })
+        <select id="faculty-selector" class="form-control chosen-select" name="Faculty">
+            <option value="">Виберіть факультет</option>
+            @foreach (var faculty in ViewBag.AllFaculties)
+            {
+                <option value="@faculty.Id">@faculty.Name</option>
+            }
+        </select>
     </div>
     <div class="form-group">
         <label class="control-label col-md-2">Кафедра</label>
-        @Html.DropDownList("Cathedra",
-                    new SelectList(ViewBag.AllCathedras),
-                           "Виберіть кафедру",
-                    new { @class = "form-control chosen-select" })
+        <div class="col-md-10">
+            <input list="cathedra-selector" class="form-control" name="Cathedra" autocomplete="off" />
+            <datalist id="cathedra-selector">
+                @foreach (var cathedra in ViewBag.AllCathedras)
+                {
+                    <option value='@cathedra'>@cathedra</option>
+                }
+            </datalist>
+        </div>
     </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
@@ -68,6 +77,11 @@
 <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
+    let cathedrasSelectOptions = document.getElementById("cathedra-selector").options;
+    var opts = []
+    for (var i = 0; i < cathedrasSelectOptions.length; i++) {
+        opts.push(cathedrasSelectOptions[i].value);
+    }
     function updateSelect() {
         $('.chosen-select').chosen(
             {
@@ -77,7 +91,24 @@
             }
         );
     }
-
+    function addFacultyPickerListener() {
+        let facultyElem = document.getElementById("faculty-selector");
+        $('#faculty-selector').change(function (e) {
+            var str = "";
+            if (facultyElem.value === "") {
+                for (var i = 0; i < opts.length; i++) {
+                    str += "<option value='" + opts[i] + "'>" + opts[i] + "</option>"
+                }
+            } else {
+                for (var i = 0; i < opts.length; i++) {
+                    if (opts[i].startsWith(facultyElem.value + ' -')) {
+                        str += "<option value='" + opts[i] + "'>" + opts[i] + "</option>"
+                    }
+                }
+            }
+            document.getElementById("cathedra-selector").innerHTML = str;
+        });
+    }
     function notification() {
         const validation = document.getElementsByClassName('.text-danger');
         console.log(validation)
@@ -86,11 +117,8 @@
         }
         );
     }
-
     updateSelect();
-
-    //notification();
-
+    addFacultyPickerListener();
 </script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
