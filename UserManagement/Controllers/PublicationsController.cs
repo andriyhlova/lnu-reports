@@ -91,7 +91,9 @@ namespace UserManagement.Controllers
                         Text = String.Join(" ", init.LastName,
                                                 init.FirstName,
                                                 init.FathersName),
-                        Value = x.Id
+                        Value = String.Join(" ", init.LastName,
+                                                init.FirstName,
+                                                init.FathersName),
                     };
                 }).ToList();
             ViewBag.AllCathedras = cathedas
@@ -157,11 +159,8 @@ namespace UserManagement.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PublicationUsers = String.Join(", ", publication.User
-                .Select(x => String.Join(" ", x.I18nUserInitials.Single(y => y.Language == publication.Language).LastName,
-                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FirstName,
-                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FathersName))
-                    .ToList());
+            ViewBag.PublicationUsers = publication.OtherAuthors.Split(',').ToList();
+
             return View(publication);
         }
 
@@ -281,38 +280,6 @@ namespace UserManagement.Controllers
                             authors += values[0] + " " + values[1] + " " + values[2];
                         }
                     }
-                }
-                else
-                {
-                    var user = _db.Users.FindByIdAsync(userToAdd[0]).Result;
-                    var initials = user.I18nUserInitials.First(x => x.Language == publication.Language);
-                    var lastName = initials.LastName ?? string.Empty;
-                    var firstname = initials.FirstName != null && initials.FirstName.Length > 1
-                        ? initials.FirstName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    var fatherName = initials.FathersName != null && initials.FathersName.Length > 1
-                        ? initials.FathersName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    publication.MainAuthor = lastName + " " + firstname + ". " + fatherName + ". ";
-                }
-                foreach (var user in publication.User)
-                {
-                    if(!string.IsNullOrEmpty(authors))
-                    {
-                        authors += ", ";
-                    }
-                    var initials = (user?.I18nUserInitials).First(x => x.Language == publication.Language);
-                    var lastName = initials.LastName ?? string.Empty;
-                    var firstname = initials.FirstName != null && initials.FirstName.Length > 1
-                        ? initials.FirstName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    var fatherName = initials.FathersName != null && initials.FathersName.Length > 1
-                        ? initials.FathersName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-
-                    authors += firstname
-                        + ". " + fatherName
-                        + ". " + lastName;
                 }
                 if(!string.IsNullOrEmpty(publication.OtherAuthors))
                 {
@@ -484,11 +451,13 @@ namespace UserManagement.Controllers
                 publicationFromDB.Link = publication.Link;
                 publicationFromDB.Edition = publication.Edition;
                 publicationFromDB.Tome = publication.Tome;
-                if (year.HasValue)
-                    publicationFromDB.Date = new DateTime(year.Value, 1, 1);
-                if (publication.AuthorsOrder != null)
-                    publicationFromDB.AuthorsOrder = publication.AuthorsOrder;
-                if (userToAdd != null && userToAdd.Count != 0)
+                if (year.HasValue) {
+                  publicationFromDB.Date = new DateTime(year.Value, 1, 1);
+                }
+                if (publication.OtherAuthors != null) {
+                  publicationFromDB.AuthorsOrder = publication.OtherAuthors;
+                }
+        if (userToAdd != null && userToAdd.Count != 0)
                 {
                     foreach (var current in userToAdd)
                     {

@@ -47,21 +47,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2">Додати авторів</label>
-                        @Html.DropDownList("UserToAdd",
-                                 new MultiSelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.CurrentUser),
-                                 new
-                                 {
-                                     @class = "form-control col-md-2 chosen-select",
-                                     @Multiple = "multiple",
-                                     @id = "ddlMultiSelect",
-                                 })
+                      <label class="control-label col-md-2" id="authors">Додати авторів</label>
+                      @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control usersList", @multiple = "multiple", @list = "Suggestions", @id = "OtherAuthors" } })
+                      @Html.ValidationMessage("userToAdd", new { @class = "text-danger" })
+
+                      <datalist id="Suggestions">
+                        @foreach (var x in ViewBag.AllUsers) {
+                          <option>@x.Text</option>
+                        }
+                      </datalist>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2">Перший автор незареєстрований викладач:</label>
-                        <input type="checkbox" style="margin:40px 15px" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true" />
-                        <input name="mainAuthorFromOthers" type="hidden" value="false">
+                      <input type="checkbox" style="margin:40px 15px; display: none;" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true" />
+                      <input name="mainAuthorFromOthers" type="hidden" value="true">
                     </div>
 
                     <div class="form-group">
@@ -181,6 +180,44 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 <script type="text/javascript">
+
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const separator = ',';
+    for (const input of document.getElementsByClassName("usersList")) {
+        if (!input.multiple) {
+            continue;
+      }
+        if (input.list instanceof HTMLDataListElement) {
+            const optionsValues = Array.from(input.list.options).map(opt => opt.value);
+          let valueCount = input.value.split(separator).length;
+            input.addEventListener("input", () => {
+                const currentValueCount = input.value.split(separator).length;
+              if (valueCount !== currentValueCount) {
+                    const lsIndex = input.value.lastIndexOf(separator);
+                    const str = lsIndex !== -1 ? input.value.substr(0, lsIndex) + separator : "";
+                    filldatalist(input, optionsValues, str);
+                    valueCount = currentValueCount;
+                }
+            });
+        }
+    }
+    function filldatalist(input, optionValues, optionPrefix) {
+        const list = input.list;
+        if (list && optionValues.length > 0) {
+            list.innerHTML = "";
+            const usedOptions = optionPrefix.split(separator).map(value => value.trim());
+            for (const optionsValue of optionValues) {
+                if (usedOptions.indexOf(optionsValue) < 0) {
+                    const option = document.createElement("option");
+                    option.value = optionPrefix + optionsValue;
+                    list.append(option);
+                }
+            }
+        }
+    }
+  });
+
     function updateSelect() {
         $('#languageSelect').on("change", function (e) {
             var url = location.protocol + '//' + location.host + location.pathname;
