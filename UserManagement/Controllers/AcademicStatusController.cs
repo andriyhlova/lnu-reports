@@ -12,10 +12,10 @@ namespace UserManagement.Controllers
     [Authorize(Roles = "Superadmin")]
     public class AcademicStatusController : BaseController
     {
-        private readonly IServiceBase<AcademicStatus,int> academicStatusService;
+        private readonly IServiceBase<AcademicStatus, int> academicStatusService;
 
-        public AcademicStatusController(IServiceBase<AcademicStatus,int> academicStatusService,
-            IMapper mapper): base(mapper)
+        public AcademicStatusController(IServiceBase<AcademicStatus, int> academicStatusService,
+            IMapper mapper) : base(mapper)
         {
             this.academicStatusService = academicStatusService;
         }

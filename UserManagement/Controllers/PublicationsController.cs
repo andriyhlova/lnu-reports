@@ -14,30 +14,20 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using Microsoft.AspNet.Identity.Owin;
+using ScientificReport.DAL.Abstraction;
 
 namespace UserManagement.Controllers
 {
     [Authorize]
     public class PublicationsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        //public static ApplicationDbContext db
-        //{
-        //    get
-        //    {
-        //        return DB ?? new ApplicationDbContext();
-        //    }
-        //    private set
-        //    {
-        //        DB = value;
-        //    }
-        //}
+        private ApplicationUserManager _userManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private readonly IUnitOfWork _db;
 
-        private UserManager<ApplicationUser> UserManager;
-        
-        public PublicationsController()
+        public PublicationsController(IUnitOfWork db)
         {
-            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            this._db = db;
         }
         
         // GET: Publications
@@ -62,7 +52,7 @@ namespace UserManagement.Controllers
             ViewBag.page = pageNumber;
             PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
             bool hasUser = !string.IsNullOrEmpty(user);
-            var allPublications = db.Publication
+            var allPublications = _db.Publications.GetAllAsync().Result
                 .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.Id == cathedraNumber)))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.Id == facultyNumber)))
@@ -76,10 +66,10 @@ namespace UserManagement.Controllers
 
         private void PutCathedraAndFacultyIntoViewBag(bool isMine = false)
         {
-            var users = db.Users.Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
-            var cathedas = db.Cathedra.OrderBy(x => x.Name).ToList();
-            var faculties = db.Faculty.OrderBy(x => x.Name).ToList();
-            var currentUser = UserManager.FindByName(User.Identity.Name);
+            var users = _db.Users.GetAllAsync().Result.Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
+            var cathedas = _db.Cathedras.GetAllAsync().Result.OrderBy(x => x.Name).ToList();
+            var faculties = _db.Faculties.GetAllAsync().Result.OrderBy(x => x.Name).ToList();
+            var currentUser = _userManager.FindByName(User.Identity.Name);
             //UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
             //    || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")
             if (isMine)
@@ -104,7 +94,9 @@ namespace UserManagement.Controllers
                         Text = String.Join(" ", init.LastName,
                                                 init.FirstName,
                                                 init.FathersName),
-                        Value = x.Id
+                        Value = String.Join(" ", init.LastName,
+                                                init.FirstName,
+                                                init.FathersName),
                     };
                 }).ToList();
 
@@ -116,7 +108,7 @@ namespace UserManagement.Controllers
                                                         int pageNumber, int pageSize, string searchString)
         {
             var publications = allPublications.ToList();
-            var currentUser = UserManager.FindByName(User.Identity.Name);
+            var currentUser = _userManager.FindByName(User.Identity.Name);
             if (!String.IsNullOrEmpty(searchString))
             {
                 publications = publications.Where(s => s.Name.Contains(searchString))
@@ -154,16 +146,13 @@ namespace UserManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Publication publication = db.Publication.Find(id);
+            Publication publication = _db.Publications.FindByIdAsync(id.Value).Result;
             if (publication == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.PublicationUsers = String.Join(", ", publication.User
-                .Select(x => String.Join(" ", x.I18nUserInitials.Single(y => y.Language == publication.Language).LastName,
-                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FirstName,
-                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FathersName))
-                    .ToList());
+            ViewBag.PublicationUsers = publication.OtherAuthors.Split(',').ToList();
+
             return View(publication);
         }
 
@@ -171,14 +160,14 @@ namespace UserManagement.Controllers
         public ActionResult Create(string language)
         {
             var languageVerified = language == null || language == "" ? "UA" : language;
-            var users = db.Users.Where(x => x.IsActive == true).ToList();
+            var users = _db.Users.GetAllAsync().Result.Where(x => x.IsActive == true).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які",", які"), Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
+                .Where(x => _userManager.IsInRole(x.Id, "Працівник") || _userManager.IsInRole(x.Id, "Керівник кафедри")
+                || _userManager.IsInRole(x.Id, "Адміністрація ректорату") || _userManager.IsInRole(x.Id, "Адміністрація деканату"))
                 .Select(x =>
                      new SelectListItem
                      {
@@ -205,14 +194,14 @@ namespace UserManagement.Controllers
             [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include = "authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
             [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
-            var users = db.Users.Where(x => x.IsActive == true).ToList();
+            var users = _db.Users.GetAllAsync().Result.Where(x => x.IsActive == true).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var filtered = users
-                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")).ToList();
+                .Where(x => _userManager.IsInRole(x.Id, "Працівник") || _userManager.IsInRole(x.Id, "Керівник кафедри")
+                                                                     || _userManager.IsInRole(x.Id, "Адміністрація ректорату") || _userManager.IsInRole(x.Id, "Адміністрація деканату")).ToList();
             ViewBag.AllUsers = filtered
                 .Select(x =>
                      new SelectListItem
@@ -249,7 +238,7 @@ namespace UserManagement.Controllers
             {
                 if (userToAdd != null)
                 {
-                    var publicationExists = db.Publication
+                    var publicationExists = _db.Publications.GetAllAsync().Result
                         .Any(x =>
                         x.Name == publication.Name
                         && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
@@ -264,7 +253,7 @@ namespace UserManagement.Controllers
                     {
                         foreach (var current in userToAdd)
                         {
-                            var user = db.Users.Find(current);
+                            var user = _db.Users.FindByIdAsync(current).Result;
                             publication.User.Add(user);
                             user.Publication.Add(publication);
                         }
@@ -283,38 +272,6 @@ namespace UserManagement.Controllers
                             authors += values[0] + " " + values[1] + " " + values[2];
                         }
                     }
-                }
-                else
-                {
-                    var user = db.Users.Find(userToAdd[0]);
-                    var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    var lastName = initials.LastName ?? string.Empty;
-                    var firstname = initials.FirstName != null && initials.FirstName.Length > 1
-                        ? initials.FirstName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    var fatherName = initials.FathersName != null && initials.FathersName.Length > 1
-                        ? initials.FathersName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    publication.MainAuthor = lastName + " " + firstname + ". " + fatherName + ". ";
-                }
-                foreach (var user in publication.User)
-                {
-                    if(!string.IsNullOrEmpty(authors))
-                    {
-                        authors += ", ";
-                    }
-                    var initials = user?.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    var lastName = initials.LastName ?? string.Empty;
-                    var firstname = initials.FirstName != null && initials.FirstName.Length > 1
-                        ? initials.FirstName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    var fatherName = initials.FathersName != null && initials.FathersName.Length > 1
-                        ? initials.FathersName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-
-                    authors += firstname
-                        + ". " + fatherName
-                        + ". " + lastName;
                 }
                 if(!string.IsNullOrEmpty(publication.OtherAuthors))
                 {
@@ -341,8 +298,8 @@ namespace UserManagement.Controllers
                     publication.Pages = pages;
                     publication.SizeOfPages = Math.Round((pagesTo - pagesFrom + 1) / 16.0, 1);
                 }
-                db.Publication.Add(publication);
-                db.SaveChanges();
+                _db.Publications.CreateAsync(publication).ConfigureAwait(false);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
@@ -359,7 +316,7 @@ namespace UserManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Publication publication = db.Publication.Find(id);
+            Publication publication = _db.Publications.FindByIdAsync(id.Value).Result;
             if (publication == null)
             {
                 return HttpNotFound();
@@ -368,10 +325,10 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();            
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var users = db.Users.ToList();
+            var users = _db.Users.GetAllAsync().Result.ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") ||
-                UserManager.IsInRole(x.Id, "Адміністрація деканату") || UserManager.IsInRole(x.Id, "Керівник кафедри"))
+                .Where(x => _userManager.IsInRole(x.Id, "Працівник") || _userManager.IsInRole(x.Id, "Адміністрація ректорату") ||
+                            _userManager.IsInRole(x.Id, "Адміністрація деканату") || _userManager.IsInRole(x.Id, "Керівник кафедри"))
                 .Where(y => !publication.User.Contains(y) && y.IsActive)
                 .Select(x =>
                      new SelectListItem
@@ -410,12 +367,12 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
-            var publicationFromDB = db.Publication.Find(publication.Id);
+            var users = _db.Users.GetAllAsync().Result.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
+            var publicationFromDB = _db.Publications.FindByIdAsync(publication.Id).Result;
             var filtered = users
                 .Where(y => !publicationFromDB.User.Contains(y))
-                .Where(x => (UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
+                .Where(x => (_userManager.IsInRole(x.Id, "Працівник") || _userManager.IsInRole(x.Id, "Керівник кафедри")
+                                                                      || _userManager.IsInRole(x.Id, "Адміністрація ректорату") || _userManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
             ViewBag.AllUsers = filtered.Select(x =>
                      new SelectListItem
                      {
@@ -453,7 +410,7 @@ namespace UserManagement.Controllers
             {
                 if(userToAdd != null)
                 {
-                    var publicationExists = db.Publication
+                    var publicationExists = _db.Publications.GetAllAsync().Result
                         .Any(x =>
                         x.Id != publication.Id
                         && x.Name == publication.Name
@@ -486,15 +443,17 @@ namespace UserManagement.Controllers
                 publicationFromDB.Link = publication.Link;
                 publicationFromDB.Edition = publication.Edition;
                 publicationFromDB.Tome = publication.Tome;
-                if (year.HasValue)
-                    publicationFromDB.Date = new DateTime(year.Value, 1, 1);
-                if (publication.AuthorsOrder != null)
-                    publicationFromDB.AuthorsOrder = publication.AuthorsOrder;
-                if (userToAdd != null && userToAdd.Count != 0)
+                if (year.HasValue) {
+                  publicationFromDB.Date = new DateTime(year.Value, 1, 1);
+                }
+                if (publication.OtherAuthors != null) {
+                  publicationFromDB.AuthorsOrder = publication.OtherAuthors;
+                }
+        if (userToAdd != null && userToAdd.Count != 0)
                 {
                     foreach (var current in userToAdd)
                     {
-                        var user = db.Users.Find(current);
+                        var user = _db.Users.FindByIdAsync(current).Result;
                         publicationFromDB.User.Add(user);
                         user.Publication.Add(publicationFromDB);
                     }
@@ -513,12 +472,12 @@ namespace UserManagement.Controllers
                 {
                     if(userToAdd != null && userToAdd.Count > 0)
                     {
-                        var user = db.Users.Find(userToAdd[0]);
+                        var user = _db.Users.FindByIdAsync(userToAdd[0]).Result;
                         var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                         publicationFromDB.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                     }
                 }
-                db.SaveChanges();
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
@@ -535,15 +494,12 @@ namespace UserManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Publication publication = db.Publication.Find(id);
-            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Count() > 0)
+            Publication publication = _db.Publications.FindByIdAsync(id.Value).Result;
+            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Any())
             {
                 ViewBag.Exists = "Ця публікація включена в звіт. Неможливо видалити.";
             }
-            if (publication == null)
-            {
-                return HttpNotFound();
-            }
+
             return View(publication);
         }
 
@@ -552,38 +508,28 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Publication publication = db.Publication.Find(id);
-            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Count() > 0)
+            Publication publication = _db.Publications.FindByIdAsync(id).Result;
+            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Any())
             {
                 return RedirectToAction("Index");
             }
-            db.Publication.Remove(publication);
-            db.SaveChanges();
+            _db.Publications.RemoveAsync(publication).ConfigureAwait(false);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult DeleteUser(String userId, int publicationId)
         {
-            var publication = db.Publication.Find(publicationId);
-            var user = publication.User.Where(x => x.Id == userId).FirstOrDefault();
+            var publication = _db.Publications.FindByIdAsync(publicationId).Result;
+            var user = publication.User.FirstOrDefault(x => x.Id == userId);
             if (user != null)
             {
                 publication.User.Remove(user);
                 user.Publication.Remove(publication);
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             return RedirectToAction("Edit", "Publications", new { id = publicationId });
-        }
-        protected override void Dispose(bool disposing)
-        {
-            //if (disposing && DB != null)
-            //{
-            //    DB.Dispose();
-            //    DB = null;
-            //}
-
-            //base.Dispose(disposing);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using ScientificReport.DAL.Abstraction;
 using ScientificReport.Services.Abstraction;
 using UserManagement.Converter;
 using UserManagement.Models.Reports;
@@ -18,18 +19,18 @@ namespace UserManagement.Controllers
 {
     public class ReportsController : Controller
     {
-        private static ApplicationDbContext db = new ApplicationDbContext();
+        private IUnitOfWork _db;
         private IReportService reportService;
 
-        public ReportsController(IReportService reportService)
+        public ReportsController(IReportService reportService,IUnitOfWork db)
         {
             this.reportService = reportService;
+            _db = db;
         }
 
         // GET: Report
         public ActionResult Index(string dateFrom, string dateTo, int? stepIndex, int? reportId)
         {
-            db = new ApplicationDbContext();
             string dateFromVerified = dateFrom ?? "";
             string dateToVerified = dateTo ?? "";
             ViewBag.dateFrom = dateFrom;
@@ -37,8 +38,8 @@ namespace UserManagement.Controllers
             ViewBag.stepIndex = stepIndex ?? 0;
             int reportVerifiedId = reportId ?? -1;
 
-            var currentUser = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-            var themes = db.ThemeOfScientificWork
+            var currentUser = _db.Users.GetAllAsync().Result.First(x => x.UserName == User.Identity.Name);
+            var themes = _db.ThemeOfScientificWorks.GetAllAsync().Result
                 .Where(x => x.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
             ViewBag.ScientificThemesByFaculty = themes.Select(x => {
                 var text = x.Financial == Financial.БЮДЖЕТ 
@@ -56,12 +57,12 @@ namespace UserManagement.Controllers
             Report oldReport;
             if (reportVerifiedId == -1)
             {
-                oldReport = db.Reports.Where(x => !x.IsSigned && x.User.UserName == User.Identity.Name).FirstOrDefault();
+                oldReport = _db.Reports.GetAllAsync().Result.FirstOrDefault(x => !x.IsSigned && x.User.UserName == User.Identity.Name);
             } else
             {
-                oldReport = db.Reports.Find(reportVerifiedId);
+                oldReport = _db.Reports.FindByIdAsync(reportVerifiedId).Result;
             }
-            var allPublications = db.Publication.Where(x => x.User.Any(y => y.UserName == User.Identity.Name)).ToList();
+            var allPublications = _db.Publications.GetAllAsync().Result.Where(x => x.User.Any(y => y.UserName == User.Identity.Name)).ToList();
             allPublications = allPublications.Where(x => 
             !x.AcceptedToPrintPublicationReport.Union(x.RecomendedPublicationReport).Union(x.PrintedPublicationReport)
             .Any(y => y.User.Id == currentUser.Id && ( y.IsSigned || y.IsConfirmed))).ToList();            
@@ -105,7 +106,7 @@ namespace UserManagement.Controllers
                 int indexOfDateAProtocol = 3;
                 if (reportViewModel.Id != null)
                 {
-                    var report = db.Reports.Find(reportViewModel.Id);
+                    var report = _db.Reports.FindByIdAsync(reportViewModel.Id.Value).Result;
                     if(report.Protocol == null || report.Date == null)
                     {
                         return RedirectToAction("Index", new { stepIndex = indexOfDateAProtocol, reportId = reportViewModel.Id });
@@ -161,23 +162,23 @@ namespace UserManagement.Controllers
             return File(System.Text.Encoding.GetEncoding(866).GetBytes(result), "application/x-latex", "report.tex");
         }
 
-        private void CreateOrUpdateReport(ReportViewModel reportViewModel, int stepIndex)
+        private async void CreateOrUpdateReport(ReportViewModel reportViewModel, int stepIndex)
         {
-            var allPublications = db.Publication.ToList();
-            if (reportViewModel.Id == null && !db.Reports.Any(x => x.Id == reportViewModel.Id))
+            var allPublications = _db.Publications.GetAllAsync().Result.ToList();
+            if (reportViewModel.Id == null && _db.Reports.GetAllAsync().Result.All(x => x.Id != reportViewModel.Id))
             {
                 var reportToCreate = ReportConverter.ConvertToEntity(reportViewModel);
-                reportToCreate.User = db.Users.Find(User.Identity.GetUserId());
-                reportToCreate.ThemeOfScientificWork = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
+                reportToCreate.User = _db.Users.FindByIdAsync(User.Identity.GetUserId()).Result;
+                reportToCreate.ThemeOfScientificWork = _db.ThemeOfScientificWorks.GetAllAsync().Result.Where(x => x.Id == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
                 reportToCreate.PrintedPublication = allPublications.Where(x => reportViewModel.PrintedPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
                 reportToCreate.RecomendedPublication = allPublications.Where(x => reportViewModel.RecomendedPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
                 reportToCreate.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
-                db.Reports.Add(reportToCreate);
-                db.SaveChanges();
+                await _db.Reports.CreateAsync(reportToCreate);
+                _db.SaveChanges();
             }
             else
             {
-                var report = db.Reports.Find(reportViewModel.Id);
+                var report = _db.Reports.FindByIdAsync(reportViewModel.Id.Value).Result;
                 switch (stepIndex)
                 {
                     case 0:
@@ -186,7 +187,7 @@ namespace UserManagement.Controllers
                         report.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
                         break;
                     case 1:
-                        report.ThemeOfScientificWork = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
+                        report.ThemeOfScientificWork = _db.ThemeOfScientificWorks.GetAllAsync().Result.FirstOrDefault(x => x.Id == reportViewModel.ThemeOfScientificWorkId);
                         report.ThemeOfScientificWorkDescription = reportViewModel.ThemeOfScientificWorkDescription;
                         break;
                     case 2:
@@ -207,7 +208,7 @@ namespace UserManagement.Controllers
                     default:
                         return;
                 }
-                db.SaveChanges();
+                _db.SaveChanges();
             }
         }
 

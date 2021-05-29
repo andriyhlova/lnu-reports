@@ -49,6 +49,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstraction\IReportListService.cs" />
+    <Compile Include="Abstraction\IReportCathedraListService.cs" />
     <Compile Include="Abstraction\ICathedraReportService.cs" />
     <Compile Include="Abstraction\ICathedraService.cs" />
     <Compile Include="Abstraction\IEmailService.cs" />
@@ -65,9 +68,15 @@
     <Compile Include="Abstraction\IServiceBase.cs" />
     <Compile Include="Abstraction\IThemeOfScientificWorksService.cs" />
     <Compile Include="Abstraction\IUserService.cs" />
+    <Compile Include="Abstraction\IManageService.cs" />
+    <Compile Include="Implementation\ReportListService.cs" />
+    <Compile Include="Implementation\ReportCathedraListService.cs" />
+    <Compile Include="Implementation\ManageService.cs" />
+    <Compile Include="Implementation\AccountService.cs" />
     <Compile Include="Implementation\CathedraReportService.cs" />
     <Compile Include="Implementation\CathedraService.cs" />
     <Compile Include="Implementation\EmailService.cs" />
+    <Compile Include="Abstraction\IAccountService.cs" />
     <Compile Include="Implementation\PublicationService.cs" />
     <Compile Include="Implementation\ReportService.cs" />
     <Compile Include="Implementation\ServiceBase.cs" />

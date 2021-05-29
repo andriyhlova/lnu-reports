@@ -102,9 +102,6 @@
         <th>
             Автори
         </th>
-        <th>
-            Інші автори
-        </th>
         <th></th>
     </tr>
 
@@ -119,19 +116,6 @@
             </td>
             <td>
                 @item.PublicationType.ToString().Replace('_', ' ')
-            </td>
-            <td>
-                @foreach (var user in item.User)
-                {
-                    foreach (var initial in user.I18nUserInitials)
-                    {
-                        if (initial.Language == item.Language)
-                        {
-                            <label style="font-weight:unset">@initial.FirstName @initial.LastName</label>
-                            break;
-                        }
-                    }
-                }
             </td>
             <td>
                 @if (item.OtherAuthors == null || item.OtherAuthors == "")
