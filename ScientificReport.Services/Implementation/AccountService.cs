@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ScientificReport.DAL.Abstraction;
 using ScientificReport.DAL.DTO;
 using ScientificReport.DAL.Enums;
@@ -37,14 +38,31 @@ namespace ScientificReport.Services.Implementation
             db.SaveChanges();
         }
 
-        public IEnumerable<string> GetCathedrasNames()
+        public async Task<IEnumerable<string>> GetCathedrasNames()
         {
-            return db.Cathedras.GetAllAsync().Result.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            var cathedras = await db.Cathedras.GetAllAsync();
+            return cathedras.OrderBy(x => x.Name).ToList().Select(x => x.Name);
         }
 
-        public IEnumerable<string> GetFacultiesNames()
+        public IEnumerable<string> GetCathedrasNamesByFacultyId(int facultyId)
         {
-            return db.Faculties.GetAllAsync().Result.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            return db.Cathedras.GetAllAsync().Result.Where(x => x.Faculty.Id == facultyId).OrderBy(x => x.Name).Select(x => x.Name).ToList();
+        }
+
+        public async Task<IEnumerable<string>> GetFacultiesNames()
+        {
+            var faculties = await db.Faculties.GetAllAsync();
+            return faculties.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+        }
+
+        public int? GetFacultyIdByName(string facultyName)
+        {
+            return db.Faculties.GetAllAsync().Result.FirstOrDefault(x => x.Name.Equals(facultyName))?.Id;
+        }
+
+        public string GetFacultyNameById(int id)
+        {
+            return db.Faculties.GetAllAsync().Result.First(x => x.Id == id).Name;
         }
     }
 }

@@ -100,10 +100,10 @@ namespace UserManagement.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
-            ViewBag.AllCathedras = accountService.GetCathedrasNames();
-            ViewBag.AllFaculties = accountService.GetFacultiesNames();
+            ViewBag.AllCathedras = await accountService.GetCathedrasNames();
+            ViewBag.AllFaculties = await accountService.GetFacultiesNames();
             return View();
         }
 
@@ -111,13 +111,13 @@ namespace UserManagement.Controllers
         [HttpGet]
         public PartialViewResult DisplayCathedras(string facultyName)
         {
-            int? facultyId = db.Faculty.FirstOrDefault(x => x.Name.Equals(facultyName))?.Id;
+            int? facultyId = accountService.GetFacultyIdByName(facultyName);
 
             var cathedras = new System.Collections.Generic.List<string>();
 
             if (facultyId != null)
             {
-                cathedras = db.Cathedra.Where(x => x.Faculty.Id == facultyId).OrderBy(x => x.Name).Select(x => x.Name).ToList();
+                cathedras = accountService.GetCathedrasNamesByFacultyId(facultyId.Value).ToList();
             }
 
             return PartialView(cathedras);
@@ -132,9 +132,9 @@ namespace UserManagement.Controllers
             if (ModelState.IsValid)
             {
                 var facultyId = int.Parse(model.Faculty);
-                model.Faculty = db.Faculty.First(x => x.Id == facultyId).Name;
-                model.Cathedra = db.Cathedra.ToList()
-                    .First(x => x.Name.StartsWith(model.Cathedra.Substring(model.Cathedra.IndexOf('-') + 2))).Name;
+                model.Faculty = accountService.GetFacultyNameById(facultyId);
+                var cathedras = await accountService.GetCathedrasNames();
+                model.Cathedra = cathedras.First(x => x.StartsWith(model.Cathedra.Substring(model.Cathedra.IndexOf('-') + 2)));
 
                 var user = new ApplicationUser
                 {

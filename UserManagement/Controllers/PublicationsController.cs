@@ -37,7 +37,7 @@ namespace UserManagement.Controllers
             int pageNumber = (page ?? 1);
             bool isMineWihoutNull = isMine ?? true;
             int cathedraNumber = string.IsNullOrEmpty(cathedra) ? -1 :
-                db.Cathedra.ToList()
+                _db.Cathedras.GetAllAsync().Result.ToList()
                     .First(x => x.Name.StartsWith(cathedra.Substring(cathedra.IndexOf('-') + 2))).Id;
             int facultyNumber = faculty ?? -1;
             string dateFromVerified = dateFrom ?? "";
