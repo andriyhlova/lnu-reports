@@ -56,7 +56,8 @@ namespace UserManagement.Controllers
             int facultyNumber = faculty ?? -1;
             ViewBag.IsActiveSortParm = sortOrder == null ? "is_active_desc" : sortOrder == "is_active" ? "is_active_desc" : "is_active";
             List<ApplicationUser> list = DB.Users.ToList();
-            var cathedas = DB.Cathedra.OrderBy(x => x.Name).ToList();
+            var cathedas = faculty.HasValue ? DB.Cathedra.Where(x => x.Faculty.ID == faculty).OrderBy(x => x.Name).ToList()
+                : DB.Cathedra.OrderBy(x => x.Name).ToList();
             var faculties = DB.Faculty.OrderBy(x => x.Name).ToList();
             Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
             list.ForEach(x =>

@@ -123,8 +123,8 @@ namespace UserManagement.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.AllCathedras = db.Cathedra.OrderBy(x=> x.Name).ToList().Select(x => x.Name);
-            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            ViewBag.AllCathedras = db.Cathedra.OrderBy(x=> x.Name);
+            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name);
             
             return View();
         }
