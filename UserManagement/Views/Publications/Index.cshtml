@@ -67,7 +67,7 @@
     </div>
 </form>
 <div style="display: flex; justify-content: space-between">
-    @Html.ActionLink("Створити", "Create")
+    @Html.ActionLink("Створити", "Create",new { language = "UA"})
     @{ 
         var text = User.IsInRole("Адміністрація ректорату") ? "Публікації університету"
             : User.IsInRole("Адміністрація деканату") ? "Публікації факультету"
@@ -100,9 +100,6 @@
         <th>
             Автори
         </th>
-        <th>
-            Інші автори
-        </th>
         <th></th>
     </tr>
 
@@ -119,26 +116,17 @@
                 @item.PublicationType.ToString().Replace('_', ' ')
             </td>
             <td>
-                @foreach (var user in item.User)
+                @if (!string.IsNullOrEmpty(item.AuthorsOrder))
                 {
-                    foreach (var initial in user.I18nUserInitials)
-                    {
-                        if (initial.Language == item.Language)
-                        {
-                            <label style="font-weight:unset">@initial.FirstName @initial.LastName</label>
-                            break;
-                        }
-                    }
+                    @Html.DisplayFor(modelItem => item.AuthorsOrder)
                 }
-            </td>
-            <td>
-                @if (item.OtherAuthors == null || item.OtherAuthors == "")
+                else if (!string.IsNullOrEmpty(item.OtherAuthors))
                 {
-                    <span>-</span>
+                    @Html.DisplayFor(modelItem => item.OtherAuthors)                
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.OtherAuthors)
+                    <span>--</span>
                 }
             </td>
             <td>

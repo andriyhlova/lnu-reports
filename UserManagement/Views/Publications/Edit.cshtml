@@ -39,60 +39,27 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Зареєстровані автори</label>
-                        <div class="col-md-10" style="padding-top:7px">
-                            @foreach (var i in Model.User)
-                            {
-                                foreach (var initial in i.I18nUserInitials)
-                                {
-                                    if (initial.Language == Model.Language)
-                                    {
-            <div>@initial.FirstName&nbsp;@initial.LastName</div> break;
-                                    }
-                                }
-            @Html.ActionLink("Видалити", "DeleteUser", new { publicationId = Model.ID, userId = i.Id })}
-                        </div>
-                    </div>
+    <input type="checkbox" style="margin:40px 15px; display: none" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true" />
+    <input name="mainAuthorFromOthers" type="hidden" value="true">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Перший автор - серед списку "Інші автори":</label>
-                        <input type="checkbox" style="margin:40px 15px" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true" />
-                        <input name="mainAuthorFromOthers" type="hidden" value="false">
-                    </div>
+    <div class="form-group">
+        <label class="control-label col-md-10">Увага! Авторів можна вибрати зі списку або ввести нових у форматі "Прізвище Ім'я По батькові,Прізвище Iм'я По батькові..."</label>
+    </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Інші автори</label>
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control", placeholder = "І. І. Петренко, В. В. Петренко" } })
-                            @Html.ValidationMessage("userToAdd", new { @class = "text-danger" })
-                        </div>
-                    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" id="authors">Автори</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control usersList", @multiple = "multiple", @list = "Suggestions", @id = "OtherAuthors" } })
+            @Html.ValidationMessage("userToAdd", new { @class = "text-danger" })
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Перший автор - серед списку доданих нижче авторів:</label>
-                        <input type="checkbox" style="margin:40px 15px" name="changeMainAuthor" id="changeMainAuthor" value="true" />
-                        <input name="changeMainAuthor" type="hidden" value="false">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Додати користувача як автора</label>
-                        @Html.DropDownList("UserToAdd",
-                              new SelectList(ViewBag.AllUsers, "Value", "Text"),
-                              new
-                              {
-                                  @class = "form-control col-md-2 chosen-select",
-                                  @Multiple = "multiple",
-                                  @id = "ddlMultiSelect",
-                              })
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Порядок авторів</label>
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control", @id = "AuthorsOrder", @name = "AuthorsOrder" } })
-                        </div>
-                    </div>
+            <datalist id="Suggestions">
+                @foreach (var x in ViewBag.AllUsers)
+                {
+                    <option>@x.Text</option>
+                }
+            </datalist>
+        </div>
+    </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Місто, де розташоване видавництво</label>
@@ -185,6 +152,9 @@
 
     .chosen-container {
         margin-left: 15px;
+    }
+    input[name=OtherAuthors] {
+        max-width: 100%;
     }
 </style>
 

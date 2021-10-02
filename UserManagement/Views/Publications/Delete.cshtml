@@ -20,11 +20,17 @@
         </dd>
 
         <dt>
-            Інші автори
+            Автори
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OtherAuthors)
+            @if (!string.IsNullOrEmpty(Model.AuthorsOrder))
+            {
+                @Html.DisplayFor(model => model.AuthorsOrder) }
+                            else if (!string.IsNullOrEmpty(Model.OtherAuthors))
+                            {
+                @Html.DisplayFor(model => model.OtherAuthors)
+            }
         </dd>
 
         <dt>

@@ -162,11 +162,7 @@ namespace UserManagement.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PublicationUsers = String.Join(", ", publication.User
-                .Select(x => String.Join(" ", x.I18nUserInitials.Single(y => y.Language == publication.Language).LastName,
-                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FirstName,
-                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FathersName))
-                    .ToList());
+            ViewBag.PublicationUsers = (publication.AuthorsOrder ?? publication.OtherAuthors)?.Split(',').ToList();
             return View(publication);
         }
 
@@ -227,14 +223,30 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            var userToAdd = new List<string>();
-            if (authorsOrder != null & !String.IsNullOrEmpty(authorsOrder[0]) & authorsOrder[0].Split(',').Length!=0)
+
+            var userToAdd = new List<ApplicationUser>();
+            var authorsArr = publication.OtherAuthors?.Split(',');
+            if (publication.OtherAuthors != null)
             {
-                foreach (var i in authorsOrder[0].Split(','))
+                foreach (var item in authorsArr)
                 {
-                    userToAdd.Add(filtered[Convert.ToInt32(i)].Id);
+                    var splitted = item.Split(' ');
+                    if (splitted.Length == 3)
+                    {
+                        var firstName = splitted[1];
+                        var lastName = splitted[0];
+                        var middleName = splitted[2];
+                        var user = db.Users.FirstOrDefault(x=>
+                        x.I18nUserInitials.Any(y=>y.FirstName == firstName && y.LastName == lastName && y.FathersName == middleName
+                        && y.Language == publication.Language));
+                        if (user != null)
+                        {
+                            userToAdd.Add(user);
+                        }
+                    }
                 }
             }
+
             if (string.IsNullOrEmpty(publication.Name))
             {
                 ModelState.AddModelError(nameof(publication.Name), "Введіть назву публікації");
@@ -252,10 +264,11 @@ namespace UserManagement.Controllers
             {
                 if (userToAdd != null)
                 {
+                    var userIds = userToAdd.Select(x => x.Id);
                     var publicationExists = db.Publication
                         .Any(x =>
                         x.Name == publication.Name
-                        && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
+                        && x.User.All(y=>userIds.Contains(y.Id))
                         && x.PublicationType == publication.PublicationType
                         );
                     if (publicationExists)
@@ -267,9 +280,8 @@ namespace UserManagement.Controllers
                     {
                         foreach (var current in userToAdd)
                         {
-                            var user = db.Users.Find(current);
-                            publication.User.Add(user);
-                            user.Publication.Add(publication);
+                            publication.User.Add(current);
+                            current.Publication.Add(publication);
                         }
                     }
                 }
@@ -278,60 +290,29 @@ namespace UserManagement.Controllers
                 {
                     if(!string.IsNullOrEmpty(publication.OtherAuthors))
                     {
-                        var values = publication.OtherAuthors.Split(',');
+                        var values = authorsArr;
                         values = values[0].Split();
-                        if(values.Length == 3)
+                        if (values.Length == 3)
                         {
-                            publication.MainAuthor = values[2] + " " + values[0] + " " + values[1];
-                            authors += values[0] + " " + values[1] + " " + values[2];
+                            publication.MainAuthor = values[0] + " " + values[1].FirstOrDefault() + ". " + values[2].FirstOrDefault() + ".";
+                            authors += values[1]?.FirstOrDefault() + ". " + values[2]?.FirstOrDefault() + ". " + values[0];
                         }
                     }
                 }
-                else
+                if (!string.IsNullOrEmpty(publication.OtherAuthors))
                 {
-                    var user = db.Users.Find(userToAdd[0]);
-                    var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    var lastName = initials.LastName ?? string.Empty;
-                    var firstname = initials.FirstName != null && initials.FirstName.Length > 1
-                        ? initials.FirstName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    var fatherName = initials.FathersName != null && initials.FathersName.Length > 1
-                        ? initials.FathersName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    publication.MainAuthor = lastName + " " + firstname + ". " + fatherName + ". ";
-                }
-                foreach (var user in publication.User)
-                {
-                    if(!string.IsNullOrEmpty(authors))
-                    {
-                        authors += ", ";
-                    }
-                    var initials = user?.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    var lastName = initials.LastName ?? string.Empty;
-                    var firstname = initials.FirstName != null && initials.FirstName.Length > 1
-                        ? initials.FirstName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-                    var fatherName = initials.FathersName != null && initials.FathersName.Length > 1
-                        ? initials.FathersName.Substring(0, 1).ToUpper()
-                        : string.Empty;
-
-                    authors += firstname
-                        + ". " + fatherName
-                        + ". " + lastName;
-                }
-                if(!string.IsNullOrEmpty(publication.OtherAuthors))
-                {
-                    var otherAuthors = publication.OtherAuthors.Split(',');
+                    var otherAuthors = authorsArr;
                     var start = 0;
                     if (mainAuthorFromOthers.Value)
                         start = 1;
                     for (int i = start; i < otherAuthors.Length; i++)
                     {
                         var author = otherAuthors[i].Split();
-                        if(author.Length == 3)
-                            authors += ", " + author[0] + " " + author[1] + " " + author[2];
+                        if (author.Length == 3)
+                            authors += ", " + author[1]?.FirstOrDefault() + ". " + author[2]?.FirstOrDefault() + ". " + author[0];
                     }
                 }
+
                 publication.AuthorsOrder = authors;
                 if(year.HasValue)
                     publication.Date = new DateTime(year.Value, 1, 1);
@@ -429,12 +410,26 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            var userToAdd = new List<string>();
-            if (authorsIds != null & !String.IsNullOrEmpty(authorsIds[0]) & authorsIds[0].Split(',').Length != 0)
+            var userToAdd = new List<ApplicationUser>();
+            var authorsArr = publication.OtherAuthors?.Split(',');
+            if (publication.OtherAuthors != null)
             {
-                foreach (var i in authorsIds[0].Split(','))
+                foreach (var item in authorsArr)
                 {
-                    userToAdd.Add(filtered[Convert.ToInt32(i)].Id);
+                    var splitted = item.Split(' ');
+                    if (splitted.Length == 3)
+                    {
+                        var firstName = splitted[1];
+                        var lastName = splitted[0];
+                        var middleName = splitted[2];
+                        var user = db.Users.FirstOrDefault(x =>
+                        x.I18nUserInitials.Any(y => y.FirstName == firstName && y.LastName == lastName && y.FathersName == middleName
+                        && y.Language == publication.Language));
+                        if (user != null)
+                        {
+                            userToAdd.Add(user);
+                        }
+                    }
                 }
             }
             if (string.IsNullOrEmpty(publication.Name))
@@ -454,21 +449,6 @@ namespace UserManagement.Controllers
 
             if (ModelState.IsValid)
             {
-                if(userToAdd != null)
-                {
-                    var publicationExists = db.Publication
-                        .Any(x =>
-                        x.ID != publication.ID
-                        && x.Name == publication.Name
-                        && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
-                        && x.PublicationType == publication.PublicationType
-                        );
-                    if (publicationExists)
-                    {
-                        ModelState.AddModelError("", "Така публікація вже існує");
-                        return View(publication);
-                    }
-                }
                 publicationFromDB.Name = publication.Name;
                 publicationFromDB.OtherAuthors = publication.OtherAuthors;
                 publicationFromDB.PublicationType = publication.PublicationType;
@@ -491,32 +471,42 @@ namespace UserManagement.Controllers
                 publicationFromDB.Tome = publication.Tome;
                 if (year.HasValue)
                     publicationFromDB.Date = new DateTime(year.Value, 1, 1);
-                if (publication.AuthorsOrder != null)
-                    publicationFromDB.AuthorsOrder = publication.AuthorsOrder;
+                if (!string.IsNullOrEmpty(publication.OtherAuthors))
+                {
+                    var otherAuthors = authorsArr;
+                    var authors = string.Empty;
+                    for (int i = 0; i < otherAuthors.Length; i++)
+                    {
+                        var author = otherAuthors[i].Split();
+                        if (author.Length == 3)
+                            authors += author[1]?.FirstOrDefault() + ". " + author[2]?.FirstOrDefault() + ". " + author[0] + ", ";
+                    }
+                    authors = authors.Remove(authors.Length - 2);
+                    publicationFromDB.AuthorsOrder = authors;
+                }
                 if (userToAdd != null && userToAdd.Count != 0)
                 {
                     foreach (var current in userToAdd)
                     {
-                        var user = db.Users.Find(current);
-                        publicationFromDB.User.Add(user);
-                        user.Publication.Add(publicationFromDB);
+                        publicationFromDB.User.Add(current);
+                        current.Publication.Add(publicationFromDB);
                     }
                 }
                 if (mainAuthorFromOthers.Value)
                 {
                     if (!string.IsNullOrEmpty(publication.OtherAuthors))
                     {
-                        var value = publication.OtherAuthors.Split(',');
+                        var value = authorsArr;
                         value = value[0].Split();
                         if (value.Length == 3)
-                            publicationFromDB.MainAuthor = value[2] + " " + value[0] + " " + value[1];
+                            publicationFromDB.MainAuthor = value[0] + " " + value[1].FirstOrDefault() + ". " + value[2].FirstOrDefault() + ".";
                     }
                 }
                 else if (changeMainAuthor.Value)
                 {
-                    if(userToAdd != null && userToAdd.Count > 0)
+                    if (userToAdd != null && userToAdd.Count > 0)
                     {
-                        var user = db.Users.Find(userToAdd[0]);
+                        var user = userToAdd[0];
                         var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                         publicationFromDB.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                     }
