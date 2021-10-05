@@ -63,7 +63,8 @@ namespace UserManagement.Models
         [Display(Name = "Рік закінчення перебування в докторантурі")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DoctorFinishYear { get; set; }
-
+        public string ApprovedById { get; set; }
+        public virtual ApplicationUser ApprovedBy { get; set; }
         [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }
         [Display(Name = "Науковий ступінь")]

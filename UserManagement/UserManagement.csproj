@@ -239,6 +239,10 @@
     <Compile Include="Migrations\202010052043383_AddedNonRequiredYearColumns.Designer.cs">
       <DependentUpon>202010052043383_AddedNonRequiredYearColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110050919357_AddedApprovedById.cs" />
+    <Compile Include="Migrations\202110050919357_AddedApprovedById.Designer.cs">
+      <DependentUpon>202110050919357_AddedApprovedById.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
@@ -409,6 +413,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010052043383_AddedNonRequiredYearColumns.resx">
       <DependentUpon>202010052043383_AddedNonRequiredYearColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110050919357_AddedApprovedById.resx">
+      <DependentUpon>202110050919357_AddedApprovedById.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

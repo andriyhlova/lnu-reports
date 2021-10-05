@@ -56,6 +56,7 @@ namespace UserManagement.Services
         private static String PUNKT_9_OTHER_TABLE = "{PUNKT_9_OTHER_TABLE}";
         private static String PUNKT_9_ARTICLES_HEADER = "{PUNKT_9_ARTICLES_HEADER}";
         private static String PUNKT_9_ARTICLES_INTERNATIONAL = "{PUNKT_9_ARTICLES_INTERNATIONAL}";
+        private static String PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS}";
         private static String PUNKT_9_ARTICLES_NATIONAL_FAH = "{PUNKT_9_ARTICLES_NATIONAL_FAH}";
         private static String PUNKT_9_ARTICLES_NATIONAL = "{PUNKT_9_ARTICLES_NATIONAL}";
         private static String PUNKT_9_CONFERENCES_HEADER = "{PUNKT_9_CONFERENCES_HEADER}";
@@ -142,6 +143,7 @@ namespace UserManagement.Services
                 + PUNKT_9_OTHER
                 + PUNKT_9_OTHER_TABLE
                 + PUNKT_9_ARTICLES_HEADER
+                + PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS
                 + PUNKT_9_ARTICLES_INTERNATIONAL
                 + PUNKT_9_ARTICLES_NATIONAL_FAH
                 + PUNKT_9_ARTICLES_NATIONAL
@@ -205,6 +207,8 @@ namespace UserManagement.Services
             var punktNineOtherTable = GetPublicationTableGeneric(PublicationType.Інше_Наукове_Видання, distinctPublications);
 
             var punktNineArticlesHeader = GetArticlesHeader(distinctPublications);
+            var punktNineArticlesInternationalScienceDb = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesInternationalScienceDb(),
+                PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних, distinctPublications);
             var punktNineArticlesInternational = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesInternational(), 
                 PublicationType.Стаття_В_Закордонних_Виданнях, distinctPublications);
             var punktNineArticlesNational = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesNational(),
@@ -266,6 +270,7 @@ namespace UserManagement.Services
                 [PUNKT_9_OTHER] = punktNineOther,
                 [PUNKT_9_OTHER_TABLE] = punktNineOtherTable,
                 [PUNKT_9_ARTICLES_HEADER] = punktNineArticlesHeader,
+                [PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS] = punktNineArticlesInternationalScienceDb,
                 [PUNKT_9_ARTICLES_INTERNATIONAL] = punktNineArticlesInternational,
                 [PUNKT_9_ARTICLES_NATIONAL_FAH] = punktNineArticlesNationalFah,
                 [PUNKT_9_ARTICLES_NATIONAL] = punktNineArticlesNational,
@@ -481,7 +486,7 @@ namespace UserManagement.Services
             {
                 if (item.PublicationType == type)
                 {
-                    toReturn += index + ". " + publicationService.GenerateNameOfPublication(item) + "\n\r";
+                    toReturn += index + ". " + publicationService.GenerateNameOfPublication(item) + "<br/>";
                     index++;
                 }
             }
@@ -721,6 +726,12 @@ namespace UserManagement.Services
         private string GetTitleForArticlesInternational()
         {
             return @"Статті в інших закордонних виданнях:";
+        }
+
+        private string GetTitleForArticlesInternationalScienceDb()
+        {
+            return @"Статті в інших виданнях, які включені до міжнародних наукометричних баз даних Web of
+                Science, Scopus та інших:";
         }
 
         private string GetTitleForArticlesNational()

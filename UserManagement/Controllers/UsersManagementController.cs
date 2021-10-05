@@ -223,7 +223,7 @@ namespace UserManagement.Controllers
             {
                 emailService.SendEmail(user.Email, "Підтвердження користувача",
                 "Ваш профіль підтверджено в системі звітування <a href=\"https://swr.abtollc.com\">https://swr.abtollc.com</a>.");
-                //send email
+                user.ApprovedById = User.Identity.GetUserId();
             }
             user.IsActive = applicationUser.IsActive;
             DB.SaveChanges();
