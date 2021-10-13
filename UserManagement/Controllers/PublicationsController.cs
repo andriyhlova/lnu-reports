@@ -162,7 +162,8 @@ namespace UserManagement.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PublicationUsers = (publication.AuthorsOrder ?? publication.OtherAuthors)?.Split(',').ToList();
+
+            ViewBag.PublicationUsers = (publication.AuthorsOrder ?? publication.OtherAuthors)?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
             return View(publication);
         }
 
@@ -225,7 +226,8 @@ namespace UserManagement.Controllers
                     .ToList();
 
             var userToAdd = new List<ApplicationUser>();
-            var authorsArr = publication.OtherAuthors?.Split(',');
+            publication.OtherAuthors = publication.OtherAuthors?.Trim();
+            var authorsArr = publication.OtherAuthors?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             if (publication.OtherAuthors != null)
             {
                 foreach (var item in authorsArr)
@@ -410,8 +412,9 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            var userToAdd = new List<ApplicationUser>();
-            var authorsArr = publication.OtherAuthors?.Split(',');
+            var userToAdd = new List<ApplicationUser>(); 
+            publication.OtherAuthors = publication.OtherAuthors?.Trim();
+            var authorsArr = publication.OtherAuthors?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             if (publication.OtherAuthors != null)
             {
                 foreach (var item in authorsArr)
