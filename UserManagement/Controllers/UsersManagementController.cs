@@ -223,7 +223,7 @@ namespace UserManagement.Controllers
             if(!user.IsActive && applicationUser.IsActive)
             {
                 emailService.SendEmail(user.Email, "Підтвердження користувача",
-                "Ваш профіль підтверджено в системі звітування <a href=\"https://swr.abtollc.com\">https://swr.abtollc.com</a>.");
+                "Ваш профіль підтверджено в системі звітування <a href=\"https://srs.lnu.edu.ua\">https://srs.lnu.edu.ua</a>.");
                 user.ApprovedById = User.Identity.GetUserId();
             }
             user.IsActive = applicationUser.IsActive;
