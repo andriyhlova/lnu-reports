@@ -62,6 +62,7 @@ namespace UserManagement.Controllers
             PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
             bool hasUser = !string.IsNullOrEmpty(user);
             var allPublications = db.Publication
+                .Include(x=>x.User)
                 .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))
@@ -75,7 +76,7 @@ namespace UserManagement.Controllers
 
         private void PutCathedraAndFacultyIntoViewBag(bool isMine = false)
         {
-            var users = db.Users.Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
+            var users = db.Users.Include(x=>x.I18nUserInitials).Include(x=>x.Cathedra).Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
             var cathedas = db.Cathedra.OrderBy(x => x.Name).ToList();
             var faculties = db.Faculty.OrderBy(x => x.Name).ToList();
             var currentUser = UserManager.FindByName(User.Identity.Name);
@@ -171,22 +172,27 @@ namespace UserManagement.Controllers
         public ActionResult Create(string language)
         {
             var languageVerified = language == null || language == "" ? "UA" : language;
-            var users = db.Users.Where(x => x.IsActive == true).ToList();
+            var users = db.Users.Include(x=>x.I18nUserInitials).Include(x=>x.Roles).Where(x => x.IsActive == true).ToList();
+            var roles = db.Roles.Where(x=> x.Name == "Працівник"
+            || x.Name == "Керівник кафедри"
+            || x.Name == "Адміністрація ректорату"
+            || x.Name == "Адміністрація деканату").Select(x=>x.Id).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які",", які"), Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
-                .Select(x =>
-                     new SelectListItem
-                     {
-                         Selected = false,
-                         Text = String.Join(" ", x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified)).LastName,
-                                                 x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified)).FirstName,
-                                                 x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified)).FathersName),
-                         Value = x.Id
+                .Where(x => x.Roles.Any(y=>roles.Contains(y.RoleId)))
+                .Select(x => {
+                    var name = x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified));
+                    return new SelectListItem
+                    {
+                        Selected = false,
+                        Text = string.Join(" ", name.LastName,
+                                                name.FirstName,
+                                                name.FathersName),
+                        Value = x.Id
+                    };
                      })
                     .ToList();
             ViewBag.CurrentUser = users
@@ -354,20 +360,25 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();            
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var users = db.Users.ToList();
+            var users = db.Users.Include(x => x.I18nUserInitials).Include(x => x.Roles).ToList();
+            var roles = db.Roles.Where(x => x.Name == "Працівник"
+            || x.Name == "Керівник кафедри"
+            || x.Name == "Адміністрація ректорату"
+            || x.Name == "Адміністрація деканату").Select(x => x.Id).ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") ||
-                UserManager.IsInRole(x.Id, "Адміністрація деканату") || UserManager.IsInRole(x.Id, "Керівник кафедри"))
-                .Where(y => !publication.User.Contains(y) && y.IsActive)
+                .Where(x => x.Roles.Any(y => roles.Contains(y.RoleId)) && !publication.User.Contains(x) && x.IsActive)
                 .Select(x =>
-                     new SelectListItem
-                     {
-                         Selected = false,
-                         Text = String.Join(" ", x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).LastName,
-                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FirstName,
-                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FathersName),
-                         Value = x.Id
-                     })
+                {
+                    var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language);
+                    return new SelectListItem
+                    {
+                        Selected = false,
+                        Text = String.Join(" ", name.LastName,
+                                                name.FirstName,
+                                                name.FathersName),
+                        Value = x.Id
+                    };
+                })
                     .ToList();
             ViewBag.PagesFrom = 0;
             ViewBag.PagesTo = 0;
