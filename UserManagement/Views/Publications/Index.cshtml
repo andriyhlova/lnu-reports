@@ -61,7 +61,7 @@
     </div>
 </form>
 <div style="display: flex; justify-content: space-between">
-    @Html.ActionLink("Створити", "Create")
+    @Html.ActionLink("Створити", "Create",new { language = "UA"})
     @{ 
         var text = User.IsInRole("Адміністрація ректорату") ? "Публікації університету"
             : User.IsInRole("Адміністрація деканату") ? "Публікації факультету"
