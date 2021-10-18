@@ -174,8 +174,8 @@ namespace UserManagement.Controllers
                 }
                 AddErrors(result);
             }
-            ViewBag.AllCathedras = db.Cathedra.OrderBy(x => x.Name).ToList().Select(x => x.Name);
-            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList().Select(x => x.Name);
+            ViewBag.AllCathedras = db.Cathedra.OrderBy(x => x.Name).ToList();
+            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList();
             return View(model);
         }
 
