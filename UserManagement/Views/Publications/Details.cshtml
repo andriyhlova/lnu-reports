@@ -109,6 +109,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) |
+    @if (Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name))
+    {
+        @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) <span>|</span>
+    }
     @Html.ActionLink("Повернутись до списку", "Index")
 </p>
