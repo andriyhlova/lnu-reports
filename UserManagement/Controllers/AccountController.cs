@@ -137,42 +137,50 @@ namespace UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                var cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
+                if(cathedra == null)
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    BirthDate = new DateTime(1950,1,1),
-                    PublicationCounterBeforeRegistration = 0,
-                    MonographCounterBeforeRegistration = 0,
-                    BookCounterBeforeRegistration = 0,
-                    TrainingBookCounterBeforeRegistration = 0,
-                    OtherWritingCounterBeforeRegistration = 0,
-                    ConferenceCounterBeforeRegistration = 0,
-                    PatentCounterBeforeRegistration = 0
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Працівник");
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    var u = db.Users.Where(x => x.UserName == model.Email).First();
-                    u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
-                    foreach (var i in Enum.GetNames(typeof(Language)))
-                    {
-                        u.I18nUserInitials.Add(new I18nUserInitials()
-                        {
-                            Language = (Language)Enum.Parse(typeof(Language), i),
-                            FirstName = "",
-                            LastName = "",
-                            FathersName = "",
-                            User = u,
-                        });
-                    }
-                    db.SaveChanges();
-                    TempData["Success"] = true;
-                    return  RedirectToAction("Login", "Account");
+                    ModelState.AddModelError("", "Будь ласка, виберіть кафедру зі списку");
                 }
-                AddErrors(result);
+                else
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        BirthDate = new DateTime(1950, 1, 1),
+                        PublicationCounterBeforeRegistration = 0,
+                        MonographCounterBeforeRegistration = 0,
+                        BookCounterBeforeRegistration = 0,
+                        TrainingBookCounterBeforeRegistration = 0,
+                        OtherWritingCounterBeforeRegistration = 0,
+                        ConferenceCounterBeforeRegistration = 0,
+                        PatentCounterBeforeRegistration = 0
+                    };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Працівник");
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                        var u = db.Users.Where(x => x.UserName == model.Email).First();
+                        u.Cathedra = cathedra;
+                        foreach (var i in Enum.GetNames(typeof(Language)))
+                        {
+                            u.I18nUserInitials.Add(new I18nUserInitials()
+                            {
+                                Language = (Language)Enum.Parse(typeof(Language), i),
+                                FirstName = "",
+                                LastName = "",
+                                FathersName = "",
+                                User = u,
+                            });
+                        }
+                        db.SaveChanges();
+                        TempData["Success"] = true;
+                        return RedirectToAction("Login", "Account");
+                    }
+                    AddErrors(result);
+                }
             }
             ViewBag.AllCathedras = db.Cathedra.OrderBy(x => x.Name).ToList();
             ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList();
