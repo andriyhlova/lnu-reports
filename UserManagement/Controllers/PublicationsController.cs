@@ -181,7 +181,7 @@ namespace UserManagement.Controllers
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
-                .Where(x => x.Roles.Any(y=>roles.Contains(y.RoleId)))
+                .Where(x => x.IsActive && x.Roles.Any(y=>roles.Contains(y.RoleId)))
                 .Select(x => {
                     var name = x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified));
                     return new SelectListItem
@@ -210,25 +210,29 @@ namespace UserManagement.Controllers
             [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include = "authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
             [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
-            var users = db.Users.Where(x => x.IsActive == true).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var filtered = users
-                .Where(x => UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")).ToList();
-            ViewBag.AllUsers = filtered
+            var users = db.Users.Include(x => x.I18nUserInitials).Include(x => x.Roles).ToList();
+            var roles = db.Roles.Where(x => x.Name == "Працівник"
+            || x.Name == "Керівник кафедри"
+            || x.Name == "Адміністрація ректорату"
+            || x.Name == "Адміністрація деканату").Select(x => x.Id).ToList();
+            ViewBag.AllUsers = users
+                .Where(x => x.IsActive && x.Roles.Any(y => roles.Contains(y.RoleId)))
                 .Select(x =>
-                     new SelectListItem
-                     {
-                         Selected = false,
-                         Text = String.Join(" ", x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).LastName,
-                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FirstName,
-                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FathersName),
-                         Value = x.Id
-                     })
-                    .ToList();
+                {
+                    var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language);
+                    return new SelectListItem
+                    {
+                        Selected = false,
+                        Text = String.Join(" ", name.LastName,
+                                                name.FirstName,
+                                                name.FathersName),
+                        Value = x.Id
+                    };
+                }).ToList();
 
             var userToAdd = new List<ApplicationUser>();
             publication.OtherAuthors = publication.OtherAuthors?.Trim();
@@ -365,7 +369,7 @@ namespace UserManagement.Controllers
             || x.Name == "Адміністрація ректорату"
             || x.Name == "Адміністрація деканату").Select(x => x.Id).ToList();
             ViewBag.AllUsers = users
-                .Where(x => x.Roles.Any(y => roles.Contains(y.RoleId)) && !publication.User.Contains(x) && x.IsActive)
+                .Where(x => x.IsActive && x.Roles.Any(y => roles.Contains(y.RoleId)))
                 .Select(x =>
                 {
                     var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language);
@@ -377,8 +381,7 @@ namespace UserManagement.Controllers
                                                 name.FathersName),
                         Value = x.Id
                     };
-                })
-                    .ToList();
+                }).ToList();
             ViewBag.PagesFrom = 0;
             ViewBag.PagesTo = 0;
             if(publication.Pages != null)
@@ -406,22 +409,26 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
+            var users = db.Users.Include(x => x.I18nUserInitials).Include(x=>x.Roles).Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
+            var roles = db.Roles.Where(x => x.Name == "Працівник"
+            || x.Name == "Керівник кафедри"
+            || x.Name == "Адміністрація ректорату"
+            || x.Name == "Адміністрація деканату").Select(x => x.Id).ToList();
             var publicationFromDB = db.Publication.Find(publication.ID);
             var filtered = users
-                .Where(y => !publicationFromDB.User.Contains(y))
-                .Where(x => (UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
+                .Where(y => y.IsActive && y.Roles.Any(z => roles.Contains(z.RoleId))).ToList();
             ViewBag.AllUsers = filtered.Select(x =>
-                     new SelectListItem
-                     {
-                         Selected = false,
-                         Text = String.Join(" ", x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).LastName,
-                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FirstName,
-                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FathersName),
-                         Value = x.Id
-                     })
-                    .ToList();
+            {
+                    var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language);
+                    return new SelectListItem
+                    {
+                        Selected = false,
+                        Text = String.Join(" ", name.LastName,
+                                                name.FirstName,
+                                                name.FathersName),
+                        Value = x.Id
+                    };
+            }).ToList();
             var userToAdd = new List<ApplicationUser>(); 
             publication.OtherAuthors = publication.OtherAuthors?.Trim();
             var authorsArr = publication.OtherAuthors?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
