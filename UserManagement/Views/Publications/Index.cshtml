@@ -196,7 +196,8 @@
             var str = "<option value=''>Виберіть кафедру</option>";
             for (var i = 0; i < opts.length; i++) {
                 if (facultyElem.value == '' || opts[i].faculty == facultyElem.value) {
-                    str += `<option value='${opts[i].value}' data-faculty='${opts[i].faculty}' ${opts[i].value == @ViewBag.cathedra ? 'selected' : ''}>${opts[i].text}</option>`;
+                    let selected = opts[i].value == '@ViewBag.cathedra' ? 'selected' : '';
+                    str += `<option value='${opts[i].value}' data-faculty='${opts[i].faculty}' ${selected}>${opts[i].text}</option>`;
                 }
             }
             $("#cathedra-selector").html(str);
