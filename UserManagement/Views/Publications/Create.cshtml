@@ -190,10 +190,11 @@
       }
         if (input.list instanceof HTMLDataListElement) {
             const optionsValues = Array.from(input.list.options).map(opt => opt.value);
-          let valueCount = input.value.split(separator).length;
+            let valueCount = input.value.split(separator).length;
             input.addEventListener("input", () => {
-                const currentValueCount = input.value.split(separator).length;
-              if (valueCount !== currentValueCount) {
+                let splitted = input.value.split(separator);
+                const currentValueCount = splitted.length;
+                if (currentValueCount != valueCount && splitted[splitted.length - 1].length > 0) {
                     const lsIndex = input.value.lastIndexOf(separator);
                     const str = lsIndex !== -1 ? input.value.substr(0, lsIndex) + separator : "";
                     filldatalist(input, optionsValues, str);
