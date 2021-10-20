@@ -41,7 +41,7 @@ namespace UserManagement.Controllers
         }
         
         // GET: Publications
-        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, string cathedraName, int? faculty, string user)
+        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty, string user)
         {
             int pageSize = 15;
             int pageNumber = (page ?? 1);
@@ -58,7 +58,6 @@ namespace UserManagement.Controllers
             ViewBag.dateFrom = dateFrom;
             ViewBag.dateTo = dateTo;
             ViewBag.page = pageNumber;
-            ViewBag.cathedraName = cathedraName;
             PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
             bool hasUser = !string.IsNullOrEmpty(user);
             var allPublications = db.Publication

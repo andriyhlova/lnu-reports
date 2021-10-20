@@ -21,23 +21,20 @@
             @Html.DropDownList("faculty",
                           new SelectList(ViewBag.AllFaculties, "Value", "Text", ViewBag.facultyNumber),
                           "Виберіть факультет",
-                          new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
+                          new { @class = "form-control chosen-select", @Value = ViewBag.faculty })
         </div>
         }
         @if ((ViewBag.isMine && User.IsInRole("Адміністрація деканату")) || !ViewBag.isMine)
         {
             <div>
-                <div class="form-group">
                     <label>Кафедра</label>
-                    <input type="hidden" name="cathedra" value="@ViewBag.cathedra" />
-                    <input list="cathedra-selector" name="cathedraName" autocomplete="off" style="height:25px;" value="@ViewBag.cathedraName" />
-                    <datalist id="cathedra-selector">
+                    <select id="cathedra-selector" class="form-control chosen-select" name="cathedra">
+                        <option value="">Виберіть кафедру</option>
                         @foreach (var cathedra in ViewBag.AllCathedras)
                         {
-                            <option value='@cathedra.Name' data-faculty='@cathedra.Faculty.ID' data-id="@cathedra.ID">@cathedra.Name</option>
+                            <option value="@cathedra.ID" data-faculty="@cathedra.Faculty.ID">@cathedra.Name</option>
                         }
-                    </datalist>
-                </div>
+                    </select>
             </div>
         }
         @if ((ViewBag.isMine 
@@ -174,7 +171,7 @@
     }
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+@section Scripts {
 <script src="../Scripts/chosen.jquery.js" type="text/javascript"></script>
 <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 
@@ -182,15 +179,9 @@
     let cathedrasSelectOptions = document.getElementById("cathedra-selector").options;
     var opts = [];
     for (var i = 0; i < cathedrasSelectOptions.length; i++) {
-        opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, id: cathedrasSelectOptions[i].dataset.id });
+        opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, text: cathedrasSelectOptions[i].text });
     }
     function updateSelect() {
-        $('.chosen-select').on("change", function () {
-            $('#cathedraForm').submit();
-        })
-        $('.chosen-select-faculty').on("change", function () {
-            $('#facultyForm').submit();
-        })
         $('.chosen-select').chosen(
             {
                 allow_single_deselect: false,
@@ -198,45 +189,22 @@
                 no_results_text: 'Не знайдено',
             }
         );
-        $('.chosen-select-faculty').chosen(
-            {
-                allow_single_deselect: false,
-                disable_search_threshold: 10,
-                no_results_text: 'Не знайдено',
-            }
-        );
-    }
-    function submitDate() {
-        $('#dateForm').submit();
     }
     function addFacultyPickerListener() {
         let facultyElem = document.getElementById("faculty");
         $('#faculty').change(function (e) {
-            var str = "";
-            if (facultyElem.value === "") {
-                for (var i = 0; i < opts.length; i++) {
-                    str += `<option value='${opts[i].value}' data-faculty='${opts[i].faculty}' data-id='${opts[i].id}'>${opts[i].value}</option>`;
-                }
-            } else {
-                for (var i = 0; i < opts.length; i++) {
-                    if (opts[i].faculty == facultyElem.value) {
-                        str += `<option value='${opts[i].value}' data-faculty='${opts[i].faculty}' data-id='${opts[i].id}'>${opts[i].value}</option>`;
-                    }
+            var str = "<option value=''>Виберіть кафедру</option>";
+            for (var i = 0; i < opts.length; i++) {
+                if (facultyElem.value == '' || opts[i].faculty == facultyElem.value) {
+                    str += `<option value='${opts[i].value}' data-faculty='${opts[i].faculty}' ${opts[i].value == @ViewBag.cathedra ? 'selected' : ''}>${opts[i].text}</option>`;
                 }
             }
-            document.getElementById("cathedra-selector").innerHTML = str;
+            $("#cathedra-selector").html(str);
+            $("#cathedra-selector").trigger("chosen:updated");
         });
     }
     addFacultyPickerListener();
     updateSelect();
-    $(document).on('change', 'input[name="cathedraName"]', function () {
-        var optionslist = $('datalist')[0].options;
-        var value = $(this).val();
-        for (var x = 0; x < optionslist.length; x++) {
-            if (optionslist[x].value === value) {
-                $('input[name=cathedra]').val(optionslist[x].dataset.id);
-            }
-        }
-    });
     $('#faculty').change();
 </script>
+}

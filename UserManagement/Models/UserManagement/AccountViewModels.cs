@@ -47,13 +47,13 @@ namespace UserManagement.Models
         [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Виберіть кафедру зі списку")]
         [Display(Name = "Кафедра")]
-        public string Cathedra { get; set; }
+        public int Cathedra { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Виберіть факультет зі списку")]
         [Display(Name = "Факультет")]
-        public string Faculty { get; set; }
+        public int Faculty { get; set; }
     }
 
 
