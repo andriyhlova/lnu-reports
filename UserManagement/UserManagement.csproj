@@ -377,6 +377,7 @@
     <Content Include="Views\AcademicStatus\Delete.cshtml" />
     <Content Include="Views\AcademicStatus\Edit.cshtml" />
     <Content Include="Views\AcademicStatus\Index.cshtml" />
+    <Content Include="Views\UsersManagement\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

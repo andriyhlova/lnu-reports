@@ -233,6 +233,36 @@ namespace UserManagement.Controllers
         }
 
         [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser applicationUser = DB.Users.Find(id);
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+            var userRoles = applicationUser.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList();
+            ViewBag.RolesForThisUser = userRoles;
+            return View(applicationUser);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(ApplicationUser applicationUser)
+        {
+            var id = applicationUser.Id;
+            var user = DB.Users.Include(x=>x.I18nUserInitials).FirstOrDefault(x=>x.Id == id);
+            user.I18nUserInitials.Clear();
+            var reports = DB.Reports.Include(x => x.User).Where(x => x.User.Id == id);
+            DB.Reports.RemoveRange(reports);
+            DB.Users.Remove(user);
+            DB.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public ActionResult DeleteRole(String userId, String roleName)
         {
             UserManager.RemoveFromRole(userId, roleName);
