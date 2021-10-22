@@ -61,7 +61,7 @@ namespace UserManagement.Controllers
             PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
             bool hasUser = !string.IsNullOrEmpty(user);
             var allPublications = db.Publication
-                .Include(x=>x.User)
+                .Include(x=> x.User.Select(y => y.Cathedra))
                 .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))

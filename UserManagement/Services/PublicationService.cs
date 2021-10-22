@@ -140,8 +140,13 @@ namespace UserManagement.Services
         }
         public string GetPunktSixTwo(Report report)
         {
-            var count = report.RecomendedPublication.Count();
-            return count == 0 ? "" : GenerateTemplateForGenericPunktHeader(GetTitleForPunktSixTwo());
+            var collection = report.RecomendedPublication
+                .Where(x=> x.PublicationType != PublicationType.Монографія
+                && x.PublicationType != PublicationType.Підручник
+                && x.PublicationType != PublicationType.Навчальний_Посібник
+                && x.PublicationType != PublicationType.Інше_Наукове_Видання)
+                .ToList();
+            return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixTwo()));
         }
         public string GetPunktSixTwoMono(Report report)
         {
