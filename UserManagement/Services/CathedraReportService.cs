@@ -304,9 +304,9 @@ namespace UserManagement.Services
 
         private string GenerateTemplateForGenericPunkt(String title)
         {
-            return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            return "<div class=\"block\"><p style=\"margin-left:34px\">"
                 + title
-                + "</p><p class=\"input-text\" style=\"white-space:pre;\">"
+                + "</p><p class=\"input-text\" style=\"white-space:pre-line;\">"
                 + GENERIC_TEXT_CONST
                 + "</p></div>";
         }
@@ -531,7 +531,7 @@ namespace UserManagement.Services
         {
             return "<div class=\"block\"><p class=\"header\"><b>"
                 + title
-                + "</b></p><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspВидано "
+                + "</b></p><p style=\"margin-left:34px\">Видано "
                 + countPublications
                 + " " + type
                 + " загальним обсягом "
@@ -675,7 +675,7 @@ namespace UserManagement.Services
 
         private string GenerateTemplateForGenericPunktHeader(String title)
         {
-            return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+            return "<div class=\"block\"><p style=\"margin-left:34px\">"
                 + title
                 + "</p></div>";
         }

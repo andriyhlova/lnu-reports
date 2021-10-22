@@ -266,27 +266,27 @@ namespace UserManagement.Services
 
         private string GenerateTemplateForPunktOne()
         {
-            return "<div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
+            return "<div class=\"block\"><p style=\"margin-left:34px\">1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
                 + "Тема " +  FINANCIAL  + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST
-                + "</i></p><p class=\"input-text block\" style=\"white-space:pre;\">"
+                + "</i></p><p class=\"input-text block\" style=\"white-space:pre-line;\">"
                 + DESCR_SCIENTIFIC_WORK_CONST
                 + "</p></div>";
         }
         private string GenerateTemplateForGenericPunkt(String title)
         {
-            return "<div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            return "<div class=\"block\"><p style=\"margin-left:34px\">"
                 + title +
-                "</p><p class=\"input-text\" style=\"white-space:pre;\">"
+                "</p><p class=\"input-text\" style=\"white-space:pre-line;\">"
                 + GENERIC_TEXT_CONST
                 + "</p></div>";
         }
 
         private string GenerateTemplateForPunktSixTable()
         {
-            return "<div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.</p><table class=\"table-report\"><tr><th>Загальна кількість наукових публікацій</th><th>Разом</th><th>За звітний період</th></tr><tr><td>Монографії</td><td>"
+            return "<div class=\"block\"><p style=\"margin-left:34px\">6.</p><table class=\"table-report\"><tr><th>Загальна кількість наукових публікацій</th><th>Разом</th><th>За звітний період</th></tr><tr><td>Монографії</td><td>"
                 + MONOGRAPH_ALL_CONST
                 + "</td><td>"
                 + MONOGRAPH_PERIOD_CONST
@@ -538,7 +538,7 @@ namespace UserManagement.Services
 
         private string GenerateTemplateForGenericPunktHeader(String title)
         {
-            return "<div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            return "<div class=\"block\"><p style=\"margin-left:\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + title
                 + "</p></div>";
         }

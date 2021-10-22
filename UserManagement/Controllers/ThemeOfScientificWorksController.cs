@@ -12,7 +12,7 @@ using UserManagement.Models.db;
 
 namespace UserManagement.Controllers
 {
-    [Authorize(Roles = "Керівник кафедри")]
+    [Authorize(Roles = "Керівник кафедри, Адміністрація деканату")]
     public class ThemeOfScientificWorksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,8 +22,22 @@ namespace UserManagement.Controllers
         {
             int pageSize = 15;
             int pageNumber = (page ?? 1);
-            var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-            var scientifthemes = db.ThemeOfScientificWork.Where(x => x.Cathedra.ID == user.Cathedra.ID).ToList();
+            var user = db.Users.Include(x=>x.Roles)
+                .Where(x => x.UserName == User.Identity.Name).First();
+            var roles = db.Roles.ToList();
+            var cathedraAdmin = roles.FirstOrDefault(x => x.Name == "Керівник кафедри");
+            var facultyAdmin = roles.FirstOrDefault(x => x.Name == "Адміністрація деканату");
+            var scientifthemes = new List<ThemeOfScientificWork>();
+            if (user.Roles.Any(x=>x.RoleId == facultyAdmin.Id))
+            {
+                scientifthemes = db.ThemeOfScientificWork.Include(x=>x.Cathedra.Faculty)
+                    .Where(x => x.Cathedra.Faculty.ID == user.Cathedra.Faculty.ID).ToList();
+            }
+            else if(user.Roles.Any(x=>x.RoleId == cathedraAdmin.Id))
+            {
+                scientifthemes = db.ThemeOfScientificWork.Include(x => x.Cathedra)
+                    .Where(x => x.Cathedra.ID == user.Cathedra.ID).ToList();
+            }
             return View(scientifthemes.ToPagedList(pageNumber, pageSize));
         }
 
