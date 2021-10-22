@@ -271,7 +271,7 @@ namespace UserManagement.Services
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST
-                + "</i></p><p class=\"input-text block\">"
+                + "</i></p><p class=\"input-text block\" style=\"white-space:pre;\">"
                 + DESCR_SCIENTIFIC_WORK_CONST
                 + "</p></div>";
         }
@@ -279,7 +279,7 @@ namespace UserManagement.Services
         {
             return "<div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + title +
-                "</p><p class=\"input-text\">"
+                "</p><p class=\"input-text\" style=\"white-space:pre;\">"
                 + GENERIC_TEXT_CONST
                 + "</p></div>";
         }

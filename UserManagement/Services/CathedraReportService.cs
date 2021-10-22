@@ -306,7 +306,7 @@ namespace UserManagement.Services
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
                 + title
-                + "</p><p class=\"input-text\">"
+                + "</p><p class=\"input-text\" style=\"white-space:pre;\">"
                 + GENERIC_TEXT_CONST
                 + "</p></div>";
         }

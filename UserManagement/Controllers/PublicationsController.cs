@@ -306,7 +306,15 @@ namespace UserManagement.Controllers
                         if (values.Length == 3)
                         {
                             publication.MainAuthor = values[0] + " " + values[1].FirstOrDefault() + ". " + values[2].FirstOrDefault() + ".";
-                            authors += values[1]?.FirstOrDefault() + ". " + values[2]?.FirstOrDefault() + ". " + values[0];
+                            if (values.Length >= 2)
+                            {
+                                authors += values[1]?.FirstOrDefault() + ". ";
+                                if (values.Length == 3)
+                                {
+                                    authors += values[2]?.FirstOrDefault() + ". ";
+                                }
+                                authors += values[0];
+                            }
                         }
                     }
                 }
@@ -319,8 +327,15 @@ namespace UserManagement.Controllers
                     for (int i = start; i < otherAuthors.Length; i++)
                     {
                         var author = otherAuthors[i].Split();
-                        if (author.Length == 3)
-                            authors += ", " + author[1]?.FirstOrDefault() + ". " + author[2]?.FirstOrDefault() + ". " + author[0];
+                        if(author.Length >= 2)
+                        {
+                            authors += ", " + author[1]?.FirstOrDefault() + ". ";
+                            if(author.Length == 3)
+                            {
+                                authors += author[2]?.FirstOrDefault() + ". ";
+                            }
+                            authors += author[0];
+                        }
                     }
                 }
 
@@ -498,8 +513,15 @@ namespace UserManagement.Controllers
                     for (int i = 0; i < otherAuthors.Length; i++)
                     {
                         var author = otherAuthors[i].Split();
-                        if (author.Length == 3)
-                            authors += author[1]?.FirstOrDefault() + ". " + author[2]?.FirstOrDefault() + ". " + author[0] + ", ";
+                        if (author.Length >= 2)
+                        {
+                            authors += author[1]?.FirstOrDefault() + ". ";
+                            if (author.Length == 3)
+                            {
+                                authors += author[2]?.FirstOrDefault() + ". ";
+                            }
+                            authors += author[0] + ", ";
+                        }
                     }
                     authors = authors.Remove(authors.Length - 2);
                     publicationFromDB.AuthorsOrder = authors;
