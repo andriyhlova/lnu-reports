@@ -266,8 +266,8 @@ namespace UserManagement.Services
 
         private string GenerateTemplateForPunktOne()
         {
-            return "<div class=\"block\"><p style=\"margin-left:34px\">1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
-                + "Тема " +  FINANCIAL  + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
+            return "<div class=\"block\"><p style=\"margin-left:34px\">1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p><p class=\"input-text\"><i>"
+                + "Тема " +  FINANCIAL  + " - " + THEME_SCIENTIFIC_WORK_CONST + ". " //
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST

@@ -128,7 +128,7 @@
             </td>
             <td>
 
-                @if (item.User.Any(x => x.UserName == User.Identity.Name))
+                @if (item.User.Any(x => x.UserName == User.Identity.Name) || User.IsInRole("Superadmin"))
                 {
                     @Html.ActionLink("Редагувати", "Edit", new { id = item.ID })
                 }
@@ -176,10 +176,13 @@
 <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
-    let cathedrasSelectOptions = document.getElementById("cathedra-selector").options;
-    var opts = [];
-    for (var i = 0; i < cathedrasSelectOptions.length; i++) {
-        opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, text: cathedrasSelectOptions[i].text });
+    let el = document.getElementById("cathedra-selector");
+    if (el) {
+        let cathedrasSelectOptions = document.getElementById("cathedra-selector").options;
+        var opts = [];
+        for (var i = 0; i < cathedrasSelectOptions.length; i++) {
+            opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, text: cathedrasSelectOptions[i].text });
+        }
     }
     function updateSelect() {
         $('.chosen-select').chosen(
