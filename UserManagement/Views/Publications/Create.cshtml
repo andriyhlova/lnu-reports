@@ -190,13 +190,23 @@
       }
         if (input.list instanceof HTMLDataListElement) {
             const optionsValues = Array.from(input.list.options).map(opt => opt.value);
-            let valueCount = input.value.split(separator).length;
+            let valueCount = input.value ? input.value.split(separator).length : 0;
             input.addEventListener("input", () => {
-                let splitted = input.value.split(separator);
+                let splitted = input.value.split(separator).filter(x=>x);
                 const currentValueCount = splitted.length;
-                if (currentValueCount != valueCount && splitted[splitted.length - 1].length > 0) {
+                if (currentValueCount != valueCount) {
                     const lsIndex = input.value.lastIndexOf(separator);
-                    const str = lsIndex !== -1 ? input.value.substr(0, lsIndex) + separator : "";
+                    let str = '';
+                    if (lsIndex !== -1 && (input.value.length - lsIndex != separator.length)) {
+                        str = input.value.substr(0, lsIndex) + separator;
+                    }
+                    else if (lsIndex !== -1) {
+                        let ind = input.value.substr(0, lsIndex).lastIndexOf(separator);
+                        if (ind != -1) {
+                            str = input.value.substr(0, ind) + separator;
+                        }
+                    }
+                    //const str = lsIndex !== -1 ? input.value.substr(0, lsIndex) + separator : "";
                     filldatalist(input, optionsValues, str);
                     valueCount = currentValueCount;
                 }
@@ -208,8 +218,10 @@
         if (list && optionValues.length > 0) {
             list.innerHTML = "";
             const usedOptions = optionPrefix.split(separator).map(value => value.trim());
-            for (const optionsValue of optionValues) {
-                if (usedOptions.indexOf(optionsValue) < 0) {
+            let splitted = input.value.split(separator).filter(x=>x);
+              for (const optionsValue of optionValues) {
+                  if (usedOptions.indexOf(optionsValue) < 0
+                      && (!splitted.length || optionsValue.startsWith(splitted[splitted.length - 1][0]))) {
                     const option = document.createElement("option");
                     option.value = optionPrefix + optionsValue;
                     list.append(option);
