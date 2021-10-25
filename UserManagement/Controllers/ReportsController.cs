@@ -18,8 +18,15 @@ namespace UserManagement.Controllers
 {
     public class ReportsController : Controller
     {
-        private static ApplicationDbContext db = new ApplicationDbContext();
-        private ReportService reportService = new ReportService(db);
+        private ApplicationDbContext db;
+        private ReportService reportService;
+
+        public ReportsController()
+        {
+            db = new ApplicationDbContext();
+            reportService = new ReportService(db);
+        }
+
         // GET: Report
         public ActionResult Index(string dateFrom, string dateTo, int? stepIndex, int? reportId)
         {
@@ -32,8 +39,10 @@ namespace UserManagement.Controllers
             int reportVerifiedId = reportId ?? -1;
 
             var currentUser = db.Users.Where(x => x.UserName == User.Identity.Name).First();
+            var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
             var themes = db.ThemeOfScientificWork
-                .Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
+                .Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID
+                && x.PeriodTo >= currentYear).ToList();
             ViewBag.ScientificThemesByFaculty = themes.Select(x => {
                 var text = x.Financial == Financial.БЮДЖЕТ 
                 ? $"{x.Code} {x.Value}"
@@ -175,6 +184,9 @@ namespace UserManagement.Controllers
                 switch (stepIndex)
                 {
                     case 0:
+                        report.PrintedPublication.Clear();
+                        report.RecomendedPublication.Clear();
+                        report.AcceptedToPrintPublication.Clear();
                         report.PrintedPublication = allPublications.Where(x => reportViewModel.PrintedPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.RecomendedPublication = allPublications.Where(x => reportViewModel.RecomendedPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();

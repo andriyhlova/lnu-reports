@@ -18,8 +18,15 @@ namespace UserManagement.Controllers
     [Authorize(Roles = "Керівник кафедри")]
     public class ReportsCathedraController : Controller
     {
-        private static ApplicationDbContext db = new ApplicationDbContext();
-        private CathedraReportService cathedraReportService = new CathedraReportService(db);
+        private ApplicationDbContext db;
+        private CathedraReportService cathedraReportService;
+
+        public ReportsCathedraController()
+        {
+            db = new ApplicationDbContext();
+            cathedraReportService = new CathedraReportService(db);
+        }
+
         // GET: Report
         public ActionResult Index(int? stepIndex, int? reportId)
         {
