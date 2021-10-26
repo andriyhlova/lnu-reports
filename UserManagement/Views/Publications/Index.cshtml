@@ -128,7 +128,7 @@
             </td>
             <td>
 
-                @if (item.User.Any(x => x.UserName == User.Identity.Name) || User.IsInRole("Superadmin"))
+                @if (item.User.Any(x => x.UserName == User.Identity.Name) || User.IsInRole("Superadmin") || User.IsInRole("Адміністрація деканату"))
                 {
                     @Html.ActionLink("Редагувати", "Edit", new { id = item.ID })
                 }

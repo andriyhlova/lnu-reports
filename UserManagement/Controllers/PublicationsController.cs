@@ -523,7 +523,10 @@ namespace UserManagement.Controllers
                             authors += author[0] + ", ";
                         }
                     }
-                    authors = authors.Remove(authors.Length - 2);
+                    if (authors.Length >= 2)
+                    {
+                        authors = authors.Remove(authors.Length - 2);
+                    }
                     publicationFromDB.AuthorsOrder = authors;
                 }
                 if (userToAdd != null && userToAdd.Count != 0)

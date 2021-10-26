@@ -109,7 +109,7 @@
     </dl>
 </div>
 <p>
-    @if (Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name))
+    @if ((Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name)) || User.IsInRole("Superadmin") || User.IsInRole("Адміністрація деканату"))
     {
         @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) <span>|</span>
     }
