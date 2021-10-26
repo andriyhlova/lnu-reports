@@ -61,7 +61,7 @@ namespace UserManagement.Controllers
             PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
             bool hasUser = !string.IsNullOrEmpty(user);
             var allPublications = db.Publication
-                .Include(x=> x.User.Select(y => y.Cathedra))
+                .Include(x=> x.User.Select(y => y.Cathedra.Faculty))
                 .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))
@@ -70,6 +70,10 @@ namespace UserManagement.Controllers
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && Convert.ToDateTime(x.Date) >= DateTime.Parse(dateFromVerified)))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && Convert.ToDateTime(x.Date) <= DateTime.Parse(dateToVerified)))
                 .ToList();
+            var currentUser = UserManager.FindByName(User.Identity.Name);
+            var userCathedra = currentUser.Cathedra;
+            ViewBag.UserFaculty = userCathedra.Faculty.ID;
+            ViewBag.UserCathedra = userCathedra.ID;
             return GetRightPublicationView(allPublications, isMineWihoutNull, pageNumber, pageSize, searchString);
         }
 
@@ -162,6 +166,11 @@ namespace UserManagement.Controllers
             {
                 return HttpNotFound();
             }
+
+            var currentUser = UserManager.FindByName(User.Identity.Name);
+            var userCathedra = currentUser.Cathedra;
+            ViewBag.UserFaculty = userCathedra.Faculty.ID;
+            ViewBag.UserCathedra = userCathedra.ID;
 
             ViewBag.PublicationUsers = (publication.AuthorsOrder ?? publication.OtherAuthors)?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
             return View(publication);
@@ -531,6 +540,7 @@ namespace UserManagement.Controllers
                 }
                 if (userToAdd != null && userToAdd.Count != 0)
                 {
+                    publicationFromDB.User?.Clear();
                     foreach (var current in userToAdd)
                     {
                         publicationFromDB.User.Add(current);

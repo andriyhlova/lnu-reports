@@ -109,7 +109,10 @@
     </dl>
 </div>
 <p>
-    @if ((Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name)) || User.IsInRole("Superadmin") || User.IsInRole("Адміністрація деканату"))
+    @if ((Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name))
+        || User.IsInRole("Superadmin")
+        || User.IsInRole("Адміністрація деканату") && Model.User != null && Model.User.Any(x => x.Cathedra.Faculty.ID == (int)ViewBag.UserFaculty)
+        || User.IsInRole("Керівник кафедри") && Model.User != null && Model.User.Any(x => x.Cathedra.ID == (int)ViewBag.UserCathedra))
     {
         @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) <span>|</span>
     }
