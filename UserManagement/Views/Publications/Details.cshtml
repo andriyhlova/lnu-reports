@@ -112,7 +112,7 @@
     @if ((Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name))
         || User.IsInRole("Superadmin")
         || User.IsInRole("Адміністрація деканату")
-        || User.IsInRole("Керівник кафедри") && Model.User != null && Model.User.Any(x => x.Cathedra.ID == (int)ViewBag.UserCathedra))
+        || User.IsInRole("Керівник кафедри"))
     {
         @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) <span>|</span>
     }

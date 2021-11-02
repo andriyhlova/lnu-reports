@@ -31,12 +31,16 @@ namespace UserManagement.Controllers
             if (user.Roles.Any(x=>x.RoleId == facultyAdmin.Id))
             {
                 scientifthemes = db.ThemeOfScientificWork.Include(x=>x.Cathedra.Faculty)
-                    .Where(x => x.Cathedra.Faculty.ID == user.Cathedra.Faculty.ID).ToList();
+                    .Where(x => x.Cathedra.Faculty.ID == user.Cathedra.Faculty.ID)
+                    .OrderByDescending(x=>x.PeriodTo)
+                    .ToList();
             }
             else if(user.Roles.Any(x=>x.RoleId == cathedraAdmin.Id))
             {
                 scientifthemes = db.ThemeOfScientificWork.Include(x => x.Cathedra)
-                    .Where(x => x.Cathedra.ID == user.Cathedra.ID).ToList();
+                    .Where(x => x.Cathedra.ID == user.Cathedra.ID)
+                    .OrderByDescending(x => x.PeriodTo)
+                    .ToList();
             }
             return View(scientifthemes.ToPagedList(pageNumber, pageSize));
         }

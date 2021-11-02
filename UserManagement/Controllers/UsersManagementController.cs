@@ -258,6 +258,13 @@ namespace UserManagement.Controllers
             user.I18nUserInitials.Clear();
             var reports = DB.Reports.Include(x => x.User).Where(x => x.User.Id == id);
             DB.Reports.RemoveRange(reports);
+            var cathedraReports = DB.CathedraReport.Include(x => x.User).Where(x => x.User.Id == id);
+            DB.CathedraReport.RemoveRange(cathedraReports);
+            var approvedUsers = DB.Users.Where(x => x.ApprovedById == id);
+            foreach(var item in approvedUsers)
+            {
+                item.ApprovedById = null;
+            }
             DB.Users.Remove(user);
             DB.SaveChanges();
             return RedirectToAction("Index");

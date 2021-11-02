@@ -65,15 +65,12 @@ namespace UserManagement.Controllers
                 .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))
+                .OrderByDescending(x=> x.Date)
                 .ToList();
             allPublications = allPublications
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && Convert.ToDateTime(x.Date) >= DateTime.Parse(dateFromVerified)))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && Convert.ToDateTime(x.Date) <= DateTime.Parse(dateToVerified)))
                 .ToList();
-            var currentUser = UserManager.FindByName(User.Identity.Name);
-            var userCathedra = currentUser.Cathedra;
-            ViewBag.UserFaculty = userCathedra.Faculty.ID;
-            ViewBag.UserCathedra = userCathedra.ID;
             return GetRightPublicationView(allPublications, isMineWihoutNull, pageNumber, pageSize, searchString);
         }
 
@@ -166,11 +163,6 @@ namespace UserManagement.Controllers
             {
                 return HttpNotFound();
             }
-
-            var currentUser = UserManager.FindByName(User.Identity.Name);
-            var userCathedra = currentUser.Cathedra;
-            ViewBag.UserFaculty = userCathedra.Faculty.ID;
-            ViewBag.UserCathedra = userCathedra.ID;
 
             ViewBag.PublicationUsers = (publication.AuthorsOrder ?? publication.OtherAuthors)?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
             return View(publication);
@@ -312,18 +304,17 @@ namespace UserManagement.Controllers
                     {
                         var values = authorsArr;
                         values = values[0].Split();
-                        if (values.Length == 3)
+
+                        if (values.Length >= 2)
                         {
-                            publication.MainAuthor = values[0] + " " + values[1].FirstOrDefault() + ". " + values[2].FirstOrDefault() + ".";
-                            if (values.Length >= 2)
+                            publication.MainAuthor = values[0] + " " + values[1].FirstOrDefault() + ".";
+                            authors += values[1]?.FirstOrDefault() + ". ";
+                            if (values.Length == 3)
                             {
-                                authors += values[1]?.FirstOrDefault() + ". ";
-                                if (values.Length == 3)
-                                {
-                                    authors += values[2]?.FirstOrDefault() + ". ";
-                                }
-                                authors += values[0];
+                                publication.MainAuthor += " "+values[2].FirstOrDefault()+".";
+                                authors += values[2]?.FirstOrDefault() + ". ";
                             }
+                            authors += values[0];
                         }
                     }
                 }
@@ -553,17 +544,14 @@ namespace UserManagement.Controllers
                     {
                         var value = authorsArr;
                         value = value[0].Split();
-                        if (value.Length == 3)
-                            publicationFromDB.MainAuthor = value[0] + " " + value[1].FirstOrDefault() + ". " + value[2].FirstOrDefault() + ".";
-                    }
-                }
-                else if (changeMainAuthor.Value)
-                {
-                    if (userToAdd != null && userToAdd.Count > 0)
-                    {
-                        var user = userToAdd[0];
-                        var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                        publicationFromDB.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
+                        if (value.Length >= 2)
+                        {
+                            publicationFromDB.MainAuthor = value[0] + " " + value[1].FirstOrDefault() + ".";
+                            if(value.Length == 3)
+                            {
+                                publicationFromDB.MainAuthor += " " + value[2].FirstOrDefault() + ".";
+                            }
+                        }
                     }
                 }
                 db.SaveChanges();

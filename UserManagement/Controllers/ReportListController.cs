@@ -39,6 +39,7 @@ namespace UserManagement.Controllers
                 && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
+                .OrderByDescending(x=>x.Date)
                 .ToList();
             }
             else
@@ -46,6 +47,7 @@ namespace UserManagement.Controllers
                 reports = db.Reports.Where(x => x.User.Id == currentUser.Id)
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
+                .OrderByDescending(x => x.Date)
                 .ToList();
             }
             return View(reports.ToPagedList(pageNumber, pageSize));
