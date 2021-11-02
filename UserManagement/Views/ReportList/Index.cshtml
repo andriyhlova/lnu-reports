@@ -161,4 +161,4 @@
 </script>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index"))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

@@ -178,6 +178,7 @@ namespace UserManagement.Controllers
             || x.Name == "Адміністрація ректорату"
             || x.Name == "Адміністрація деканату").Select(x=>x.Id).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
+                .Where(x => x != nameof(PublicationType.Стаття))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які",", які"), Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
@@ -212,6 +213,7 @@ namespace UserManagement.Controllers
             [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
+                .Where(x => x != nameof(PublicationType.Стаття))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
@@ -375,6 +377,7 @@ namespace UserManagement.Controllers
                 return HttpNotFound();
             }            
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
+                .Where(x => x != nameof(PublicationType.Стаття))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();            
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
@@ -421,6 +424,7 @@ namespace UserManagement.Controllers
             [Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
+                .Where(x => x != nameof(PublicationType.Стаття))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();

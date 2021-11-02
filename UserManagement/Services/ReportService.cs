@@ -409,9 +409,10 @@ namespace UserManagement.Services
             var allConferences = user.ConferenceCounterBeforeRegistration;
             var allPatents = user.PatentCounterBeforeRegistration;
 
-            var allPulications = db.Publication.Where(x => x.User.Any(y => y.Id == report.User.Id)).ToList();
+            var allPulications = db.Publication.Where(x => x.User.Any(y => y.Id == report.User.Id) 
+            && x.PrintedPublicationReport.Any()).ToList();
             var dictionary = allPulications.GroupBy(x => x.PublicationType).ToDictionary(x => x.Key, x => x.Count());
-            var allPublicationInReport = report.PrintedPublication.Union(report.RecomendedPublication).Union(report.AcceptedToPrintPublication);
+            var allPublicationInReport = report.PrintedPublication;
             var dictionaryInReport = allPublicationInReport.GroupBy(x => x.PublicationType).ToDictionary(x => x.Key, x => x.Count());
             return ReplaceStringWithParameters(GenerateTemplateForPunktSixTable(), new Dictionary<string, string>()
             {
@@ -462,24 +463,24 @@ namespace UserManagement.Services
         }
         private string GetPunktSevenOne(Report report)
         {
-            if ((report.PatentForInevention == null || report.ParticipationInGrands == ""))
+            if ((report.ApplicationForInevention == null || report.ApplicationForInevention == ""))
             {
                 return "";
             }
             return ReplaceStringWithParameters(GenerateTemplateForGenericPunkt(GetTitleForPunktSevenOne()), new Dictionary<string, string>()
             {
-                [GENERIC_TEXT_CONST] = report.PatentForInevention,
+                [GENERIC_TEXT_CONST] = report.ApplicationForInevention,
             });
         }
         private string GetPunktSevenTwo(Report report)
         {
-            if ((report.ApplicationForInevention == null || report.ApplicationForInevention == ""))
+            if ((report.PatentForInevention == null || report.ParticipationInGrands == ""))
             {
                 return "";
             }
             return ReplaceStringWithParameters(GenerateTemplateForGenericPunkt(GetTitleForPunktSevenTwo()), new Dictionary<string, string>()
             {
-                [GENERIC_TEXT_CONST] = report.ApplicationForInevention,
+                [GENERIC_TEXT_CONST] = report.PatentForInevention,
             });
         }
         private string GetPunktEight(Report report)

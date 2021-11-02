@@ -3,6 +3,7 @@ using Rotativa;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -35,7 +36,8 @@ namespace UserManagement.Controllers
             var reportVerifiedId = reportId ?? -1;
 
             var currentUser = db.Users.First(x => x.UserName == User.Identity.Name);
-            var allReports = db.Reports.Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null).ToList();
+            var allReports = db.Reports.Include(x=>x.ThemeOfScientificWork)
+                .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null).ToList();
             List<Report> lectorsReports = new List<Report>();
             if(stepIndex==0)
             {
@@ -50,9 +52,9 @@ namespace UserManagement.Controllers
                 lectorsReports = allReports.Where(x => x.ThemeOfScientificWork.Financial == Financial.ГОСПДОГОВІР).ToList();
             }
             ViewBag.AllThemeDescriptions = lectorsReports
-               .GroupBy(x => x.ThemeOfScientificWork.ID).ToDictionary(k => k.Key.ToString(), v => v.Select(y => y.ThemeOfScientificWorkDescription).ToList());
+               .GroupBy(x => x.ThemeOfScientificWork.ID).ToDictionary(k => k.Key.ToString(), v => new List<string> { v.FirstOrDefault()?.ThemeOfScientificWorkDescription });
 
-            var themes = lectorsReports.Select(x => x.ThemeOfScientificWork).ToList();
+            var themes = lectorsReports.GroupBy(x => x.ThemeOfScientificWork).Select(x=>x.Key).ToList();
             ViewBag.ScientificThemesByFaculty = themes.Select(x => {
                 var text = x.Financial == Financial.БЮДЖЕТ
                 ? $"{x.Code} {x.Value}"
@@ -186,8 +188,11 @@ namespace UserManagement.Controllers
                     case 0:
                         report.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.BudgetThemeId).FirstOrDefault();
                         if (reportViewModel.PrintedPublicationBudgetTheme != null)
+                        {
+                            report.PrintedPublicationBudgetTheme.Clear();
                             report.PrintedPublicationBudgetTheme = allPublications
                             .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                        }
                         report.AllDescriptionBudgetTheme = reportViewModel.AllDescriptionBudgetTheme;
                         report.CVBudgetTheme = reportViewModel.CVBudgetTheme;
                         report.ApplicationAndPatentsOnInventionBudgetTheme = reportViewModel.ApplicationAndPatentsOnInventionBudgetTheme;
@@ -197,8 +202,11 @@ namespace UserManagement.Controllers
                     case 1:
                         report.ThemeInWorkTime = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeInWorkTimeId).FirstOrDefault();
                         if (reportViewModel.PrintedPublicationThemeInWorkTime != null)
+                        {
+                            report.PrintedPublicationThemeInWorkTime.Clear();
                             report.PrintedPublicationThemeInWorkTime = allPublications
                             .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                        }
                         report.AllDescriptionThemeInWorkTime = reportViewModel.AllDescriptionThemeInWorkTime;
                         report.CVThemeInWorkTime = reportViewModel.CVThemeInWorkTime;
                         report.ApplicationAndPatentsOnInventionThemeInWorkTime = reportViewModel.ApplicationAndPatentsOnInventionThemeInWorkTime;
@@ -208,8 +216,11 @@ namespace UserManagement.Controllers
                     case 2:
                         report.HospDohovirTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.HospDohovirThemeId).FirstOrDefault();
                         if (reportViewModel.PrintedPublicationHospDohovirTheme != null)
+                        {
+                            report.PrintedPublicationHospDohovirTheme.Clear();
                             report.PrintedPublicationHospDohovirTheme = allPublications
                             .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                        }
                         report.AllDescriptionHospDohovirTheme = reportViewModel.AllDescriptionHospDohovirTheme;
                         report.CVHospDohovirTheme = reportViewModel.CVHospDohovirTheme;
                         report.ApplicationAndPatentsOnInventionHospDohovirTheme = reportViewModel.ApplicationAndPatentsOnInventionHospDohovirTheme;

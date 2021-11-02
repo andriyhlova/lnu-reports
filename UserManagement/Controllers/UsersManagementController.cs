@@ -188,7 +188,7 @@ namespace UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName," +
             "IsActive,PasswordHash,SecurityStamp,BirthDate,GraduationDate,AwardingDate,DefenseYear")] ApplicationUser applicationUser, 
-            [Bind(Include = "RoleToAdd")] string roleToAdd)
+            [Bind(Include = "RoleToAdd")] string roleToAdd, UserUpdateViewModel model)
         {
             var userRoles = applicationUser.Roles
                 .Where(x => DB.Roles.Find(x.RoleId).Name != "Superadmin")
@@ -229,6 +229,8 @@ namespace UserManagement.Controllers
                 user.ApprovedById = User.Identity.GetUserId();
             }
             user.IsActive = applicationUser.IsActive;
+            user.I18nUserInitials.Clear();
+            user.I18nUserInitials = model.I18nUserInitials;
             DB.SaveChanges();
             return RedirectToAction("Index");
         }
