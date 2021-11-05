@@ -97,12 +97,12 @@ namespace UserManagement.Controllers
             ViewBag.AllUsers = users
                 .Select(x =>
                 {
-                    var init = x.I18nUserInitials.First(y => y.Language == Language.UA);
+                    var init = x.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA);
                     return new SelectListItem
                     {
-                        Text = String.Join(" ", init.LastName,
-                                                init.FirstName,
-                                                init.FathersName),
+                        Text = String.Join(" ", init?.LastName,
+                                                init?.FirstName,
+                                                init?.FathersName),
                         Value = x.Id
                     };
                 }).ToList();
@@ -185,13 +185,13 @@ namespace UserManagement.Controllers
             ViewBag.AllUsers = users
                 .Where(x => x.IsActive && x.Roles.Any(y=>roles.Contains(y.RoleId)))
                 .Select(x => {
-                    var name = x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified));
+                    var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified));
                     return new SelectListItem
                     {
                         Selected = false,
-                        Text = string.Join(" ", name.LastName,
-                                                name.FirstName,
-                                                name.FathersName),
+                        Text = string.Join(" ", name?.LastName,
+                                                name?.FirstName,
+                                                name?.FathersName),
                         Value = x.Id
                     };
                      })
@@ -230,9 +230,9 @@ namespace UserManagement.Controllers
                     return new SelectListItem
                     {
                         Selected = false,
-                        Text = String.Join(" ", name.LastName,
-                                                name.FirstName,
-                                                name.FathersName),
+                        Text = String.Join(" ", name?.LastName,
+                                                name?.FirstName,
+                                                name?.FathersName),
                         Value = x.Id
                     };
                 }).ToList();
@@ -394,9 +394,9 @@ namespace UserManagement.Controllers
                     return new SelectListItem
                     {
                         Selected = false,
-                        Text = String.Join(" ", name.LastName,
-                                                name.FirstName,
-                                                name.FathersName),
+                        Text = String.Join(" ", name?.LastName,
+                                                name?.FirstName,
+                                                name?.FathersName),
                         Value = x.Id
                     };
                 }).ToList();
@@ -442,9 +442,9 @@ namespace UserManagement.Controllers
                     return new SelectListItem
                     {
                         Selected = false,
-                        Text = String.Join(" ", name.LastName,
-                                                name.FirstName,
-                                                name.FathersName),
+                        Text = String.Join(" ", name?.LastName,
+                                                name?.FirstName,
+                                                name?.FathersName),
                         Value = x.Id
                     };
             }).ToList();

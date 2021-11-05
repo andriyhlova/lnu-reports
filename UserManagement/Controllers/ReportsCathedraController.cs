@@ -31,13 +31,13 @@ namespace UserManagement.Controllers
         // GET: Report
         public ActionResult Index(int? stepIndex, int? reportId)
         {
-            db = new ApplicationDbContext();
             ViewBag.stepIndex = stepIndex ?? 0;
             var reportVerifiedId = reportId ?? -1;
 
-            var currentUser = db.Users.First(x => x.UserName == User.Identity.Name);
+            var currentUser = db.Users.Include(x=>x.Cathedra).First(x => x.UserName == User.Identity.Name);
             var allReports = db.Reports.Include(x=>x.ThemeOfScientificWork)
-                .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null).ToList();
+                .Include(x=>x.User.Cathedra)
+                .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null);
             List<Report> lectorsReports = new List<Report>();
             if(stepIndex==0)
             {

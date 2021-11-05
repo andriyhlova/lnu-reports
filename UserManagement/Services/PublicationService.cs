@@ -46,13 +46,18 @@ namespace UserManagement.Services
             else
             {
                 if (publication.Language == Language.UA)
-                    toReturn = toReturn + "– C. ";
+                    toReturn = toReturn + (!FinishesWithHyphen(toReturn) ? "–" : "") + " C. ";
                 if (publication.Language == Language.EN)
-                    toReturn = toReturn + "– P. ";
+                    toReturn = toReturn + (!FinishesWithHyphen(toReturn) ? "–" : "") + " P. ";
                 toReturn = toReturn + (publication.Pages == null ? "" : (publication.Pages + ". "));
             }
             toReturn = toReturn + (publication.DOI == null ? "" : "(" + publication.DOI + ")." );
             return toReturn;
+        }
+
+        private bool FinishesWithHyphen(string text)
+        {
+            return text.EndsWith("-") || text.EndsWith("–") || text.EndsWith("- ") || text.EndsWith("– ");
         }
 
         public string GenerateNameOfPublications(List<Publication> publications)
