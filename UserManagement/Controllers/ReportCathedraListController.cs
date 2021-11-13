@@ -34,18 +34,18 @@ namespace UserManagement.Controllers
             List<CathedraReport> reports = new List<CathedraReport>();
             var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
             var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            if (User.IsInRole("Керівник кафедри"))
+            if (User.IsInRole("Адміністрація деканату"))
             {
-                reports = db.CathedraReport.Include(x => x.User.Cathedra)
-                    .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID)
+                reports = db.CathedraReport.Include(x => x.User.Cathedra.Faculty)
+                    .Where(x => x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
                 .ToList();
             }
-            else if (User.IsInRole("Адміністрація деканату"))
+            else if (User.IsInRole("Керівник кафедри"))
             {
-                reports = db.CathedraReport.Include(x => x.User.Cathedra.Faculty)
-                    .Where(x => x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                reports = db.CathedraReport.Include(x => x.User.Cathedra)
+                    .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID)
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
                 .ToList();

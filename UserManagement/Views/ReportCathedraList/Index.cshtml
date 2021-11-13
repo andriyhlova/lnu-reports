@@ -5,13 +5,13 @@
     ViewBag.Title = "Звіти кафедри";
 }
 
-@if (User.IsInRole("Керівник кафедри"))
-{
-    <h2>Звіти кафедри</h2>
-}
-else if (User.IsInRole("Адміністрація деканату"))
+@if (User.IsInRole("Адміністрація деканату"))
 {
     <h2>Звіти кафедр факультету</h2>
+}
+else if (User.IsInRole("Керівник кафедри"))
+{
+    <h2>Звіти кафедри</h2>
 }
 
 <form asp-controller="ReportCathedraList" asp-action="Index" id="dateForm">

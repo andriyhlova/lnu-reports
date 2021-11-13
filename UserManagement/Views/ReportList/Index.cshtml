@@ -7,13 +7,13 @@
 
 <h2>Персональні звіти</h2>
 
-@if (User.IsInRole("Керівник кафедри"))
-{
-    @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
-}
-else if (User.IsInRole("Адміністрація деканату"))
+@if (User.IsInRole("Адміністрація деканату"))
 {
     @Html.ActionLink("Звіти кафедр факультету", "Index", "ReportCathedraList")
+}
+else if (User.IsInRole("Керівник кафедри"))
+{
+    @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
 }
 <form asp-controller="ReportList" asp-action="Index" id="dateForm" style="display:flex">
     <div style="margin: 10px">
