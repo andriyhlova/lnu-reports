@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UserManagement.Models;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 
 namespace UserManagement.Controllers
 {
@@ -171,7 +172,6 @@ namespace UserManagement.Controllers
             {
                 var currentUserId = User.Identity.GetUserId();
                 var user = db.Users.First(x => x.Id == currentUserId);
-                user.I18nUserInitials.Clear();
                 user.BirthDate = model.BirthDate;
                 user.AwardingDate = AwardingYear.HasValue ? new DateTime(AwardingYear.Value, 1, 1) : (DateTime?)null;
                 user.GraduationDate = GraduationYear.HasValue ? new DateTime(GraduationYear.Value, 1, 1) : (DateTime?)null;
@@ -192,6 +192,11 @@ namespace UserManagement.Controllers
                 user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
                 user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
                 user.Position = db.Position.First(x => x.Value == model.Position);
+                var intials = user.I18nUserInitials.ToList();
+                foreach (var initial in intials)
+                {
+                    db.Entry(initial).State = EntityState.Deleted;
+                }
                 user.I18nUserInitials = model.I18nUserInitials;
                 db.SaveChanges();
 

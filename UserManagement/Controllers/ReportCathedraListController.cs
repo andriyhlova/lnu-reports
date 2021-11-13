@@ -14,7 +14,7 @@ using UserManagement.Models.Reports;
 
 namespace UserManagement.Controllers
 {
-    [Authorize(Roles = "Керівник кафедри")]
+    [Authorize(Roles = "Керівник кафедри, Адміністрація деканату")]
     public class ReportCathedraListController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -31,13 +31,25 @@ namespace UserManagement.Controllers
             ViewBag.dateTo = dateTo;
             ViewBag.page = pageNumber;
             var currentUser = db.Users.Find(User.Identity.GetUserId());
-            List<CathedraReport> reports;
+            List<CathedraReport> reports = new List<CathedraReport>();
             var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
             var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            reports = db.CathedraReport.Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID)
-            .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
-            .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
-            .ToList();
+            if (User.IsInRole("Керівник кафедри"))
+            {
+                reports = db.CathedraReport.Include(x => x.User.Cathedra)
+                    .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID)
+                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
+                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
+                .ToList();
+            }
+            else if (User.IsInRole("Адміністрація деканату"))
+            {
+                reports = db.CathedraReport.Include(x => x.User.Cathedra.Faculty)
+                    .Where(x => x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
+                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
+                .ToList();
+            }
             return View(reports.ToPagedList(pageNumber, pageSize));
         }
 

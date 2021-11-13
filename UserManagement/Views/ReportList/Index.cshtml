@@ -11,6 +11,10 @@
 {
     @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
 }
+else if (User.IsInRole("Адміністрація деканату"))
+{
+    @Html.ActionLink("Звіти кафедр факультету", "Index", "ReportCathedraList")
+}
 <form asp-controller="ReportList" asp-action="Index" id="dateForm" style="display:flex">
     <div style="margin: 10px">
         <label style="display:block">З: </label>
@@ -111,7 +115,7 @@
                         @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
                     }
                 }
-                @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
+                @if ((User.IsInRole("Керівник кафедри") || User.IsInRole("Адміністрація деканату")) && item.IsSigned)
                 {
                     @Html.ActionLink("Повернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
                 }

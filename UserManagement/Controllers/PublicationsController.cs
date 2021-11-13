@@ -121,9 +121,10 @@ namespace UserManagement.Controllers
         {
             var publications = allPublications.ToList();
             var currentUser = UserManager.FindByName(User.Identity.Name);
-            if (!String.IsNullOrEmpty(searchString))
+            var search = searchString?.ToLower();
+            if (!String.IsNullOrEmpty(search))
             {
-                publications = publications.Where(s => s.Name.Contains(searchString))
+                publications = publications.Where(s => s.Name.ToLower().Contains(search))
                     .ToList();
             }
             else if (isMineWihoutNull)

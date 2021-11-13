@@ -315,7 +315,7 @@ namespace UserManagement.Services
         {
             return ReplaceStringWithParameters(GenerateTemplateForHeadOfReport(), new Dictionary<string, string>()
             {
-                [YEAR_CONST] = report.Date.Value.Year.ToString(),
+                [YEAR_CONST] = report.Date?.Year.ToString(),
                 [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
             });
         }

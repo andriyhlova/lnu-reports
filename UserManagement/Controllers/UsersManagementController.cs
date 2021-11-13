@@ -229,7 +229,11 @@ namespace UserManagement.Controllers
                 user.ApprovedById = User.Identity.GetUserId();
             }
             user.IsActive = applicationUser.IsActive;
-            user.I18nUserInitials.Clear();
+            var intials = user.I18nUserInitials.ToList();
+            foreach (var initial in intials)
+            {
+                DB.Entry(initial).State = EntityState.Deleted;
+            }
             user.I18nUserInitials = model.I18nUserInitials;
             DB.SaveChanges();
             return RedirectToAction("Index");

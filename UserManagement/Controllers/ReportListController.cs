@@ -13,7 +13,7 @@ using UserManagement.Models.db;
 
 namespace UserManagement.Controllers
 {
-    [Authorize(Roles = "Працівник, Керівник кафедри")]
+    [Authorize(Roles = "Працівник, Керівник кафедри, Адміністрація деканату")]
     public class ReportListController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -33,9 +33,19 @@ namespace UserManagement.Controllers
             List<Report> reports;
             var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
             var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            if (User.IsInRole("Керівник кафедри"))
+            if(User.IsInRole("Адміністрація деканату"))
             {
-                reports = db.Reports.Where(x => (x.User.Cathedra.ID == currentUser.Cathedra.ID)
+                reports = db.Reports.Include(x => x.User.Cathedra.Faculty)
+                    .Where(x => (x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                  && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsConfirmed)))
+                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
+                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
+                .OrderByDescending(x => x.Date)
+                .ToList();
+            }
+            else if (User.IsInRole("Керівник кафедри"))
+            {
+                reports = db.Reports.Include(x=>x.User.Cathedra).Where(x => (x.User.Cathedra.ID == currentUser.Cathedra.ID)
                 && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))

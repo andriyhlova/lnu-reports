@@ -16,7 +16,7 @@ namespace UserManagement.Models.Reports
 
         public String AchivementSchool { get; set; } //1
 
-        public ThemeOfScientificWork BudgetTheme { get; set; }//2
+        public virtual ThemeOfScientificWork BudgetTheme { get; set; }//2
         public String AllDescriptionBudgetTheme { get; set; }
         public String CVBudgetTheme { get; set; }//2.1
         public String DefensesOfCoworkersBudgetTheme { get; set; }//2.2
@@ -25,7 +25,7 @@ namespace UserManagement.Models.Reports
         public String ApplicationAndPatentsOnInventionBudgetTheme { get; set; }//2.4
         public String OtherBudgetTheme { get; set; }//2.5
 
-        public ThemeOfScientificWork ThemeInWorkTime { get; set; }//3
+        public virtual ThemeOfScientificWork ThemeInWorkTime { get; set; }//3
         public String AllDescriptionThemeInWorkTime { get; set; }
         public String CVThemeInWorkTime { get; set; }//3.1
         public String DefensesOfCoworkersThemeInWorkTime { get; set; }//3.2
@@ -34,7 +34,7 @@ namespace UserManagement.Models.Reports
         public String ApplicationAndPatentsOnInventionThemeInWorkTime { get; set; }//3.4
         public String OtherThemeInWorkTime { get; set; }//3.5
 
-        public ThemeOfScientificWork HospDohovirTheme { get; set; }//4
+        public virtual ThemeOfScientificWork HospDohovirTheme { get; set; }//4
         public String AllDescriptionHospDohovirTheme { get; set; }
         public String CVHospDohovirTheme { get; set; }//4.1
         public String DefensesOfCoworkersHospDohovirTheme { get; set; }//4.2

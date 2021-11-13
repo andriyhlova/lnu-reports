@@ -117,17 +117,17 @@ namespace UserManagement.Controllers
             CreateOrUpdateReport(reportViewModel, oldIndex ?? 0);
             return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.ID });
         }
-
+        [AllowAnonymous]
         public ActionResult Preview(int reportId)
         {
             return Content(cathedraReportService.GenerateHTMLReport(reportId));
         }
-
+        [AllowAnonymous]
         public ActionResult PreviewPdf(int reportId)
         {
             return new ActionAsPdf("Preview", new { reportId = reportId });
         }
-
+        [AllowAnonymous]
         public ActionResult GetLatex(int reportId)
         {
             String content = cathedraReportService.GenerateHTMLReport(reportId);
