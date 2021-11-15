@@ -56,7 +56,9 @@ namespace UserManagement.Services
         private static String PUNKT_9_OTHER_TABLE = "{PUNKT_9_OTHER_TABLE}";
         private static String PUNKT_9_ARTICLES_HEADER = "{PUNKT_9_ARTICLES_HEADER}";
         private static String PUNKT_9_ARTICLES_INTERNATIONAL = "{PUNKT_9_ARTICLES_INTERNATIONAL}";
+        private static String PUNKT_9_ARTICLES_INTERNATIONAL_OTHER = "{PUNKT_9_ARTICLES_INTERNATIONAL_OTHER}";
         private static String PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS}";
+        private static String PUNKT_9_ARTICLES_IMPACT_FACTOR = "{PUNKT_9_ARTICLES_IMPACT_FACTOR}";
         private static String PUNKT_9_ARTICLES_NATIONAL_FAH = "{PUNKT_9_ARTICLES_NATIONAL_FAH}";
         private static String PUNKT_9_ARTICLES_NATIONAL = "{PUNKT_9_ARTICLES_NATIONAL}";
         private static String PUNKT_9_CONFERENCES_HEADER = "{PUNKT_9_CONFERENCES_HEADER}";
@@ -144,7 +146,9 @@ namespace UserManagement.Services
                 + PUNKT_9_OTHER_TABLE
                 + PUNKT_9_ARTICLES_HEADER
                 + PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS
+                + PUNKT_9_ARTICLES_IMPACT_FACTOR
                 + PUNKT_9_ARTICLES_INTERNATIONAL
+                + PUNKT_9_ARTICLES_INTERNATIONAL_OTHER
                 + PUNKT_9_ARTICLES_NATIONAL_FAH
                 + PUNKT_9_ARTICLES_NATIONAL
                 + PUNKT_9_CONFERENCES_HEADER
@@ -209,8 +213,12 @@ namespace UserManagement.Services
             var punktNineArticlesHeader = GetArticlesHeader(distinctPublications);
             var punktNineArticlesInternationalScienceDb = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesInternationalScienceDb(),
                 PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних, distinctPublications);
+            var punktNineArticlesImpact = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesImpactFactor(),
+                PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор, distinctPublications);
             var punktNineArticlesInternational = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesInternational(), 
                 PublicationType.Стаття_В_Закордонних_Виданнях, distinctPublications);
+            var punktNineArticlesInternationalOther = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesInternationalOther(),
+                PublicationType.Стаття_В_Інших_Закордонних_Виданнях, distinctPublications);
             var punktNineArticlesNational = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesNational(),
                 PublicationType.Стаття_В_Інших_Виданнях_України, distinctPublications);
             var punktNineArticlesNationalFah = GetPublicationArticlesOrConferencesTemplate(GetTitleForArticlesNationalFah(),
@@ -271,7 +279,9 @@ namespace UserManagement.Services
                 [PUNKT_9_OTHER_TABLE] = punktNineOtherTable,
                 [PUNKT_9_ARTICLES_HEADER] = punktNineArticlesHeader,
                 [PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS] = punktNineArticlesInternationalScienceDb,
+                [PUNKT_9_ARTICLES_IMPACT_FACTOR] = punktNineArticlesImpact,
                 [PUNKT_9_ARTICLES_INTERNATIONAL] = punktNineArticlesInternational,
+                [PUNKT_9_ARTICLES_INTERNATIONAL_OTHER] = punktNineArticlesInternationalOther,
                 [PUNKT_9_ARTICLES_NATIONAL_FAH] = punktNineArticlesNationalFah,
                 [PUNKT_9_ARTICLES_NATIONAL] = punktNineArticlesNational,
                 [PUNKT_9_CONFERENCES_HEADER] = punktNineConferencesHeader,
@@ -722,8 +732,18 @@ namespace UserManagement.Services
                 у II етапі Всеукраїнських студентських Олімпіад, міжнародних Олімпіадах,
                 Всеукраїнських конкурсах студентських наукових робіт, турнірах, чемпіонатах тощо:";
         }
-        
+
+        private string GetTitleForArticlesImpactFactor()
+        {
+            return @"Статті в виданнях, які мають імпакт фактор:";
+        }
+
         private string GetTitleForArticlesInternational()
+        {
+            return @"Статті в закордонних виданнях:";
+        }
+
+        private string GetTitleForArticlesInternationalOther()
         {
             return @"Статті в інших закордонних виданнях:";
         }
