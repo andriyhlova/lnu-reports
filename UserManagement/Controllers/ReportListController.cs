@@ -19,7 +19,7 @@ namespace UserManagement.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ReportList
-        public ActionResult Index(int? page, string dateFrom, string dateTo)
+        public ActionResult Index(int? page, string dateFrom, string dateTo, int? cathedra)
         {
             db = new ApplicationDbContext();
             int pageSize = 15;
@@ -29,21 +29,34 @@ namespace UserManagement.Controllers
             ViewBag.dateFrom = dateFrom;
             ViewBag.dateTo = dateTo;
             ViewBag.page = pageNumber;
+            ViewBag.cathedra = cathedra ?? 0;
             var currentUser = db.Users.Find(User.Identity.GetUserId());
             List<Report> reports;
             var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
             var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            if(User.IsInRole("Адміністрація деканату"))
+            var isCathedraAdmin = User.IsInRole("Керівник кафедри");
+            if (User.IsInRole("Адміністрація деканату"))
             {
+                ViewBag.Cathedras = db.Cathedra.Include(x => x.Faculty)
+                    .Where(x => x.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                    .Select(x => new SelectListItem
+                    {
+                        Text = x.Name,
+                        Value = x.ID.ToString()
+                    })
+                    .ToList();
                 reports = db.Reports.Include(x => x.User.Cathedra.Faculty)
-                    .Where(x => (x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
-                  && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsConfirmed)))
+                    .Where(x => (cathedra != null && x.User.Cathedra.ID == cathedra
+                        || cathedra == null  && x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                    && (x.User.Id == currentUser.Id 
+                        || (x.User.Id != currentUser.Id 
+                                && (x.IsConfirmed || (x.IsSigned && isCathedraAdmin && x.User.Cathedra.ID == currentUser.Cathedra.ID)))))
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
                 .OrderByDescending(x => x.Date)
                 .ToList();
             }
-            else if (User.IsInRole("Керівник кафедри"))
+            else if (isCathedraAdmin)
             {
                 reports = db.Reports.Include(x=>x.User.Cathedra).Where(x => (x.User.Cathedra.ID == currentUser.Cathedra.ID)
                 && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
