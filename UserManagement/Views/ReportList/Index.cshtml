@@ -188,4 +188,4 @@ else if (User.IsInRole("Керівник кафедри"))
 }
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.dateFrom, ViewBag.dateTo, ViewBag.cathedra }))
