@@ -127,11 +127,11 @@ namespace UserManagement.Controllers
                 publications = publications.Where(s => s.Name.ToLower().Contains(search))
                     .ToList();
             }
-            else if (isMineWihoutNull)
+            if (!User.IsInRole("Superadmin") && !User.IsInRole("Адміністрація ректорату"))
             {
                 if (User.IsInRole("Адміністрація деканату"))
                 {
-                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name 
+                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name
                     || y.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID))
                     .ToList();
                 }
@@ -141,7 +141,7 @@ namespace UserManagement.Controllers
                     || y.Cathedra.ID == currentUser.Cathedra.ID))
                     .ToList();
                 }
-                else if(User.IsInRole("Працівник"))
+                else if (User.IsInRole("Працівник"))
                 {
                     publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
                     .ToList();

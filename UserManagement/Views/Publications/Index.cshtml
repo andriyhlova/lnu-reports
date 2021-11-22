@@ -14,7 +14,8 @@
             <input type="text" name="SearchString" value="@ViewBag.searchString">
         </div>
         <input type="hidden" name="isMine" value="@((bool)ViewBag.isMine ? "True" : "False")"/>
-        @if ((ViewBag.isMine && User.IsInRole("Адміністрація ректорату")) || !ViewBag.isMine)
+        @if ((ViewBag.isMine && (User.IsInRole("Superadmin")
+            || User.IsInRole("Адміністрація ректорату"))) || !ViewBag.isMine)
         {
         <div>
             <label>Факультет</label>
@@ -24,7 +25,9 @@
                           new { @class = "form-control chosen-select", @Value = ViewBag.faculty })
         </div>
         }
-        @if ((ViewBag.isMine && User.IsInRole("Адміністрація деканату")) || !ViewBag.isMine)
+        @if ((ViewBag.isMine && (User.IsInRole("Superadmin")
+            || User.IsInRole("Адміністрація ректорату") 
+            || User.IsInRole("Адміністрація деканату"))) || !ViewBag.isMine)
         {
             <div>
                     <label>Кафедра</label>
@@ -38,7 +41,8 @@
             </div>
         }
         @if ((ViewBag.isMine 
-            && (User.IsInRole("Адміністрація ректорату") 
+            && (User.IsInRole("Superadmin") 
+            || User.IsInRole("Адміністрація ректорату") 
             || User.IsInRole("Адміністрація деканату") 
             || User.IsInRole("Керівник кафедри"))) || !ViewBag.isMine)
         {
@@ -65,21 +69,6 @@
 </form>
 <div style="display: flex; justify-content: space-between">
     @Html.ActionLink("Створити", "Create",new { language = "UA"})
-    @{ 
-        var text = User.IsInRole("Адміністрація ректорату") ? "Публікації університету"
-            : User.IsInRole("Адміністрація деканату") ? "Публікації факультету"
-            : User.IsInRole("Керівник кафедри") ? "Публікації кафедри"
-            : "Мої публікації";
-    }
-    @Html.ActionLink(!ViewBag.isMine ? text : "Всі публікації", "Index",
-        new
-            {
-                searchString = ViewBag.searchString,
-            isMine = !ViewBag.isMine,
-            page = ViewBag.page,
-            dateFrom = ViewBag.dateFrom,
-            dateTo = ViewBag.dateTo
-            })
 </div>
 <br />
 
