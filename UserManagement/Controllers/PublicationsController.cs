@@ -76,13 +76,13 @@ namespace UserManagement.Controllers
 
         private void PutCathedraAndFacultyIntoViewBag(bool isMine = false)
         {
-            var users = db.Users.Include(x=>x.I18nUserInitials).Include(x=>x.Cathedra).Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
+            var users = db.Users.Include(x=>x.I18nUserInitials).Include(x=>x.Cathedra.Faculty).Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
             var cathedas = db.Cathedra.OrderBy(x => x.Name).ToList();
             var faculties = db.Faculty.OrderBy(x => x.Name).ToList();
             var currentUser = UserManager.FindByName(User.Identity.Name);
             //UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
             //    || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")
-            if (isMine)
+            if (isMine && !User.IsInRole("Superadmin") && !User.IsInRole("Адміністрація ректорату"))
             {
                 if(User.IsInRole("Адміністрація деканату"))
                 {
@@ -94,18 +94,7 @@ namespace UserManagement.Controllers
                     users = users.Where(x => x.Cathedra.ID == currentUser.Cathedra.ID).ToList();
                 }
             }
-            ViewBag.AllUsers = users
-                .Select(x =>
-                {
-                    var init = x.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA);
-                    return new SelectListItem
-                    {
-                        Text = String.Join(" ", init?.LastName,
-                                                init?.FirstName,
-                                                init?.FathersName),
-                        Value = x.Id
-                    };
-                }).ToList();
+            ViewBag.AllUsers = users;
             ViewBag.AllCathedras = cathedas;
             ViewBag.AllFaculties = faculties
                 .Select(x =>

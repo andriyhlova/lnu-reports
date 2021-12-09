@@ -48,10 +48,14 @@
         {
         <div>
             <label>Користувач</label>
-            @Html.DropDownList("user",
-                          new SelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.userId),
-                          "Виберіть користувача",
-                          new { @class = "form-control chosen-select", @Value = ViewBag.user })
+            <select id="user" class="form-control chosen-select" name="user">
+                        <option value="">Виберіть користувача</option>
+                        @foreach (var user in ViewBag.AllUsers)
+                        {
+                            var init = ((UserManagement.Models.ApplicationUser)user).I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA);
+                            <option value="@user.Id" data-faculty="@user.Cathedra.Faculty.ID" data-cathedra="@user.Cathedra.ID">@(init != null ? String.Join(" ", init.LastName, init.FirstName, init.FathersName) : "")</option>
+                        }
+                    </select>
         </div>
         }
         <div>
@@ -170,10 +174,22 @@
 <script type="text/javascript">
     let el = document.getElementById("cathedra-selector");
     if (el) {
-        let cathedrasSelectOptions = document.getElementById("cathedra-selector").options;
+        let cathedrasSelectOptions = el.options;
         var opts = [];
         for (var i = 0; i < cathedrasSelectOptions.length; i++) {
-            opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, text: cathedrasSelectOptions[i].text });
+            if (cathedrasSelectOptions[i].value) {
+                opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, text: cathedrasSelectOptions[i].text });
+            }
+        }
+    }
+    let users = document.getElementById("user");
+    if (users) {
+        let usersSelectOptions = users.options;
+        var optsUser = [];
+        for (var i = 0; i < usersSelectOptions.length; i++) {
+            if (usersSelectOptions[i].value) {
+                optsUser.push({ value: usersSelectOptions[i].value, faculty: usersSelectOptions[i].dataset.faculty, cathedra: usersSelectOptions[i].dataset.cathedra, text: usersSelectOptions[i].text });
+            }
         }
     }
     function updateSelect() {
@@ -197,9 +213,26 @@
             }
             $("#cathedra-selector").html(str);
             $("#cathedra-selector").trigger("chosen:updated");
+            $('#cathedra-selector').change();
+        });
+    }
+    function addCathedraPickerListener() {
+        let cathedraElem = document.getElementById("cathedra-selector");
+        let facultyElem = document.getElementById("faculty");
+        $('#cathedra-selector').change(function (e) {
+            var str = "<option value=''>Виберіть користувача</option>";
+            for (var i = 0; i < optsUser.length; i++) {
+                if ((cathedraElem.value == '' && (facultyElem.value == '' || optsUser[i].faculty == facultyElem.value)) || optsUser[i].cathedra == cathedraElem.value) {
+                    let selected = optsUser[i].value == '@ViewBag.user' ? 'selected' : '';
+                    str += `<option value='${optsUser[i].value}' data-faculty='${optsUser[i].faculty}' data-cathedra='${optsUser[i].cathedra}' ${selected}>${optsUser[i].text}</option>`;
+                }
+            }
+            $("#user").html(str);
+            $("#user").trigger("chosen:updated");
         });
     }
     addFacultyPickerListener();
+    addCathedraPickerListener();
     updateSelect();
     $('#faculty').change();
 </script>
