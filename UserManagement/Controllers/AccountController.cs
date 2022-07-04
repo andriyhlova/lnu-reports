@@ -12,6 +12,7 @@ using SRS.Services.Utilities;
 using SRS.Domain.Enums;
 using SRS.Repositories.Context;
 using SRS.Domain.Entities;
+using SRS.Services.Implementations;
 
 namespace UserManagement.Controllers
 {
@@ -21,10 +22,10 @@ namespace UserManagement.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         public ApplicationDbContext db = new ApplicationDbContext();
-        private Services.EmailService emailService;
+        private SRS.Services.Implementations.EmailService emailService;
         public AccountController()
         {
-            emailService = new Services.EmailService();
+            emailService = new SRS.Services.Implementations.EmailService();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)

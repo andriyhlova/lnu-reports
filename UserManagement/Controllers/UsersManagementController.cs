@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
+using SRS.Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -44,10 +45,10 @@ namespace UserManagement.Controllers
                 _userManager = value;
             }
         }
-        private Services.EmailService emailService;
+        private SRS.Services.Implementations.EmailService emailService;
         public UsersManagementController()
         {
-            emailService = new Services.EmailService();
+            emailService = new SRS.Services.Implementations.EmailService();
         }
 
         // GET: UsersManagement

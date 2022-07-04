@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Configuration;
 using MimeKit;
 using MailKit.Net.Smtp;
 
-namespace UserManagement.Services
+namespace SRS.Services.Implementations
 {
     public class EmailService:IDisposable
     {
