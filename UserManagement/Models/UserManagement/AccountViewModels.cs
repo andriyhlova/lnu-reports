@@ -171,37 +171,4 @@ namespace UserManagement.Models
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
     }
-
-    //public class ApplicationUserViewModel
-    //{
-    //    [Required]
-    //    [EmailAddress]
-    //    [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua",ErrorMessage ="Invalid email. Should be ...@lnu.edu.ua")]
-    //    [Display(Name = "Email")]
-    //    public string Email { get; set; }
-
-    //    [Required]
-    //    [Display(Name = "FirstName")]
-    //    public string FirstName { get; set; }
-
-    //    [Required]
-    //    [Display(Name = "LastName")]
-    //    public string LastName { get; set; }
-
-    //    [Required]
-    //    [Display(Name = "FathersName")]
-    //    public string FathersName { get; set; }
-        
-    //    [Required]
-    //    [Display(Name = "IsActive")]
-    //    public bool IsActive { get; set; }
-
-    //    [Required]
-    //    [Display(Name = "Roles")]
-    //    public string[] Roles { get; set; }
-
-    //    [Required]
-    //    [Display(Name = "Role")]
-    //    public string RoleToAdd { get; set; }
-    //}
 }
