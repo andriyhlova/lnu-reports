@@ -1,4 +1,5 @@
 ﻿using PagedList;
+using SRS.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;

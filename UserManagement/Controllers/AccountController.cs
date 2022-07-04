@@ -13,8 +13,9 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using UserManagement.Models;
 using UserManagement.Models.db;
-using UserManagement.Utilities;
+using SRS.Services.Utilities;
 using UserManagement.Services;
+using SRS.Domain.Enums;
 
 namespace UserManagement.Controllers
 {

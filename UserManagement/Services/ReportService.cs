@@ -1,10 +1,9 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using UserManagement.Models;
 using UserManagement.Models.db;
-using UserManagement.Models.PublicationDB;
 
 namespace UserManagement.Services
 {
@@ -13,102 +12,102 @@ namespace UserManagement.Services
         private ApplicationDbContext db;
         private PublicationService publicationService = new PublicationService();
 
-        private static String REPORT_HEADER = "{REPORT_HEADER}";
-        private static String PUNKT_1 = "{PUNKT_1}";
-        private static String PUNKT_2 = "{PUNKT_2}";
-        private static String PUNKT_3 = "{PUNKT_3}";
-        private static String PUNKT_4 = "{PUNKT_4}";
-        private static String PUNKT_5 = "{PUNKT_5}";
+        private static string REPORT_HEADER = "{REPORT_HEADER}";
+        private static string PUNKT_1 = "{PUNKT_1}";
+        private static string PUNKT_2 = "{PUNKT_2}";
+        private static string PUNKT_3 = "{PUNKT_3}";
+        private static string PUNKT_4 = "{PUNKT_4}";
+        private static string PUNKT_5 = "{PUNKT_5}";
 
-        private static String PUNKT_6_TABLE = "{PUNKT_6_TABLE}";
-        private static String PUNKT_6_1 = "{PUNKT_6_1}";
-        private static String PUNKT_6_1_MONO = "{PUNKT_6_1_MONO}";
-        private static String PUNKT_6_1_BOOK = "{PUNKT_6_1_BOOK}";
-        private static String PUNKT_6_1_TRAINING = "{PUNKT_6_1_TRAINING}";
-        private static String PUNKT_6_1_OTHER = "{PUNKT_6_1_OTHER}";
-        private static String PUNKT_6_1_ARTICLES = "{PUNKT_6_1_ARTICLES}";
-        private static String PUNKT_6_1_ARTICLES_FACTOR = "{PUNKT_6_1_ARTICLES_FACTOR}";
-        //private static String PUNKT_6_1_ARTICLES_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_INTERNATIONAL}";
-        private static String PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL}";
-        private static String PUNKT_6_1_ARTICLES_NATIONAL = "{PUNKT_6_1_ARTICLES_NATIONAL}";
-        private static String PUNKT_6_1_ARTICLES_NATIONAL_FAH = "{PUNKT_6_1_ARTICLES_NATIONAL_FAH}";
-        private static String PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS}";
-        private static String PUNKT_6_1_CONFERENCES = "{PUNKT_6_1_CONFERENCES}";
-        private static String PUNKT_6_1_CONFERENCES_INTERNATIONAL = "{PUNKT_6_1_CONFERENCES_INTERNATIONAL}";
-        private static String PUNKT_6_1_CONFERENCES_NATIONAL = "{PUNKT_6_1_CONFERENCES_NATIONAL}";
-        private static String PUNKT_6_2 = "{PUNKT_6_2}";
-        private static String PUNKT_6_2_MONO = "{PUNKT_6_2_MONO}";
-        private static String PUNKT_6_2_BOOK = "{PUNKT_6_2_BOOK}";
-        private static String PUNKT_6_2_TRAINING = "{PUNKT_6_2_TRAINING}";
-        private static String PUNKT_6_2_OTHER = "{PUNKT_6_2_OTHER}";
-        private static String PUNKT_6_2_ARTICLES = "{PUNKT_6_2_ARTICLES}";
+        private static string PUNKT_6_TABLE = "{PUNKT_6_TABLE}";
+        private static string PUNKT_6_1 = "{PUNKT_6_1}";
+        private static string PUNKT_6_1_MONO = "{PUNKT_6_1_MONO}";
+        private static string PUNKT_6_1_BOOK = "{PUNKT_6_1_BOOK}";
+        private static string PUNKT_6_1_TRAINING = "{PUNKT_6_1_TRAINING}";
+        private static string PUNKT_6_1_OTHER = "{PUNKT_6_1_OTHER}";
+        private static string PUNKT_6_1_ARTICLES = "{PUNKT_6_1_ARTICLES}";
+        private static string PUNKT_6_1_ARTICLES_FACTOR = "{PUNKT_6_1_ARTICLES_FACTOR}";
+        //private static string PUNKT_6_1_ARTICLES_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_INTERNATIONAL}";
+        private static string PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL}";
+        private static string PUNKT_6_1_ARTICLES_NATIONAL = "{PUNKT_6_1_ARTICLES_NATIONAL}";
+        private static string PUNKT_6_1_ARTICLES_NATIONAL_FAH = "{PUNKT_6_1_ARTICLES_NATIONAL_FAH}";
+        private static string PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS}";
+        private static string PUNKT_6_1_CONFERENCES = "{PUNKT_6_1_CONFERENCES}";
+        private static string PUNKT_6_1_CONFERENCES_INTERNATIONAL = "{PUNKT_6_1_CONFERENCES_INTERNATIONAL}";
+        private static string PUNKT_6_1_CONFERENCES_NATIONAL = "{PUNKT_6_1_CONFERENCES_NATIONAL}";
+        private static string PUNKT_6_2 = "{PUNKT_6_2}";
+        private static string PUNKT_6_2_MONO = "{PUNKT_6_2_MONO}";
+        private static string PUNKT_6_2_BOOK = "{PUNKT_6_2_BOOK}";
+        private static string PUNKT_6_2_TRAINING = "{PUNKT_6_2_TRAINING}";
+        private static string PUNKT_6_2_OTHER = "{PUNKT_6_2_OTHER}";
+        private static string PUNKT_6_2_ARTICLES = "{PUNKT_6_2_ARTICLES}";
 
-        private static String PUNKT_7 = "{PUNKT_7}";
-        private static String PUNKT_7_1 = "{PUNKT_7_1}";
-        private static String PUNKT_7_2 = "{PUNKT_7_2}";
-        private static String PUNKT_8 = "{PUNKT_8}";
-        private static String PUNKT_9 = "{PUNKT_9}";
-        private static String PUNKT_10 = "{PUNKT_10}";
-        private static String SIGNATURE = "{SIGNATURE}";
-        private static String FOOTER = "{FOOTER}";
+        private static string PUNKT_7 = "{PUNKT_7}";
+        private static string PUNKT_7_1 = "{PUNKT_7_1}";
+        private static string PUNKT_7_2 = "{PUNKT_7_2}";
+        private static string PUNKT_8 = "{PUNKT_8}";
+        private static string PUNKT_9 = "{PUNKT_9}";
+        private static string PUNKT_10 = "{PUNKT_10}";
+        private static string SIGNATURE = "{SIGNATURE}";
+        private static string FOOTER = "{FOOTER}";
 
-        private static String YEAR_CONST = "{YEAR}";
-        private static String POSITION_CONST = "{POSITION}";
-        private static String CATHEDRA_CONST = "{CATHEDRA}";
-        private static String CATHEDRA_LEAD = "{CATHEDRA_LEAD}";
-        private static String CATHEDRA_LEAD_STATUS = "{CATHEDRA_LEAD_STATUS}";
-        private static String USER_NAME_CONST = "{USER_NAME}";
-        private static String BIRTHDAY_CONST = "{BIRTHDAY}";
-        private static String GRADUATION_YEAR_CONST = "{GRADUATION_YEAR}";
-        private static String ASPIRANTURA = "{ASPIRANTURA}";
-        private static String DOCTORANTURA = "{DOCTORANTURA}";
-        private static String ACADEMIC_STATUS_YEAR_CONST = "{ACADEMIC_STATUS_YEAR}";
-        private static String SCIENCE_DEGREE_YEAR_CONST = "{SCIENCE_DEGREE_YEAR}";
-        private static String THEME_SCIENTIFIC_WORK_CONST = "{THEME_SCIENTIFIC_WORK}";
-        private static String DESCR_SCIENTIFIC_WORK_CONST = "{DESCR_SCIENTIFIC_WORK_CONST}";
-        private static String THEME_NUMBER_SCIENTIFIC_WORK_CONST = "{THEME_NUMBER_SCIENTIFIC_WORK_CONST}";
-        private static String PERIOD_SCIENTIFIC_WORK_CONST = "{PERIOD_SCIENTIFIC_WORK_CONST}";
-        private static String HEAD_SCIENTIFIC_WORK_CONST = "{HEAD_SCIENTIFIC_WORK_CONST}";
-        private static String FINANCIAL = "{FINANCIAL}";
-        private static String PROTOCOL_CONST = "{PROTOCOL_CONST}";
-        private static String DATE_CONST = "{DATE_CONST}";
-        private static String GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
+        private static string YEAR_CONST = "{YEAR}";
+        private static string POSITION_CONST = "{POSITION}";
+        private static string CATHEDRA_CONST = "{CATHEDRA}";
+        private static string CATHEDRA_LEAD = "{CATHEDRA_LEAD}";
+        private static string CATHEDRA_LEAD_STATUS = "{CATHEDRA_LEAD_STATUS}";
+        private static string USER_NAME_CONST = "{USER_NAME}";
+        private static string BIRTHDAY_CONST = "{BIRTHDAY}";
+        private static string GRADUATION_YEAR_CONST = "{GRADUATION_YEAR}";
+        private static string ASPIRANTURA = "{ASPIRANTURA}";
+        private static string DOCTORANTURA = "{DOCTORANTURA}";
+        private static string ACADEMIC_STATUS_YEAR_CONST = "{ACADEMIC_STATUS_YEAR}";
+        private static string SCIENCE_DEGREE_YEAR_CONST = "{SCIENCE_DEGREE_YEAR}";
+        private static string THEME_SCIENTIFIC_WORK_CONST = "{THEME_SCIENTIFIC_WORK}";
+        private static string DESCR_SCIENTIFIC_WORK_CONST = "{DESCR_SCIENTIFIC_WORK_CONST}";
+        private static string THEME_NUMBER_SCIENTIFIC_WORK_CONST = "{THEME_NUMBER_SCIENTIFIC_WORK_CONST}";
+        private static string PERIOD_SCIENTIFIC_WORK_CONST = "{PERIOD_SCIENTIFIC_WORK_CONST}";
+        private static string HEAD_SCIENTIFIC_WORK_CONST = "{HEAD_SCIENTIFIC_WORK_CONST}";
+        private static string FINANCIAL = "{FINANCIAL}";
+        private static string PROTOCOL_CONST = "{PROTOCOL_CONST}";
+        private static string DATE_CONST = "{DATE_CONST}";
+        private static string GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
 
         //Punkt 6
-        private static String MONOGRAPH_ALL_CONST = "{MONOGRAPH_ALL_CONST}";
-        private static String MONOGRAPH_PERIOD_CONST = "{MONOGRAPH_PERIOD_CONST}";
-        private static String BOOK_ALL_CONST = "{BOOK_ALL_CONST}";
-        private static String BOOK_PERIOD_CONST = "{BOOK_PERIOD_CONST}";
-        private static String TRAINING_BOOK_ALL_CONST = "{TRAINING_BOOK_ALL_CONST}";
-        private static String TRAINING_BOOK_PERIOD_CONST = "{TRAINING_BOOK_PERIOD_CONST}";
-        private static String ARTICLES_ALL_CONST = "{ARTICLES_ALL_CONST}";
-        private static String ARTICLES_PERIOD_CONST = "{ARTICLES_PERIOD_CONST}";
-        private static String OTHER_WRITINGS_ALL_CONST = "{OTHER_WRITINGS_ALL_CONST}";
-        private static String OTHER_WRITINGS_PERIOD_CONST = "{OTHER_WRITINGS_PERIOD_CONST}";
-        private static String CONFERENCES_ALL_CONST = "{CONFERENCES_ALL_CONST}";
-        private static String CONFERENCES_PERIOD_CONST = "{CONFERENCES_PERIOD_CONST}";
-        private static String PATENTS_ALL_CONST = "{PATENTS_ALL_CONST}";
-        private static String PATENTS_PERIOD_CONST = "{PATENTS_PERIOD_CONST}";
+        private static string MONOGRAPH_ALL_CONST = "{MONOGRAPH_ALL_CONST}";
+        private static string MONOGRAPH_PERIOD_CONST = "{MONOGRAPH_PERIOD_CONST}";
+        private static string BOOK_ALL_CONST = "{BOOK_ALL_CONST}";
+        private static string BOOK_PERIOD_CONST = "{BOOK_PERIOD_CONST}";
+        private static string TRAINING_BOOK_ALL_CONST = "{TRAINING_BOOK_ALL_CONST}";
+        private static string TRAINING_BOOK_PERIOD_CONST = "{TRAINING_BOOK_PERIOD_CONST}";
+        private static string ARTICLES_ALL_CONST = "{ARTICLES_ALL_CONST}";
+        private static string ARTICLES_PERIOD_CONST = "{ARTICLES_PERIOD_CONST}";
+        private static string OTHER_WRITINGS_ALL_CONST = "{OTHER_WRITINGS_ALL_CONST}";
+        private static string OTHER_WRITINGS_PERIOD_CONST = "{OTHER_WRITINGS_PERIOD_CONST}";
+        private static string CONFERENCES_ALL_CONST = "{CONFERENCES_ALL_CONST}";
+        private static string CONFERENCES_PERIOD_CONST = "{CONFERENCES_PERIOD_CONST}";
+        private static string PATENTS_ALL_CONST = "{PATENTS_ALL_CONST}";
+        private static string PATENTS_PERIOD_CONST = "{PATENTS_PERIOD_CONST}";
 
         public ReportService(ApplicationDbContext db)
         {
             this.db = db;
         }
-        public String GenerateHTMLReport(int reportId)
+        public string GenerateHTMLReport(int reportId)
         {
             return GenerateHTMLReport(db.Reports.Find(reportId));
         }
 
-        public String GenerateHTMLReport(Report report)
+        public string GenerateHTMLReport(Report report)
         {
             var template = GenerateHtmlTemplateWithoutBody();
             var body = GenerateBodyForTemplate(report);
             return template.Replace("{BODY}", body);
         }
 
-        private String GenerateBodyForTemplate(Report report)
+        private string GenerateBodyForTemplate(Report report)
         {
-            String body = "<body><div class=\"body\">"
+            string body = "<body><div class=\"body\">"
                 + REPORT_HEADER
                 + PUNKT_1
                 + PUNKT_2
@@ -223,7 +222,7 @@ namespace UserManagement.Services
             return formetedBody;
         }
 
-        private String GenerateTemplateForHeadOfReport()
+        private string GenerateTemplateForHeadOfReport()
         {
             var header = "<div class=\"header\"><h2> Індивідуальний звіт про наукову роботу в "
                 + YEAR_CONST
@@ -247,7 +246,7 @@ namespace UserManagement.Services
             return header;
         }
 
-        private String GenerateHtmlTemplateWithoutBody()
+        private string GenerateHtmlTemplateWithoutBody()
         {
             return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
         }
@@ -275,7 +274,7 @@ namespace UserManagement.Services
                 + DESCR_SCIENTIFIC_WORK_CONST
                 + "</p></div>";
         }
-        private string GenerateTemplateForGenericPunkt(String title)
+        private string GenerateTemplateForGenericPunkt(string title)
         {
             return "<div class=\"block\"><p style=\"margin-left:34px\">"
                 + title +
@@ -537,7 +536,7 @@ namespace UserManagement.Services
             });
         }
 
-        private string GenerateTemplateForGenericPunktHeader(String title)
+        private string GenerateTemplateForGenericPunktHeader(string title)
         {
             return "<div class=\"block\"><p style=\"margin-left:\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + title
@@ -611,7 +610,7 @@ namespace UserManagement.Services
                 + "</p></div>";
         }
 
-        private String ReplaceStringWithParameters(String str, Dictionary<String, String> parameters)
+        private string ReplaceStringWithParameters(string str, Dictionary<String, String> parameters)
         {
             string toReturn = str;
             foreach (var i in parameters)

@@ -1,10 +1,8 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using UserManagement.Models.PublicationDB;
 using UserManagement.Models.Reports;
 
 namespace UserManagement.Models.db
@@ -17,9 +15,9 @@ namespace UserManagement.Models.db
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
-        public String Name { get; set; }
-        public String OtherAuthors { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string OtherAuthors { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
@@ -27,15 +25,15 @@ namespace UserManagement.Models.db
         public Double SizeOfPages { get; set; }
         public PublicationType PublicationType { get; set; }
         public Language Language { get; set; }
-        public String Link { get; set; }
-        public String Edition { get; set; }
-        public String Magazine { get; set; }
-        public String DOI { get; set; }
-        public String Tome { get; set; }
-        public String Place { get; set; }
-        public String MainAuthor { get; set; }
-        public String AuthorsOrder { get; set; }
-        public Boolean IsMainAuthorRegistered { get; set; } = false;
+        public string Link { get; set; }
+        public string Edition { get; set; }
+        public string Magazine { get; set; }
+        public string DOI { get; set; }
+        public string Tome { get; set; }
+        public string Place { get; set; }
+        public string MainAuthor { get; set; }
+        public string AuthorsOrder { get; set; }
+        public bool IsMainAuthorRegistered { get; set; } = false;
         public virtual ICollection<ApplicationUser> User { get; set; }
         public virtual ICollection<Report> PrintedPublicationReport { get; set; }
         public virtual ICollection<Report> RecomendedPublicationReport { get; set; }

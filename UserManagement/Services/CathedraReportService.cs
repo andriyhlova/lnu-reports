@@ -1,10 +1,9 @@
-﻿ using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using UserManagement.Models;
 using UserManagement.Models.db;
-using UserManagement.Models.PublicationDB;
 using UserManagement.Models.Reports;
 
 namespace UserManagement.Services
@@ -14,99 +13,99 @@ namespace UserManagement.Services
         private ApplicationDbContext db;
         private PublicationService publicationService = new PublicationService();
 
-        private static String REPORT_HEADER = "{REPORT_HEADER}";
-        private static String PUNKT_1 = "{PUNKT_1}";
-        private static String PUNKT_2 = "{PUNKT_2}";
-        private static String PUNKT_2_DESCRIPTION = "{PUNKT_2_DESCRIPTION}";
-        private static String PUNKT_2_CV = "{PUNKT_2_CV}";
-        private static String PUNKT_2_DEFENSES = "{PUNKT_2_DEFENSES}";
-        private static String PUNKT_2_PUBLICATIONS = "{PUNKT_2_PUBLICATIONS}";
-        private static String PUNKT_2_PATENTS = "{PUNKT_2_PATENTS}";
-        private static String PUNKT_2_OTHER = "{PUNKT_2_OTHER}";
+        private static string REPORT_HEADER = "{REPORT_HEADER}";
+        private static string PUNKT_1 = "{PUNKT_1}";
+        private static string PUNKT_2 = "{PUNKT_2}";
+        private static string PUNKT_2_DESCRIPTION = "{PUNKT_2_DESCRIPTION}";
+        private static string PUNKT_2_CV = "{PUNKT_2_CV}";
+        private static string PUNKT_2_DEFENSES = "{PUNKT_2_DEFENSES}";
+        private static string PUNKT_2_PUBLICATIONS = "{PUNKT_2_PUBLICATIONS}";
+        private static string PUNKT_2_PATENTS = "{PUNKT_2_PATENTS}";
+        private static string PUNKT_2_OTHER = "{PUNKT_2_OTHER}";
 
-        private static String PUNKT_3 = "{PUNKT_3}";
-        private static String PUNKT_3_DESCRIPTION = "{PUNKT_3_DESCRIPTION}";
-        private static String PUNKT_3_CV = "{PUNKT_3_CV}";
-        private static String PUNKT_3_DEFENSES = "{PUNKT_3_DEFENSES}";
-        private static String PUNKT_3_PUBLICATIONS = "{PUNKT_3_PUBLICATIONS}";
-        private static String PUNKT_3_PATENTS = "{PUNKT_3_PATENTS}";
-        private static String PUNKT_3_OTHER = "{PUNKT_3_OTHER}";
+        private static string PUNKT_3 = "{PUNKT_3}";
+        private static string PUNKT_3_DESCRIPTION = "{PUNKT_3_DESCRIPTION}";
+        private static string PUNKT_3_CV = "{PUNKT_3_CV}";
+        private static string PUNKT_3_DEFENSES = "{PUNKT_3_DEFENSES}";
+        private static string PUNKT_3_PUBLICATIONS = "{PUNKT_3_PUBLICATIONS}";
+        private static string PUNKT_3_PATENTS = "{PUNKT_3_PATENTS}";
+        private static string PUNKT_3_OTHER = "{PUNKT_3_OTHER}";
 
-        private static String PUNKT_4 = "{PUNKT_4}";
-        private static String PUNKT_4_DESCRIPTION = "{PUNKT_4_DESCRIPTION}";
-        private static String PUNKT_4_CV = "{PUNKT_4_CV}";
-        private static String PUNKT_4_DEFENSES = "{PUNKT_4_DEFENSES}";
-        private static String PUNKT_4_PUBLICATIONS = "{PUNKT_4_PUBLICATIONS}";
-        private static String PUNKT_4_PATENTS = "{PUNKT_4_PATENTS}";
-        private static String PUNKT_4_OTHER = "{PUNKT_4_OTHER}";
+        private static string PUNKT_4 = "{PUNKT_4}";
+        private static string PUNKT_4_DESCRIPTION = "{PUNKT_4_DESCRIPTION}";
+        private static string PUNKT_4_CV = "{PUNKT_4_CV}";
+        private static string PUNKT_4_DEFENSES = "{PUNKT_4_DEFENSES}";
+        private static string PUNKT_4_PUBLICATIONS = "{PUNKT_4_PUBLICATIONS}";
+        private static string PUNKT_4_PATENTS = "{PUNKT_4_PATENTS}";
+        private static string PUNKT_4_OTHER = "{PUNKT_4_OTHER}";
 
-        private static String PUNKT_5 = "{PUNKT_5}";
-        private static String PUNKT_6 = "{PUNKT_6}";
-        private static String PUNKT_6_1 = "{PUNKT_6_1}";
-        private static String PUNKT_6_2 = "{PUNKT_6_2}";
-        private static String PUNKT_8 = "{PUNKT_8}";
-        private static String PUNKT_9 = "{PUNKT_9}";
-        private static String PUNKT_9_MONOGRAPHY = "{PUNKT_9_MONOGRAPHY}";
-        private static String PUNKT_9_MONOGRAPHY_TABLE = "{PUNKT_9_MONOGRAPHY_TABLE}";
-        private static String PUNKT_9_BOOK = "{PUNKT_9_BOOK}";
-        private static String PUNKT_9_BOOK_TABLE = "{PUNKT_9_BOOK_TABLE}";
-        private static String PUNKT_9_TRAINING_BOOK = "{PUNKT_9_TRAINING_BOOK}";
-        private static String PUNKT_9_TRAINING_BOOK_TABLE = "{PUNKT_9_TRAINING_BOOK_TABLE}";
-        private static String PUNKT_9_OTHER = "{PUNKT_9_OTHER}";
-        private static String PUNKT_9_OTHER_TABLE = "{PUNKT_9_OTHER_TABLE}";
-        private static String PUNKT_9_ARTICLES_HEADER = "{PUNKT_9_ARTICLES_HEADER}";
-        private static String PUNKT_9_ARTICLES_INTERNATIONAL = "{PUNKT_9_ARTICLES_INTERNATIONAL}";
-        private static String PUNKT_9_ARTICLES_INTERNATIONAL_OTHER = "{PUNKT_9_ARTICLES_INTERNATIONAL_OTHER}";
-        private static String PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS}";
-        private static String PUNKT_9_ARTICLES_IMPACT_FACTOR = "{PUNKT_9_ARTICLES_IMPACT_FACTOR}";
-        private static String PUNKT_9_ARTICLES_NATIONAL_FAH = "{PUNKT_9_ARTICLES_NATIONAL_FAH}";
-        private static String PUNKT_9_ARTICLES_NATIONAL = "{PUNKT_9_ARTICLES_NATIONAL}";
-        private static String PUNKT_9_CONFERENCES_HEADER = "{PUNKT_9_CONFERENCES_HEADER}";
-        private static String PUNKT_9_CONFERENCES_INTERNATIONAL = "{PUNKT_9_CONFERENCES_INTERNATIONAL}";
-        private static String PUNKT_9_CONFERENCES_NATIONAL = "{PUNKT_9_CONFERENCES_NATIONAL}";
-        private static String PUNKT_10 = "{PUNKT_10}";
-        private static String PUNKT_11 = "{PUNKT_11}";
-        private static String PUNKT_11_1 = "{PUNKT_11_1}";
-        private static String PUNKT_11_2 = "{PUNKT_11_2}";
-        private static String PUNKT_12 = "{PUNKT_12}";
-        private static String PUNKT_13 = "{PUNKT_13}";
-        private static String FOOTER = "{FOOTER}";
-
-
-        private static String PUBLICATION_ROW = "{PUBLICATION_ROW}";
-        private static String PUBLICATION_ROW_NAME = "{PUBLICATION_ROW_NAME}";
-        private static String PUBLICATION_ROW_PAGES = "{PUBLICATION_ROW_PAGES}";
+        private static string PUNKT_5 = "{PUNKT_5}";
+        private static string PUNKT_6 = "{PUNKT_6}";
+        private static string PUNKT_6_1 = "{PUNKT_6_1}";
+        private static string PUNKT_6_2 = "{PUNKT_6_2}";
+        private static string PUNKT_8 = "{PUNKT_8}";
+        private static string PUNKT_9 = "{PUNKT_9}";
+        private static string PUNKT_9_MONOGRAPHY = "{PUNKT_9_MONOGRAPHY}";
+        private static string PUNKT_9_MONOGRAPHY_TABLE = "{PUNKT_9_MONOGRAPHY_TABLE}";
+        private static string PUNKT_9_BOOK = "{PUNKT_9_BOOK}";
+        private static string PUNKT_9_BOOK_TABLE = "{PUNKT_9_BOOK_TABLE}";
+        private static string PUNKT_9_TRAINING_BOOK = "{PUNKT_9_TRAINING_BOOK}";
+        private static string PUNKT_9_TRAINING_BOOK_TABLE = "{PUNKT_9_TRAINING_BOOK_TABLE}";
+        private static string PUNKT_9_OTHER = "{PUNKT_9_OTHER}";
+        private static string PUNKT_9_OTHER_TABLE = "{PUNKT_9_OTHER_TABLE}";
+        private static string PUNKT_9_ARTICLES_HEADER = "{PUNKT_9_ARTICLES_HEADER}";
+        private static string PUNKT_9_ARTICLES_INTERNATIONAL = "{PUNKT_9_ARTICLES_INTERNATIONAL}";
+        private static string PUNKT_9_ARTICLES_INTERNATIONAL_OTHER = "{PUNKT_9_ARTICLES_INTERNATIONAL_OTHER}";
+        private static string PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_9_ARTICLES_INTERNATIONAL_METRICALS}";
+        private static string PUNKT_9_ARTICLES_IMPACT_FACTOR = "{PUNKT_9_ARTICLES_IMPACT_FACTOR}";
+        private static string PUNKT_9_ARTICLES_NATIONAL_FAH = "{PUNKT_9_ARTICLES_NATIONAL_FAH}";
+        private static string PUNKT_9_ARTICLES_NATIONAL = "{PUNKT_9_ARTICLES_NATIONAL}";
+        private static string PUNKT_9_CONFERENCES_HEADER = "{PUNKT_9_CONFERENCES_HEADER}";
+        private static string PUNKT_9_CONFERENCES_INTERNATIONAL = "{PUNKT_9_CONFERENCES_INTERNATIONAL}";
+        private static string PUNKT_9_CONFERENCES_NATIONAL = "{PUNKT_9_CONFERENCES_NATIONAL}";
+        private static string PUNKT_10 = "{PUNKT_10}";
+        private static string PUNKT_11 = "{PUNKT_11}";
+        private static string PUNKT_11_1 = "{PUNKT_11_1}";
+        private static string PUNKT_11_2 = "{PUNKT_11_2}";
+        private static string PUNKT_12 = "{PUNKT_12}";
+        private static string PUNKT_13 = "{PUNKT_13}";
+        private static string FOOTER = "{FOOTER}";
 
 
-        private static String YEAR_CONST = "{YEAR}";
-        private static String FACULTY_CONST = "{FACULTY_CONST}";
-        private static String CATHEDRA_CONST = "{CATHEDRA}";
-        private static String PROTOCOL_CONST = "{PROTOCOL_CONST}";
-        private static String DATE_CONST = "{DATE_CONST}";
-        private static String GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
+        private static string PUBLICATION_ROW = "{PUBLICATION_ROW}";
+        private static string PUBLICATION_ROW_NAME = "{PUBLICATION_ROW_NAME}";
+        private static string PUBLICATION_ROW_PAGES = "{PUBLICATION_ROW_PAGES}";
 
-        private static String FACULTY_LEAD = "{FACULTY_LEAD}";
-        private static String FACULTY_LEAD_STATUS = "{FACULTY_LEAD_STATUS}";
+
+        private static string YEAR_CONST = "{YEAR}";
+        private static string FACULTY_CONST = "{FACULTY_CONST}";
+        private static string CATHEDRA_CONST = "{CATHEDRA}";
+        private static string PROTOCOL_CONST = "{PROTOCOL_CONST}";
+        private static string DATE_CONST = "{DATE_CONST}";
+        private static string GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
+
+        private static string FACULTY_LEAD = "{FACULTY_LEAD}";
+        private static string FACULTY_LEAD_STATUS = "{FACULTY_LEAD_STATUS}";
 
         public CathedraReportService(ApplicationDbContext db)
         {
             this.db = db;
         }
-        public String GenerateHTMLReport(int reportId)
+        public string GenerateHTMLReport(int reportId)
         {
             return GenerateHTMLReport(db.CathedraReport.Find(reportId));
         }
 
-        public String GenerateHTMLReport(CathedraReport report)
+        public string GenerateHTMLReport(CathedraReport report)
         {
             var template = GenerateHtmlTemplateWithoutBody();
             var body = GenerateBodyForTemplate(report);
             return template.Replace("{BODY}", body);
         }
 
-        private String GenerateBodyForTemplate(CathedraReport report)
+        private string GenerateBodyForTemplate(CathedraReport report)
         {
-            String body = "<body><div class=\"body\">"
+            string body = "<body><div class=\"body\">"
                 + REPORT_HEADER
                 + PUNKT_1
                 + PUNKT_2
@@ -298,7 +297,7 @@ namespace UserManagement.Services
             return formetedBody;
         }
 
-        private String GenerateTemplateForHeadOfReport()
+        private string GenerateTemplateForHeadOfReport()
         {
             return "<div class=\"header\"><h2>Звіт про наукову роботу кафедри "
                 + CATHEDRA_CONST
@@ -307,12 +306,12 @@ namespace UserManagement.Services
                 + "</h2></div>";
         }
 
-        private String GenerateHtmlTemplateWithoutBody()
+        private string GenerateHtmlTemplateWithoutBody()
         {
             return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;margin-top:10px;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
         }
 
-        private string GenerateTemplateForGenericPunkt(String title)
+        private string GenerateTemplateForGenericPunkt(string title)
         {
             return "<div class=\"block\"><p style=\"margin-left:34px\">"
                 + title
@@ -432,7 +431,7 @@ namespace UserManagement.Services
             return GetTemplateHeaderBlock("Тези доповідей на конференціях");
         }
 
-        private string GetPunktThemeGeneric(ThemeOfScientificWork theme, String title)
+        private string GetPunktThemeGeneric(ThemeOfScientificWork theme, string title)
         {
             if ((theme == null))
             {
@@ -448,7 +447,7 @@ namespace UserManagement.Services
                 + " - " + theme.PeriodTo.Year.ToString()
             });
         }
-        private string GetPunktThemeGenericField(String field, ThemeOfScientificWork theme, String title)
+        private string GetPunktThemeGenericField(string field, ThemeOfScientificWork theme, string title)
         {
             if ((theme == null || field == null || field == ""))
             {
@@ -460,7 +459,7 @@ namespace UserManagement.Services
                 [GENERIC_TEXT_CONST] = field,
             });
         }
-        private string GetPunktThemeGenericPublications(ThemeOfScientificWork theme, List<Publication> publications, String title)
+        private string GetPunktThemeGenericPublications(ThemeOfScientificWork theme, List<Publication> publications, string title)
         {
             if ((theme == null
                 || publications == null || publications.Count == 0))
@@ -472,7 +471,7 @@ namespace UserManagement.Services
                 [GENERIC_TEXT_CONST] = GetPunktBudgetPublicationsTemplate(publications),
             });
         }
-        private string GetPublicationGenericPunktNine(String title, PublicationType type, List<Publication> publications)
+        private string GetPublicationGenericPunktNine(string title, PublicationType type, List<Publication> publications)
         {
             if (publications == null || publications.Where(x => x.PublicationType == type).Count() == 0)
             {
@@ -483,7 +482,7 @@ namespace UserManagement.Services
             return GetTemplatePublicationByType(title, list.Count.ToString(), size.ToString(), title.ToLower());
         }
 
-        private string GetPublicationArticlesOrConferencesTemplate(String title, PublicationType type, List<Publication> publications)
+        private string GetPublicationArticlesOrConferencesTemplate(string title, PublicationType type, List<Publication> publications)
         {
             if (publications == null || publications.Where(x => x.PublicationType == type).Count() == 0)
             {
@@ -530,14 +529,14 @@ namespace UserManagement.Services
             });
         }
 
-        private string GetTemplateHeaderBlock(String title)
+        private string GetTemplateHeaderBlock(string title)
         {
             return "<div class=\"block\"><p class=\"header\"><b>"
                 + title
                 + "</b></p></div>";
         }
 
-        private string GetTemplatePublicationByType(String title, String countPublications, String size, String type)
+        private string GetTemplatePublicationByType(string title, string countPublications, string size, string type)
         {
             return "<div class=\"block\"><p class=\"header\"><b>"
                 + title
@@ -646,7 +645,7 @@ namespace UserManagement.Services
 
         private string GetPunktBudgetPublicationsTemplate(List<Publication> report)
         {
-            String publicationText = "Всього по темі опубліковано ";
+            string publicationText = "Всього по темі опубліковано ";
             var publications = report.GroupBy(x => x.PublicationType).ToDictionary(k => k.Key, x => x.Count());
             for (var i = 0; i < publications.Count; i++)
             {
@@ -683,7 +682,7 @@ namespace UserManagement.Services
             });
         }
 
-        private string GenerateTemplateForGenericPunktHeader(String title)
+        private string GenerateTemplateForGenericPunktHeader(string title)
         {
             return "<div class=\"block\"><p style=\"margin-left:34px\">"
                 + title
@@ -913,7 +912,7 @@ namespace UserManagement.Services
                 + "</p></div>";
         }
 
-        private String ReplaceStringWithParameters(String str, Dictionary<String, String> parameters)
+        private string ReplaceStringWithParameters(string str, Dictionary<String, String> parameters)
         {
             string toReturn = str;
             foreach (var i in parameters)

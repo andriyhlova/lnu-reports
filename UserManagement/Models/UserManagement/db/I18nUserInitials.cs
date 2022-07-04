@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,20 +12,14 @@ namespace UserManagement.Models.db
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
+        public int ID { get; set; }
         public Language Language { get; set; }
 
-        public String FirstName { get; set; } = "";
-        public String LastName { get; set; } = "";
-        public String FathersName { get; set; } = "";
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public string FathersName { get; set; } = "";
 
 
         public virtual ApplicationUser User { get; set; }
-    }
-
-    public enum Language
-    {
-        UA,
-        EN,
     }
 }

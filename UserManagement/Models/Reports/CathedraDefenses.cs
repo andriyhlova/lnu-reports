@@ -11,12 +11,12 @@ namespace UserManagement.Models.Reports
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 Id { get; set; }
-        public String SurnameAndInitials { get; set; }
-        public String ScientificHead { get; set; }
-        public Int32 YearOfEnd { get; set; }
+        public int Id { get; set; }
+        public string SurnameAndInitials { get; set; }
+        public string ScientificHead { get; set; }
+        public int YearOfEnd { get; set; }
         public DateTime DateOfInning { get; set; }
         public DateTime DateOfDefense { get; set; }
-        public String ThemeOfWork { get; set; }
+        public string ThemeOfWork { get; set; }
     }
 }

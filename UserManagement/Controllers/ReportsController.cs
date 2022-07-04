@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Rotativa;
+using SRS.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -130,10 +131,10 @@ namespace UserManagement.Controllers
 
         public ActionResult GetLatex(int reportId)
         {
-            String content = reportService.GenerateHTMLReport(reportId);
+            string content = reportService.GenerateHTMLReport(reportId);
             var file = Path.Combine(ConfigurationManager.AppSettings["HtmlFilePath"],@"test.html");
             System.IO.File.WriteAllText(file, content);
-            String result = "";
+            string result = "";
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo

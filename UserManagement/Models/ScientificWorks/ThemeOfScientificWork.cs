@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,11 +12,11 @@ namespace UserManagement.Models.db
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
-        public String Value { get; set; }
-        public String ThemeNumber { get; set; }
-        public String Code { get; set; }
-        public String ScientificHead { get; set; }
+        public int ID { get; set; }
+        public string Value { get; set; }
+        public string ThemeNumber { get; set; }
+        public string Code { get; set; }
+        public string ScientificHead { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime PeriodFrom { get; set; }
@@ -25,12 +26,5 @@ namespace UserManagement.Models.db
         public Financial Financial { get; set; }
         public virtual ICollection<Report> Report { get; set; }
         public virtual Cathedra Cathedra { get; set; }
-    }
-
-    public enum Financial
-    {
-        БЮДЖЕТ,
-        ГОСПДОГОВІР,
-        В_МЕЖАХ_РОБОЧОГО_ЧАСУ
     }
 }

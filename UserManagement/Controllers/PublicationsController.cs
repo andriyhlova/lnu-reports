@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
+using SRS.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +14,6 @@ using System.Web.Mvc;
 using System.Web.UI;
 using UserManagement.Models;
 using UserManagement.Models.db;
-using UserManagement.Models.PublicationDB;
 
 namespace UserManagement.Controllers
 {
@@ -593,7 +593,7 @@ namespace UserManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult DeleteUser(String userId, int publicationId)
+        public ActionResult DeleteUser(string userId, int publicationId)
         {
             var publication = db.Publication.Find(publicationId);
             var user = publication.User.Where(x => x.Id == userId).FirstOrDefault();

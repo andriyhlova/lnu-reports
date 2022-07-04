@@ -24,6 +24,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +66,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -72,12 +74,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -118,6 +117,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -245,7 +245,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
-    <Compile Include="Models\PublicationDB\PublicationType.cs" />
     <Compile Include="Models\Reports\OtherDefenses.cs" />
     <Compile Include="Models\Reports\CoworkersDefenses.cs" />
     <Compile Include="Models\Reports\CathedraDefenses.cs" />
@@ -270,7 +269,6 @@
     <Compile Include="Services\CathedraReportService.cs" />
     <Compile Include="Services\ReportService.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Utilities\Hash.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -419,6 +417,16 @@
     <EmbeddedResource Include="Migrations\202110050919357_AddedApprovedById.resx">
       <DependentUpon>202110050919357_AddedApprovedById.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SRS.Domain\SRS.Domain.csproj">
+      <Project>{D58C6168-3DE1-4DE9-8AC2-2CA7F94B11AA}</Project>
+      <Name>SRS.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SRS.Services\SRS.Services.csproj">
+      <Project>{4218c75c-92f6-4efc-bdc8-7bdd6f6f8406}</Project>
+      <Name>SRS.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

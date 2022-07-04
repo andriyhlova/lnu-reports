@@ -12,24 +12,24 @@ namespace UserManagement.Models.db
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
-        public String ParticipationInGrands { get; set; } // Пункт 2
-        public String ScientificTrainings { get; set; } // Пункт 3
-        public String ScientificControlDoctorsWork { get; set; } // Пункт 4
-        public String ScientificControlStudentsWork { get; set; }// Пункт 5
-        public String ApplicationForInevention { get; set; } // Пункт 7.1
-        public String PatentForInevention { get; set; }// Пункт 7.2
-        public String ReviewForTheses { get; set; }// Пункт 8
-        public String MembershipInCouncils { get; set; } // Пункт 9
-        public String Other { get; set; }// Пункт 10
-        public String ThemeOfScientificWorkDescription { get; set; }// Пункт 1
+        public int ID { get; set; }
+        public string ParticipationInGrands { get; set; } // Пункт 2
+        public string ScientificTrainings { get; set; } // Пункт 3
+        public string ScientificControlDoctorsWork { get; set; } // Пункт 4
+        public string ScientificControlStudentsWork { get; set; }// Пункт 5
+        public string ApplicationForInevention { get; set; } // Пункт 7.1
+        public string PatentForInevention { get; set; }// Пункт 7.2
+        public string ReviewForTheses { get; set; }// Пункт 8
+        public string MembershipInCouncils { get; set; } // Пункт 9
+        public string Other { get; set; }// Пункт 10
+        public string ThemeOfScientificWorkDescription { get; set; }// Пункт 1
 
-        public String Protocol { get; set; }
+        public string Protocol { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
-        public Boolean IsSigned { get; set; } = false;
-        public Boolean IsConfirmed { get; set; } = false;
+        public bool IsSigned { get; set; } = false;
+        public bool IsConfirmed { get; set; } = false;
 
         public virtual ThemeOfScientificWork ThemeOfScientificWork { get; set; }// Пункт 1
         public virtual ApplicationUser User { get; set; }

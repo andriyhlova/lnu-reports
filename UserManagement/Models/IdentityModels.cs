@@ -20,16 +20,16 @@ namespace UserManagement.Models
             this.Publication = new HashSet<Publication>();
         }
 
-        public Int32 PublicationCounterBeforeRegistration { get; set; } = 0;
-        public Int32 MonographCounterBeforeRegistration { get; set; } = 0;
-        public Int32 BookCounterBeforeRegistration { get; set; } = 0;
-        public Int32 TrainingBookCounterBeforeRegistration { get; set; } = 0;
-        public Int32 OtherWritingCounterBeforeRegistration { get; set; } = 0;
-        public Int32 ConferenceCounterBeforeRegistration { get; set; } = 0;
-        public Int32 PatentCounterBeforeRegistration { get; set; } = 0;
+        public int PublicationCounterBeforeRegistration { get; set; } = 0;
+        public int MonographCounterBeforeRegistration { get; set; } = 0;
+        public int BookCounterBeforeRegistration { get; set; } = 0;
+        public int TrainingBookCounterBeforeRegistration { get; set; } = 0;
+        public int OtherWritingCounterBeforeRegistration { get; set; } = 0;
+        public int ConferenceCounterBeforeRegistration { get; set; } = 0;
+        public int PatentCounterBeforeRegistration { get; set; } = 0;
 
         [Display(Name = "Активний")]
-        public Boolean IsActive { get; set; } = false;
+        public bool IsActive { get; set; } = false;
         [DataType(DataType.Date)]
         [Display(Name ="Дата народження")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

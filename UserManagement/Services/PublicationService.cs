@@ -1,17 +1,17 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using UserManagement.Models.db;
-using UserManagement.Models.PublicationDB;
 
 namespace UserManagement.Services
 {
     public class PublicationService
     {
-        private static String GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
+        private static string GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
 
-        public String GenerateNameOfPublication(Publication publication)
+        public string GenerateNameOfPublication(Publication publication)
         {
             string toReturn = "";
 
@@ -28,7 +28,7 @@ namespace UserManagement.Services
 
             return toReturn;
         }
-        private String AddEndOfPublication(Publication publication)
+        private string AddEndOfPublication(Publication publication)
         {
             string toReturn = "";
             toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ". "));
@@ -283,7 +283,7 @@ namespace UserManagement.Services
             return "6.1.6.2 Тези доповідей на вітчизняних конференціях:";
         }
 
-        private string GenerateTemplateForGenericPunkt(String title)
+        private string GenerateTemplateForGenericPunkt(string title)
         {
             return " <div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + title
@@ -292,14 +292,14 @@ namespace UserManagement.Services
                 + "</p></div>";
         }
 
-        private string GenerateTemplateForGenericPunktHeader(String title)
+        private string GenerateTemplateForGenericPunktHeader(string title)
         {
             return "<div class=\"block\"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + title
                 + "</p></div>";
         }
 
-        private String ReplaceStringWithParameters(String str, Dictionary<String, String> parameters)
+        private string ReplaceStringWithParameters(string str, Dictionary<String, String> parameters)
         {
             string toReturn = str;
             foreach (var i in parameters)

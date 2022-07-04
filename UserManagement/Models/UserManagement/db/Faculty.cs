@@ -11,8 +11,8 @@ namespace UserManagement.Models.db
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
-        public String Name { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<Cathedra> Cathedra { get; set; }
     }

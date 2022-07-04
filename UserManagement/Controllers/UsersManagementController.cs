@@ -277,7 +277,7 @@ namespace UserManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult DeleteRole(String userId, String roleName)
+        public ActionResult DeleteRole(string userId, string roleName)
         {
             UserManager.RemoveFromRole(userId, roleName);
             return RedirectToAction("Edit", "UsersManagement", new { id = userId });

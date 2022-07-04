@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace UserManagement.Utilities
+namespace SRS.Services.Utilities
 {
     public static class Hash
     {

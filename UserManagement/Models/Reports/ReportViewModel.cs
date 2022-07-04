@@ -10,20 +10,20 @@ namespace UserManagement.Models.Reports
     public class ReportViewModel
     {
         public int? ID { get; set; }
-        public String ParticipationInGrands { get; set; }
-        public String ScientificTrainings { get; set; }
-        public String ScientificControlDoctorsWork { get; set; }
-        public String ScientificControlStudentsWork { get; set; }
-        public String ApplicationForInevention { get; set; }
-        public String PatentForInevention { get; set; }
-        public String ReviewForTheses { get; set; }
-        public String MembershipInCouncils { get; set; }
-        public String Other { get; set; }
-        public String ThemeOfScientificWorkDescription { get; set; }
-        public Boolean IsSigned { get; set; }
-        public Boolean IsConfirmed { get; set; }
+        public string ParticipationInGrands { get; set; }
+        public string ScientificTrainings { get; set; }
+        public string ScientificControlDoctorsWork { get; set; }
+        public string ScientificControlStudentsWork { get; set; }
+        public string ApplicationForInevention { get; set; }
+        public string PatentForInevention { get; set; }
+        public string ReviewForTheses { get; set; }
+        public string MembershipInCouncils { get; set; }
+        public string Other { get; set; }
+        public string ThemeOfScientificWorkDescription { get; set; }
+        public bool IsSigned { get; set; }
+        public bool IsConfirmed { get; set; }
 
-        public String Protocol { get; set; }
+        public string Protocol { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
@@ -36,8 +36,8 @@ namespace UserManagement.Models.Reports
 
     public class PublicationOption
     {
-        public Int32 Id { get; set; }
-        public String Name { get; set; }
-        public Boolean Checked { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool Checked { get; set; }
     }
 }

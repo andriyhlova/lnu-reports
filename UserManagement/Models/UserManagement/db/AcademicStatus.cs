@@ -11,7 +11,7 @@ namespace UserManagement.Models.db
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Int32 ID { get; set; }
-        public String Value { get; set; }
+        public int ID { get; set; }
+        public string Value { get; set; }
     }
 }
