@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Rotativa;
+using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Repositories.Context;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,9 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using UserManagement.Converter;
-using UserManagement.Migrations;
-using UserManagement.Models;
-using UserManagement.Models.db;
 using UserManagement.Models.Reports;
 using UserManagement.Services;
 

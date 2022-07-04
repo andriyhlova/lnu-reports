@@ -1,9 +1,10 @@
-﻿using System.Data.Entity;
+﻿using SRS.Domain.Entities;
+using SRS.Repositories.Context;
+using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UserManagement.Models;
-using UserManagement.Models.db;
 
 namespace UserManagement.Controllers
 {

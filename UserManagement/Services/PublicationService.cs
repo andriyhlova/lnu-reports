@@ -1,9 +1,8 @@
-﻿using SRS.Domain.Enums;
+﻿using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using UserManagement.Models.db;
 
 namespace UserManagement.Services
 {

@@ -2,11 +2,11 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using SRS.Domain.Entities;
+using SRS.Repositories.Context;
+//using SRS.Repositories.Migrations;
 using System;
 using System.Data.Entity;
-using UserManagement.Migrations;
-using UserManagement.Models;
-using UserManagement.Models.db;
 
 [assembly: OwinStartup(typeof(UserManagement.Startup))]
 namespace UserManagement
@@ -22,7 +22,7 @@ namespace UserManagement
         // In this method we will create default User roles and Admin user for login   
         private void CreateRolesandUsers()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
             ApplicationDbContext context = new ApplicationDbContext();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));

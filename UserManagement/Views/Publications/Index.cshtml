@@ -1,6 +1,5 @@
-﻿@model PagedList.IPagedList<UserManagement.Models.db.Publication>
+﻿@model PagedList.IPagedList<SRS.Domain.Entities.Publication>
 @using PagedList.Mvc;
-@using UserManagement.Models.db;
 @{
     ViewBag.Title = "Публікації";
 }
@@ -52,7 +51,7 @@
                         <option value="">Виберіть користувача</option>
                         @foreach (var user in ViewBag.AllUsers)
                         {
-                            var init = ((UserManagement.Models.ApplicationUser)user).I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA);
+                            var init = ((SRS.Domain.Entities.ApplicationUser)user).I18nUserInitials.FirstOrDefault(y => y.Language == SRS.Domain.Enums.Language.UA);
                             <option value="@user.Id" data-faculty="@user.Cathedra.Faculty.ID" data-cathedra="@user.Cathedra.ID">@(init != null ? String.Join(" ", init.LastName, init.FirstName, init.FathersName) : "")</option>
                         }
                     </select>

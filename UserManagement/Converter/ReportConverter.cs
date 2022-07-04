@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SRS.Domain.Entities;
 using System.Linq;
-using System.Web;
-using UserManagement.Models.db;
 using UserManagement.Models.Reports;
 
 namespace UserManagement.Converter

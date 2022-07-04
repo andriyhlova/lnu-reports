@@ -82,7 +82,7 @@
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Interfaces\IBaseRepository.cs" />
     <Compile Include="Migrations\202207042130196_Initial.cs" />
-    <Compile Include="Migrations\202207042130196_Initial.designer.cs">
+    <Compile Include="Migrations\202207042130196_Initial.Designer.cs">
       <DependentUpon>202207042130196_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />

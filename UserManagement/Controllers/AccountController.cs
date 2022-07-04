@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MimeKit;
-using MailKit.Net.Smtp;
 using UserManagement.Models;
-using UserManagement.Models.db;
 using SRS.Services.Utilities;
-using UserManagement.Services;
 using SRS.Domain.Enums;
+using SRS.Repositories.Context;
+using SRS.Domain.Entities;
 
 namespace UserManagement.Controllers
 {

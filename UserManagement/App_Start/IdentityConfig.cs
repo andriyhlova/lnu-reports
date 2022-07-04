@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using SRS.Domain.Entities;
+using SRS.Repositories.Context;
 using UserManagement.Models;
 
 namespace UserManagement

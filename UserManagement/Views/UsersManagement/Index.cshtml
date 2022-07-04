@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<UserManagement.Models.ApplicationUser>
+﻿@model PagedList.IPagedList<SRS.Domain.Entities.ApplicationUser>
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Користувачі";
@@ -64,7 +64,7 @@
             <td>
                 @foreach (var i in item.I18nUserInitials)
                 {
-                    if (i.Language == UserManagement.Models.db.Language.UA)
+                    if (i.Language == SRS.Domain.Enums.Language.UA)
                     {
                         @Html.DisplayFor(modelItem => i.FirstName)
                         break;
@@ -74,7 +74,7 @@
             <td>
                 @foreach (var i in item.I18nUserInitials)
                 {
-                    if (i.Language == UserManagement.Models.db.Language.UA)
+                    if (i.Language == SRS.Domain.Enums.Language.UA)
                     {
                         @Html.DisplayFor(modelItem => i.LastName)
                         break;

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PagedList;
+using SRS.Domain.Entities;
+using SRS.Repositories.Context;
 using System;
 using System.Collections.Generic;
 using System.Data;

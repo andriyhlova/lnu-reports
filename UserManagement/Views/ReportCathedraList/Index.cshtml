@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<UserManagement.Models.Reports.CathedraReport>
+﻿@model PagedList.IPagedList<SRS.Domain.Entities.CathedraReport>
 @using PagedList.Mvc;
 
 @{
@@ -44,7 +44,7 @@ else if (User.IsInRole("Керівник кафедри"))
             <td>
                 @foreach (var initial in item.User.I18nUserInitials)
                 {
-                    if (initial.Language == UserManagement.Models.db.Language.UA)
+                    if (initial.Language == SRS.Domain.Enums.Language.UA)
                     {
                         <span>@initial.FirstName&nbsp;@initial.LastName</span>
                         break;
