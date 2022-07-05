@@ -1,7 +1,7 @@
 ﻿namespace SRS.Repositories.Migrations
 {
-    using SRS.Repositories.Context;
     using System.Data.Entity.Migrations;
+    using SRS.Repositories.Context;
 
     public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {

@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Configuration;
-using MimeKit;
 using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace SRS.Services.Implementations
 {
-    public class EmailService:IDisposable
+    public class EmailService : IDisposable
     {
-        private string smtpHost;
-        private int smtpPort;
-        private bool smtpUseSSL;
-        private string smtpUserName;
-        private string smtpPassword;
-        private SmtpClient client;
+        private readonly string smtpHost;
+        private readonly int smtpPort;
+        private readonly bool smtpUseSSL;
+        private readonly string smtpUserName;
+        private readonly string smtpPassword;
+        private readonly SmtpClient client;
+
         public EmailService()
         {
             smtpHost = ConfigurationManager.AppSettings["smtpHost"];
@@ -22,10 +23,21 @@ namespace SRS.Services.Implementations
             smtpPassword = ConfigurationManager.AppSettings["smtpPassword"];
             client = new SmtpClient();
         }
+
+        ~EmailService()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         public void SendEmail(string email, string subject, string htmlBody)
         {
             // get change password page
-
             MimeMessage message = GetMailMessage(email, subject, htmlBody);
 
             client.Connect(smtpHost, smtpPort, smtpUseSSL);
@@ -35,10 +47,15 @@ namespace SRS.Services.Implementations
             client.Send(message);
             client.Disconnect(true);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            client?.Dispose();
+        }
+
         private MimeMessage GetMailMessage(string email, string subject, string htmlBody)
         {
             // get change password page
-
             MimeMessage message = new MimeMessage();
 
             string address = "no-reply@lnu.edu.ua";
@@ -54,18 +71,10 @@ namespace SRS.Services.Implementations
             BodyBuilder bodyBuilder = new BodyBuilder();
 
             // generate body
-            //bodyBuilder.HtmlBody = body;
             bodyBuilder.HtmlBody = htmlBody;
 
             message.Body = bodyBuilder.ToMessageBody();
             return message;
-        }
-        public void Dispose()
-        {
-            if (client != null)
-            {
-                client.Dispose();
-            }
         }
     }
 }
