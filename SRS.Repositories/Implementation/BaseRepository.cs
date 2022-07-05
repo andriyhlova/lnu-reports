@@ -1,18 +1,20 @@
-﻿using SRS.Domain.Entities;
-using SRS.Repositories.Context;
-using SRS.Repositories.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using SRS.Domain.Entities;
+using SRS.Repositories.Context;
+using SRS.Repositories.Interfaces;
 
 namespace SRS.Repositories.Implementations
 {
-    public class BaseRepository<TEntity>: IBaseRepository<TEntity> where TEntity: BaseEntity
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity>
+        where TEntity : BaseEntity
     {
-        protected readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+
         public BaseRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -60,14 +62,14 @@ namespace SRS.Repositories.Implementations
             return _context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
-        public virtual Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> expression)
-        {
-            return _context.Set<TEntity>().FirstOrDefaultAsync(expression);
-        }
-
         public virtual Task<List<TEntity>> Get(Expression<Func<TEntity, bool>> expression)
         {
             return _context.Set<TEntity>().Where(expression).ToListAsync();
+        }
+
+        public virtual Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> expression)
+        {
+            return _context.Set<TEntity>().FirstOrDefaultAsync(expression);
         }
 
         public virtual Task<List<TEntity>> GetAll()

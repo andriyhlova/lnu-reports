@@ -6,6 +6,11 @@ namespace SRS.Repositories.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext()
+            : base("DefaultConnection", throwIfV1Schema: false)
+        {
+        }
+
         public DbSet<AcademicStatus> AcademicStatus { get; set; }
 
         public DbSet<ScienceDegree> ScienceDegree { get; set; }
@@ -23,11 +28,6 @@ namespace SRS.Repositories.Context
         public DbSet<Report> Reports { get; set; }
 
         public DbSet<CathedraReport> CathedraReport { get; set; }
-
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
 
         public static ApplicationDbContext Create()
         {
