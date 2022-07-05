@@ -34,7 +34,7 @@
                         <option value="">Виберіть кафедру</option>
                         @foreach (var cathedra in ViewBag.AllCathedras)
                         {
-                            <option value="@cathedra.ID" data-faculty="@cathedra.Faculty.ID">@cathedra.Name</option>
+                            <option value="@cathedra.Id" data-faculty="@cathedra.Faculty.Id">@cathedra.Name</option>
                         }
                     </select>
             </div>
@@ -52,7 +52,7 @@
                         @foreach (var user in ViewBag.AllUsers)
                         {
                             var init = ((SRS.Domain.Entities.ApplicationUser)user).I18nUserInitials.FirstOrDefault(y => y.Language == SRS.Domain.Enums.Language.UA);
-                            <option value="@user.Id" data-faculty="@user.Cathedra.Faculty.ID" data-cathedra="@user.Cathedra.ID">@(init != null ? String.Join(" ", init.LastName, init.FirstName, init.FathersName) : "")</option>
+                            <option value="@user.Id" data-faculty="@user.Cathedra.Faculty.Id" data-cathedra="@user.Cathedra.Id">@(init != null ? String.Join(" ", init.LastName, init.FirstName, init.FathersName) : "")</option>
                         }
                     </select>
         </div>
@@ -125,13 +125,13 @@
                     || User.IsInRole("Адміністрація деканату")
                     || User.IsInRole("Керівник кафедри"))
                 {
-                    @Html.ActionLink("Редагувати", "Edit", new { id = item.ID })
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id })
                 }
-                @Html.ActionLink("Деталі", "Details", new { id = item.ID })
+                @Html.ActionLink("Деталі", "Details", new { id = item.Id })
 
                 @if (item.User.Any(x => x.UserName == User.Identity.Name))
                 {
-                    @Html.ActionLink("Видалити", "Delete", new { id = item.ID })
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
                 }
             </td>
         </tr>

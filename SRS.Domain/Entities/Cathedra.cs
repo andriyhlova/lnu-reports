@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SRS.Domain.Entities
 {
-    public class Cathedra
+    public class Cathedra : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         public string Name { get; set; }
 
         public virtual Faculty Faculty { get; set; }

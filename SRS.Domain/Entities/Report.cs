@@ -5,12 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SRS.Domain.Entities
 {
-    public class Report
+    public class Report : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         public string ParticipationInGrands { get; set; } // Пункт 2
 
         public string ScientificTrainings { get; set; } // Пункт 3

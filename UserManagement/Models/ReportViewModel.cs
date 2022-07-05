@@ -6,7 +6,7 @@ namespace UserManagement.Models.Reports
 {
     public class ReportViewModel
     {
-        public int? ID { get; set; }
+        public int? Id { get; set; }
         public string ParticipationInGrands { get; set; }
         public string ScientificTrainings { get; set; }
         public string ScientificControlDoctorsWork { get; set; }

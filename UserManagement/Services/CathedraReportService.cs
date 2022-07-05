@@ -195,7 +195,7 @@ namespace UserManagement.Services
             var distinctPublications = report.PrintedPublicationBudgetTheme
                 .Union(report.PrintedPublicationHospDohovirTheme)
                 .Union(report.PrintedPublicationThemeInWorkTime)
-                .GroupBy(x => x.ID)
+                .GroupBy(x => x.Id)
                 .Select(x => x.First())
                 .ToList();
 
@@ -663,7 +663,7 @@ namespace UserManagement.Services
 
         private string GetFooter(CathedraReport report)
         {
-            var lead = db.Users.FirstOrDefault(x => x.Position.ID == 1 && x.Cathedra.Faculty.ID == report.User.Cathedra.Faculty.ID);
+            var lead = db.Users.FirstOrDefault(x => x.Position.Id == 1 && x.Cathedra.Faculty.Id == report.User.Cathedra.Faculty.Id);
             var cathedraLeadInitials = lead?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)

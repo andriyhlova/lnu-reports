@@ -41,7 +41,7 @@ namespace UserManagement.Controllers
             var currentUser = db.Users.Where(x => x.UserName == User.Identity.Name).First();
             var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
             var themes = db.ThemeOfScientificWork
-                .Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID
+                .Where(x => x.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id
                 && x.PeriodTo >= currentYear).ToList();
             ViewBag.ScientificThemesByFaculty = themes.Select(x => {
                 var text = x.Financial == Financial.БЮДЖЕТ 
@@ -53,7 +53,7 @@ namespace UserManagement.Controllers
                 return new SelectListItem
                 {
                     Text = text,
-                    Value = x.ID.ToString(),
+                    Value = x.Id.ToString(),
                 };
             }).ToList();
             Report oldReport;
@@ -79,7 +79,7 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
                     if ((dateFromVerified == "" || (dateFromVerified != "" && Convert.ToDateTime(x.Date) >= DateTime.Parse(dateFromVerified))) &&
@@ -92,7 +92,7 @@ namespace UserManagement.Controllers
                 .ToList();
             return View(new ReportViewModel()
             {
-                ID = oldReport?.ID,
+                Id = oldReport?.Id,
                 PrintedPublication = publicationOptions,
                 RecomendedPublication = publicationOptions,
                 AcceptedToPrintPublication = publicationOptions
@@ -106,16 +106,16 @@ namespace UserManagement.Controllers
             if (stepIndex == 4)
             {
                 int indexOfDateAProtocol = 3;
-                if (reportViewModel.ID != null)
+                if (reportViewModel.Id != null)
                 {
-                    var report = db.Reports.Find(reportViewModel.ID);
+                    var report = db.Reports.Find(reportViewModel.Id);
                     if(report.Protocol == null || report.Date == null)
                     {
-                        return RedirectToAction("Index", new { stepIndex = indexOfDateAProtocol, reportId = reportViewModel.ID });
+                        return RedirectToAction("Index", new { stepIndex = indexOfDateAProtocol, reportId = reportViewModel.Id });
                     }
                 }
             }
-            return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.ID });
+            return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.Id });
         }
 
         public ActionResult Preview(int reportId)
@@ -167,32 +167,32 @@ namespace UserManagement.Controllers
         private void CreateOrUpdateReport(ReportViewModel reportViewModel, int stepIndex)
         {
             var allPublications = db.Publication.ToList();
-            if (reportViewModel.ID == null && !db.Reports.Any(x => x.ID == reportViewModel.ID))
+            if (reportViewModel.Id == null && !db.Reports.Any(x => x.Id == reportViewModel.Id))
             {
                 var reportToCreate = ReportConverter.ConvertToEntity(reportViewModel);
                 reportToCreate.User = db.Users.Find(User.Identity.GetUserId());
-                reportToCreate.ThemeOfScientificWork = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
-                reportToCreate.PrintedPublication = allPublications.Where(x => reportViewModel.PrintedPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
-                reportToCreate.RecomendedPublication = allPublications.Where(x => reportViewModel.RecomendedPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
-                reportToCreate.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                reportToCreate.ThemeOfScientificWork = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
+                reportToCreate.PrintedPublication = allPublications.Where(x => reportViewModel.PrintedPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
+                reportToCreate.RecomendedPublication = allPublications.Where(x => reportViewModel.RecomendedPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
+                reportToCreate.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
                 db.Reports.Add(reportToCreate);
                 db.SaveChanges();
             }
             else
             {
-                var report = db.Reports.Find(reportViewModel.ID);
+                var report = db.Reports.Find(reportViewModel.Id);
                 switch (stepIndex)
                 {
                     case 0:
                         report.PrintedPublication.Clear();
                         report.RecomendedPublication.Clear();
                         report.AcceptedToPrintPublication.Clear();
-                        report.PrintedPublication = allPublications.Where(x => reportViewModel.PrintedPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
-                        report.RecomendedPublication = allPublications.Where(x => reportViewModel.RecomendedPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
-                        report.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                        report.PrintedPublication = allPublications.Where(x => reportViewModel.PrintedPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
+                        report.RecomendedPublication = allPublications.Where(x => reportViewModel.RecomendedPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
+                        report.AcceptedToPrintPublication = allPublications.Where(x => reportViewModel.AcceptedToPrintPublication.Any(y => y.Id == x.Id && y.Checked)).ToList();
                         break;
                     case 1:
-                        report.ThemeOfScientificWork = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
+                        report.ThemeOfScientificWork = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.ThemeOfScientificWorkId).FirstOrDefault();
                         report.ThemeOfScientificWorkDescription = reportViewModel.ThemeOfScientificWorkDescription;
                         break;
                     case 2:
@@ -226,10 +226,10 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
-                    if (viewModel.RecomendedPublication.Any(y => y.Id == x.ID))
+                    if (viewModel.RecomendedPublication.Any(y => y.Id == x.Id))
                     {
                         option.Checked = true;
                     }
@@ -242,10 +242,10 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
-                    if (viewModel.PrintedPublication.Any(y => y.Id == x.ID))
+                    if (viewModel.PrintedPublication.Any(y => y.Id == x.Id))
                     {
                         option.Checked = true;
                     }
@@ -258,10 +258,10 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
-                    if (viewModel.AcceptedToPrintPublication.Any(y => y.Id == x.ID))
+                    if (viewModel.AcceptedToPrintPublication.Any(y => y.Id == x.Id))
                     {
                         option.Checked = true;
                     }

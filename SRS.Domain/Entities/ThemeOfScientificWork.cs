@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
-    public class ThemeOfScientificWork
+    public class ThemeOfScientificWork : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         public string Value { get; set; }
 
         public string ThemeNumber { get; set; }

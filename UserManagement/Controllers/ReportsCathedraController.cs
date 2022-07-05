@@ -38,7 +38,7 @@ namespace UserManagement.Controllers
             var currentUser = db.Users.Include(x=>x.Cathedra).First(x => x.UserName == User.Identity.Name);
             var allReports = db.Reports.Include(x=>x.ThemeOfScientificWork)
                 .Include(x=>x.User.Cathedra)
-                .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null);
+                .Where(x => x.User.Cathedra.Id == currentUser.Cathedra.Id && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null);
             List<Report> lectorsReports = new List<Report>();
             if(stepIndex==0)
             {
@@ -53,7 +53,7 @@ namespace UserManagement.Controllers
                 lectorsReports = allReports.Where(x => x.ThemeOfScientificWork.Financial == Financial.ГОСПДОГОВІР).ToList();
             }
             ViewBag.AllThemeDescriptions = lectorsReports
-               .GroupBy(x => x.ThemeOfScientificWork.ID).ToDictionary(k => k.Key.ToString(), v => new List<string> { v.FirstOrDefault()?.ThemeOfScientificWorkDescription });
+               .GroupBy(x => x.ThemeOfScientificWork.Id).ToDictionary(k => k.Key.ToString(), v => new List<string> { v.FirstOrDefault()?.ThemeOfScientificWorkDescription });
 
             var themes = lectorsReports.GroupBy(x => x.ThemeOfScientificWork).Select(x=>x.Key).ToList();
             ViewBag.ScientificThemesByFaculty = themes.Select(x => {
@@ -66,7 +66,7 @@ namespace UserManagement.Controllers
                 return new SelectListItem
                 {
                     Text = text,
-                    Value = x.ID.ToString(),
+                    Value = x.Id.ToString(),
                 };
             }).ToList();
             CathedraReport oldReport;
@@ -95,7 +95,7 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = true,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
                     return option;
@@ -103,7 +103,7 @@ namespace UserManagement.Controllers
                 .ToList();
            return View(new CathedraReportViewModel()
             {
-                ID = oldReport?.ID,
+                Id = oldReport?.Id,
                 PrintedPublicationBudgetTheme = publicationOptions,
                 PrintedPublicationHospDohovirTheme = publicationOptions,
                 PrintedPublicationThemeInWorkTime = publicationOptions,
@@ -116,7 +116,7 @@ namespace UserManagement.Controllers
         public ActionResult Update(CathedraReportViewModel reportViewModel, int? stepIndex, int? oldIndex)
         {
             CreateOrUpdateReport(reportViewModel, oldIndex ?? 0);
-            return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.ID });
+            return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.Id });
         }
         [AllowAnonymous]
         public ActionResult Preview(int reportId)
@@ -168,31 +168,31 @@ namespace UserManagement.Controllers
         private void CreateOrUpdateReport(CathedraReportViewModel reportViewModel, int stepIndex)
         {
             var allPublications = db.Publication.ToList();
-            if (reportViewModel.ID == null && !db.Reports.Any(x => x.ID == reportViewModel.ID))
+            if (reportViewModel.Id == null && !db.Reports.Any(x => x.Id == reportViewModel.Id))
             {
                 var reportToCreate = ReportConverter.ConvertToEntity(reportViewModel);
                 reportToCreate.User = db.Users.Find(User.Identity.GetUserId());
 
-                reportToCreate.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.BudgetThemeId).FirstOrDefault();
+                reportToCreate.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.BudgetThemeId).FirstOrDefault();
                 if (reportViewModel.PrintedPublicationBudgetTheme != null)
                     reportToCreate.PrintedPublicationBudgetTheme = allPublications
-                        .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                        .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.Id && y.Checked)).ToList();
                     
                 db.CathedraReport.Add(reportToCreate);
                 db.SaveChanges();
             }
             else
             {
-                var report = db.CathedraReport.Find(reportViewModel.ID);
+                var report = db.CathedraReport.Find(reportViewModel.Id);
                 switch (stepIndex)
                 {
                     case 0:
-                        report.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.BudgetThemeId).FirstOrDefault();
+                        report.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.BudgetThemeId).FirstOrDefault();
                         if (reportViewModel.PrintedPublicationBudgetTheme != null)
                         {
                             report.PrintedPublicationBudgetTheme.Clear();
                             report.PrintedPublicationBudgetTheme = allPublications
-                            .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                            .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.Id && y.Checked)).ToList();
                         }
                         report.AllDescriptionBudgetTheme = reportViewModel.AllDescriptionBudgetTheme;
                         report.CVBudgetTheme = reportViewModel.CVBudgetTheme;
@@ -201,12 +201,12 @@ namespace UserManagement.Controllers
                         report.DefensesOfCoworkersBudgetTheme = reportViewModel.DefensesOfCoworkersBudgetTheme;
                         break;
                     case 1:
-                        report.ThemeInWorkTime = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeInWorkTimeId).FirstOrDefault();
+                        report.ThemeInWorkTime = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.ThemeInWorkTimeId).FirstOrDefault();
                         if (reportViewModel.PrintedPublicationThemeInWorkTime != null)
                         {
                             report.PrintedPublicationThemeInWorkTime.Clear();
                             report.PrintedPublicationThemeInWorkTime = allPublications
-                            .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                            .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.Id && y.Checked)).ToList();
                         }
                         report.AllDescriptionThemeInWorkTime = reportViewModel.AllDescriptionThemeInWorkTime;
                         report.CVThemeInWorkTime = reportViewModel.CVThemeInWorkTime;
@@ -215,12 +215,12 @@ namespace UserManagement.Controllers
                         report.DefensesOfCoworkersThemeInWorkTime = reportViewModel.DefensesOfCoworkersThemeInWorkTime;
                         break;
                     case 2:
-                        report.HospDohovirTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.HospDohovirThemeId).FirstOrDefault();
+                        report.HospDohovirTheme = db.ThemeOfScientificWork.Where(x => x.Id == reportViewModel.HospDohovirThemeId).FirstOrDefault();
                         if (reportViewModel.PrintedPublicationHospDohovirTheme != null)
                         {
                             report.PrintedPublicationHospDohovirTheme.Clear();
                             report.PrintedPublicationHospDohovirTheme = allPublications
-                            .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                            .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.Id && y.Checked)).ToList();
                         }
                         report.AllDescriptionHospDohovirTheme = reportViewModel.AllDescriptionHospDohovirTheme;
                         report.CVHospDohovirTheme = reportViewModel.CVHospDohovirTheme;
@@ -260,10 +260,10 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
-                    if (viewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID))
+                    if (viewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.Id))
                     {
                         option.Checked = true;
                     }
@@ -276,10 +276,10 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
-                    if (viewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID))
+                    if (viewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.Id))
                     {
                         option.Checked = true;
                     }
@@ -292,10 +292,10 @@ namespace UserManagement.Controllers
                     var option = new PublicationOption()
                     {
                         Checked = false,
-                        Id = x.ID,
+                        Id = x.Id,
                         Name = x.Name
                     };
-                    if (viewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID))
+                    if (viewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.Id))
                     {
                         option.Checked = true;
                     }

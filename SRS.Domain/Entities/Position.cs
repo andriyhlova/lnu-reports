@@ -1,14 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SRS.Domain.Entities
+﻿namespace SRS.Domain.Entities
 {
-    public class Position
+    public class Position : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         public string Value { get; set; }
     }
 }

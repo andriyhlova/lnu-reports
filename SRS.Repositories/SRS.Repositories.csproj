@@ -85,6 +85,10 @@
     <Compile Include="Migrations\202207042130196_Initial.Designer.cs">
       <DependentUpon>202207042130196_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202207051011370_AddedBaseEntity.cs" />
+    <Compile Include="Migrations\202207051011370_AddedBaseEntity.designer.cs">
+      <DependentUpon>202207051011370_AddedBaseEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -104,6 +108,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202207042130196_Initial.resx">
       <DependentUpon>202207042130196_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207051011370_AddedBaseEntity.resx">
+      <DependentUpon>202207051011370_AddedBaseEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

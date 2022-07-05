@@ -518,7 +518,7 @@ namespace UserManagement.Services
 
         private string GetFooter(Report report)
         {
-            var lead = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID);
+            var lead = db.Users.FirstOrDefault(x => x.Position.Id == 2 && x.Cathedra.Id == report.User.Cathedra.Id);
             var cathedraLeadInitials = lead?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)

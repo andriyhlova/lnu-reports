@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
-    public class Publication
+    public class Publication : BaseEntity
     {
         public Publication()
         {
             this.User = new HashSet<ApplicationUser>();
         }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
 
         public string Name { get; set; }
 

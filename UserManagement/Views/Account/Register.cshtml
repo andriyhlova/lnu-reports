@@ -34,7 +34,7 @@
             <option value="">Виберіть факультет</option>
             @foreach (var faculty in ViewBag.AllFaculties)
             {
-                <option value="@faculty.ID">@faculty.Name</option>
+                <option value="@faculty.Id">@faculty.Name</option>
             }
         </select>
     </div>
@@ -44,7 +44,7 @@
             <option value="">Виберіть кафедру</option>
             @foreach (var cathedra in ViewBag.AllCathedras)
             {
-                <option value="@cathedra.ID" data-faculty="@cathedra.Faculty.ID">@cathedra.Name</option>
+                <option value="@cathedra.Id" data-faculty="@cathedra.Faculty.Id">@cathedra.Name</option>
             }
         </select>
     </div>

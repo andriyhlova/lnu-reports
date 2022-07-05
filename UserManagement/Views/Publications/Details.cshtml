@@ -114,7 +114,7 @@
         || User.IsInRole("Адміністрація деканату")
         || User.IsInRole("Керівник кафедри"))
     {
-        @Html.ActionLink("Редагувати", "Edit", new { id = Model.ID }) <span>|</span>
+        @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }) <span>|</span>
     }
     @Html.ActionLink("Повернутись до списку", "Index")
 </p>

@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AcademicStatus.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Cathedra.cs" />
     <Compile Include="Entities\CathedraDefenses.cs" />
     <Compile Include="Entities\CathedraReport.cs" />

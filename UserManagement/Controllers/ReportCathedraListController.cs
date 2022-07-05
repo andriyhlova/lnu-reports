@@ -34,7 +34,7 @@ namespace UserManagement.Controllers
             if (User.IsInRole("Адміністрація деканату"))
             {
                 reports = db.CathedraReport.Include(x => x.User.Cathedra.Faculty)
-                    .Where(x => x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                    .Where(x => x.User.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id)
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
                 .ToList();
@@ -42,7 +42,7 @@ namespace UserManagement.Controllers
             else if (User.IsInRole("Керівник кафедри"))
             {
                 reports = db.CathedraReport.Include(x => x.User.Cathedra)
-                    .Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID)
+                    .Where(x => x.User.Cathedra.Id == currentUser.Cathedra.Id)
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
                 .ToList();

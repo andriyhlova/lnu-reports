@@ -25,7 +25,7 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Value")] AcademicStatus academicStatus)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Value")] AcademicStatus academicStatus)
         {
             if (ModelState.IsValid)
             {
@@ -53,7 +53,7 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Value")] AcademicStatus academicStatus)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Value")] AcademicStatus academicStatus)
         {
             if (ModelState.IsValid)
             {

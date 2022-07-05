@@ -31,14 +31,14 @@ namespace UserManagement.Controllers
             if (user.Roles.Any(x=>x.RoleId == facultyAdmin.Id))
             {
                 scientifthemes = db.ThemeOfScientificWork.Include(x=>x.Cathedra.Faculty)
-                    .Where(x => x.Cathedra.Faculty.ID == user.Cathedra.Faculty.ID)
+                    .Where(x => x.Cathedra.Faculty.Id == user.Cathedra.Faculty.Id)
                     .OrderByDescending(x=>x.PeriodTo)
                     .ToList();
             }
             else if(user.Roles.Any(x=>x.RoleId == cathedraAdmin.Id))
             {
                 scientifthemes = db.ThemeOfScientificWork.Include(x => x.Cathedra)
-                    .Where(x => x.Cathedra.ID == user.Cathedra.ID)
+                    .Where(x => x.Cathedra.Id == user.Cathedra.Id)
                     .OrderByDescending(x => x.PeriodTo)
                     .ToList();
             }
@@ -73,12 +73,12 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber,Code")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Create([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber,Code")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {
                 var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-                themeOfScientificWork.Cathedra = db.Cathedra.Where(x => x.ID == user.Cathedra.ID).First();
+                themeOfScientificWork.Cathedra = db.Cathedra.Where(x => x.Id == user.Cathedra.Id).First();
                 db.ThemeOfScientificWork.Add(themeOfScientificWork);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -109,7 +109,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,ThemeNumber,Financial,Code")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Edit([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,ThemeNumber,Financial,Code")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {

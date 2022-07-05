@@ -36,19 +36,19 @@ namespace UserManagement.Controllers
             if (User.IsInRole("Адміністрація деканату"))
             {
                 ViewBag.Cathedras = db.Cathedra.Include(x => x.Faculty)
-                    .Where(x => x.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                    .Where(x => x.Faculty.Id == currentUser.Cathedra.Faculty.Id)
                     .Select(x => new SelectListItem
                     {
                         Text = x.Name,
-                        Value = x.ID.ToString()
+                        Value = x.Id.ToString()
                     })
                     .ToList();
                 reports = db.Reports.Include(x => x.User.Cathedra.Faculty)
-                    .Where(x => (cathedra != null && x.User.Cathedra.ID == cathedra
-                        || cathedra == null  && x.User.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID)
+                    .Where(x => (cathedra != null && x.User.Cathedra.Id == cathedra
+                        || cathedra == null  && x.User.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id)
                     && (x.User.Id == currentUser.Id 
                         || (x.User.Id != currentUser.Id 
-                                && (x.IsConfirmed || (x.IsSigned && isCathedraAdmin && x.User.Cathedra.ID == currentUser.Cathedra.ID)))))
+                                && (x.IsConfirmed || (x.IsSigned && isCathedraAdmin && x.User.Cathedra.Id == currentUser.Cathedra.Id)))))
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
                 .OrderByDescending(x => x.Date)
@@ -56,7 +56,7 @@ namespace UserManagement.Controllers
             }
             else if (isCathedraAdmin)
             {
-                reports = db.Reports.Include(x=>x.User.Cathedra).Where(x => (x.User.Cathedra.ID == currentUser.Cathedra.ID)
+                reports = db.Reports.Include(x=>x.User.Cathedra).Where(x => (x.User.Cathedra.Id == currentUser.Cathedra.Id)
                 && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
                 .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
                 .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))

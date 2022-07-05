@@ -11,7 +11,7 @@ namespace UserManagement.Converter
         {
             var viewModel = new ReportViewModel()
             {
-                ID = report.ID,
+                Id = report.Id,
                 ParticipationInGrands = report.ParticipationInGrands,
                 ScientificTrainings = report.ScientificTrainings,
                 ScientificControlDoctorsWork = report.ScientificControlDoctorsWork,
@@ -26,12 +26,12 @@ namespace UserManagement.Converter
                 Date = report.Date,
                 IsSigned = report.IsSigned,
                 IsConfirmed = report.IsConfirmed,
-                ThemeOfScientificWorkId = report.ThemeOfScientificWork?.ID,
+                ThemeOfScientificWorkId = report.ThemeOfScientificWork?.Id,
             };
 
-            viewModel.PrintedPublication = report.PrintedPublication.Select(x => new PublicationOption() { Id = x.ID, Checked = true, Name = x.Name }).ToList();
-            viewModel.AcceptedToPrintPublication = report.AcceptedToPrintPublication.Select(x => new PublicationOption() { Id = x.ID, Checked = true, Name = x.Name }).ToList();
-            viewModel.RecomendedPublication = report.RecomendedPublication.Select(x => new PublicationOption() { Id = x.ID, Checked = true, Name = x.Name }).ToList();
+            viewModel.PrintedPublication = report.PrintedPublication.Select(x => new PublicationOption() { Id = x.Id, Checked = true, Name = x.Name }).ToList();
+            viewModel.AcceptedToPrintPublication = report.AcceptedToPrintPublication.Select(x => new PublicationOption() { Id = x.Id, Checked = true, Name = x.Name }).ToList();
+            viewModel.RecomendedPublication = report.RecomendedPublication.Select(x => new PublicationOption() { Id = x.Id, Checked = true, Name = x.Name }).ToList();
 
             return viewModel;
         }
@@ -65,7 +65,7 @@ namespace UserManagement.Converter
         {
             var viewModel = new CathedraReportViewModel()
             {
-                ID = report.ID,
+                Id = report.Id,
                 Protocol = report.Protocol,
                 Date = report.Date,
                 AchivementSchool = report.AchivementSchool,
@@ -76,7 +76,7 @@ namespace UserManagement.Converter
                 ApplicationAndPatentsOnInventionHospDohovirTheme = report.ApplicationAndPatentsOnInventionHospDohovirTheme,
                 ApplicationAndPatentsOnInventionThemeInWorkTime = report.ApplicationAndPatentsOnInventionThemeInWorkTime,
                 ApplicationOnInvention = report.ApplicationOnInvention,
-                BudgetThemeId = report.BudgetTheme?.ID,
+                BudgetThemeId = report.BudgetTheme?.Id,
                 ConferencesInUniversity = report.ConferencesInUniversity,
                 CooperationWithAcadamyOfScience = report.CooperationWithAcadamyOfScience,
                 CooperationWithForeignScientificInstitution = report.CooperationWithForeignScientificInstitution,
@@ -89,7 +89,7 @@ namespace UserManagement.Converter
                 DefensesOfCoworkersHospDohovirTheme = report.DefensesOfCoworkersHospDohovirTheme,
                 DefensesOfCoworkersThemeInWorkTime = report.DefensesOfCoworkersThemeInWorkTime,
                 DefenseWithSpecialPeople = report.DefenseWithSpecialPeople,
-                HospDohovirThemeId = report.HospDohovirTheme?.ID,
+                HospDohovirThemeId = report.HospDohovirTheme?.Id,
                 Materials = report.Materials,
                 OtherBudgetTheme = report.OtherBudgetTheme,
                 OtherFormsOfScientificWork = report.OtherFormsOfScientificWork,
@@ -98,12 +98,12 @@ namespace UserManagement.Converter
                 Patents = report.Patents,
                 PropositionForNewForms = report.PropositionForNewForms,
                 StudentsWorks = report.StudentsWorks,
-                ThemeInWorkTimeId = report.ThemeInWorkTime?.ID
+                ThemeInWorkTimeId = report.ThemeInWorkTime?.Id
             };
 
-            viewModel.PrintedPublicationBudgetTheme = report.PrintedPublicationBudgetTheme.Select(x => new PublicationOption() { Id = x.ID, Checked = false, Name = x.Name }).ToList();
-            viewModel.PrintedPublicationHospDohovirTheme = report.PrintedPublicationHospDohovirTheme.Select(x => new PublicationOption() { Id = x.ID, Checked = false, Name = x.Name }).ToList();
-            viewModel.PrintedPublicationThemeInWorkTime = report.PrintedPublicationThemeInWorkTime.Select(x => new PublicationOption() { Id = x.ID, Checked = false, Name = x.Name }).ToList();
+            viewModel.PrintedPublicationBudgetTheme = report.PrintedPublicationBudgetTheme.Select(x => new PublicationOption() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
+            viewModel.PrintedPublicationHospDohovirTheme = report.PrintedPublicationHospDohovirTheme.Select(x => new PublicationOption() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
+            viewModel.PrintedPublicationThemeInWorkTime = report.PrintedPublicationThemeInWorkTime.Select(x => new PublicationOption() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
 
             return viewModel;
         }

@@ -5,12 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SRS.Domain.Entities
 {
-    public class CathedraReport
+    public class CathedraReport : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         public string AchivementSchool { get; set; } // 1
 
         public virtual ThemeOfScientificWork BudgetTheme { get; set; }// 2

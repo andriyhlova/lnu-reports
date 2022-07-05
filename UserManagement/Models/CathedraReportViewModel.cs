@@ -7,7 +7,7 @@ namespace UserManagement.Models.Reports
 {
     public class CathedraReportViewModel
     {
-        public int? ID { get; set; }
+        public int? Id { get; set; }
         public string AchivementSchool { get; set; } //1
 
         public int? BudgetThemeId { get; set; }//2

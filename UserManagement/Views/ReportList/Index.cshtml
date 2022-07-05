@@ -77,11 +77,11 @@ else if (User.IsInRole("Керівник кафедри"))
                     }
                     else
                     {
-                        using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.ID }))
+                        using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.Id }))
                         {
-                            @Html.Hidden("reportId", item.ID)
+                            @Html.Hidden("reportId", item.Id)
                         }
-                        @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.ID })
+                        @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.Id })
                     }
                 }
                 else
@@ -92,11 +92,11 @@ else if (User.IsInRole("Керівник кафедри"))
             <td>
                 @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
                 {
-                    using (Html.BeginForm("Confirm", "ReportList", FormMethod.Get, new { @id = "confirmCheckboxForm_" + item.ID }))
+                    using (Html.BeginForm("Confirm", "ReportList", FormMethod.Get, new { @id = "confirmCheckboxForm_" + item.Id }))
                     {
-                        @Html.Hidden("reportId", item.ID)
+                        @Html.Hidden("reportId", item.Id)
                     }
-                    @Html.CheckBoxFor(modelItem => item.IsConfirmed, new { @id = "confirmCheckbox_" + item.ID })
+                    @Html.CheckBoxFor(modelItem => item.IsConfirmed, new { @id = "confirmCheckbox_" + item.Id })
                 }
                 else
                 {
@@ -114,7 +114,7 @@ else if (User.IsInRole("Керівник кафедри"))
                 }
             </td>
             <td>
-                <a href="@Url.Action("Preview", "Reports", new { reportId = item.ID })"
+                <a href="@Url.Action("Preview", "Reports", new { reportId = item.Id })"
                    target="_blank">
                     Переглянути
                 </a>
@@ -122,16 +122,16 @@ else if (User.IsInRole("Керівник кафедри"))
                 {
                     if (@item.User.UserName == @User.Identity.Name)
                     {
-                        @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                        @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.Id }, new { @style = "margin-right: 5px;" })
                     }
                 }
                 @if ((User.IsInRole("Керівник кафедри") || User.IsInRole("Адміністрація деканату")) && item.IsSigned)
                 {
-                    @Html.ActionLink("Повернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                    @Html.ActionLink("Повернути", "Negate", "ReportList", new { reportId = item.Id }, new { @style = "margin-right: 5px;" })
                 }
 
-                @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.ID }, new { @target = "_blank" })
-                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.ID }, new { @style = "margin-left:5px;" })
+                @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.Id }, new { @target = "_blank" })
+                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.Id }, new { @style = "margin-left:5px;" })
             </td>
         </tr>
     }
