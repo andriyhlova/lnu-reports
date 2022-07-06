@@ -1,4 +1,5 @@
-﻿@model SRS.Domain.Entities.ThemeOfScientificWork
+﻿@using SRS.Services.Models
+@model ThemeOfScientificWorkModel
 
 @{
     ViewBag.Title = "Видалити";
@@ -7,36 +8,51 @@
 <h2>Видалити</h2>
 
 <h3>Ви впевнені, що хочете видалити це?</h3>
+<h4 class="text-warning">*Видалити тему наукової роботи можна лише тоді, коли вона не належить до жодного звіту.</h4>
 <div>
     <h4>Наукова робота</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Тема наукової роботи
+            Номер ДР
         <dt>
-
         <dd>
             @Html.DisplayFor(model => model.ThemeNumber)
         </dd>
+        <dt>
+            Шифр
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Code)
         </dd>
+        <dt>
+            Тема
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Value)
         </dd>
+        <dt>
+            Науковий керівник
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.ScientificHead)
         </dd>
+        <dt>
+            Період з
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.PeriodFrom)
         </dd>
+        <dt>
+            Період до
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.PeriodTo)
         </dd>
-
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

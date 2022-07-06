@@ -2,13 +2,17 @@
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Repositories.Context;
+using SRS.Services.Interfaces;
+using SRS.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using UserManagement.Extensions;
 
 namespace UserManagement.Controllers
 {
@@ -16,8 +20,14 @@ namespace UserManagement.Controllers
     public class ThemeOfScientificWorksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private IBaseCrudService<ThemeOfScientificWorkModel> _themeOfScientificWorkService;
 
-        // GET: ThemeOfScientificWorks
+        public ThemeOfScientificWorksController(IBaseCrudService<ThemeOfScientificWorkModel> themeOfScientificWorkService)
+        {
+            _themeOfScientificWorkService = themeOfScientificWorkService;
+        }
+
+        [HttpGet]
         public ActionResult Index(int? page)
         {
             int pageSize = 15;
@@ -45,32 +55,25 @@ namespace UserManagement.Controllers
             return View(scientifthemes.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: ThemeOfScientificWorks/Details/5
-        public ActionResult Details(int? id)
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ThemeOfScientificWork themeOfScientificWork = db.ThemeOfScientificWork.Find(id);
+            var themeOfScientificWork = await _themeOfScientificWorkService.GetAsync(id);
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
             }
+
             return View(themeOfScientificWork);
         }
 
-        // GET: ThemeOfScientificWorks/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
-                .Select(x => new SelectListItem { Selected = false, Text = x.ToLower().Replace('_', ' '), Value = x }).ToList();
+            FillFinancials();
             return View();
         }
 
-        // POST: ThemeOfScientificWorks/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber,Code")] ThemeOfScientificWork themeOfScientificWork)
@@ -87,63 +90,51 @@ namespace UserManagement.Controllers
             return View(themeOfScientificWork);
         }
 
-        // GET: ThemeOfScientificWorks/Edit/5
-        public ActionResult Edit(int? id)
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ThemeOfScientificWork themeOfScientificWork = db.ThemeOfScientificWork.Find(id);
-            ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
-                .Select(x => new SelectListItem { Selected = false, Text = x.ToLower(), Value = x }).ToList();
+            var themeOfScientificWork = await _themeOfScientificWorkService.GetAsync(id);
+            FillFinancials();
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
             }
+
             return View(themeOfScientificWork);
         }
 
-        // POST: ThemeOfScientificWorks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,ThemeNumber,Financial,Code")] ThemeOfScientificWork themeOfScientificWork)
+        public async Task<ActionResult> Edit(ThemeOfScientificWorkModel themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(themeOfScientificWork).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                await _themeOfScientificWorkService.UpdateAsync(themeOfScientificWork);
+                return RedirectToAction(nameof(Index));
             }
+
+            FillFinancials();
             return View(themeOfScientificWork);
         }
 
-        // GET: ThemeOfScientificWorks/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ThemeOfScientificWork themeOfScientificWork = db.ThemeOfScientificWork.Find(id);
+            var themeOfScientificWork = await _themeOfScientificWorkService.GetAsync(id);
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
             }
+
             return View(themeOfScientificWork);
         }
 
-        // POST: ThemeOfScientificWorks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ThemeOfScientificWork themeOfScientificWork = db.ThemeOfScientificWork.Find(id);
-            db.ThemeOfScientificWork.Remove(themeOfScientificWork);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            await _themeOfScientificWorkService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
 
         protected override void Dispose(bool disposing)
@@ -153,6 +144,13 @@ namespace UserManagement.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void FillFinancials()
+        {
+            ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
+                .Select(x => new SelectListItem { Selected = false, Text = x.GetFriendlyName(), Value = x })
+                .ToList();
         }
     }
 }

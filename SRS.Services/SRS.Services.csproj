@@ -77,10 +77,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\RequiredFieldAttribute.cs" />
     <Compile Include="Implementations\BaseCrudService.cs" />
     <Compile Include="Implementations\EmailService.cs" />
     <Compile Include="Interfaces\IBaseCrudService.cs" />
+    <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\AcademicStatusModel.cs" />
     <Compile Include="Models\BaseValueModel.cs" />
     <Compile Include="Models\BaseModel.cs" />

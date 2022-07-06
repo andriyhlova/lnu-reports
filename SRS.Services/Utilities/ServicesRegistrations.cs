@@ -11,6 +11,7 @@ namespace SRS.Services.Utilities
         public override void Load()
         {
             Bind<IBaseCrudService<AcademicStatusModel>>().To<BaseCrudService<AcademicStatus, AcademicStatusModel>>();
+            Bind<IBaseCrudService<ThemeOfScientificWorkModel>>().To<BaseCrudService<ThemeOfScientificWork, ThemeOfScientificWorkModel>>();
         }
     }
 }

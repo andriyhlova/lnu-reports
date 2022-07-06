@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SRS.Services.Attributes;
 
 namespace SRS.Services.Models
 {
     public class BaseValueModel : BaseModel
     {
-        [Required(ErrorMessage = "Введіть назву")]
+        [RequiredField]
         public string Value { get; set; }
     }
 }
