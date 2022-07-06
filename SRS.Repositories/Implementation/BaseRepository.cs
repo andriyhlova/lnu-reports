@@ -20,16 +20,16 @@ namespace SRS.Repositories.Implementations
             _context = context;
         }
 
-        public virtual async Task<int> Add(TEntity entity)
+        public virtual async Task<int> AddAsync(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
         }
 
-        public virtual async Task<TEntity> Update(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            var existingEntity = await Get(entity.Id);
+            var existingEntity = await GetAsync(entity.Id);
 
             if (existingEntity == null)
             {
@@ -42,9 +42,9 @@ namespace SRS.Repositories.Implementations
             return existingEntity;
         }
 
-        public virtual async Task<bool> Delete(int id)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
-            var existingEntity = await Get(id);
+            var existingEntity = await GetAsync(id);
 
             if (existingEntity == null)
             {
@@ -57,22 +57,22 @@ namespace SRS.Repositories.Implementations
             return true;
         }
 
-        public virtual Task<TEntity> Get(int id)
+        public virtual Task<TEntity> GetAsync(int id)
         {
             return _context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
-        public virtual Task<List<TEntity>> Get(Expression<Func<TEntity, bool>> expression)
+        public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression)
         {
             return _context.Set<TEntity>().Where(expression).ToListAsync();
         }
 
-        public virtual Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> expression)
+        public virtual Task<TEntity> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
         {
             return _context.Set<TEntity>().FirstOrDefaultAsync(expression);
         }
 
-        public virtual Task<List<TEntity>> GetAll()
+        public virtual Task<List<TEntity>> GetAllAsync()
         {
             return _context.Set<TEntity>().ToListAsync();
         }

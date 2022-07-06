@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
@@ -22,32 +21,32 @@ namespace SRS.Services.Implementations
             _mapper = mapper;
         }
 
-        public virtual async Task<int> Add(TModel model)
+        public virtual async Task<int> AddAsync(TModel model)
         {
-            return await _repo.Add(_mapper.Map<TEntity>(model));
+            return await _repo.AddAsync(_mapper.Map<TEntity>(model));
         }
 
-        public virtual async Task<TModel> Get(int id)
+        public virtual async Task<TModel> GetAsync(int id)
         {
-            var entity = await _repo.Get(id);
+            var entity = await _repo.GetAsync(id);
             return _mapper.Map<TModel>(entity);
         }
 
-        public virtual async Task<IList<TModel>> GetAll()
+        public virtual async Task<IList<TModel>> GetAllAsync()
         {
-            var entities = await _repo.GetAll();
+            var entities = await _repo.GetAllAsync();
             return _mapper.Map<List<TModel>>(entities);
         }
 
-        public virtual async Task<TModel> Update(TModel model)
+        public virtual async Task<TModel> UpdateAsync(TModel model)
         {
-            var entity = await _repo.Update(_mapper.Map<TEntity>(model));
+            var entity = await _repo.UpdateAsync(_mapper.Map<TEntity>(model));
             return _mapper.Map<TModel>(entity);
         }
 
-        public virtual async Task<bool> Delete(int id)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
-            return await _repo.Delete(id);
+            return await _repo.DeleteAsync(id);
         }
     }
 }

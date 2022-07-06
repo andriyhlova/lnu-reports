@@ -1,23 +1,27 @@
-﻿using SRS.Domain.Entities;
-using SRS.Repositories.Context;
-using System.Data.Entity;
-using System.Net;
+﻿using SRS.Services.Interfaces;
+using SRS.Services.Models;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using UserManagement.Models;
 
 namespace UserManagement.Controllers
 {
     [Authorize(Roles = "Superadmin")]
     public class AcademicStatusController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly IBaseCrudService<AcademicStatusModel> _academicStatusService;
 
-        public async Task<ActionResult> Index()
+        public AcademicStatusController(IBaseCrudService<AcademicStatusModel> academicStatusService)
         {
-            return View(await db.AcademicStatus.ToListAsync());
+            _academicStatusService = academicStatusService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            return View(await _academicStatusService.GetAllAsync());
+        }
+
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -25,56 +29,51 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Value")] AcademicStatus academicStatus)
+        public async Task<ActionResult> Create(AcademicStatusModel academicStatus)
         {
             if (ModelState.IsValid)
             {
-                db.AcademicStatus.Add(academicStatus);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _academicStatusService.AddAsync(academicStatus);
+                return RedirectToAction(nameof(Index));
             }
 
             return View(academicStatus);
         }
 
-        public async Task<ActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AcademicStatus academicStatus = await db.AcademicStatus.FindAsync(id);
+            var academicStatus = await _academicStatusService.GetAsync(id);
             if (academicStatus == null)
             {
                 return HttpNotFound();
             }
+
             return View(academicStatus);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Value")] AcademicStatus academicStatus)
+        public async Task<ActionResult> Edit(AcademicStatusModel academicStatus)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(academicStatus).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await _academicStatusService.UpdateAsync(academicStatus);
                 return RedirectToAction("Index");
             }
+
             return View(academicStatus);
         }
 
-        public async Task<ActionResult> Delete(int? id)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AcademicStatus academicStatus = await db.AcademicStatus.FindAsync(id);
+            var academicStatus = await _academicStatusService.GetAsync(id);
             if (academicStatus == null)
             {
                 return HttpNotFound();
             }
+
             return View(academicStatus);
         }
 
@@ -82,19 +81,8 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            AcademicStatus academicStatus = await db.AcademicStatus.FindAsync(id);
-            db.AcademicStatus.Remove(academicStatus);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            await _academicStatusService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace SRS.Domain.Entities
 {
-    public class AcademicStatus : BaseEntity
+    public class AcademicStatus : BaseValueEntity
     {
-        public string Value { get; set; }
     }
 }

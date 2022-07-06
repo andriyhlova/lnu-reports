@@ -8,14 +8,14 @@ namespace SRS.Services.Interfaces
     public interface IBaseCrudService<TModel>
         where TModel : BaseModel
     {
-        Task<TModel> Get(int id);
+        Task<TModel> GetAsync(int id);
 
-        Task<IList<TModel>> GetAll();
+        Task<IList<TModel>> GetAllAsync();
 
-        Task<int> Add(TModel model);
+        Task<int> AddAsync(TModel model);
 
-        Task<TModel> Update(TModel model);
+        Task<TModel> UpdateAsync(TModel model);
 
-        Task<bool> Delete(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

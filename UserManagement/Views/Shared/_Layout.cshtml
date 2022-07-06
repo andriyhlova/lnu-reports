@@ -6,21 +6,10 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <style>
-        ul li {
-            list-style: unset !important;
-            margin-left: 0 !important;
-            margin-bottom: 0 !important;
-        }
-
-        a {
-            text-decoration: none !important;
-        }
-    </style>
     @RenderSection("styles", required: false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-srs navbar-fixed-top">
         <div class="container-fluid header">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -28,39 +17,65 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div class="navbar-brand">ЛНУ ім. Івана Франка</div>
+                <div class="navbar-brand text-white">ЛНУ ім. Івана Франка</div>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату") || User.IsInRole("Керівник кафедри"))
-                        {
-                            <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
-                        }
                         if (User.IsInRole("Працівник"))
                         {
                             <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
                         }
-                        if (User.IsInRole("Керівник кафедри") || User.IsInRole("Адміністрація деканату"))
-                        {
-                            <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
-                        }
-                        if (User.IsInRole("Керівник кафедри"))
-                        {
-                            <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
-                        }
-                        if (User.IsInRole("Працівник"))
-                        {
-                            <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
-                        }
                         if (User.IsInRole("Працівник") || User.IsInRole("Керівник кафедри"))
                         {
-                            <li>@Html.ActionLink("Звіти", "Index", "ReportList")</li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Звіти <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @if (User.IsInRole("Керівник кафедри"))
+                                    {
+                                        <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
+                                    }
+                                    @if (User.IsInRole("Працівник"))
+                                    {
+                                        <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
+                                    }
+                                    @if (User.IsInRole("Працівник") || User.IsInRole("Керівник кафедри"))
+                                    {
+                                        <li>@Html.ActionLink("Список звітів", "Index", "ReportList")</li>
+                                    }
+                                </ul>
+                            </li>
                         }
-                        if (User.IsInRole("Superadmin"))
+                        if (User.IsInRole("Superadmin")
+                                    || User.IsInRole("Адміністрація ректорату")
+                                    || User.IsInRole("Адміністрація деканату")
+                                    || User.IsInRole("Керівник кафедри"))
                         {
-                            <li>@Html.ActionLink("Наукові ступені", "Index", "AcademicStatus")</li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Керування <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @if (User.IsInRole("Superadmin")
+                                                || User.IsInRole("Адміністрація ректорату")
+                                                || User.IsInRole("Адміністрація деканату")
+                                                || User.IsInRole("Керівник кафедри"))
+                                    {
+                                        <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
+                                    }
+                                    @if (User.IsInRole("Superadmin"))
+                                    {
+                                        <li>@Html.ActionLink("Наукові ступені", "Index", "AcademicStatus")</li>
+                                    }
+                                    @if (User.IsInRole("Керівник кафедри") || User.IsInRole("Адміністрація деканату"))
+                                    {
+                                        <li>@Html.ActionLink("Теми наукових робіт", "Index", "ThemeOfScientificWorks")</li>
+                                    }
+                                </ul>
+                            </li>
                         }
                     }
                 </ul>

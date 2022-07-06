@@ -7,18 +7,18 @@ namespace SRS.Repositories.Interfaces
 {
     public interface IBaseRepository<TEntity>
     {
-        Task<int> Add(TEntity entity);
+        Task<int> AddAsync(TEntity entity);
 
-        Task<TEntity> Update(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
 
-        Task<bool> Delete(int id);
+        Task<bool> DeleteAsync(int id);
 
-        Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> expression);
+        Task<TEntity> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
 
-        Task<TEntity> Get(int id);
+        Task<TEntity> GetAsync(int id);
 
-        Task<List<TEntity>> Get(Expression<Func<TEntity, bool>> expression);
+        Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression);
 
-        Task<List<TEntity>> GetAll();
+        Task<List<TEntity>> GetAllAsync();
     }
 }
