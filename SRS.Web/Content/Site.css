@@ -1,6 +1,19 @@
-﻿body {
+﻿html{
+    height: 100%;
+}
+
+body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    position: relative;
+    padding-bottom: 100px;
+    min-height: 100%;
+}
+
+.footer-container{
+    position: absolute;
+    height: 100px;
+    bottom:0;
+    width: 100%;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -100,4 +113,14 @@ h1, h2, h3, h4 {
 
 td a.btn:not(:last-child){
     margin-bottom:4px;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.home-image {
+    max-width: 100%;
+    border: 1px solid white;
+    border-radius: 8px;
 }
