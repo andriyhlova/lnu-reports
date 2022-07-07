@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,9 +11,8 @@ using SRS.Services.Utilities;
 using SRS.Domain.Enums;
 using SRS.Repositories.Context;
 using SRS.Domain.Entities;
-using SRS.Services.Implementations;
 
-namespace UserManagement.Controllers
+namespace SRS.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller

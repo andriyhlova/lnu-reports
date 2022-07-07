@@ -11,8 +11,8 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 
-[assembly: OwinStartup(typeof(UserManagement.Startup))]
-namespace UserManagement
+[assembly: OwinStartup(typeof(SRS.Web.Startup))]
+namespace SRS.Web
 {
     public partial class Startup
     {

@@ -14,23 +14,12 @@ using System.Web;
 using System.Web.Mvc;
 using UserManagement.Models;
 
-namespace UserManagement.Controllers
+namespace SRS.Web.Controllers
 {
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class UsersManagementController : Controller
     {
         private ApplicationDbContext DB = new ApplicationDbContext();
-        //public ApplicationDbContext DB
-        //{
-        //    get
-        //    {
-        //        return db ?? new ApplicationDbContext();
-        //    }
-        //    private set
-        //    {
-        //        db = value;
-        //    }
-        //}
 
         private ApplicationUserManager _userManager;
 

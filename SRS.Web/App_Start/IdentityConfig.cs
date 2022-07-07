@@ -9,7 +9,7 @@ using Microsoft.Owin.Security;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 
-namespace UserManagement
+namespace SRS.Web
 {
     public class EmailService : IIdentityMessageService
     {
