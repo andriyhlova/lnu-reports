@@ -5,8 +5,11 @@ using Owin;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 using SRS.Repositories.Migrations;
+using SRS.Services.Models;
+using SRS.Services.Providers;
 using System;
 using System.Data.Entity;
+using System.Linq;
 
 [assembly: OwinStartup(typeof(UserManagement.Startup))]
 namespace UserManagement
@@ -16,75 +19,100 @@ namespace UserManagement
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            CreateRolesandUsers();
+            CreateRolesAndUsers();
         }
-
-        // In this method we will create default User roles and Admin user for login   
-        private void CreateRolesandUsers()
+ 
+        private void CreateRolesAndUsers()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
             ApplicationDbContext context = new ApplicationDbContext();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            // In Startup iam creating first Admin Role and creating a default Admin User    
-            if (!roleManager.RoleExists("Superadmin"))
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            CreateSuperadmin(roleManager, userManager);
+            CreateRectorateAdmin(roleManager);
+            CreateDeaneryAdmin(roleManager);
+            CreateCathedraAdmin(roleManager);
+            CreateWorker(roleManager);
+
+            RolesProvider.AllRoles = context.Roles.ToDictionary(x=>x.Id, x=>x.Name);
+        }
+
+        private void CreateSuperadmin(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.Superadmin))
             {
-                // first we create Admin rool   
-                var role = new IdentityRole();
-                role.Name = "Superadmin";
-                roleManager.Create(role); 
+                var role = new IdentityRole
+                {
+                    Name = RoleNames.Superadmin
+                };
+                roleManager.Create(role);
 
-                //Here we create a Admin super user who will maintain the website                  
-
-                var user = new ApplicationUser();
-                user.UserName = "superadmin@lnu.edu.ua";
-                user.Email = "superadmin@lnu.edu.ua";
-                user.BirthDate = DateTime.Now;
-                user.DefenseYear = DateTime.Now;
-                user.AwardingDate = DateTime.Now;
-                user.GraduationDate = DateTime.Now;
-                user.IsActive = true;
-                string userPWD = "qwerty1";
-
-                var chkUser = UserManager.Create(user, userPWD);
-
+                var user = new ApplicationUser
+                {
+                    UserName = "superadmin@lnu.edu.ua",
+                    Email = "superadmin@lnu.edu.ua",
+                    BirthDate = DateTime.Now,
+                    DefenseYear = DateTime.Now,
+                    AwardingDate = DateTime.Now,
+                    GraduationDate = DateTime.Now,
+                    IsActive = true
+                };
+                var chkUser = userManager.Create(user, "qwerty1");
                 if (chkUser.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user.Id, "Superadmin");
-
+                    userManager.AddToRole(user.Id, RoleNames.Superadmin);
                 }
             }
-
-            if (!roleManager.RoleExists("Працівник"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Працівник";
-                roleManager.Create(role);
-            }
-
-            if (!roleManager.RoleExists("Адміністрація ректорату"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Адміністрація ректорату";
-                roleManager.Create(role);
-            }
-
-            if (!roleManager.RoleExists("Адміністрація деканату"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Адміністрація деканату";
-                roleManager.Create(role);
-            }
-
-            if (!roleManager.RoleExists("Керівник кафедри"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Керівник кафедри";
-                roleManager.Create(role);
-            }
-
-            
         }
+
+        private void CreateRectorateAdmin(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.RectorateAdmin))
+            {
+                var role = new IdentityRole
+                {
+                    Name = RoleNames.RectorateAdmin
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateDeaneryAdmin(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.DeaneryAdmin))
+            {
+                var role = new IdentityRole
+                {
+                    Name = RoleNames.DeaneryAdmin
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateCathedraAdmin(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.CathedraAdmin))
+            {
+                var role = new IdentityRole
+                {
+                    Name = RoleNames.CathedraAdmin
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateWorker(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.Worker))
+            {
+                var role = new IdentityRole
+                {
+                    Name = RoleNames.Worker
+                };
+                roleManager.Create(role);
+            }
+        }
+
     }
 }

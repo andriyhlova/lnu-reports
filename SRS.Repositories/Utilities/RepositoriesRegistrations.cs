@@ -10,6 +10,7 @@ namespace SRS.Repositories.Utilities
         public override void Load()
         {
             Bind(typeof(IBaseRepository<>)).To(typeof(BaseRepository<>));
+            Bind<IUserRepository>().To<UserRepository>();
             Bind<ApplicationDbContext>().ToSelf();
         }
     }

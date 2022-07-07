@@ -1,5 +1,6 @@
-﻿@model PagedList.IPagedList<SRS.Domain.Entities.ThemeOfScientificWork>
-@using PagedList.Mvc;
+﻿@using SRS.Services.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<ThemeOfScientificWorkModel>
 
 @{
     ViewBag.Title = "Наукові роботи";
@@ -33,35 +34,36 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.ThemeNumber)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Code)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Value)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ScientificHead)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.PeriodFrom) - @Html.DisplayFor(modelItem => item.PeriodTo)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Financial)
-    </td>
-    <td>
-        @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Деталі", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScientificHead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodFrom) - @Html.DisplayFor(modelItem => item.PeriodTo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Financial)
+            </td>
+            <td>
+                @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Деталі", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
-</table>    
+</table>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

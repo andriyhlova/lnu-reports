@@ -84,7 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
+    <Compile Include="Implementation\UserRepository.cs" />
     <Compile Include="Implementation\BaseRepository.cs" />
+    <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Interfaces\IBaseRepository.cs" />
     <Compile Include="Migrations\202207042130196_Initial.cs" />
     <Compile Include="Migrations\202207042130196_Initial.Designer.cs">

@@ -14,45 +14,26 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using UserManagement.Extensions;
 
-namespace UserManagement.Controllers
+namespace SRS.Web.Controllers
 {
     [Authorize(Roles = "Керівник кафедри, Адміністрація деканату")]
     public class ThemeOfScientificWorksController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private IBaseCrudService<ThemeOfScientificWorkModel> _themeOfScientificWorkService;
+        private IThemeOfScientificWorkService _themeOfScientificWorkService;
+        private IUserService _userService;
 
-        public ThemeOfScientificWorksController(IBaseCrudService<ThemeOfScientificWorkModel> themeOfScientificWorkService)
+        public ThemeOfScientificWorksController(IThemeOfScientificWorkService themeOfScientificWorkService, IUserService userService)
         {
             _themeOfScientificWorkService = themeOfScientificWorkService;
+            _userService = userService;
         }
 
         [HttpGet]
-        public ActionResult Index(int? page)
+        public async Task<ActionResult> Index(int? page)
         {
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
-            var user = db.Users.Include(x=>x.Roles)
-                .Where(x => x.UserName == User.Identity.Name).First();
-            var roles = db.Roles.ToList();
-            var cathedraAdmin = roles.FirstOrDefault(x => x.Name == "Керівник кафедри");
-            var facultyAdmin = roles.FirstOrDefault(x => x.Name == "Адміністрація деканату");
-            var scientifthemes = new List<ThemeOfScientificWork>();
-            if (user.Roles.Any(x=>x.RoleId == facultyAdmin.Id))
-            {
-                scientifthemes = db.ThemeOfScientificWork.Include(x=>x.Cathedra.Faculty)
-                    .Where(x => x.Cathedra.Faculty.Id == user.Cathedra.Faculty.Id)
-                    .OrderByDescending(x=>x.PeriodTo)
-                    .ToList();
-            }
-            else if(user.Roles.Any(x=>x.RoleId == cathedraAdmin.Id))
-            {
-                scientifthemes = db.ThemeOfScientificWork.Include(x => x.Cathedra)
-                    .Where(x => x.Cathedra.Id == user.Cathedra.Id)
-                    .OrderByDescending(x => x.PeriodTo)
-                    .ToList();
-            }
-            return View(scientifthemes.ToPagedList(pageNumber, pageSize));
+            var user = await _userService.GetByUsernameAsync(User.Identity.Name);
+            var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user);
+            return View(scientifthemes.ToPagedList(page ?? 1, PaginationValues.PageSize));
         }
 
         [HttpGet]
@@ -76,17 +57,17 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber,Code")] ThemeOfScientificWork themeOfScientificWork)
+        public async Task<ActionResult> Create(ThemeOfScientificWorkModel themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {
-                var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-                themeOfScientificWork.Cathedra = db.Cathedra.Where(x => x.Id == user.Cathedra.Id).First();
-                db.ThemeOfScientificWork.Add(themeOfScientificWork);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var user = await _userService.GetByUsernameAsync(User.Identity.Name);
+                themeOfScientificWork.CathedraId = user.CathedraId;
+                await _themeOfScientificWorkService.AddAsync(themeOfScientificWork);
+                return RedirectToAction(nameof(Index));
             }
 
+            FillFinancials();
             return View(themeOfScientificWork);
         }
 
@@ -135,15 +116,6 @@ namespace UserManagement.Controllers
         {
             await _themeOfScientificWorkService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         private void FillFinancials()

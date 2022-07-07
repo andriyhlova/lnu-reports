@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -77,6 +78,9 @@ namespace SRS.Domain.Entities
         public string ApprovedById { get; set; }
 
         public virtual ApplicationUser ApprovedBy { get; set; }
+
+        [Column("Cathedra_Id")]
+        public int? CathedraId { get; set; }
 
         [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }

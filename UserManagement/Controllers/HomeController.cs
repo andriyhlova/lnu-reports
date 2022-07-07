@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace UserManagement.Controllers
+namespace SRS.Web.Controllers
 {
     [Authorize]
     public class HomeController : Controller

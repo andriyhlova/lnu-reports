@@ -12,8 +12,8 @@ namespace SRS.Services.Implementations
         where TModel : BaseModel
         where TEntity : BaseEntity
     {
-        private readonly IBaseRepository<TEntity> _repo;
-        private readonly IMapper _mapper;
+        protected readonly IBaseRepository<TEntity> _repo;
+        protected readonly IMapper _mapper;
 
         public BaseCrudService(IBaseRepository<TEntity> repo, IMapper mapper)
         {
