@@ -1,9 +1,9 @@
-﻿@model UserManagement.Models.RegisterViewModel
+﻿@model SRS.Web.Models.Account.RegisterViewModel
 @{
     ViewBag.Title = "Реєстрація";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 
 
 
@@ -51,7 +51,7 @@
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input id="button" type="submit" class="btn btn-default" value="Зареєструвати" />
+            <input id="button" type="submit" class="btn btn-info" value="Зареєструватиcя" />
         </div>
     </div>
 }

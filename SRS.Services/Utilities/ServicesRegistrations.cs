@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using MailKit.Net.Smtp;
+using Ninject.Modules;
 using SRS.Domain.Entities;
 using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
@@ -13,6 +14,9 @@ namespace SRS.Services.Utilities
             Bind<IBaseCrudService<AcademicStatusModel>>().To<BaseCrudService<AcademicStatus, AcademicStatusModel>>();
             Bind<IThemeOfScientificWorkService>().To<ThemeOfScientificWorkService>();
             Bind<IUserService>().To<UserService>();
+            Bind<ISmtpClient>().To<SmtpClient>();
+            Bind<IConfigurationProvider>().To<ConfigurationProvider>();
+            Bind<IEmailService>().To<EmailService>();
         }
     }
 }

@@ -3,60 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UserManagement.Models
+namespace UserManagement.Models.Account
 {
-    public class ForgotViewModel
-    {
-        [Required]
-        [Display(Name = "Електронна пошта")]
-        public string Email { get; set; }
-    }
-
-    public class LoginViewModel
-    {
-        [Required]
-        [Display(Name = "Електронна пошта")]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-
-        [Display(Name = "Запам’ятати?")]
-        public bool RememberMe { get; set; }
-    }
-
-    public class RegisterViewModel
-    {
-        [Required]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Некоректна електронна пошта. Повинен бути: ...@lnu.edu.ua")]
-        [EmailAddress(ErrorMessage = "Некоректна електронна пошта")]
-        [Display(Name = "Електронна пошта")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "{0} повинен мати мінімум {2} символи.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Підтвердження паролю")]
-        [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required(ErrorMessage = "Виберіть кафедру зі списку")]
-        [Display(Name = "Кафедра")]
-        public int Cathedra { get; set; }
-
-        [Required(ErrorMessage = "Виберіть факультет зі списку")]
-        [Display(Name = "Факультет")]
-        public int Faculty { get; set; }
-    }
-
-
     public class UpdateViewModel
     {
         [Required]
@@ -141,34 +89,5 @@ namespace UserManagement.Models
         [Required]
         [Display(Name = "Посада")]
         public string Position { get; set; }
-    }
-
-    public class ResetPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Електронна пошта")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "{0} повинен мати мінімум {2} символи.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Підтвердження паролю")]
-        [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
-        public string ConfirmPassword { get; set; }
-
-        public string Code { get; set; }
-    }
-
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Електронна пошта")]
-        public string Email { get; set; }
     }
 }

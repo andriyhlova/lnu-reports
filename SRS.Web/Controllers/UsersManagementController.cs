@@ -3,13 +3,13 @@ using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
-using SRS.Services.Implementations;
-using System;
+using SRS.Services.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using UserManagement.Models;
@@ -34,10 +34,12 @@ namespace SRS.Web.Controllers
                 _userManager = value;
             }
         }
-        private SRS.Services.Implementations.EmailService emailService;
-        public UsersManagementController()
+
+        private readonly IEmailService _emailService;
+
+        public UsersManagementController(IEmailService emailService)
         {
-            emailService = new SRS.Services.Implementations.EmailService();
+            _emailService = emailService;
         }
 
         // GET: UsersManagement
@@ -178,7 +180,7 @@ namespace SRS.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName," +
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName," +
             "IsActive,PasswordHash,SecurityStamp,BirthDate,GraduationDate,AwardingDate,DefenseYear")] ApplicationUser applicationUser, 
             [Bind(Include = "RoleToAdd")] string roleToAdd, UserUpdateViewModel model)
         {
@@ -216,7 +218,7 @@ namespace SRS.Web.Controllers
             }
             if(!user.IsActive && applicationUser.IsActive)
             {
-                emailService.SendEmail(user.Email, "Підтвердження користувача",
+                await _emailService.SendEmail(user.Email, "Підтвердження користувача",
                 "Ваш профіль підтверджено в системі звітування <a href=\"https://srs.lnu.edu.ua\">https://srs.lnu.edu.ua</a>.");
                 user.ApprovedById = User.Identity.GetUserId();
             }

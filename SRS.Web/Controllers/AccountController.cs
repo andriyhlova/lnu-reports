@@ -11,6 +11,9 @@ using SRS.Services.Utilities;
 using SRS.Domain.Enums;
 using SRS.Repositories.Context;
 using SRS.Domain.Entities;
+using SRS.Services.Interfaces;
+using SRS.Services.Models;
+using SRS.Web.Models.Account;
 
 namespace SRS.Web.Controllers
 {
@@ -20,16 +23,11 @@ namespace SRS.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         public ApplicationDbContext db = new ApplicationDbContext();
-        private SRS.Services.Implementations.EmailService emailService;
-        public AccountController()
-        {
-            emailService = new SRS.Services.Implementations.EmailService();
-        }
+        private IEmailService _emailService;
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(IEmailService emailService)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            _emailService = emailService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -56,20 +54,24 @@ namespace SRS.Web.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
+        public IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.Success = TempData["Success"];
-           
             return View();
         }
 
-        //
-        // POST: /Account/Login
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -78,44 +80,25 @@ namespace SRS.Web.Controllers
                 return View(model);
             }
 
-            ApplicationUser user = UserManager.FindByEmail(model.Email);
+            var user = UserManager.FindByEmail(model.Email);
             if (user != null && !user.IsActive)
             {
-                ModelState.AddModelError("", "This user is not active.");
+                ModelState.AddModelError("", "Неактивний користувач");
                 return View(model);
             }
 
-            HttpCookie cookie = new HttpCookie("UserName", model.Email);
-            HttpCookie cookie1 = HttpContext.Request.Cookies.Get("UserName");
-            if (model.RememberMe)
-            {
-                cookie.Expires = DateTime.Now.AddDays(10);
-            }
-            Response.Cookies.Add(cookie);
-
-            
-
-
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Неправильні електронна пошта або пароль");
                     return View(model);
             }
-          
         }
 
-        //
-        // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -125,8 +108,6 @@ namespace SRS.Web.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterViewModel model)
@@ -150,7 +131,6 @@ namespace SRS.Web.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Працівник");
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     var u = db.Users.Where(x => x.UserName == model.Email).First();
                     u.Cathedra = db.Cathedra.Find(model.Cathedra);
                     foreach (var i in Enum.GetNames(typeof(Language)))
@@ -175,17 +155,15 @@ namespace SRS.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ForgotPassword
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -197,44 +175,31 @@ namespace SRS.Web.Controllers
                     return View(model);                    
                 }
 
-                // get change password page
-
-
-                //var provider = new DpapiDataProtectionProvider("SampleAppName");
-
-                //UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
-                //    provider.Create("SampleTokenName"));
-
-                string hashedGuId = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-
-                hashedGuId = hashedGuId.Crypt();
-
-                string recoveryLink = Request.Url.ToString()
-                    .Replace("ForgotPassword", $"ResetPassword?code=" + hashedGuId );
-                emailService.SendEmail(user.Email, "Відновлення паролю",
+                var hashedGuid = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var recoveryLink = Url.Action(nameof(ResetPassword), "Account", new { code = hashedGuid.Crypt() }, Request.Url.Scheme);
+                await _emailService.SendEmail(
+                    user.Email,
+                    EmailSubjects.PasswordRecovery,
                     $"<a href=\"{recoveryLink}\">Натисніть тут для відновлення паролю</a>");
             }
-            return View("ForgotPasswordConfirmation");
+
+            return View(nameof(ForgotPasswordConfirmation));
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // GET: /Account/ResetPassword
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
-        //
-        // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
@@ -243,47 +208,35 @@ namespace SRS.Web.Controllers
             {
                 return View(model);
             }
+
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
             }            
 
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code.Decrypt(), model.Password);
-
-
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
+
             AddErrors(result);
             return View();
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // POST: /Account/LogOff
         [HttpPost]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
-        }
-        #region Helpers
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         private void AddErrors(IdentityResult result)
@@ -300,9 +253,9 @@ namespace SRS.Web.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
-        #endregion
 
         protected override void Dispose(bool disposing)
         {

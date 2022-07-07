@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using UserManagement.Models;
 using System.Data.Entity;
 using SRS.Repositories.Context;
+using UserManagement.Models.Account;
 
 namespace SRS.Web.Controllers
 {

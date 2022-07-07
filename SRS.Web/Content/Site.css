@@ -84,8 +84,20 @@ a {
     background: white;
 }
 
+h1, h2, h3, h4 {
+    color: #002561;
+}
+
 .username {
     width: 200px;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.white-space-nowrap{
+    white-space:nowrap;
+}
+
+td a.btn:not(:last-child){
+    margin-bottom:4px;
 }
