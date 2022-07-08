@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using SRS.Domain.Enums;
+﻿using SRS.Domain.Enums;
 
-namespace SRS.Domain.Entities
+namespace SRS.Services.Models
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Old name")]
-    public class I18nUserInitials : BaseEntity
+    public class I18nUserInitialsModel : BaseModel
     {
         public Language Language { get; set; }
 
@@ -14,9 +13,6 @@ namespace SRS.Domain.Entities
 
         public string FathersName { get; set; } = string.Empty;
 
-        [Column("User_Id")]
         public string UserId { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
     }
 }

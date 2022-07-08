@@ -10,23 +10,23 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "{0} повинен мати мінімум {2} символи.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Введіть пароль")]
+        [StringLength(100, ErrorMessage = "{0} повинен мати мінімум {2} символи", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Підтвердження паролю")]
-        [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
+        [Compare(nameof(Password), ErrorMessage = "Паролі не співпадають")]
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Виберіть кафедру зі списку")]
         [Display(Name = "Кафедра")]
-        public int Cathedra { get; set; }
+        public int CathedraId { get; set; }
 
         [Required(ErrorMessage = "Виберіть факультет зі списку")]
         [Display(Name = "Факультет")]
-        public int Faculty { get; set; }
+        public int FacultyId { get; set; }
     }
 }

@@ -10,24 +10,36 @@
 <p>
     @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Назва
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
+<table class="table data-table">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-            </td>
+            <th>
+                Назва
+            </th>
+            <th></th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.css" />
+}
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.js"></script>
+    @Scripts.Render("~/bundles/customDatatable")
+}

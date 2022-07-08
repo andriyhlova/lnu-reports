@@ -4,8 +4,13 @@ namespace SRS.Web
 {
     public class BundleConfig
     {
-        // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
+        {
+            RegisterScriptBundles(bundles);
+            RegisterStyleBundles(bundles);
+        }
+
+        private static void RegisterScriptBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
@@ -13,8 +18,6 @@ namespace SRS.Web
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
@@ -25,9 +28,28 @@ namespace SRS.Web
             bundles.Add(new ScriptBundle("~/bundles/login").Include(
                         "~/Scripts/Login/login.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/chosen").Include(
+                        "~/Scripts/Chosen/chosen.jquery.js",
+                        "~/Scripts/Chosen/DocSupport/prism.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/departmentSelector").Include(
+                        "~/Scripts/Common/departmentSelector.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/customDatatable").Include(
+                        "~/Scripts/Common/customDatatable.js"));
+        }
+
+        private static void RegisterStyleBundles(BundleCollection bundles)
+        {
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/chosen").Include(
+                      "~/Content/Chosen/DocSupport/style.css",
+                      "~/Content/Chosen/DocSupport/prism.css",
+                      "~/Content/Chosen/chosen.css",
+                      "~/Content/Chosen/custom.css"));
         }
     }
 }

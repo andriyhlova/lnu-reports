@@ -251,6 +251,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapping\Profiles\AccountProfile.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Account\ResetPasswordViewModel.cs" />
@@ -271,6 +272,15 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Chosen\custom.css" />
+    <Content Include="Content\Chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\Chosen\chosen-sprite.png" />
+    <Content Include="Content\Chosen\chosen.css" />
+    <Content Include="Content\Chosen\chosen.min.css" />
+    <Content Include="Content\Chosen\DocSupport\chosen.png" />
+    <Content Include="Content\Chosen\DocSupport\oss-credit.png" />
+    <Content Include="Content\Chosen\DocSupport\prism.css" />
+    <Content Include="Content\Chosen\DocSupport\style.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\step.css" />
     <Content Include="favicon.ico" />
@@ -287,6 +297,18 @@
     <Content Include="Scripts\chosen.min.css" />
     <Content Include="Scripts\chosen.proto.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
+    <Content Include="Scripts\Chosen\chosen.jquery.js" />
+    <Content Include="Scripts\Chosen\chosen.jquery.min.js" />
+    <Content Include="Scripts\Chosen\chosen.proto.js" />
+    <Content Include="Scripts\Chosen\chosen.proto.min.js" />
+    <Content Include="Scripts\Chosen\DocSupport\init.js" />
+    <Content Include="Scripts\Chosen\DocSupport\init.proto.js" />
+    <Content Include="Scripts\Chosen\DocSupport\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\Chosen\DocSupport\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\Chosen\DocSupport\prism.js" />
+    <Content Include="Scripts\Chosen\DocSupport\prototype-1.7.0.0.js" />
+    <Content Include="Scripts\Common\customDatatable.js" />
+    <Content Include="Scripts\Common\departmentSelector.js" />
     <Content Include="Scripts\docsupport\chosen.png" />
     <Content Include="Scripts\docsupport\init.js" />
     <Content Include="Scripts\docsupport\init.proto.js" />
@@ -297,8 +319,6 @@
     <Content Include="Scripts\docsupport\prism.js" />
     <Content Include="Scripts\docsupport\prototype-1.7.0.0.js" />
     <Content Include="Scripts\docsupport\style.css" />
-    <Content Include="Scripts\index.html" />
-    <Content Include="Scripts\index.proto.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

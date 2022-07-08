@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using UserManagement.Models;
 using SRS.Services.Utilities;
 using SRS.Domain.Enums;
 using SRS.Repositories.Context;
@@ -14,31 +13,39 @@ using SRS.Domain.Entities;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Web.Models.Account;
+using AutoMapper;
 
 namespace SRS.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
         public ApplicationDbContext db = new ApplicationDbContext();
-        private IEmailService _emailService;
+        private readonly IBaseCrudService<CathedraModel> _cathedraService;
+        private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly IBaseCrudService<I18nUserInitialsModel> _i18nUserInitialsService;
+        private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IEmailService emailService)
+        public AccountController(
+            IBaseCrudService<CathedraModel> cathedraService, 
+            IBaseCrudService<FacultyModel> facultyService,
+            IBaseCrudService<I18nUserInitialsModel> i18nUserInitialsService,
+            IEmailService emailService,
+            IMapper mapper)
         {
+            _cathedraService = cathedraService;
+            _facultyService = facultyService;
+            _i18nUserInitialsService = i18nUserInitialsService;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         public ApplicationSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
+                return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
         }
 
@@ -46,11 +53,7 @@ namespace SRS.Web.Controllers
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
 
@@ -100,11 +103,9 @@ namespace SRS.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
-            ViewBag.AllCathedras = db.Cathedra.OrderBy(x=> x.Name);
-            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name);
-            
+            await AddDepartments();
             return View();
         }
 
@@ -114,44 +115,21 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    BirthDate = new DateTime(1950, 1, 1),
-                    PublicationCounterBeforeRegistration = 0,
-                    MonographCounterBeforeRegistration = 0,
-                    BookCounterBeforeRegistration = 0,
-                    TrainingBookCounterBeforeRegistration = 0,
-                    OtherWritingCounterBeforeRegistration = 0,
-                    ConferenceCounterBeforeRegistration = 0,
-                    PatentCounterBeforeRegistration = 0
-                };
+                var user = _mapper.Map<ApplicationUser>(model);
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Працівник");
-                    var u = db.Users.Where(x => x.UserName == model.Email).First();
-                    u.Cathedra = db.Cathedra.Find(model.Cathedra);
-                    foreach (var i in Enum.GetNames(typeof(Language)))
-                    {
-                        u.I18nUserInitials.Add(new I18nUserInitials()
-                        {
-                            Language = (Language)Enum.Parse(typeof(Language), i),
-                            FirstName = "",
-                            LastName = "",
-                            FathersName = "",
-                            User = u,
-                        });
-                    }
-                    db.SaveChanges();
+                    await UserManager.AddToRoleAsync(user.Id, RoleNames.Worker);
+                    await AddUserInitials(user.Id);
+                    
                     TempData["Success"] = true;
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction(nameof(Login));
                 }
-                AddErrors(result);
+
+                ModelState.AddModelError("", "Помилка реєстрації");
             }
-            ViewBag.AllCathedras = db.Cathedra.OrderBy(x => x.Name).ToList();
-            ViewBag.AllFaculties = db.Faculty.OrderBy(x => x.Name).ToList();
+
+            await AddDepartments();
             return View(model);
         }
 
@@ -221,7 +199,7 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
 
-            AddErrors(result);
+            ModelState.AddModelError("", "Помилка відновлення паролю");
             return View();
         }
 
@@ -239,12 +217,22 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-        private void AddErrors(IdentityResult result)
+        private async Task AddUserInitials(string userId)
         {
-            foreach (var error in result.Errors)
+            foreach (var name in Enum.GetNames(typeof(Language)))
             {
-                ModelState.AddModelError("", error);
+                await _i18nUserInitialsService.AddAsync(new I18nUserInitialsModel()
+                {
+                    Language = (Language)Enum.Parse(typeof(Language), name),
+                    UserId = userId
+                });
             }
+        }
+        
+        private async Task AddDepartments()
+        {
+            ViewBag.AllCathedras = (await _cathedraService.GetAllAsync()).OrderBy(x => x.Name);
+            ViewBag.AllFaculties = (await _facultyService.GetAllAsync()).OrderBy(x => x.Name);
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
@@ -255,18 +243,6 @@ namespace SRS.Web.Controllers
             }
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _userManager != null)
-            {
-                _userManager.Dispose();
-                _userManager = null;
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
     }
 }
