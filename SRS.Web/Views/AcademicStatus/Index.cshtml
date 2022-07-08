@@ -10,7 +10,7 @@
 <p>
     @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
 </p>
-<table class="table data-table">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -34,12 +34,3 @@
         }
     </tbody>
 </table>
-
-@section Styles{
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.css" />
-}
-
-@section Scripts {
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.js"></script>
-    @Scripts.Render("~/bundles/customDatatable")
-}

@@ -12,58 +12,60 @@
     @Html.ActionLink("Створити", "Create", null, new { @class = "btn btn-success" })
 </p>
 <table class="table">
-    <tr>
-        <th>
-            Номер ДР
-        </th>
-        <th>
-            Шифр
-        </th>
-        <th>
-            Тема
-        </th>
-        <th>
-            Науковий керівник
-        </th>
-        <th>
-            Період
-        </th>
-        <th>
-            Фінансування
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThemeNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScientificHead)
-            </td>
-            <td>
-                <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodFrom)</div>
-                <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodTo)</div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Financial)
-            </td>
-            <td>
-                @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-            </td>
+            <th>
+                Номер ДР
+            </th>
+            <th>
+                Шифр
+            </th>
+            <th>
+                Тема
+            </th>
+            <th>
+                Науковий керівник
+            </th>
+            <th>
+                Період
+            </th>
+            <th>
+                Фінансування
+            </th>
+            <th></th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThemeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScientificHead)
+                </td>
+                <td>
+                    <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodFrom)</div>
+                    <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodTo)</div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Financial)
+                </td>
+                <td>
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
