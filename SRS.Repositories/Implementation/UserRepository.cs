@@ -15,9 +15,21 @@ namespace SRS.Repositories.Implementations
             _context = context;
         }
 
-        public virtual async Task<ApplicationUser> GetByUsernameAsync(string username)
+        public async Task<ApplicationUser> GetByIdAsync(string id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<ApplicationUser> GetByUsernameAsync(string username)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+        }
+
+        public async Task<ApplicationUser> UpdateAsync(ApplicationUser user)
+        {
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return user;
         }
     }
 }

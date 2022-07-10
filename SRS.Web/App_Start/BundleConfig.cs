@@ -30,7 +30,8 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/chosen").Include(
                         "~/Scripts/Chosen/chosen.jquery.js",
-                        "~/Scripts/Chosen/DocSupport/prism.js"));
+                        "~/Scripts/Chosen/DocSupport/prism.js",
+                        "~/Scripts/Chosen/custom.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/departmentSelector").Include(
                         "~/Scripts/Common/departmentSelector.js"));

@@ -9,9 +9,11 @@ namespace SRS.Services.Mapping.Profiles
     {
         public UserProfile()
         {
-            CreateMap<ApplicationUser, UserModel>()
+            CreateMap<ApplicationUser, UserAccountModel>()
                 .ForMember(dest => dest.FacultyId, opts => opts.MapFrom(src => src.Cathedra.FacultyId))
                 .ForMember(dest => dest.RoleIds, opts => opts.MapFrom(src => src.Roles.Select(x => x.RoleId)));
+
+            CreateMap<ApplicationUser, UserInfoModel>().ReverseMap();
         }
     }
 }

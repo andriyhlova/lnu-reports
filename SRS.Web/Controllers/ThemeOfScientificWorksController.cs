@@ -1,15 +1,12 @@
-﻿using PagedList;
-using SRS.Domain.Entities;
+﻿using Microsoft.AspNet.Identity;
+using PagedList;
 using SRS.Domain.Enums;
-using SRS.Repositories.Context;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
+using SRS.Services.Models.Constants;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UserManagement.Extensions;
@@ -31,7 +28,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(int? page)
         {
-            var user = await _userService.GetByUsernameAsync(User.Identity.Name);
+            var user = await _userService.GetAccountInfoByIdAsync(User.Identity.GetUserId());
             var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user);
             return View(scientifthemes.ToPagedList(page ?? 1, PaginationValues.PageSize));
         }
@@ -61,7 +58,7 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userService.GetByUsernameAsync(User.Identity.Name);
+                var user = await _userService.GetAccountInfoByIdAsync(User.Identity.GetUserId());
                 themeOfScientificWork.CathedraId = user.CathedraId;
                 await _themeOfScientificWorkService.AddAsync(themeOfScientificWork);
                 return RedirectToAction(nameof(Index));
@@ -121,7 +118,7 @@ namespace SRS.Web.Controllers
         private void FillFinancials()
         {
             ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
-                .Select(x => new SelectListItem { Selected = false, Text = x.GetFriendlyName(), Value = x })
+                .Select(x => new SelectListItem { Text = x.GetFriendlyName(), Value = x })
                 .ToList();
         }
     }

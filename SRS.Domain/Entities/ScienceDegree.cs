@@ -1,7 +1,6 @@
 ﻿namespace SRS.Domain.Entities
 {
-    public class ScienceDegree : BaseEntity
+    public class ScienceDegree : BaseValueEntity
     {
-        public string Value { get; set; }
     }
 }

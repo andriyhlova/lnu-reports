@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
+using SRS.Services.Models.Constants;
 
 namespace SRS.Services.Implementations
 {

@@ -4,7 +4,7 @@ using SRS.Services.Providers;
 
 namespace SRS.Services.Models
 {
-    public class UserModel
+    public class UserAccountModel
     {
         public string Id { get; set; }
 

@@ -251,6 +251,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\AccountProfile.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
@@ -260,7 +261,7 @@
     <Compile Include="Models\CathedraReportViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\UserViewModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PublicationService.cs" />
     <Compile Include="Services\CathedraReportService.cs" />
@@ -301,6 +302,7 @@
     <Content Include="Scripts\Chosen\chosen.jquery.min.js" />
     <Content Include="Scripts\Chosen\chosen.proto.js" />
     <Content Include="Scripts\Chosen\chosen.proto.min.js" />
+    <Content Include="Scripts\Chosen\custom.js" />
     <Content Include="Scripts\Chosen\DocSupport\init.js" />
     <Content Include="Scripts\Chosen\DocSupport\init.proto.js" />
     <Content Include="Scripts\Chosen\DocSupport\jquery-1.12.4.min.js" />
@@ -367,7 +369,6 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\UsersManagement\Details.cshtml" />
@@ -396,6 +397,7 @@
     <Content Include="Views\AcademicStatus\Index.cshtml" />
     <Content Include="Views\UsersManagement\Delete.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitials.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\I18nUserInitialsModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -100,12 +100,17 @@
     <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IBaseCrudService.cs" />
+    <Compile Include="Mapping\Profiles\PositionProfile.cs" />
+    <Compile Include="Mapping\Profiles\ScientificDegreeProfile.cs" />
     <Compile Include="Mapping\Profiles\I18nUserInitialsProfile.cs" />
     <Compile Include="Mapping\Profiles\CathedraProfile.cs" />
     <Compile Include="Mapping\Profiles\FacultyProfile.cs" />
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
+    <Compile Include="Models\Constants\Dates.cs" />
+    <Compile Include="Models\PositionModel.cs" />
+    <Compile Include="Models\ScienceDegreeModel.cs" />
     <Compile Include="Models\FacultyModel.cs" />
     <Compile Include="Models\CathedraModel.cs" />
     <Compile Include="Models\Constants\ConfigNames.cs" />
@@ -113,7 +118,8 @@
     <Compile Include="Models\Constants\EmailSubjects.cs" />
     <Compile Include="Models\Constants\RoleNames.cs" />
     <Compile Include="Models\I18nUserInitialsModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Models\UserAccountModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\AcademicStatusModel.cs" />
     <Compile Include="Models\BaseValueModel.cs" />

@@ -4,19 +4,8 @@ $(function () {
     for (let i = 0; i < cathedrasSelectOptions.length; i++) {
         opts.push({ value: cathedrasSelectOptions[i].value, faculty: cathedrasSelectOptions[i].dataset.faculty, text: cathedrasSelectOptions[i].text });
     };
-    updateSelect();
     addFacultyPickerListener(opts);
 });
-
-function updateSelect() {
-    $('.chosen-select').chosen(
-        {
-            placeholder_text_single: "Виберіть...",
-            disable_search_threshold: 10,
-            no_results_text: 'Не знайдено'
-        }
-    );
-};
 
 function addFacultyPickerListener(opts) {
     let facultyElem = document.getElementById("faculty-selector");

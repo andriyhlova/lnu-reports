@@ -1,72 +1,62 @@
-﻿using SRS.Domain.Entities;
+﻿using SRS.Services.Attributes;
+using SRS.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UserManagement.Models.Account
+namespace SRS.Web.Models.Account
 {
     public class UpdateViewModel
     {
-        [Required]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Invalid email. Should be ...@lnu.edu.ua")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [Display(Name = "Електронна пошта")]
-        public string Email { get; set; }
+        public string Id { get; set; }
 
         [Required]
-        public ICollection<I18nUserInitials> I18nUserInitials { get; set; }
+        public List<I18nUserInitialsModel> I18nUserInitials { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість статей, що внесено до звітів за попередні роки")]
-        public int PublicationsBeforeRegistration { get; set; }
+        public int PublicationCounterBeforeRegistration { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість монографій, що внесено до звітів за попередні роки")]
-        public int MonographCounterBeforeRegistration { get; set; } = 0;
+        public int MonographCounterBeforeRegistration { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість підручників, що внесено до звітів за попередні роки")]
-        public int BookCounterBeforeRegistration { get; set; } = 0;
+        public int BookCounterBeforeRegistration { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість навчальних посібників, що внесено до звітів за попередні роки")]
-        public int TrainingBookCounterBeforeRegistration { get; set; } = 0;
+        public int TrainingBookCounterBeforeRegistration { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість інших наукових видань, що внесено до звітів за попередні роки")]
-        public int OtherWritingCounterBeforeRegistration { get; set; } = 0;
+        public int OtherWritingCounterBeforeRegistration { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість тез доповідей на конференціях, що внесено до звітів за попередні роки")]
-        public int ConferenceCounterBeforeRegistration { get; set; } = 0;
+        public int ConferenceCounterBeforeRegistration { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Кількість патентів, що внесено до звітів за попередні роки")]
-        public int PatentCounterBeforeRegistration { get; set; } = 0;
+        public int PatentCounterBeforeRegistration { get; set; }
 
-        [Required]
+        public bool IsActive { get; set; }
+
+        [RequiredField]
         [Display(Name = "Дата народження")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
 
-        [Required]
         [Display(Name = "Рік закінчення ЗВО")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
-        public DateTime GraduationDate { get; set; }
+        public int? GraduationDate { get; set; }
 
-        [Required]
         [Display(Name = "Рік присвоєння вченого звання")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
-        public DateTime AwardingDate { get; set; }
+        public int? AwardingDate { get; set; }
 
-        [Required]
         [Display(Name = "Рік захисту")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
-        public DateTime DefenseYear { get; set; }
+        public int? DefenseYear { get; set; }
 
         [Display(Name = "Рік початку перебування в аспірантурі")]
         public int? AspirantStartYear { get; set; }
@@ -80,14 +70,14 @@ namespace UserManagement.Models.Account
         [Display(Name = "Рік закінчення перебування в докторантурі")]
         public int? DoctorFinishYear { get; set; }
 
-        [Required]
+        [RequiredField]
         [Display(Name = "Науковий ступінь")]
-        public string AcademicStatus { get; set; }
-        [Required]
+        public int? AcademicStatusId { get; set; }
+        [RequiredField]
         [Display(Name = "Вчене звання")]
-        public string ScienceDegree { get; set; }
-        [Required]
+        public int? ScienceDegreeId { get; set; }
+        [RequiredField]
         [Display(Name = "Посада")]
-        public string Position { get; set; }
+        public int? PositionId { get; set; }
     }
 }

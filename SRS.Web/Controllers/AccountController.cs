@@ -8,19 +8,21 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SRS.Services.Utilities;
 using SRS.Domain.Enums;
-using SRS.Repositories.Context;
 using SRS.Domain.Entities;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Web.Models.Account;
 using AutoMapper;
+using SRS.Services.Models.Constants;
 
 namespace SRS.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        public ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
         private readonly IBaseCrudService<CathedraModel> _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<I18nUserInitialsModel> _i18nUserInitialsService;
@@ -39,30 +41,6 @@ namespace SRS.Web.Controllers
             _i18nUserInitialsService = i18nUserInitialsService;
             _emailService = emailService;
             _mapper = mapper;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-        }
-
-        public IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
         }
 
         [AllowAnonymous]
@@ -231,8 +209,12 @@ namespace SRS.Web.Controllers
         
         private async Task AddDepartments()
         {
-            ViewBag.AllCathedras = (await _cathedraService.GetAllAsync()).OrderBy(x => x.Name);
-            ViewBag.AllFaculties = (await _facultyService.GetAllAsync()).OrderBy(x => x.Name);
+            ViewBag.AllCathedras = (await _cathedraService.GetAllAsync())
+                .OrderBy(x => x.Name)
+                .ToList();
+            ViewBag.AllFaculties = (await _facultyService.GetAllAsync())
+                .OrderBy(x => x.Name)
+                .ToList();
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

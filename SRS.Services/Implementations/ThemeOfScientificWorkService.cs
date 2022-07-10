@@ -5,6 +5,7 @@ using SRS.Domain.Entities;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
+using SRS.Services.Models.Constants;
 
 namespace SRS.Services.Implementations
 {
@@ -15,7 +16,7 @@ namespace SRS.Services.Implementations
         {
         }
 
-        public async Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserModel user)
+        public async Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user)
         {
             var scientificThemes = new List<ThemeOfScientificWork>();
             if (user.IsInRole(RoleNames.DeaneryAdmin))
