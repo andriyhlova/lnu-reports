@@ -89,35 +89,6 @@ namespace SRS.Web.Controllers
             await FillRelatedInfo();
             var user = await _userService.GetUserInfoByIdAsync(User.Identity.GetUserId());
             return View(_mapper.Map<UpdateViewModel>(user));
-
-            //var user = UserManager.FindById(User.Identity.GetUserId());
-            //ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
-            //ViewBag.AwardingDate = user.AwardingDate?.ToString("yyyy");
-            //ViewBag.GraduationDate = user.GraduationDate?.ToString("yyyy");
-            //ViewBag.DefenseYear = user.DefenseYear?.ToString("yyyy");
-            //ViewBag.AspirantStartYear = user.AspirantStartYear?.ToString("yyyy");
-            //ViewBag.AspirantFinishYear = user.AspirantFinishYear?.ToString("yyyy");
-            //ViewBag.DoctorStartYear = user.DoctorStartYear?.ToString("yyyy");
-            //ViewBag.DoctorFinishYear = user.DoctorFinishYear?.ToString("yyyy");
-            //ViewBag.PublicationsBeforeRegistration = user.PublicationCounterBeforeRegistration;
-            //ViewBag.MonographCounterBeforeRegistration = user.MonographCounterBeforeRegistration;
-            //ViewBag.BookCounterBeforeRegistration = user.BookCounterBeforeRegistration;
-            //ViewBag.TrainingBookCounterBeforeRegistration = user.TrainingBookCounterBeforeRegistration;
-            //ViewBag.OtherWritingCounterBeforeRegistration = user.OtherWritingCounterBeforeRegistration;
-            //ViewBag.ConferenceCounterBeforeRegistration = user.ConferenceCounterBeforeRegistration;
-            //ViewBag.PatentCounterBeforeRegistration = user.PatentCounterBeforeRegistration;
-            //if (user.AcademicStatus != null)
-            //    ViewBag.AcademicStatus = user.AcademicStatus.Value.ToString();
-            //if (user.ScienceDegree != null)
-            //    ViewBag.ScienceDegree = user.ScienceDegree.Value.ToString();
-            //if (user.Position != null)
-            //    ViewBag.Position = user.Position.Value.ToString();
-            //var viewModel = new UpdateViewModel()
-            //{
-            //    Email = user.Email,
-            //    I18nUserInitials = user.I18nUserInitials,
-            //};
-            //return View(viewModel);
         }
 
         [HttpPost]
@@ -134,51 +105,6 @@ namespace SRS.Web.Controllers
 
             await FillRelatedInfo();
             return View(model);
-            //if (ModelState.IsValid)
-            //{
-            //    var currentUserId = User.Identity.GetUserId();
-
-            //    var user1 = await _userService.GetUserInfoByIdAsync(User.Identity.GetUserId());
-                
-
-            //    var user = db.Users.First(x => x.Id == currentUserId);
-            //    user.BirthDate = model.BirthDate;
-            //    user.AwardingDate = AwardingYear.HasValue ? new DateTime(AwardingYear.Value, 1, 1) : (DateTime?)null;
-            //    user.GraduationDate = GraduationYear.HasValue ? new DateTime(GraduationYear.Value, 1, 1) : (DateTime?)null;
-            //    user.DefenseYear = DefenseDate.HasValue ? new DateTime(DefenseDate.Value, 1, 1) : (DateTime?)null;
-            //    user.AspirantStartYear = AspirantStartYear != null ? new DateTime(AspirantStartYear.Value, 1, 1) : (DateTime?)null;
-            //    user.AspirantFinishYear = AspirantFinishYear != null ? new DateTime(AspirantFinishYear.Value, 1, 1) : (DateTime?)null;
-            //    user.DoctorStartYear = DoctorStartYear != null ? new DateTime(DoctorStartYear.Value, 1, 1) : (DateTime?)null;
-            //    user.DoctorFinishYear = DoctorFinishYear != null ? new DateTime(DoctorFinishYear.Value, 1, 1) : (DateTime?)null;
-                
-            //    user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegistration;
-            //    user.MonographCounterBeforeRegistration = model.MonographCounterBeforeRegistration;
-            //    user.BookCounterBeforeRegistration = model.BookCounterBeforeRegistration;
-            //    user.TrainingBookCounterBeforeRegistration = model.TrainingBookCounterBeforeRegistration;
-            //    user.OtherWritingCounterBeforeRegistration = model.OtherWritingCounterBeforeRegistration;
-            //    user.ConferenceCounterBeforeRegistration = model.ConferenceCounterBeforeRegistration;
-            //    user.PatentCounterBeforeRegistration = model.PatentCounterBeforeRegistration;
-
-            //    user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
-            //    user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
-            //    user.Position = db.Position.First(x => x.Value == model.Position);
-            //    var intials = user.I18nUserInitials.ToList();
-            //    foreach (var initial in intials)
-            //    {
-            //        db.Entry(initial).State = EntityState.Deleted;
-            //    }
-            //    user.I18nUserInitials = model.I18nUserInitials;
-            //    db.SaveChanges();
-
-            //    ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
-            //    ViewBag.AwardingDate = user.AwardingDate?.ToString("yyyy-MM-dd");
-            //    ViewBag.GraduationDate = user.GraduationDate?.ToString("yyyy-MM-dd");
-            //    ViewBag.DefenseYear = user.DefenseYear?.ToString("yyyy-MM-dd");
-            //    return RedirectToAction("Index", "Manage");
-            //}
-
-            //await FillRelatedInfo();
-            //return View(model);
         }
 
         private async Task FillRelatedInfo()
