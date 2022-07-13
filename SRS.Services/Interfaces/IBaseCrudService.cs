@@ -12,10 +12,14 @@ namespace SRS.Services.Interfaces
 
         Task<IList<TModel>> GetAllAsync();
 
+        Task<IList<TModel>> GetAllAsync(int? skip, int? take);
+
         Task<int> AddAsync(TModel model);
 
         Task<TModel> UpdateAsync(TModel model);
 
         Task<bool> DeleteAsync(int id);
+
+        Task<int> CountAsync();
     }
 }

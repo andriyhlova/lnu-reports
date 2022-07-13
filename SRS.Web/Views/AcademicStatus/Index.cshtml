@@ -1,5 +1,6 @@
 ﻿@using SRS.Services.Models
-@model IEnumerable<AcademicStatusModel>
+@using PagedList.Mvc
+@model PagedList.IPagedList<AcademicStatusModel>
 
 @{
     ViewBag.Title = "Наукові ступені";
@@ -34,3 +35,6 @@
         }
     </tbody>
 </table>
+Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

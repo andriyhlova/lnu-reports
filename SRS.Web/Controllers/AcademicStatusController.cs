@@ -1,5 +1,7 @@
-﻿using SRS.Services.Interfaces;
+﻿using PagedList;
+using SRS.Services.Interfaces;
 using SRS.Services.Models;
+using SRS.Services.Models.Constants;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -16,9 +18,11 @@ namespace SRS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page = 1)
         {
-            return View(await _academicStatusService.GetAllAsync());
+            var academicStatuses = await _academicStatusService.GetAllAsync((page.Value - 1) * PaginationValues.PageSize, PaginationValues.PageSize);
+            var total = await _academicStatusService.CountAsync();
+            return View(new StaticPagedList<AcademicStatusModel>(academicStatuses, page.Value, PaginationValues.PageSize, total));
         }
 
         [HttpGet]

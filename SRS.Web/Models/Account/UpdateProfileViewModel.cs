@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SRS.Web.Models.Account
 {
-    public class UpdateViewModel
+    public class UpdateProfileViewModel
     {
         public string Id { get; set; }
 
@@ -40,8 +40,6 @@ namespace SRS.Web.Models.Account
         [RequiredField]
         [Display(Name = "Кількість патентів, що внесено до звітів за попередні роки")]
         public int PatentCounterBeforeRegistration { get; set; }
-
-        public bool IsActive { get; set; }
 
         [RequiredField]
         [Display(Name = "Дата народження")]

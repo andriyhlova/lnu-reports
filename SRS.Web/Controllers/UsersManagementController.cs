@@ -1,293 +1,144 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using PagedList;
-using SRS.Domain.Entities;
-using SRS.Repositories.Context;
 using SRS.Services.Interfaces;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+using SRS.Services.Models;
+using SRS.Services.Models.Constants;
+using SRS.Services.Models.FilterModels;
+using SRS.Web.Models.UsersManagement;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using UserManagement.Models;
 
 namespace SRS.Web.Controllers
 {
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class UsersManagementController : Controller
     {
-        private ApplicationDbContext DB = new ApplicationDbContext();
-
-        private ApplicationUserManager _userManager;
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
         private readonly IEmailService _emailService;
+        private readonly ICathedraService _cathedraService;
+        private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly IUserService<BaseUserInfoModel> _baseUserInfoService;
+        private readonly IUserService<UserInfoModel> _userInfoService;
+        private readonly IUserService<UserAccountModel> _userAccountService;
+        private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
 
-        public UsersManagementController(IEmailService emailService)
+        public UsersManagementController(
+            IEmailService emailService,
+            ICathedraService cathedraService,
+            IBaseCrudService<FacultyModel> facultyService,
+            IUserService<BaseUserInfoModel> baseUserInfoService,
+            IUserService<UserInfoModel> userInfoService,
+            IUserService<UserAccountModel> userAccountService,
+            IRoleService roleService,
+            IMapper mapper)
         {
             _emailService = emailService;
+            _cathedraService = cathedraService;
+            _facultyService = facultyService;
+            _baseUserInfoService = baseUserInfoService;
+            _userInfoService = userInfoService;
+            _userAccountService = userAccountService;
+            _roleService = roleService;
+            _mapper = mapper;
         }
 
-        // GET: UsersManagement
-        public ActionResult Index(int? page, string sortOrder, int? cathedra, int? faculty)
+        public async Task<ActionResult> Index(UserFilterViewModel filterViewModel)
         {
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
-            int cathedraNumber = cathedra ?? -1;
-            int facultyNumber = faculty ?? -1;
-            ViewBag.IsActiveSortParm = sortOrder == null ? "is_active_desc" : sortOrder == "is_active" ? "is_active_desc" : "is_active";
-            List<ApplicationUser> list = DB.Users.Include(x=>x.Roles).ToList();
-            var cathedas = faculty.HasValue ? DB.Cathedra.Where(x => x.Faculty.Id == faculty).OrderBy(x => x.Name).ToList()
-                : DB.Cathedra.OrderBy(x => x.Name).ToList();
-            var faculties = DB.Faculty.OrderBy(x => x.Name).ToList();
-            var roles = DB.Roles.ToList();
-            Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
-            list.ForEach(x =>
-            {
-                map.Add(x.Id, x.Roles.Select(y => roles.First(z=>z.Id == y.RoleId).Name).ToList());
-            });
-            ViewBag.AllCathedras = cathedas
-                .Select(x =>
-                     new SelectListItem
-                     {
-                         Text = x.Name,
-                         Value = x.Id.ToString()
-                     }).ToList();
-            ViewBag.AllFaculties = faculties
-                .Select(x =>
-                     new SelectListItem
-                     {
-                         Text = x.Name,
-                         Value = x.Id.ToString()
-                     }).ToList();
-            ViewBag.RolesForThisUser = map;
-            var users = DB.Users
-                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.Id == cathedraNumber))
-                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.Id == facultyNumber))
-                .ToList();
-            var currentUser = UserManager.FindByName(User.Identity.Name);
-            if (User.IsInRole("Керівник кафедри"))
-            {
-                users = DB.Users
-                .Where(x => x.Cathedra.Id == currentUser.Cathedra.Id).ToList();
-            }
-            if (User.IsInRole("Адміністрація деканату"))
-            {
-                users = DB.Users
-                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.Id == cathedraNumber))
-                .Where(x => x.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
+            var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
 
-                ViewBag.AllCathedras = cathedas
-                    .Where(x => x.Faculty.Id == currentUser.Cathedra.Faculty.Id)
-                    .Select(x =>
-                         new SelectListItem
-                         {
-                             Text = x.Name,
-                             Value = x.Id.ToString()
-                         }).ToList();
-            }
-            if (User.IsInRole("Адміністрація ректорату") || User.IsInRole("Superadmin"))
-            {
-                users = DB.Users
-                    .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.Id == cathedraNumber))
-                    .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.Id == facultyNumber))
-                    .ToList();
-            }
-            switch (sortOrder)
-            {
-                case "is_active_desc":
-                    users = users.OrderByDescending(x => x.IsActive).ToList();
-                    break;
-                default:
-                    users = users.OrderBy(x => x.IsActive).ToList();
-                    break;
-            }
-            ViewBag.SelectedFaculty = faculty;
-            ViewBag.SelectedCathedra = cathedra;
-            ViewBag.SortOrder = sortOrder;
-            return View(users.ToPagedList(pageNumber, pageSize));
-        }
+            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
+            var users = await _baseUserInfoService.GetAsync(currentUser, filterModel);
 
-        // GET: UsersManagement/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = DB.Users.Find(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            var userRoles = applicationUser.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList();
-            ViewBag.RolesForThisUser = userRoles;
-            return View(applicationUser);
-        }
+            filterModel.Take = null;
+            var total = await _baseUserInfoService.CountAsync(currentUser, filterModel);
 
-        // GET: UsersManagement/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = DB.Users.Find(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            var userRoles = applicationUser.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList();
-            ViewBag.RolesForThisUser = userRoles;
-            if (User.IsInRole("Superadmin"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name)).Select(x => x.Name);
-            }
-            else if (User.IsInRole("Адміністрація ректорату"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація деканату").Select(x => x.Name);
-            }
-            else if (User.IsInRole("Адміністрація деканату"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Керівник кафедри").Select(x => x.Name);
-            }
-            else if (User.IsInRole("Керівник кафедри"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Працівник").Select(x => x.Name);
-            }
-            ViewBag.AllCathedras = DB.Cathedra.ToList().Select(x => x.Name);
-            ViewBag.AllAcademicStatuses = DB.AcademicStatus.ToList().Select(x => x.Value);
-            ViewBag.AllScienceDegrees = DB.ScienceDegree.ToList().Select(x => x.Value);
-            ViewBag.AllPositions = DB.Position.ToList().Select(x => x.Value);
-            return View(applicationUser);
-        }
+            await FillAvailableDepartments(filterViewModel.FacultyId);
 
-        // POST: UsersManagement/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName," +
-            "IsActive,PasswordHash,SecurityStamp,BirthDate,GraduationDate,AwardingDate,DefenseYear")] ApplicationUser applicationUser, 
-            [Bind(Include = "RoleToAdd")] string roleToAdd, UserUpdateViewModel model)
-        {
-            var userRoles = applicationUser.Roles
-                .Where(x => DB.Roles.Find(x.RoleId).Name != "Superadmin")
-                .Select(y => DB.Roles.Find(y.RoleId).Name)
-                .ToList();
-            ViewBag.RolesForThisUser = userRoles;
-            if (User.IsInRole("Superadmin"))
+            var viewModel = new UsersViewModel
             {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація ректорату").Select(x => x.Name);
-            }
-            else if (User.IsInRole("Адміністрація ректорату"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація деканату").Select(x => x.Name);
-            }
-            else if (User.IsInRole("Адміністрація деканату"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Керівник кафедри").Select(x => x.Name);
-            }
-            else if (User.IsInRole("Керівник кафедри"))
-            {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Працівник").Select(x => x.Name);
-            }
-            var user = DB.Users.Find(applicationUser.Id);
-            if (applicationUser.IsActive && (roleToAdd == null || roleToAdd.Equals("")) && user.Roles.Count == 0)
-            {
-                ViewBag.Error = "Impossible to make active user without role";
-                return View(applicationUser);
-            }
-            if (roleToAdd != null && !roleToAdd.Equals("") && !user
-                .Roles.Any(x => DB.Roles.Find(x.RoleId).Equals(roleToAdd)))
-            {
-                UserManager.AddToRole(applicationUser.Id, roleToAdd);
-            }
-            if(!user.IsActive && applicationUser.IsActive)
-            {
-                await _emailService.SendEmail(user.Email, "Підтвердження користувача",
-                "Ваш профіль підтверджено в системі звітування <a href=\"https://srs.lnu.edu.ua\">https://srs.lnu.edu.ua</a>.");
-                user.ApprovedById = User.Identity.GetUserId();
-            }
-            user.IsActive = applicationUser.IsActive;
-            var intials = user.I18nUserInitials.ToList();
-            foreach (var initial in intials)
-            {
-                DB.Entry(initial).State = EntityState.Deleted;
-            }
-            user.I18nUserInitials = model.I18nUserInitials;
-            DB.SaveChanges();
-            return RedirectToAction("Index");
+                FilterModel = filterViewModel,
+                Items = new StaticPagedList<BaseUserInfoModel>(users, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+            };
+            return View(viewModel);
         }
 
         [HttpGet]
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = DB.Users.Find(id);
-            if (applicationUser == null)
+            var user = await _userInfoService.GetByIdAsync(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            var userRoles = applicationUser.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList();
-            ViewBag.RolesForThisUser = userRoles;
-            return View(applicationUser);
-        }
 
-        [HttpPost]
-        public ActionResult Delete(ApplicationUser applicationUser)
-        {
-            var id = applicationUser.Id;
-            var user = DB.Users.Include(x=>x.I18nUserInitials).FirstOrDefault(x=>x.Id == id);
-            user.I18nUserInitials.Clear();
-            var reports = DB.Reports.Include(x => x.User).Where(x => x.User.Id == id);
-            DB.Reports.RemoveRange(reports);
-            var cathedraReports = DB.CathedraReport.Include(x => x.User).Where(x => x.User.Id == id);
-            DB.CathedraReport.RemoveRange(cathedraReports);
-            var approvedUsers = DB.Users.Where(x => x.ApprovedById == id);
-            foreach(var item in approvedUsers)
-            {
-                item.ApprovedById = null;
-            }
-            DB.Users.Remove(user);
-            DB.SaveChanges();
-            return RedirectToAction("Index");
+            return View(user);
         }
 
         [HttpGet]
-        public ActionResult DeleteRole(string userId, string roleName)
+        public async Task<ActionResult> Edit(string id)
         {
-            UserManager.RemoveFromRole(userId, roleName);
-            return RedirectToAction("Edit", "UsersManagement", new { id = userId });
+            var user = await _userInfoService.GetByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            await FillAvailableRoles();
+            return View(user);
         }
 
-        protected override void Dispose(bool disposing)
+        [HttpPost]
+        public async Task<ActionResult> Edit(UpdateUserViewModel model)
         {
-            //if (disposing && _userManager != null)
-            //{
-            //    _userManager.Dispose();
-            //    _userManager = null;
-            //    db.Dispose();
-            //    db = null;
-            //}
+            var existingUser = await _userInfoService.GetByIdAsync(model.Id);
+            _mapper.Map(model, existingUser);
+            if (ModelState.IsValid)
+            {
+                await _userInfoService.UpdateAsync(existingUser, User.Identity.GetUserId());
+                return RedirectToAction(nameof(Index));
+            }
 
-            //base.Dispose(disposing);
+            await FillAvailableRoles();
+            return View(existingUser);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var user = await _userInfoService.GetByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            await _userInfoService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task FillAvailableRoles()
+        {
+            var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
+            ViewBag.AvailableRoles = await _roleService.GetAvailableRolesAsync(currentUser);
+        }
+
+        private async Task FillAvailableDepartments(int? facultyId)
+        {
+            if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
+            {
+                ViewBag.AllCathedras = await _cathedraService.GetAllAsync();
+                ViewBag.AllFaculties = await _facultyService.GetAllAsync();
+            }
+            else if (User.IsInRole(RoleNames.DeaneryAdmin))
+            {
+                ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
+            }
         }
     }
 }

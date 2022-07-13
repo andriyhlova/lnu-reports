@@ -17,20 +17,21 @@ namespace SRS.Web.Controllers
     public class ThemeOfScientificWorksController : Controller
     {
         private IThemeOfScientificWorkService _themeOfScientificWorkService;
-        private IUserService _userService;
+        private IUserService<UserAccountModel> _userService;
 
-        public ThemeOfScientificWorksController(IThemeOfScientificWorkService themeOfScientificWorkService, IUserService userService)
+        public ThemeOfScientificWorksController(IThemeOfScientificWorkService themeOfScientificWorkService, IUserService<UserAccountModel> userService)
         {
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userService = userService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page = 1)
         {
-            var user = await _userService.GetAccountInfoByIdAsync(User.Identity.GetUserId());
-            var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user);
-            return View(scientifthemes.ToPagedList(page ?? 1, PaginationValues.PageSize));
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user, (page.Value - 1) * PaginationValues.PageSize, PaginationValues.PageSize);
+            var total = await _themeOfScientificWorkService.CountThemesForUserAsync(user);
+            return View(new StaticPagedList<ThemeOfScientificWorkModel>(scientifthemes, page.Value, PaginationValues.PageSize, total));
         }
 
         [HttpGet]
@@ -58,7 +59,7 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userService.GetAccountInfoByIdAsync(User.Identity.GetUserId());
+                var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
                 themeOfScientificWork.CathedraId = user.CathedraId;
                 await _themeOfScientificWorkService.AddAsync(themeOfScientificWork);
                 return RedirectToAction(nameof(Index));

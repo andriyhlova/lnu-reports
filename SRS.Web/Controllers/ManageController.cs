@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using System.Data.Entity;
 using SRS.Repositories.Context;
 using SRS.Web.Models.Account;
 using SRS.Services.Interfaces;
@@ -25,7 +22,7 @@ namespace SRS.Web.Controllers
         private readonly IBaseCrudService<AcademicStatusModel> _academicStatusService;
         private readonly IBaseCrudService<ScienceDegreeModel> _scientificDegreeService;
         private readonly IBaseCrudService<PositionModel> _positionService;
-        private readonly IUserService _userService;
+        private readonly IUserService<ProfileInfoModel> _userService;
         private readonly IMapper _mapper;
 
         public ApplicationDbContext db = new ApplicationDbContext();
@@ -34,7 +31,7 @@ namespace SRS.Web.Controllers
             IBaseCrudService<AcademicStatusModel> academicStatusService,
             IBaseCrudService<ScienceDegreeModel> scientificDegreeService,
             IBaseCrudService<PositionModel> positionService,
-            IUserService userService,
+            IUserService<ProfileInfoModel> userService,
             IMapper mapper)
         {
             _academicStatusService = academicStatusService;
@@ -87,18 +84,19 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Update()
         {
             await FillRelatedInfo();
-            var user = await _userService.GetUserInfoByIdAsync(User.Identity.GetUserId());
-            return View(_mapper.Map<UpdateViewModel>(user));
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            return View(_mapper.Map<UpdateProfileViewModel>(user));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(UpdateViewModel model)
+        public async Task<ActionResult> Update(UpdateProfileViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var userModel = _mapper.Map<UserInfoModel>(model);
-                await _userService.UpdateAsync(userModel);
+                var existingUser = await _userService.GetByIdAsync(User.Identity.GetUserId());
+                _mapper.Map(model, existingUser);
+                await _userService.UpdateAsync(existingUser);
                 TempData["StatusMessage"] = "Дані оновлено";
                 return RedirectToAction(nameof(Index));
             }

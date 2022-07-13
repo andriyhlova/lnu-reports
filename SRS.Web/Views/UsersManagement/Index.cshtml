@@ -1,157 +1,145 @@
-﻿@model PagedList.IPagedList<SRS.Domain.Entities.ApplicationUser>
+﻿@using SRS.Domain.Enums
+@using SRS.Services.Models.Constants
+@using SRS.Services.Providers
+@using SRS.Web.Models.Shared
+@using SRS.Web.Models.UsersManagement
+@model UsersViewModel
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Користувачі";
 }
 
 <h2>Користувачі</h2>
-
-@if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату"))
+@if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))
 {
-    <div style="display:flex">
-
-        @if (!User.IsInRole("Адміністрація деканату"))
-        {
-        <form asp-controller="UserManagement" asp-action="Index" style="margin-right: 50px" id="facultyForm">
-            <p>
-                @Html.DropDownList("faculty",
-                              new SelectList(ViewBag.AllFaculties, "Value", "Text"),
-                              "Виберіть факультет",
-                              new { @class = "form-control chosen-select-faculty" })
-            </p>
-            <input type="hidden" name="cathedra" value="@ViewBag.SelectedCathedra" />
-            <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
-        </form>
-        }
-    <form asp-controller="UserManagement" asp-action="Index" id="cathedraForm">
-        <p>
-            @Html.DropDownList("cathedra",
-                            new SelectList(ViewBag.AllCathedras, "Value", "Text"),
-                            "Виберіть кафедру",
-                            new { @class = "form-control chosen-select" })
-        </p>
-        <input type="hidden" name="faculty" value="@ViewBag.SelectedFaculty" />
-        <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
+    <form asp-controller="UserManagement" asp-action="Index" id="facultyForm">
+        <div class="form-group">
+            @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
+            {
+                <div>
+                    <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
+                        <option value="">Виберіть факультет</option>
+                        @foreach (var faculty in ViewBag.AllFaculties)
+                        {
+                            <option value="@faculty.Id" selected="@(faculty.Id == Model.FilterModel.FacultyId)">@faculty.Name</option>
+                        }
+                    </select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="FacultyId" value="@Model.FilterModel.FacultyId" />
+            }
+        </div>
+        <div class="form-group">
+            <div>
+                <select id="cathedra-selector" class="form-control chosen-select" name="CathedraId">
+                    <option value="">Виберіть кафедру</option>
+                    @foreach (var cathedra in ViewBag.AllCathedras)
+                    {
+                        <option value="@cathedra.Id" data-faculty="@cathedra.FacultyId" selected="@(cathedra.Id == Model.FilterModel.CathedraId)">@cathedra.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <input name="Search" class="form-control" value="@Model.FilterModel.Search" placeholder="Пошук за прізвищем або поштою" />
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        </div>
+        <input type="hidden" name="OrderBy" value="@Model.FilterModel.OrderBy" />
+        <input type="hidden" name="Desc" value="@Model.FilterModel.Desc.ToString()" />
     </form>
-    </div>
 }
-<table class="table">
-    <tr>
-        <th>
-            Електронна пошта
-        </th>
-        <th>
-            Ім'я
-        </th>
-        <th>
-            Прізвище
-        </th>
-        <th>
-            @Html.ActionLink("Активний", "Index", new { sortOrder = ViewBag.IsActiveSortParm, cathedra=ViewBag.SelectedCathedra, faculty=ViewBag.SelectedFaculty })
-        </th>
-        <th>
-            Ролі
-        </th>
-        <th></th>
-    </tr>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Електронна пошта", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Email, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Email, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Ім'я", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.FirstName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Прізвище", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.LastName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.LastName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Активний", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Active, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Active, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    Ролі
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @foreach (var i in item.I18nUserInitials)
+                        {
+                            if (i.Language == Language.UA)
+                            {
+                                @Html.DisplayFor(modelItem => i.FirstName)
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        @foreach (var i in item.I18nUserInitials)
+                        {
+                            if (i.Language == Language.UA)
+                            {
+                                @Html.DisplayFor(modelItem => i.LastName)
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @foreach (var roleId in item.RoleIds)
+                        {
+                            <div>@RolesProvider.AllRoles[roleId]</div>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Email != User.Identity.Name)
+                        {
+                            @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                        }
+                        @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @if (item.Email != User.Identity.Name && !item.IsActive)
+                        {
+                            @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    Сторінка @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) з @Model.Items.PageCount
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @foreach (var i in item.I18nUserInitials)
-                {
-                    if (i.Language == SRS.Domain.Enums.Language.UA)
-                    {
-                        @Html.DisplayFor(modelItem => i.FirstName)
-                        break;
-                    }
-                }
-            </td>
-            <td>
-                @foreach (var i in item.I18nUserInitials)
-                {
-                    if (i.Language == SRS.Domain.Enums.Language.UA)
-                    {
-                        @Html.DisplayFor(modelItem => i.LastName)
-                        break;
-                    }
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @foreach (var i in ViewBag.RolesForThisUser[item.Id])
-                {
-                    <div>@i</div>
-                }
-            </td>
-            <td>
-                @if (item.UserName != User.Identity.Name)
-                {
-                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id })
-                }
-                @if (item.UserName != User.Identity.Name && !item.IsActive)
-                {
-                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
-                }
-                @Html.ActionLink("Деталі", "Details", new { id = item.Id })
-            </td>
-        </tr>
+    @Html.PagedListPager(Model.Items, page => Url.Action("Index", new UserFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
+
+    @section Styles {
+        @Styles.Render("~/Content/chosen")
     }
-
-</table>
-    Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.SortOrder, cathedra = ViewBag.SelectedCathedra, faculty = ViewBag.SelectedFaculty }))
-
-    <link rel="stylesheet" href="../Scripts/docsupport/style.css">
-    <link rel="stylesheet" href="../Scripts/docsupport/prism.css">
-    <link rel="stylesheet" href="../Scripts/chosen.css">
-    <style type="text/css" media="all">
-        /* fix rtl for demo */
-        .chosen-rtl .chosen-drop {
-            left: -9000px;
-        }
-
-        .find {
-            height: 30px;
-            margin-left: 15px;
-        }
-    </style>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="../Scripts/chosen.jquery.js" type="text/javascript"></script>
-    <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
-
-    <script type="text/javascript">
-
-        $('.chosen-select').on("change", function () {
-            $('#cathedraForm').submit();
-        })
-        $('.chosen-select-faculty').on("change", function () {
-            $('#facultyForm').submit();
-        })
-        function updateSelect() {
-            $('.chosen-select').chosen(
-                {
-                    allow_single_deselect: false,
-                    disable_search_threshold: 10,
-                    no_results_text: 'Не знайдено',
-                }
-            );
-            $('.chosen-select-faculty').chosen(
-                {
-                    allow_single_deselect: false,
-                    disable_search_threshold: 10,
-                    no_results_text: 'Не знайдено',
-                }
-            );
-        }
-
-        updateSelect();
-    </script>
+    @section Scripts {
+        @Scripts.Render("~/bundles/chosen")
+        @Scripts.Render("~/bundles/departmentSelector")
+    }

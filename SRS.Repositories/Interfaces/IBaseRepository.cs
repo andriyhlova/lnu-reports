@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using SRS.Domain.Specifications;
 
 namespace SRS.Repositories.Interfaces
 {
@@ -17,8 +18,16 @@ namespace SRS.Repositories.Interfaces
 
         Task<TEntity> GetAsync(int id);
 
+        Task<TEntity> GetAsync(int id, ISpecification<TEntity> specification);
+
         Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression);
 
+        Task<List<TEntity>> GetAsync(ISpecification<TEntity> specification);
+
         Task<List<TEntity>> GetAllAsync();
+
+        Task<int> CountAsync();
+
+        Task<int> CountAsync(ISpecification<TEntity> specification);
     }
 }

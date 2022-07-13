@@ -1,14 +1,21 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using SRS.Services.Models;
+using SRS.Services.Models.FilterModels;
 
 namespace SRS.Services.Interfaces
 {
-    public interface IUserService
+    public interface IUserService<TUserModel>
+        where TUserModel : BaseUserModel
     {
-        Task<UserAccountModel> GetAccountInfoByIdAsync(string id);
+        Task<TUserModel> GetByIdAsync(string id);
 
-        Task<UserInfoModel> GetUserInfoByIdAsync(string id);
+        Task<IList<TUserModel>> GetAsync(UserAccountModel user, UserFilterModel filterModel);
 
-        Task<UserInfoModel> UpdateAsync(UserInfoModel user);
+        Task<TUserModel> UpdateAsync(TUserModel user, string approvedById = null);
+
+        Task<bool> DeleteAsync(string id);
+
+        Task<int> CountAsync(UserAccountModel user, UserFilterModel filterModel);
     }
 }

@@ -4,10 +4,8 @@ using SRS.Services.Providers;
 
 namespace SRS.Services.Models
 {
-    public class UserAccountModel
+    public class UserAccountModel : BaseUserModel
     {
-        public string Id { get; set; }
-
         public string UserName { get; set; }
 
         public int? CathedraId { get; set; }

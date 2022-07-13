@@ -38,6 +38,12 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/customDatatable").Include(
                         "~/Scripts/Common/customDatatable.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/usersManagement/edit").Include(
+                        "~/Scripts/UsersManagement/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/collapsible").Include(
+                        "~/Scripts/Common/collapsible.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)
@@ -51,6 +57,9 @@ namespace SRS.Web
                       "~/Content/Chosen/DocSupport/prism.css",
                       "~/Content/Chosen/chosen.css",
                       "~/Content/Chosen/custom.css"));
+
+            bundles.Add(new StyleBundle("~/Content/usersManagement/edit").Include(
+                      "~/Content/UsersManagement/edit.css"));
         }
     }
 }

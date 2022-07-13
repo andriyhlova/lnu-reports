@@ -256,11 +256,15 @@
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Account\ResetPasswordViewModel.cs" />
-    <Compile Include="Models\Account\UpdateViewModel.cs" />
+    <Compile Include="Models\Account\UpdateProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\CathedraReportViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
-    <Compile Include="Models\UserViewModels.cs" />
+    <Compile Include="Models\Shared\OrderDirectionViewModel.cs" />
+    <Compile Include="Models\Shared\BaseFilterViewModel.cs" />
+    <Compile Include="Models\UsersManagement\UsersViewModel.cs" />
+    <Compile Include="Models\UsersManagement\UserFilterViewModel.cs" />
+    <Compile Include="Models\UsersManagement\UpdateUserViewModel.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PublicationService.cs" />
@@ -284,6 +288,7 @@
     <Content Include="Content\Chosen\DocSupport\style.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\step.css" />
+    <Content Include="Content\UsersManagement\edit.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -309,6 +314,7 @@
     <Content Include="Scripts\Chosen\DocSupport\jquery-3.2.1.min.js" />
     <Content Include="Scripts\Chosen\DocSupport\prism.js" />
     <Content Include="Scripts\Chosen\DocSupport\prototype-1.7.0.0.js" />
+    <Content Include="Scripts\Common\collapsible.js" />
     <Content Include="Scripts\Common\customDatatable.js" />
     <Content Include="Scripts\Common\departmentSelector.js" />
     <Content Include="Scripts\docsupport\chosen.png" />
@@ -339,6 +345,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\UsersManagement\edit.js" />
     <Content Include="Scripts\Login\login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -398,6 +405,7 @@
     <Content Include="Views\UsersManagement\Delete.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitials.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitialsModel.cshtml" />
+    <Content Include="Views\Shared\OrderDirection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

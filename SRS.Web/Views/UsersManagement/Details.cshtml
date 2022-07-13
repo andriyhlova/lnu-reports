@@ -1,7 +1,8 @@
-﻿@model UserManagement.Models.ApplicationUser
+﻿@using SRS.Services.Providers
+@model SRS.Services.Models.UserInfoModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Деталі";
 }
 
 <h2>Деталі</h2>
@@ -81,57 +82,58 @@
             @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt>
-            Кафедра
+            @Html.DisplayNameFor(model => model.CathedraName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cathedra.Name)
+            @Html.DisplayFor(model => model.CathedraName)
         </dd>
         <dt>
-            Факультет
+            @Html.DisplayNameFor(model => model.FacultyName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cathedra.Faculty.Name)
+            @Html.DisplayFor(model => model.FacultyName)
         </dd>
         <dt>
-            Науковий ступінь
+            @Html.DisplayNameFor(model => model.AcademicStatusName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AcademicStatus.Value)
+            @Html.DisplayFor(model => model.AcademicStatusName)
         </dd>
         <dt>
-            Вчене звання
+            @Html.DisplayNameFor(model => model.ScienceDegreeName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ScienceDegree.Value)
+            @Html.DisplayFor(model => model.ScienceDegreeName)
         </dd>
         <dt>
-            Посада
+            @Html.DisplayNameFor(model => model.PositionName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Position.Value)
+            @Html.DisplayFor(model => model.PositionName)
         </dd>
         <dt>
-            Ролі
+            @Html.DisplayNameFor(model => model.RoleIds)
         </dt>
 
         <dd>
-            @foreach (var i in ViewBag.RolesForThisUser)
+            @foreach (var role in Model.RoleIds)
             {
-                <div>@i</div>
+                <div>@RolesProvider.AllRoles[role]</div>
             }
         </dd>
     </dl>
 </div>
 <p>
-    @if (Model.UserName != User.Identity.Name)
+    @if (Model.Email != User.Identity.Name)
     {
         @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id })
         <span>|</span>
     }
+
     @Html.ActionLink("Назад до списку", "Index")
 </p>

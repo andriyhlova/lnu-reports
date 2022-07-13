@@ -6,6 +6,8 @@ namespace SRS.Services.Interfaces
 {
     public interface IThemeOfScientificWorkService : IBaseCrudService<ThemeOfScientificWorkModel>
     {
-        Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user);
+        Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user, int? skip, int? take);
+
+        Task<int> CountThemesForUserAsync(UserAccountModel user);
     }
 }

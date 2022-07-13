@@ -1,0 +1,6 @@
+﻿@using SRS.Web.Models.Shared
+@model OrderDirectionViewModel
+@if (Model.OrderBy == Model.OrderType)
+{
+    <i class="bi @(Model.Desc ? "bi-sort-down" : "bi-sort-up")"></i>
+}

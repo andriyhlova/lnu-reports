@@ -1,50 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SRS.Services.Models
 {
-    public class UserInfoModel
+    public class UserInfoModel : BaseUserInfoModel
     {
-        public string Id { get; set; }
-
-        public List<I18nUserInitialsModel> I18nUserInitials { get; set; }
-
-        public int PublicationCounterBeforeRegistration { get; set; }
-
-        public int MonographCounterBeforeRegistration { get; set; }
-
-        public int BookCounterBeforeRegistration { get; set; }
-
-        public int TrainingBookCounterBeforeRegistration { get; set; }
-
-        public int OtherWritingCounterBeforeRegistration { get; set; }
-
-        public int ConferenceCounterBeforeRegistration { get; set; }
-
-        public int PatentCounterBeforeRegistration { get; set; }
-
-        public bool IsActive { get; set; }
-
+        [Display(Name = "Дата народження")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
 
+        [Display(Name = "Рік закінчення ЗВО")]
         public DateTime? GraduationDate { get; set; }
 
+        [Display(Name = "Рік присвоєння вченого звання")]
         public DateTime? AwardingDate { get; set; }
 
+        [Display(Name = "Рік захисту")]
         public DateTime? DefenseYear { get; set; }
 
-        public DateTime? AspirantStartYear { get; set; }
+        public int? CathedraId { get; set; }
 
-        public DateTime? AspirantFinishYear { get; set; }
+        [Display(Name = "Кафедра")]
+        public string CathedraName { get; set; }
 
-        public DateTime? DoctorStartYear { get; set; }
+        public int? FacultyId { get; set; }
 
-        public DateTime? DoctorFinishYear { get; set; }
+        [Display(Name = "Факультет")]
+        public string FacultyName { get; set; }
 
         public int? AcademicStatusId { get; set; }
 
+        [Display(Name = "Науковий ступінь")]
+        public string AcademicStatusName { get; set; }
+
         public int? ScienceDegreeId { get; set; }
 
+        [Display(Name = "Вчене звання")]
+        public string ScienceDegreeName { get; set; }
+
         public int? PositionId { get; set; }
+
+        [Display(Name = "Посада")]
+        public string PositionName { get; set; }
     }
 }

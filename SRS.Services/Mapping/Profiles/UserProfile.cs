@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Microsoft.AspNet.Identity.EntityFramework;
 using SRS.Domain.Entities;
 using SRS.Services.Models;
 
@@ -13,7 +14,21 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.FacultyId, opts => opts.MapFrom(src => src.Cathedra.FacultyId))
                 .ForMember(dest => dest.RoleIds, opts => opts.MapFrom(src => src.Roles.Select(x => x.RoleId)));
 
-            CreateMap<ApplicationUser, UserInfoModel>().ReverseMap();
+            CreateMap<ApplicationUser, ProfileInfoModel>().ReverseMap();
+
+            CreateMap<ApplicationUser, BaseUserInfoModel>()
+                .ForMember(dest => dest.RoleIds, opts => opts.MapFrom(src => src.Roles.Select(x => x.RoleId)));
+
+            CreateMap<ApplicationUser, UserInfoModel>()
+                .IncludeBase<ApplicationUser, BaseUserInfoModel>()
+                .ForMember(dest => dest.FacultyId, opts => opts.MapFrom(src => src.Cathedra.FacultyId))
+                .ForMember(dest => dest.FacultyName, opts => opts.MapFrom(src => src.Cathedra != null && src.Cathedra.Faculty != null ? src.Cathedra.Faculty.Name : null))
+                .ForMember(dest => dest.AcademicStatusName, opts => opts.MapFrom(src => src.AcademicStatus != null ? src.AcademicStatus.Value : null))
+                .ForMember(dest => dest.ScienceDegreeName, opts => opts.MapFrom(src => src.ScienceDegree != null ? src.ScienceDegree.Value : null))
+                .ForMember(dest => dest.PositionName, opts => opts.MapFrom(src => src.Position != null ? src.Position.Value : null));
+
+            CreateMap<UserInfoModel, ApplicationUser>()
+                .ForMember(dest => dest.Roles, opts => opts.MapFrom(src => src.RoleIds.Select(x => new IdentityUserRole { RoleId = x, UserId = src.Id })));
         }
     }
 }

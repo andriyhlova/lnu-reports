@@ -111,7 +111,7 @@ h1, h2, h3, h4 {
     white-space:nowrap;
 }
 
-td a.btn:not(:last-child){
+td a.btn{
     margin-bottom:4px;
 }
 
@@ -131,4 +131,13 @@ td a.btn:not(:last-child){
 
 .dt-buttons{
     float:left;
+}
+
+.display-label{
+    padding-top:7px;
+}
+
+.collapse-target{
+    visibility: hidden;
+    height: 0px;
 }

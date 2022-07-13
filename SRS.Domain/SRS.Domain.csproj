@@ -90,10 +90,17 @@
     <Compile Include="Entities\Report.cs" />
     <Compile Include="Entities\ScienceDegree.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+    <Compile Include="Enums\UserOrderType.cs" />
     <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\Financial.cs" />
     <Compile Include="Enums\PublicationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specifications\BaseFilterSpecification.cs" />
+    <Compile Include="Specifications\Ordering\OrdererDesc.cs" />
+    <Compile Include="Specifications\Ordering\OrdererAsc.cs" />
+    <Compile Include="Specifications\Ordering\IOrderer.cs" />
+    <Compile Include="Specifications\BaseSpecification.cs" />
+    <Compile Include="Specifications\ISpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Roslynator.Analyzers.4.1.1\analyzers\dotnet\cs\Roslynator.CSharp.Analyzers.CodeFixes.dll" />
