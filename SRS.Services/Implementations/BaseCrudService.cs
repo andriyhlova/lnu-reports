@@ -9,17 +9,13 @@ using SRS.Services.Models;
 
 namespace SRS.Services.Implementations
 {
-    public class BaseCrudService<TEntity, TModel> : IBaseCrudService<TModel>
+    public class BaseCrudService<TEntity, TModel> : BaseService<TEntity>, IBaseCrudService<TModel>
         where TModel : BaseModel
         where TEntity : BaseEntity
     {
-        protected readonly IBaseRepository<TEntity> _repo;
-        protected readonly IMapper _mapper;
-
         public BaseCrudService(IBaseRepository<TEntity> repo, IMapper mapper)
+            : base(repo, mapper)
         {
-            _repo = repo;
-            _mapper = mapper;
         }
 
         public virtual async Task<int> AddAsync(TModel model)

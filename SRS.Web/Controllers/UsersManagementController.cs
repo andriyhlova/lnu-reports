@@ -15,6 +15,7 @@ namespace SRS.Web.Controllers
     public class UsersManagementController : Controller
     {
         private readonly IEmailService _emailService;
+        private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IUserService<BaseUserInfoModel> _baseUserInfoService;
@@ -25,6 +26,7 @@ namespace SRS.Web.Controllers
 
         public UsersManagementController(
             IEmailService emailService,
+            IBaseCrudService<CathedraModel> cathedraCrudService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
             IUserService<BaseUserInfoModel> baseUserInfoService,
@@ -34,6 +36,7 @@ namespace SRS.Web.Controllers
             IMapper mapper)
         {
             _emailService = emailService;
+            _cathedraCrudService = cathedraCrudService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _baseUserInfoService = baseUserInfoService;
@@ -132,7 +135,7 @@ namespace SRS.Web.Controllers
         {
             if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
             {
-                ViewBag.AllCathedras = await _cathedraService.GetAllAsync();
+                ViewBag.AllCathedras = await _cathedraCrudService.GetAllAsync();
                 ViewBag.AllFaculties = await _facultyService.GetAllAsync();
             }
             else if (User.IsInRole(RoleNames.DeaneryAdmin))

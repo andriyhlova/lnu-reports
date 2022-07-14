@@ -8,7 +8,7 @@ using SRS.Services.Models;
 
 namespace SRS.Services.Implementations
 {
-    public class CathedraService : BaseCrudService<Cathedra, CathedraModel>, ICathedraService
+    public class CathedraService : BaseService<Cathedra>, ICathedraService
     {
         public CathedraService(IBaseRepository<Cathedra> repo, IMapper mapper)
             : base(repo, mapper)
@@ -19,7 +19,7 @@ namespace SRS.Services.Implementations
         {
             if (facultyId == null)
             {
-                return await GetAllAsync();
+                return _mapper.Map<IList<CathedraModel>>(await _repo.GetAllAsync());
             }
 
             var cathedras = await _repo.GetAsync(x => x.FacultyId == facultyId);

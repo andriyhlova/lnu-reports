@@ -16,11 +16,16 @@ namespace SRS.Web.Controllers
     [Authorize(Roles = "Керівник кафедри, Адміністрація деканату")]
     public class ThemeOfScientificWorksController : Controller
     {
-        private IThemeOfScientificWorkService _themeOfScientificWorkService;
-        private IUserService<UserAccountModel> _userService;
+        private readonly IBaseCrudService<ThemeOfScientificWorkModel> _themeOfScientificWorkCrudService;
+        private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
+        private readonly IUserService<UserAccountModel> _userService;
 
-        public ThemeOfScientificWorksController(IThemeOfScientificWorkService themeOfScientificWorkService, IUserService<UserAccountModel> userService)
+        public ThemeOfScientificWorksController(
+            IBaseCrudService<ThemeOfScientificWorkModel> themeOfScientificWorkCrudService,
+            IThemeOfScientificWorkService themeOfScientificWorkService,
+            IUserService<UserAccountModel> userService)
         {
+            _themeOfScientificWorkCrudService = themeOfScientificWorkCrudService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userService = userService;
         }
@@ -37,7 +42,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
-            var themeOfScientificWork = await _themeOfScientificWorkService.GetAsync(id);
+            var themeOfScientificWork = await _themeOfScientificWorkCrudService.GetAsync(id);
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
@@ -61,7 +66,7 @@ namespace SRS.Web.Controllers
             {
                 var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
                 themeOfScientificWork.CathedraId = user.CathedraId;
-                await _themeOfScientificWorkService.AddAsync(themeOfScientificWork);
+                await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -72,7 +77,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var themeOfScientificWork = await _themeOfScientificWorkService.GetAsync(id);
+            var themeOfScientificWork = await _themeOfScientificWorkCrudService.GetAsync(id);
             FillFinancials();
             if (themeOfScientificWork == null)
             {
@@ -88,7 +93,7 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _themeOfScientificWorkService.UpdateAsync(themeOfScientificWork);
+                await _themeOfScientificWorkCrudService.UpdateAsync(themeOfScientificWork);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -99,7 +104,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            var themeOfScientificWork = await _themeOfScientificWorkService.GetAsync(id);
+            var themeOfScientificWork = await _themeOfScientificWorkCrudService.GetAsync(id);
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
@@ -112,7 +117,7 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            await _themeOfScientificWorkService.DeleteAsync(id);
+            await _themeOfScientificWorkCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 

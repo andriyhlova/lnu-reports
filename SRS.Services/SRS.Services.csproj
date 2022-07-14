@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Attributes\RequiredFieldAttribute.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Implementations\BaseService.cs" />
     <Compile Include="Implementations\ConfigurationProvider.cs" />
     <Compile Include="Implementations\CathedraService.cs" />
     <Compile Include="Implementations\ThemeOfScientificWorkService.cs" />

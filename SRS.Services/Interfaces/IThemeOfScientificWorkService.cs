@@ -4,7 +4,7 @@ using SRS.Services.Models;
 
 namespace SRS.Services.Interfaces
 {
-    public interface IThemeOfScientificWorkService : IBaseCrudService<ThemeOfScientificWorkModel>
+    public interface IThemeOfScientificWorkService
     {
         Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user, int? skip, int? take);
 

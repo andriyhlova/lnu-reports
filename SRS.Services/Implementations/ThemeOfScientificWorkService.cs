@@ -11,7 +11,7 @@ using SRS.Services.Models.Constants;
 
 namespace SRS.Services.Implementations
 {
-    public class ThemeOfScientificWorkService : BaseCrudService<ThemeOfScientificWork, ThemeOfScientificWorkModel>, IThemeOfScientificWorkService
+    public class ThemeOfScientificWorkService : BaseService<ThemeOfScientificWork>, IThemeOfScientificWorkService
     {
         public ThemeOfScientificWorkService(IBaseRepository<ThemeOfScientificWork> repo, IMapper mapper)
             : base(repo, mapper)
