@@ -35,12 +35,6 @@ namespace SRS.Services.Implementations
             return _mapper.Map<List<TModel>>(entities);
         }
 
-        public virtual async Task<IList<TModel>> GetAllAsync(int? skip, int? take)
-        {
-            var entities = await _repo.GetAsync(new BaseFilterSpecification<TEntity>(skip, take, null, true));
-            return _mapper.Map<List<TModel>>(entities);
-        }
-
         public virtual async Task<TModel> UpdateAsync(TModel model)
         {
             var entity = await _repo.UpdateAsync(_mapper.Map<TEntity>(model));
