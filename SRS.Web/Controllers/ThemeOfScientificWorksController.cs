@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.FilterModels;
+using SRS.Web.Models.Shared;
 using System;
 using System.Data;
 using System.Linq;
@@ -16,27 +19,48 @@ namespace SRS.Web.Controllers
     [Authorize(Roles = "Керівник кафедри, Адміністрація деканату")]
     public class ThemeOfScientificWorksController : Controller
     {
+        private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
+        private readonly ICathedraService _cathedraService;
+        private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<ThemeOfScientificWorkModel> _themeOfScientificWorkCrudService;
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly IUserService<UserAccountModel> _userService;
+        private readonly IMapper _mapper;
 
         public ThemeOfScientificWorksController(
+            IBaseCrudService<CathedraModel> cathedraCrudService,
+            ICathedraService cathedraService,
+            IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<ThemeOfScientificWorkModel> themeOfScientificWorkCrudService,
             IThemeOfScientificWorkService themeOfScientificWorkService,
-            IUserService<UserAccountModel> userService)
+            IUserService<UserAccountModel> userService,
+            IMapper mapper)
         {
+            _cathedraCrudService = cathedraCrudService;
+            _cathedraService = cathedraService;
+            _facultyService = facultyService;
             _themeOfScientificWorkCrudService = themeOfScientificWorkCrudService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(int? page = 1)
+        public async Task<ActionResult> Index(DepartmentFilterViewModel filterViewModel)
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
-            var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user, (page.Value - 1) * PaginationValues.PageSize, PaginationValues.PageSize);
-            var total = await _themeOfScientificWorkService.CountThemesForUserAsync(user);
-            return View(new StaticPagedList<ThemeOfScientificWorkModel>(scientifthemes, page.Value, PaginationValues.PageSize, total));
+            var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
+            var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user, filterModel);
+            var total = await _themeOfScientificWorkService.CountThemesForUserAsync(user, filterModel);
+
+            await FillAvailableDepartments(user.FacultyId);
+
+            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, ThemeOfScientificWorkModel>
+            {
+                FilterModel = filterViewModel,
+                Items = new StaticPagedList<ThemeOfScientificWorkModel>(scientifthemes, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+            };
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -52,33 +76,35 @@ namespace SRS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            await FillAllRelatedEntities(user.FacultyId);
             FillFinancials();
-            return View();
+            return View(new ThemeOfScientificWorkModel { CathedraId = user.CathedraId, FacultyId = user.FacultyId });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ThemeOfScientificWorkModel themeOfScientificWork)
         {
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
-                var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
-                themeOfScientificWork.CathedraId = user.CathedraId;
-                await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
+                await _themeOfScientificWorkService.AddAsync(user, themeOfScientificWork);
                 return RedirectToAction(nameof(Index));
             }
 
-            FillFinancials();
+            await FillAllRelatedEntities(user.FacultyId);
             return View(themeOfScientificWork);
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            await FillAllRelatedEntities(user.FacultyId);
             var themeOfScientificWork = await _themeOfScientificWorkCrudService.GetAsync(id);
-            FillFinancials();
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
@@ -91,13 +117,14 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(ThemeOfScientificWorkModel themeOfScientificWork)
         {
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
-                await _themeOfScientificWorkCrudService.UpdateAsync(themeOfScientificWork);
+                await _themeOfScientificWorkService.UpdateAsync(user, themeOfScientificWork);
                 return RedirectToAction(nameof(Index));
             }
 
-            FillFinancials();
+            await FillAllRelatedEntities(user.FacultyId);
             return View(themeOfScientificWork);
         }
 
@@ -121,11 +148,30 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        private async Task FillAllRelatedEntities(int? facultyId)
+        {
+            await FillAvailableDepartments(facultyId);
+            FillFinancials();
+        }
+
         private void FillFinancials()
         {
             ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
                 .Select(x => new SelectListItem { Text = x.GetFriendlyName(), Value = x })
                 .ToList();
+        }
+
+        private async Task FillAvailableDepartments(int? facultyId)
+        {
+            if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
+            {
+                ViewBag.AllCathedras = await _cathedraCrudService.GetAllAsync();
+                ViewBag.AllFaculties = await _facultyService.GetAllAsync();
+            }
+            else if (User.IsInRole(RoleNames.DeaneryAdmin))
+            {
+                ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
+            }
         }
     }
 }

@@ -63,10 +63,12 @@ namespace SRS.Domain.Specifications
         protected virtual void ApplyOrderBy<TOrderBy>(Expression<Func<T, TOrderBy>> orderByExpression)
         {
             OrderBy = new OrdererAsc<T, TOrderBy>(orderByExpression);
+            OrderByDescending = null;
         }
 
         protected virtual void ApplyOrderByDescending<TOrderBy>(Expression<Func<T, TOrderBy>> orderByDescendingExpression)
         {
+            OrderBy = null;
             OrderByDescending = new OrdererDesc<T, TOrderBy>(orderByDescendingExpression);
         }
 

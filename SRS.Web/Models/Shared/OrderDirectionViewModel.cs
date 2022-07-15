@@ -2,7 +2,7 @@
 {
     public class OrderDirectionViewModel
     {
-        public int OrderType { get; set; }
+        public int? OrderType { get; set; }
 
         public int? OrderBy { get; set; }
 

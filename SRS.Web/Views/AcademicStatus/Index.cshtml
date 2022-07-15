@@ -1,13 +1,19 @@
-﻿@using SRS.Services.Models
-@using PagedList.Mvc
-@model PagedList.IPagedList<AcademicStatusModel>
-
+﻿@using PagedList.Mvc
+@using SRS.Services.Models
+@using SRS.Web.Models.Shared
+@model ItemsViewModel<BaseFilterViewModel, AcademicStatusModel>
 @{
     ViewBag.Title = "Наукові ступені";
 }
 
 <h2>Наукові ступені</h2>
-
+<form>
+    @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+    </div>
+</form>
 <p>
     @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
 </p>
@@ -15,13 +21,14 @@
     <thead>
         <tr>
             <th>
-                Назва
+                @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { Desc = Model.FilterModel.Desc });}
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
                 <td>
@@ -35,6 +42,6 @@
         }
     </tbody>
 </table>
-Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new BaseFilterViewModel { Page = page, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))

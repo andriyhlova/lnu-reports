@@ -10,22 +10,22 @@ namespace SRS.Domain.Specifications
 {
     public class UserFilterSpecification : BaseSpecification<ApplicationUser>
     {
-        public UserFilterSpecification(UserFilterModel userFilterModel, Expression<Func<ApplicationUser, bool>> expression)
+        public UserFilterSpecification(DepartmentFilterModel filterModel, Expression<Func<ApplicationUser, bool>> expression)
             : base(
                   expression.AndAlso(
-                      x => (string.IsNullOrEmpty(userFilterModel.Search) ||
-                                x.I18nUserInitials.Any(n => n.LastName.Contains(userFilterModel.Search)) ||
-                                x.Email.Contains(userFilterModel.Search)) &&
-                            (userFilterModel.CathedraId == null || x.CathedraId == userFilterModel.CathedraId) &&
-                            (userFilterModel.FacultyId == null || x.Cathedra.FacultyId == userFilterModel.FacultyId)),
+                      x => (string.IsNullOrEmpty(filterModel.Search) ||
+                                x.I18nUserInitials.Any(n => n.LastName.Contains(filterModel.Search)) ||
+                                x.Email.Contains(filterModel.Search)) &&
+                            (filterModel.CathedraId == null || x.CathedraId == filterModel.CathedraId) &&
+                            (filterModel.FacultyId == null || x.Cathedra.FacultyId == filterModel.FacultyId)),
                   true)
         {
             AddIncludes(x => x.Cathedra, x => x.Roles, x => x.I18nUserInitials);
-            AddOrder(userFilterModel.OrderBy, userFilterModel.Desc);
+            AddOrder(filterModel.OrderBy, filterModel.Desc);
 
-            if (userFilterModel.Skip.HasValue && userFilterModel.Take.HasValue)
+            if (filterModel.Skip.HasValue && filterModel.Take.HasValue)
             {
-                ApplyPaging(userFilterModel.Skip.Value, userFilterModel.Take.Value);
+                ApplyPaging(filterModel.Skip.Value, filterModel.Take.Value);
             }
         }
 

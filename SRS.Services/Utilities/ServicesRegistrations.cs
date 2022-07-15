@@ -30,11 +30,13 @@ namespace SRS.Services.Utilities
         {
             Bind<ICathedraService>().To<CathedraService>();
             Bind<IThemeOfScientificWorkService>().To<ThemeOfScientificWorkService>();
+            Bind<IAcademicStatusService>().To<AcademicStatusService>();
             Bind(typeof(IUserService<>)).To(typeof(UserService<>));
             Bind<IRoleService>().To<RoleService>();
             Bind<IConfigurationProvider>().To<ConfigurationProvider>();
             Bind<ISmtpClient>().To<SmtpClient>();
             Bind<IEmailService>().To<EmailService>();
+            Bind<IRoleActionService>().To<RoleActionService>();
         }
     }
 }

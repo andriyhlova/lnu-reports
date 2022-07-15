@@ -1,78 +1,41 @@
-﻿@using SRS.Domain.Enums
-@using SRS.Services.Models.Constants
+﻿@using PagedList.Mvc;
+@using SRS.Domain.Enums
 @using SRS.Services.Providers
+@using SRS.Services.Models
 @using SRS.Web.Models.Shared
-@using SRS.Web.Models.UsersManagement
-@model UsersViewModel
-@using PagedList.Mvc;
+@model ItemsViewModel<DepartmentFilterViewModel, BaseUserInfoModel>
 @{
     ViewBag.Title = "Користувачі";
 }
 
 <h2>Користувачі</h2>
-@if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))
-{
-    <form asp-controller="UserManagement" asp-action="Index" id="facultyForm">
-        <div class="form-group">
-            @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
-            {
-                <div>
-                    <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
-                        <option value="">Виберіть факультет</option>
-                        @foreach (var faculty in ViewBag.AllFaculties)
-                        {
-                            <option value="@faculty.Id" selected="@(faculty.Id == Model.FilterModel.FacultyId)">@faculty.Name</option>
-                        }
-                    </select>
-                </div>
-            }
-            else
-            {
-                <input type="hidden" name="FacultyId" value="@Model.FilterModel.FacultyId" />
-            }
-        </div>
-        <div class="form-group">
-            <div>
-                <select id="cathedra-selector" class="form-control chosen-select" name="CathedraId">
-                    <option value="">Виберіть кафедру</option>
-                    @foreach (var cathedra in ViewBag.AllCathedras)
-                    {
-                        <option value="@cathedra.Id" data-faculty="@cathedra.FacultyId" selected="@(cathedra.Id == Model.FilterModel.CathedraId)">@cathedra.Name</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <input name="Search" class="form-control" value="@Model.FilterModel.Search" placeholder="Пошук за прізвищем або поштою" />
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-info" value="Фільтрувати" />
-        </div>
-        <input type="hidden" name="OrderBy" value="@Model.FilterModel.OrderBy" />
-        <input type="hidden" name="Desc" value="@Model.FilterModel.Desc.ToString()" />
-    </form>
-}
+<form>
+    @{ViewBag.SearchPlaceholder = "Пошук за прізвищем або поштою";}
+    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+    </div>
+</form>
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.ActionLink("Електронна пошта", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Email, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Email, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                    @Html.ActionLink("Електронна пошта", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Email, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Email, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Ім'я", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.FirstName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                    @Html.ActionLink("Ім'я", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.FirstName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Прізвище", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.LastName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.LastName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                    @Html.ActionLink("Прізвище", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.LastName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.LastName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Активний", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Active, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Active, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                    @Html.ActionLink("Активний", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Active, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Active, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
                     Ролі
@@ -132,14 +95,14 @@
         </tbody>
     </table>
 </div>
-    Сторінка @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) з @Model.Items.PageCount
 
-    @Html.PagedListPager(Model.Items, page => Url.Action("Index", new UserFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
 
-    @section Styles {
-        @Styles.Render("~/Content/chosen")
-    }
-    @section Scripts {
-        @Scripts.Render("~/bundles/chosen")
-        @Scripts.Render("~/bundles/departmentSelector")
-    }
+@section Styles {
+    @Styles.Render("~/Content/chosen")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+}

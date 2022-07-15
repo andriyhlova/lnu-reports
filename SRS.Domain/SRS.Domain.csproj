@@ -90,6 +90,7 @@
     <Compile Include="Entities\Report.cs" />
     <Compile Include="Entities\ScienceDegree.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+    <Compile Include="Enums\ThemeOfScientificWorkOrderType.cs" />
     <Compile Include="Enums\UserOrderType.cs" />
     <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\Financial.cs" />

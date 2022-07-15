@@ -1,7 +1,10 @@
-﻿using PagedList;
+﻿using AutoMapper;
+using PagedList;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.FilterModels;
+using SRS.Web.Models.Shared;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,19 +13,32 @@ namespace SRS.Web.Controllers
     [Authorize(Roles = "Superadmin")]
     public class AcademicStatusController : Controller
     {
-        private readonly IBaseCrudService<AcademicStatusModel> _academicStatusService;
+        private readonly IBaseCrudService<AcademicStatusModel> _academicStatusCrudService;
+        private readonly IAcademicStatusService _academicStatusService;
+        private readonly IMapper _mapper;
 
-        public AcademicStatusController(IBaseCrudService<AcademicStatusModel> academicStatusService)
+        public AcademicStatusController(
+            IBaseCrudService<AcademicStatusModel> academicStatusCrudService, 
+            IAcademicStatusService academicStatusService,
+            IMapper mapper)
         {
+            _academicStatusCrudService = academicStatusCrudService;
             _academicStatusService = academicStatusService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(int? page = 1)
+        public async Task<ActionResult> Index(BaseFilterViewModel filterViewModel)
         {
-            var academicStatuses = await _academicStatusService.GetAllAsync((page.Value - 1) * PaginationValues.PageSize, PaginationValues.PageSize);
-            var total = await _academicStatusService.CountAsync();
-            return View(new StaticPagedList<AcademicStatusModel>(academicStatuses, page.Value, PaginationValues.PageSize, total));
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+            var academicStatuses = await _academicStatusService.GetAllAsync(filterModel);
+            var total = await _academicStatusService.CountAsync(filterModel);
+            var viewModel = new ItemsViewModel<BaseFilterViewModel, AcademicStatusModel>
+            {
+                FilterModel = filterViewModel,
+                Items = new StaticPagedList<AcademicStatusModel>(academicStatuses, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+            };
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -37,7 +53,7 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _academicStatusService.AddAsync(academicStatus);
+                await _academicStatusCrudService.AddAsync(academicStatus);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -47,7 +63,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var academicStatus = await _academicStatusService.GetAsync(id);
+            var academicStatus = await _academicStatusCrudService.GetAsync(id);
             if (academicStatus == null)
             {
                 return HttpNotFound();
@@ -62,7 +78,7 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _academicStatusService.UpdateAsync(academicStatus);
+                await _academicStatusCrudService.UpdateAsync(academicStatus);
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +88,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            var academicStatus = await _academicStatusService.GetAsync(id);
+            var academicStatus = await _academicStatusCrudService.GetAsync(id);
             if (academicStatus == null)
             {
                 return HttpNotFound();
@@ -85,7 +101,7 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            await _academicStatusService.DeleteAsync(id);
+            await _academicStatusCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

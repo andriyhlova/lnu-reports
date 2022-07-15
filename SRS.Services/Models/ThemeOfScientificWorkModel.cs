@@ -28,6 +28,11 @@ namespace SRS.Services.Models
         [RequiredField]
         public Financial Financial { get; set; }
 
+        [RequiredField]
         public int? CathedraId { get; set; }
+
+        public string CathedraName { get; set; }
+
+        public int? FacultyId { get; set; }
     }
 }

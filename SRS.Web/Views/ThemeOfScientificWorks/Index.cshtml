@@ -1,13 +1,21 @@
-﻿@using SRS.Services.Models
-@using PagedList.Mvc
-@model PagedList.IPagedList<ThemeOfScientificWorkModel>
-
+﻿@using PagedList.Mvc
+@using SRS.Domain.Enums
+@using SRS.Services.Models
+@using SRS.Web.Models.Shared
+@model ItemsViewModel<DepartmentFilterViewModel, ThemeOfScientificWorkModel>
 @{
     ViewBag.Title = "Наукові роботи";
 }
 
 <h2>Наукові роботи</h2>
-
+<form>
+    @{ViewBag.SearchPlaceholder = "Пошук";}
+    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+    </div>
+</form>
 <p>
     @Html.ActionLink("Створити", "Create", null, new { @class = "btn btn-success" })
 </p>
@@ -15,28 +23,38 @@
     <thead>
         <tr>
             <th>
-                Номер ДР
+                @Html.ActionLink("Номер ДР", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ThemeNumber, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ThemeNumber, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
-                Шифр
+                @Html.ActionLink("Шифр", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Code, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Code, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
-                Тема
+                @Html.ActionLink("Тема", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Value, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
-                Науковий керівник
+                @Html.ActionLink("Науковий керівник", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ScientificHead, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ScientificHead, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
-                Період
+                @Html.ActionLink("Період", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.PeriodTo, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.PeriodTo, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
-                Фінансування
+                @Html.ActionLink("Фінансування", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Financial, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Financial, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th>
+                @Html.ActionLink("Кафедра", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.CathedraName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.CathedraName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
                 <td>
@@ -59,6 +77,9 @@
                     @Html.DisplayFor(modelItem => item.Financial)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CathedraName)
+                </td>
+                <td>
                     @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
                     @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
                     @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
@@ -67,6 +88,14 @@
         }
     </tbody>
 </table>
-Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new { page }))
+
+@section Styles {
+    @Styles.Render("~/Content/chosen")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+}

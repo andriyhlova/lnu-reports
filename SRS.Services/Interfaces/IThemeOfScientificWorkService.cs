@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SRS.Services.Models;
+using SRS.Services.Models.FilterModels;
 
 namespace SRS.Services.Interfaces
 {
     public interface IThemeOfScientificWorkService
     {
-        Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user, int? skip, int? take);
+        Task<int> AddAsync(UserAccountModel user, ThemeOfScientificWorkModel model);
 
-        Task<int> CountThemesForUserAsync(UserAccountModel user);
+        Task<ThemeOfScientificWorkModel> UpdateAsync(UserAccountModel user, ThemeOfScientificWorkModel model);
+
+        Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+
+        Task<int> CountThemesForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
     }
 }

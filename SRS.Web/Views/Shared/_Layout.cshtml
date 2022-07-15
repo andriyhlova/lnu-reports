@@ -72,7 +72,10 @@
                                     {
                                         <li>@Html.ActionLink("Наукові ступені", "Index", "AcademicStatus")</li>
                                     }
-                                    @if (User.IsInRole("Керівник кафедри") || User.IsInRole("Адміністрація деканату"))
+                                    @if (User.IsInRole("Superadmin")
+                                                || User.IsInRole("Адміністрація ректорату")
+                                                || User.IsInRole("Адміністрація деканату")
+                                                || User.IsInRole("Керівник кафедри"))
                                     {
                                         <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
                                     }

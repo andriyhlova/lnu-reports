@@ -5,6 +5,7 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Web.Models.Shared;
 using SRS.Web.Models.UsersManagement;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -46,19 +47,16 @@ namespace SRS.Web.Controllers
             _mapper = mapper;
         }
 
-        public async Task<ActionResult> Index(UserFilterViewModel filterViewModel)
+        public async Task<ActionResult> Index(DepartmentFilterViewModel filterViewModel)
         {
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
-
-            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
+            var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
             var users = await _baseUserInfoService.GetAsync(currentUser, filterModel);
-
-            filterModel.Take = null;
             var total = await _baseUserInfoService.CountAsync(currentUser, filterModel);
 
-            await FillAvailableDepartments(filterViewModel.FacultyId);
+            await FillAvailableDepartments(currentUser.FacultyId);
 
-            var viewModel = new UsersViewModel
+            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, BaseUserInfoModel>
             {
                 FilterModel = filterViewModel,
                 Items = new StaticPagedList<BaseUserInfoModel>(users, filterViewModel.Page.Value, PaginationValues.PageSize, total)

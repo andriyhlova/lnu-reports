@@ -1,6 +1,6 @@
 ﻿namespace SRS.Services.Models.FilterModels
 {
-    public class UserFilterModel : BaseFilterModel
+    public class DepartmentFilterModel : BaseFilterModel
     {
         public int? CathedraId { get; set; }
 

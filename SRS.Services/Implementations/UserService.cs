@@ -17,17 +17,20 @@ namespace SRS.Services.Implementations
     {
         private readonly IUserRepository _repo;
         private readonly IEmailService _emailService;
+        private readonly IRoleActionService _roleActionService;
         private readonly Interfaces.IConfigurationProvider _configurationProvider;
         private readonly IMapper _mapper;
 
         public UserService(
             IUserRepository repo,
             IEmailService emailService,
+            IRoleActionService roleActionService,
             Interfaces.IConfigurationProvider configurationProvider,
             IMapper mapper)
         {
             _repo = repo;
             _emailService = emailService;
+            _roleActionService = roleActionService;
             _configurationProvider = configurationProvider;
             _mapper = mapper;
         }
@@ -38,24 +41,38 @@ namespace SRS.Services.Implementations
             return _mapper.Map<TUserModel>(user);
         }
 
-        public async Task<IList<TUserModel>> GetAsync(UserAccountModel user, UserFilterModel filterModel)
+        public async Task<IList<TUserModel>> GetAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
-            var users = await TakeRoleAction(
-                user,
-                async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, null)),
-                async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
-                async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, x => x.Cathedra.Id == user.CathedraId)));
+            var actions = new Dictionary<string, Func<Task<IList<ApplicationUser>>>>
+            {
+                [RoleNames.Superadmin] = async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, null)),
+                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, null)),
+                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
+                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new UserFilterSpecification(filterModel, x => x.Cathedra.Id == user.CathedraId))
+            };
 
+            var users = await _roleActionService.TakeRoleActionAsync(user, actions);
             return _mapper.Map<IList<TUserModel>>(users ?? new List<ApplicationUser>());
         }
 
-        public async Task<int> CountAsync(UserAccountModel user, UserFilterModel filterModel)
+        public async Task<int> CountAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
-            return await TakeRoleAction(
-                user,
-                async () => await _repo.CountAsync(new UserFilterSpecification(filterModel, null)),
-                async () => await _repo.CountAsync(new UserFilterSpecification(filterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
-                async () => await _repo.CountAsync(new UserFilterSpecification(filterModel, x => x.Cathedra.Id == user.CathedraId)));
+            var countFilterModel = new DepartmentFilterModel
+            {
+                Search = filterModel.Search,
+                CathedraId = filterModel.CathedraId,
+                FacultyId = filterModel.FacultyId
+            };
+
+            var actions = new Dictionary<string, Func<Task<int>>>
+            {
+                [RoleNames.Superadmin] = async () => await _repo.CountAsync(new UserFilterSpecification(countFilterModel, null)),
+                [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new UserFilterSpecification(countFilterModel, null)),
+                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new UserFilterSpecification(countFilterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
+                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new UserFilterSpecification(countFilterModel, x => x.Cathedra.Id == user.CathedraId))
+            };
+
+            return await _roleActionService.TakeRoleActionAsync(user, actions);
         }
 
         public async Task<TUserModel> UpdateAsync(TUserModel user, string approvedById = null)
@@ -86,24 +103,6 @@ namespace SRS.Services.Implementations
         public async Task<bool> DeleteAsync(string id)
         {
             return await _repo.DeleteAsync(id);
-        }
-
-        private async Task<TItem> TakeRoleAction<TItem>(UserAccountModel user, Func<Task<TItem>> adminAction, Func<Task<TItem>> deaneryAction, Func<Task<TItem>> cathedraAction)
-        {
-            if (user.IsInRole(RoleNames.Superadmin) || user.IsInRole(RoleNames.RectorateAdmin))
-            {
-                return await adminAction();
-            }
-            else if (user.IsInRole(RoleNames.DeaneryAdmin))
-            {
-                return await deaneryAction();
-            }
-            else if (user.IsInRole(RoleNames.CathedraAdmin))
-            {
-                return await cathedraAction();
-            }
-
-            return default;
         }
     }
 }
