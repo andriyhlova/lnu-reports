@@ -90,7 +90,7 @@
 </table>
 
 @{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
-@Html.PagedListPager(Model.Items, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
 
 @section Styles {
     @Styles.Render("~/Content/chosen")

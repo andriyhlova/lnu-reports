@@ -90,6 +90,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UpdateUserViewModel model)
         {
             var existingUser = await _userInfoService.GetByIdAsync(model.Id);
@@ -116,7 +117,8 @@ namespace SRS.Web.Controllers
             return View(user);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             await _userInfoService.DeleteAsync(id);

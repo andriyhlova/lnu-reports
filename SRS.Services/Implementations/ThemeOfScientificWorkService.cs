@@ -30,7 +30,7 @@ namespace SRS.Services.Implementations
             };
 
             var entity = _mapper.Map<ThemeOfScientificWork>(model);
-            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions);
+            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions) ?? entity.CathedraId;
             return await _repo.AddAsync(entity);
         }
 
@@ -42,8 +42,8 @@ namespace SRS.Services.Implementations
             };
 
             var entity = _mapper.Map<ThemeOfScientificWork>(model);
-            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions);
-            entity = await _repo.UpdateAsync(_mapper.Map<ThemeOfScientificWork>(model));
+            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions) ?? entity.CathedraId;
+            entity = await _repo.UpdateAsync(entity);
             return _mapper.Map<ThemeOfScientificWorkModel>(entity);
         }
 

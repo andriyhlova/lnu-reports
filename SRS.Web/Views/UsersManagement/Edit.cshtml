@@ -15,6 +15,7 @@
 {
 <div class="form-horizontal">
     <hr />
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">

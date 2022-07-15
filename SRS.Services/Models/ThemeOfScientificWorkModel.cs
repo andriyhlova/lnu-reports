@@ -18,12 +18,12 @@ namespace SRS.Services.Models
         [RequiredField]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime PeriodFrom { get; set; }
+        public DateTime PeriodFrom { get; set; } = DateTime.Now;
 
         [RequiredField]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime PeriodTo { get; set; }
+        public DateTime PeriodTo { get; set; } = DateTime.Now;
 
         [RequiredField]
         public Financial Financial { get; set; }
@@ -33,6 +33,7 @@ namespace SRS.Services.Models
 
         public string CathedraName { get; set; }
 
+        [RequiredField]
         public int? FacultyId { get; set; }
     }
 }

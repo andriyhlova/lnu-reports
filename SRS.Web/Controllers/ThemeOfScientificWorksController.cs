@@ -16,7 +16,7 @@ using UserManagement.Extensions;
 
 namespace SRS.Web.Controllers
 {
-    [Authorize(Roles = "Керівник кафедри, Адміністрація деканату")]
+    [Authorize(Roles = "Superadmin, Адміністрація ректорату, Керівник кафедри, Адміністрація деканату")]
     public class ThemeOfScientificWorksController : Controller
     {
         private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;

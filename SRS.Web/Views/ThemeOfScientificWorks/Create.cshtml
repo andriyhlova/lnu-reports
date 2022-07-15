@@ -56,7 +56,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Період з <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PeriodFrom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PeriodFrom, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
                 @Html.ValidationMessageFor(model => model.PeriodFrom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -64,7 +64,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Період до <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PeriodTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PeriodTo, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
                 @Html.ValidationMessageFor(model => model.PeriodTo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +73,7 @@
             if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
             {
                 <div class="form-group">
-                    <label class="control-label col-md-2">Факультет</label>
+                    <label class="control-label col-md-2">Факультет <span class="text-danger">*</span></label>
                     <div class="col-md-10">
                         <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
                             <option value="">Виберіть факультет</option>
@@ -82,8 +82,15 @@
                                 <option value="@faculty.Id" selected="@(faculty.Id == Model.FacultyId)">@faculty.Name</option>
                             }
                         </select>
+                        <div>
+                            @Html.ValidationMessageFor(model => model.FacultyId, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.FacultyId)
             }
             <div class="form-group">
                 <label class="control-label col-md-2">Кафедра <span class="text-danger">*</span></label>
@@ -103,6 +110,7 @@
         }
         else
         {
+            @Html.HiddenFor(model => model.FacultyId)
             @Html.HiddenFor(model => model.CathedraId)
         }
         <div class="form-group">

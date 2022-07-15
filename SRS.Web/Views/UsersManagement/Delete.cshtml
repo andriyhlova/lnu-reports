@@ -134,7 +134,7 @@
     {
         using (Html.BeginForm())
         {
-            @Html.HiddenFor(model => model.Id)
+            @Html.AntiForgeryToken()
             <input type="submit" value="Видалити" class="btn btn-danger" />
             <span>|</span>
             @Html.ActionLink("Назад до списку", "Index")

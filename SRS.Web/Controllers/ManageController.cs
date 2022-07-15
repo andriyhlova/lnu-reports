@@ -76,7 +76,7 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError("", "Помилка зміни паролю");
+            ModelState.AddModelError("ServerError", "Помилка зміни паролю");
             return View(model);
         }
 
