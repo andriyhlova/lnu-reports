@@ -48,17 +48,17 @@ namespace SRS.Web
 
         private static void RegisterStyleBundles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/Content/chosen").Include(
+            bundles.Add(new StyleBundle("~/Content/chosen/bundle").Include(
                       "~/Content/Chosen/DocSupport/style.css",
                       "~/Content/Chosen/DocSupport/prism.css",
                       "~/Content/Chosen/chosen.css",
                       "~/Content/Chosen/custom.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/Content/usersManagement/edit").Include(
+            bundles.Add(new StyleBundle("~/Content/usersManagement/bundle").Include(
                       "~/Content/UsersManagement/edit.css"));
         }
     }

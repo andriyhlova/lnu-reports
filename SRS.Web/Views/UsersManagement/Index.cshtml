@@ -100,7 +100,7 @@
 @Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
 
 @section Styles {
-    @Styles.Render("~/bundles/Content/chosen")
+    @Styles.Render("~/Content/chosen/bundle")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/chosen")
