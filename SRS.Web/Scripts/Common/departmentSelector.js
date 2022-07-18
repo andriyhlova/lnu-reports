@@ -10,6 +10,23 @@ $(function () {
         });
     };
     addFacultyPickerListener(opts);
+
+    let usersSelectOptions = $("#user-selector option");
+    if (usersSelectOptions && usersSelectOptions.length) {
+        var optsUser = [];
+        for (var i = 0; i < usersSelectOptions.length; i++) {
+            if (usersSelectOptions[i].value) {
+                optsUser.push({
+                    value: usersSelectOptions[i].value,
+                    faculty: usersSelectOptions[i].dataset.faculty,
+                    cathedra: usersSelectOptions[i].dataset.cathedra,
+                    text: usersSelectOptions[i].text,
+                    selected: usersSelectOptions[i].value == usersSelectOptions.parent().val()
+                });
+            }
+        }
+        addCathedraPickerListener(optsUser);
+    }
 });
 
 function addFacultyPickerListener(opts) {
@@ -23,8 +40,25 @@ function addFacultyPickerListener(opts) {
         }
         $("#cathedra-selector").html(str);
         $("#cathedra-selector").trigger("chosen:updated");
-        $("#cathedra-selector").sel
+        $('#cathedra-selector').change();
     });
 
     $('#faculty-selector').change();
+};
+
+function addCathedraPickerListener(optsUser) {
+    let cathedraElem = $("#cathedra-selector");
+    let facultyElem = $("#faculty-selector");
+    $('#cathedra-selector').change(function (e) {
+        var str = "<option value=''>Виберіть користувача</option>";
+        for (var i = 0; i < optsUser.length; i++) {
+            if ((cathedraElem.val() == '' && (facultyElem.val() == '' || optsUser[i].faculty == facultyElem.val())) || optsUser[i].cathedra == cathedraElem.val()) {
+                str += `<option value='${optsUser[i].value}' data-faculty='${optsUser[i].faculty}' data-cathedra='${optsUser[i].cathedra}' ${optsUser[i].selected ? 'selected' : ''}>${optsUser[i].text}</option>`;
+            }
+        }
+        $("#user-selector").html(str);
+        $("#user-selector").trigger("chosen:updated");
+    });
+
+    $('#cathedra-selector').change();
 };

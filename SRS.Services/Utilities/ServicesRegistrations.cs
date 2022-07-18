@@ -31,6 +31,7 @@ namespace SRS.Services.Utilities
             Bind<ICathedraService>().To<CathedraService>();
             Bind<IThemeOfScientificWorkService>().To<ThemeOfScientificWorkService>();
             Bind<IAcademicStatusService>().To<AcademicStatusService>();
+            Bind<IPublicationService>().To<PublicationService>();
             Bind(typeof(IUserService<>)).To(typeof(UserService<>));
             Bind<IRoleService>().To<RoleService>();
             Bind<IConfigurationProvider>().To<ConfigurationProvider>();

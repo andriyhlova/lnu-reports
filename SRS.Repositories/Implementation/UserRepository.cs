@@ -29,6 +29,11 @@ namespace SRS.Repositories.Implementations
             return await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
         }
 
+        public async Task<List<ApplicationUser>> GetAllAsync()
+        {
+            return await _context.Users.AsNoTracking().ToListAsync();
+        }
+
         public async Task<List<ApplicationUser>> GetAsync(ISpecification<ApplicationUser> specification)
         {
             return await SpecificationEvaluator<ApplicationUser>.GetQuery(_context.Set<ApplicationUser>(), specification)

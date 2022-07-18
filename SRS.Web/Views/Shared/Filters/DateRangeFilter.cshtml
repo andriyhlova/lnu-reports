@@ -1,0 +1,19 @@
+﻿@using SRS.Services.Models.Constants
+@using SRS.Web.Models.Shared
+@model DateRangeViewModel
+<div class="form-group">
+    <label class="control-label">
+        Період з
+    </label>
+    <div>
+        <input name="From" type="date" class="form-control" value="@(Model.From != null ? Model.From.Value.ToString(Dates.DatePattern) : "")" min="@Dates.MinDate.ToString(Dates.DatePattern)" max="@Dates.MaxDate.ToString(Dates.DatePattern)" />
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label">
+        Період до
+    </label>
+    <div>
+        <input name="To" type="date" class="form-control" value="@(Model.To != null ? Model.To.Value.ToString(Dates.DatePattern) : "")" min="@Dates.MinDate.ToString(Dates.DatePattern)" max="@Dates.MaxDate.ToString(Dates.DatePattern)" />
+    </div>
+</div>

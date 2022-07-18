@@ -1,0 +1,16 @@
+﻿@using SRS.Services.Models.Constants
+@model string
+@if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
+{
+    <div class="form-group">
+        <div>
+            <select id="user-selector" class="form-control chosen-select" name="UserId">
+                <option value="">Виберіть користувача</option>
+                @foreach (var user in ViewBag.AllUsers)
+                {
+                    <option value="@user.Id" data-faculty="@user.FacultyId" data-cathedra="@user.CathedraId" selected="@(user.Id == Model)">@(string.Join(" ", user.LastName, user.FirstName, user.FathersName))</option>
+                }
+            </select>
+        </div>
+    </div>
+}

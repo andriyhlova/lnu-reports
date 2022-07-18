@@ -96,6 +96,7 @@
     <Compile Include="Implementations\CathedraService.cs" />
     <Compile Include="Implementations\AcademicStatusService.cs" />
     <Compile Include="Implementations\RoleActionService.cs" />
+    <Compile Include="Implementations\PublicationService.cs" />
     <Compile Include="Implementations\ThemeOfScientificWorkService.cs" />
     <Compile Include="Implementations\RoleService.cs" />
     <Compile Include="Implementations\UserService.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Interfaces\ICathedraService.cs" />
     <Compile Include="Interfaces\IAcademicStatusService.cs" />
     <Compile Include="Interfaces\IRoleActionService.cs" />
+    <Compile Include="Interfaces\IPublicationService.cs" />
     <Compile Include="Interfaces\IThemeOfScientificWorkService.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
@@ -116,16 +118,20 @@
     <Compile Include="Mapping\Profiles\CathedraProfile.cs" />
     <Compile Include="Mapping\Profiles\FacultyProfile.cs" />
     <Compile Include="Mapping\Profiles\RoleProfile.cs" />
+    <Compile Include="Mapping\Profiles\PublicationProfile.cs" />
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
+    <Compile Include="Models\UserInitialsModel.cs" />
     <Compile Include="Models\BaseUserModel.cs" />
     <Compile Include="Models\Constants\Dates.cs" />
     <Compile Include="Models\FilterModels\BaseFilterModel.cs" />
+    <Compile Include="Models\FilterModels\PublicationFilterModel.cs" />
     <Compile Include="Models\FilterModels\DepartmentFilterModel.cs" />
     <Compile Include="Models\PositionModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\BaseUserInfoModel.cs" />
+    <Compile Include="Models\BasePublicationModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ScienceDegreeModel.cs" />
     <Compile Include="Models\FacultyModel.cs" />
@@ -144,7 +150,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\RolesProvider.cs" />
     <Compile Include="Specifications\AcademicStatusSpecification.cs" />
+    <Compile Include="Specifications\PublicationSpecification.cs" />
     <Compile Include="Specifications\ThemeOfScientificWorkSpecification.cs" />
+    <Compile Include="Specifications\UserWithInitialsSpecification.cs" />
     <Compile Include="Specifications\UserFilterSpecification.cs" />
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Utilities\Hash.cs" />
