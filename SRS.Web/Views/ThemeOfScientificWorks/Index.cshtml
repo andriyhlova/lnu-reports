@@ -19,76 +19,77 @@
 <p>
     @Html.ActionLink("Створити", "Create", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink("Номер ДР", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ThemeNumber, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ThemeNumber, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Шифр", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Code, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Code, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Тема", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Value, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Науковий керівник", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ScientificHead, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ScientificHead, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Період", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.PeriodTo, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.PeriodTo, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Фінансування", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Financial, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Financial, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Кафедра", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.CathedraName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.CathedraName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items)
-        {
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ThemeNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Code)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Value)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ScientificHead)
-                </td>
-                <td>
-                    <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodFrom)</div>
-                    <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodTo)</div>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Financial)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CathedraName)
-                </td>
-                <td>
-                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                </td>
+                <th>
+                    @Html.ActionLink("Номер ДР", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ThemeNumber, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ThemeNumber, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Шифр", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Code, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Code, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Тема", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Value, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Науковий керівник", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ScientificHead, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ScientificHead, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Період", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.PeriodTo, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.PeriodTo, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Фінансування", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Financial, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Financial, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Кафедра", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.CathedraName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.CathedraName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ThemeNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ScientificHead)
+                    </td>
+                    <td>
+                        <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodFrom)</div>
+                        <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodTo)</div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Financial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CathedraName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                        @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                        @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 @{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
 @Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
 
