@@ -32,7 +32,6 @@ namespace UserManagement.Controllers
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IPublicationService _publicationService;
         private readonly IUserService<UserAccountModel> _userService;
-        private readonly IUserService<UserInitialsModel> _userInitialsService;
         private readonly IMapper _mapper;
 
         public PublicationsController(
@@ -41,7 +40,6 @@ namespace UserManagement.Controllers
             IBaseCrudService<FacultyModel> facultyService,
             IPublicationService publicationService,
             IUserService<UserAccountModel> userService,
-            IUserService<UserInitialsModel> userInitialsService,
             IMapper mapper)
         {
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -50,7 +48,6 @@ namespace UserManagement.Controllers
             _facultyService = facultyService;
             _publicationService = publicationService;
             _userService = userService;
-            _userInitialsService = userInitialsService;
             _mapper = mapper;
         }
 
@@ -63,7 +60,6 @@ namespace UserManagement.Controllers
             var total = await _publicationService.CountPublicationsForUserAsync(user, filterModel);
 
             await FillAvailableDepartments(user.FacultyId);
-            await FillAvailableUsers(user);
 
             var viewModel = new ItemsViewModel<PublicationFilterViewModel, BasePublicationModel>
             {
@@ -641,11 +637,6 @@ namespace UserManagement.Controllers
             {
                 ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
             }
-        }
-
-        private async Task FillAvailableUsers(UserAccountModel user)
-        {
-            ViewBag.AllUsers = await _userInitialsService.GetForUserAsync(user);
         }
     }
 }

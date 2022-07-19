@@ -11,30 +11,18 @@ $(function () {
     };
     addFacultyPickerListener(opts);
 
-    let usersSelectOptions = $("#user-selector option");
+    let usersSelectOptions = $("#user-selector");
     if (usersSelectOptions && usersSelectOptions.length) {
-        var optsUser = [];
-        for (var i = 0; i < usersSelectOptions.length; i++) {
-            if (usersSelectOptions[i].value) {
-                optsUser.push({
-                    value: usersSelectOptions[i].value,
-                    faculty: usersSelectOptions[i].dataset.faculty,
-                    cathedra: usersSelectOptions[i].dataset.cathedra,
-                    text: usersSelectOptions[i].text,
-                    selected: usersSelectOptions[i].value == usersSelectOptions.parent().val()
-                });
-            }
-        }
-        addCathedraPickerListener(optsUser);
+        addCathedraPickerListener();
     }
 });
 
 function addFacultyPickerListener(opts) {
     let facultyElem = $("#faculty-selector");
     $('#faculty-selector').change(function (e) {
-        var str = "<option value=''>Виберіть кафедру</option>";
-        for (var i = 0; i < opts.length; i++) {
-            if (facultyElem.val() == '' || opts[i].faculty == facultyElem.val()) {
+        let str = "<option value=''>Виберіть кафедру</option>";
+        for (let i = 0; i < opts.length; i++) {
+            if (opts[i].faculty && (!facultyElem.val() || opts[i].faculty == facultyElem.val())) {
                 str += `<option value='${opts[i].value}' data-faculty='${opts[i].faculty}' ${opts[i].selected ? 'selected' : ''}>${opts[i].text}</option>`;
             }
         }
@@ -46,19 +34,32 @@ function addFacultyPickerListener(opts) {
     $('#faculty-selector').change();
 };
 
-function addCathedraPickerListener(optsUser) {
+var userQuery;
+function addCathedraPickerListener() {
     let cathedraElem = $("#cathedra-selector");
     let facultyElem = $("#faculty-selector");
+    let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
     $('#cathedra-selector').change(function (e) {
-        var str = "<option value=''>Виберіть користувача</option>";
-        for (var i = 0; i < optsUser.length; i++) {
-            if ((cathedraElem.val() == '' && (facultyElem.val() == '' || optsUser[i].faculty == facultyElem.val())) || optsUser[i].cathedra == cathedraElem.val()) {
-                str += `<option value='${optsUser[i].value}' data-faculty='${optsUser[i].faculty}' data-cathedra='${optsUser[i].cathedra}' ${optsUser[i].selected ? 'selected' : ''}>${optsUser[i].text}</option>`;
-            }
+        if (userQuery) {
+            userQuery.abort();
         }
-        $("#user-selector").html(str);
-        $("#user-selector").trigger("chosen:updated");
+
+        userQuery = $.ajax(`/api/users/getByFacultyAndCathedra?facultyId=${facultyElem.val()}&cathedraId=${cathedraElem.val()}`)
+            .done(function (users) {
+                updateUserList(users, selectedUser);
+            });
     });
 
     $('#cathedra-selector').change();
 };
+
+function updateUserList(users, selectedUser) {
+    let str = "<option value=''>Виберіть користувача</option>";
+    for (var i = 0; i < users.length; i++) {
+        let user = users[i];
+        str += `<option value='${user.Id}' ${user.Id == selectedUser ? 'selected' : ''}>${[user.LastName, user.FirstName, user.FathersName].join(' ')}</option>`;
+    }
+
+    $("#user-selector").html(str);
+    $("#user-selector").trigger("chosen:updated");
+}

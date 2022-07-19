@@ -7,9 +7,5 @@
         public string LastName { get; set; }
 
         public string FathersName { get; set; }
-
-        public int? CathedraId { get; set; }
-
-        public int? FacultyId { get; set; }
     }
 }

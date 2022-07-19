@@ -21,7 +21,6 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.RoleIds, opts => opts.MapFrom(src => src.Roles.Select(x => x.RoleId)));
 
             CreateMap<ApplicationUser, UserInitialsModel>()
-                .ForMember(dest => dest.FacultyId, opts => opts.MapFrom(src => src.Cathedra.FacultyId))
                 .ForMember(dest => dest.FirstName, opts => opts.MapFrom(src => src.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA).FirstName))
                 .ForMember(dest => dest.LastName, opts => opts.MapFrom(src => src.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA).LastName))
                 .ForMember(dest => dest.FathersName, opts => opts.MapFrom(src => src.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA).FathersName));
