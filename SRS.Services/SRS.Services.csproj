@@ -122,6 +122,7 @@
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
+    <Compile Include="Models\PublicationModel.cs" />
     <Compile Include="Models\UserInitialsModel.cs" />
     <Compile Include="Models\BaseUserModel.cs" />
     <Compile Include="Models\Constants\Dates.cs" />

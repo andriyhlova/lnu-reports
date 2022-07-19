@@ -1,5 +1,5 @@
-﻿@model SRS.Domain.Entities.Publication
-
+﻿@using SRS.Services.Models
+@model PublicationModel
 @{
     ViewBag.Title = "Деталі";
 }
@@ -7,7 +7,7 @@
 <h2>Деталі</h2>
 
 <div>
-    <h4>Публікації</h4>
+    <h4>Публікація</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -23,85 +23,65 @@
         </dt>
 
         <dd>
-                @if (!string.IsNullOrEmpty(Model.AuthorsOrder))
-                {
-                    @Html.DisplayFor(model => model.AuthorsOrder)
-                }
-                else if (!string.IsNullOrEmpty(Model.OtherAuthors))
-                {
-                    @Html.DisplayFor(model => model.OtherAuthors)                
-                }
+           @Html.DisplayFor(model => model.AuthorsOrder)
         </dd>
-
         <dt>
             Рік публікації
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Date)
         </dd>
-
         <dt>
             К-сть друкованих аркушів
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.SizeOfPages)
         </dd>
-
         <dt>
             Тип
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.PublicationType)
         </dd>
         <dt>
             Мова
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Language)
         </dd>
         <dt>
             Посилання на публікацію в інтернеті
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Link)
         </dd>
         <dt>
             Видавництво
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Edition)
         </dd>
         <dt>
             Місто, де розташоване видавництво
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Place)
         </dd>
         <dt>
             Назва журналу
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Magazine)
         </dd>
         <dt>
             ДОІ
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.DOI)
         </dd>
         <dt>
             Частина видання
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Tome)
         </dd>
@@ -109,12 +89,6 @@
     </dl>
 </div>
 <p>
-    @if ((Model.User != null && Model.User.Any(x => x.UserName == User.Identity.Name))
-        || User.IsInRole("Superadmin")
-        || User.IsInRole("Адміністрація деканату")
-        || User.IsInRole("Керівник кафедри"))
-    {
-        @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }) <span>|</span>
-    }
+    @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) <span>|</span>
     @Html.ActionLink("Повернутись до списку", "Index")
 </p>

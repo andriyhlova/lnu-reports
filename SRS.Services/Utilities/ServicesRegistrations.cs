@@ -24,6 +24,7 @@ namespace SRS.Services.Utilities
             Bind<IBaseCrudService<ThemeOfScientificWorkModel>>().To<BaseCrudService<ThemeOfScientificWork, ThemeOfScientificWorkModel>>();
             Bind<IBaseCrudService<FacultyModel>>().To<BaseCrudService<Faculty, FacultyModel>>();
             Bind<IBaseCrudService<I18nUserInitialsModel>>().To<BaseCrudService<I18nUserInitials, I18nUserInitialsModel>>();
+            Bind<IBaseCrudService<PublicationModel>>().To<BaseCrudService<Publication, PublicationModel>>();
         }
 
         private void AddCustomServices()
