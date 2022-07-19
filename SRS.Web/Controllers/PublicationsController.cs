@@ -481,13 +481,7 @@ namespace UserManagement.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            var publication = await _publicationCrudService.GetAsync(id);
-            if (publication == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(publication);
+            return await Details(id);
         }
 
         [HttpPost, ActionName("Delete")]

@@ -104,13 +104,7 @@ namespace SRS.Web.Controllers
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             await FillAllRelatedEntities(user.FacultyId);
-            var themeOfScientificWork = await _themeOfScientificWorkCrudService.GetAsync(id);
-            if (themeOfScientificWork == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(themeOfScientificWork);
+            return await Details(id);
         }
 
         [HttpPost]
@@ -131,13 +125,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            var themeOfScientificWork = await _themeOfScientificWorkCrudService.GetAsync(id);
-            if (themeOfScientificWork == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(themeOfScientificWork);
+            return await Details(id);
         }
 
         [HttpPost, ActionName("Delete")]

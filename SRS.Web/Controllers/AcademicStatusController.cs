@@ -18,7 +18,7 @@ namespace SRS.Web.Controllers
         private readonly IMapper _mapper;
 
         public AcademicStatusController(
-            IBaseCrudService<AcademicStatusModel> academicStatusCrudService, 
+            IBaseCrudService<AcademicStatusModel> academicStatusCrudService,
             IAcademicStatusService academicStatusService,
             IMapper mapper)
         {
@@ -63,13 +63,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var academicStatus = await _academicStatusCrudService.GetAsync(id);
-            if (academicStatus == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(academicStatus);
+            return await Details(id);
         }
 
         [HttpPost]
@@ -79,7 +73,7 @@ namespace SRS.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _academicStatusCrudService.UpdateAsync(academicStatus);
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             return View(academicStatus);
@@ -88,13 +82,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            var academicStatus = await _academicStatusCrudService.GetAsync(id);
-            if (academicStatus == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(academicStatus);
+            return await Details(id);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -103,6 +91,17 @@ namespace SRS.Web.Controllers
         {
             await _academicStatusCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<ActionResult> Details(int id)
+        {
+            var academicStatus = await _academicStatusCrudService.GetAsync(id);
+            if (academicStatus == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(academicStatus);
         }
     }
 }
