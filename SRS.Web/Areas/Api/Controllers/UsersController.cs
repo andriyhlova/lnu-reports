@@ -4,10 +4,9 @@ using SRS.Services.Models;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace SRS.Web.Controllers
+namespace UserManagement.Areas.Api.Controllers
 {
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
-    [RoutePrefix("api/users")]
     public class UsersController : Controller
     {
         private readonly IUserService<UserAccountModel> _userService;

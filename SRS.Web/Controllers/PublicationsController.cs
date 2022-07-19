@@ -30,6 +30,7 @@ namespace UserManagement.Controllers
         private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly IBaseCrudService<PublicationModel> _publicationCrudService;
         private readonly IPublicationService _publicationService;
         private readonly IUserService<UserAccountModel> _userService;
         private readonly IMapper _mapper;
@@ -38,6 +39,7 @@ namespace UserManagement.Controllers
             IBaseCrudService<CathedraModel> cathedraCrudService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
+            IBaseCrudService<PublicationModel> publicationCrudService,
             IPublicationService publicationService,
             IUserService<UserAccountModel> userService,
             IMapper mapper)
@@ -46,6 +48,7 @@ namespace UserManagement.Controllers
             _cathedraCrudService = cathedraCrudService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
+            _publicationCrudService = publicationCrudService;
             _publicationService = publicationService;
             _userService = userService;
             _mapper = mapper;
@@ -69,120 +72,15 @@ namespace UserManagement.Controllers
             return View(viewModel);
         }
 
-        // GET: Publications
-        public ActionResult Index1(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty, string user)
-        {
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
-            bool isMineWihoutNull = isMine ?? true;
-            int cathedraNumber = cathedra ?? -1;
-            int facultyNumber = faculty ?? -1;
-            string dateFromVerified = dateFrom ?? "";
-            string dateToVerified = dateTo ?? "";
-            ViewBag.isMine = isMineWihoutNull;
-            ViewBag.cathedra = cathedra;
-            ViewBag.faculty = faculty;
-            ViewBag.user = user;
-            ViewBag.searchString = searchString;
-            ViewBag.dateFrom = dateFrom;
-            ViewBag.dateTo = dateTo;
-            ViewBag.page = pageNumber;
-            PutCathedraAndFacultyIntoViewBag(isMineWihoutNull);
-            bool hasUser = !string.IsNullOrEmpty(user);
-            var allPublications = db.Publication
-                .Include(x=> x.User.Select(y => y.Cathedra.Faculty))
-                .Where(x => !hasUser || (hasUser && x.User.Any(y => y.Id == user)))
-                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.Id == cathedraNumber)))
-                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.Id == facultyNumber)))
-                .OrderByDescending(x=> x.Date)
-                .ToList();
-            allPublications = allPublications
-                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && Convert.ToDateTime(x.Date) >= DateTime.Parse(dateFromVerified)))
-                .Where(x => dateToVerified == "" || (dateToVerified != "" && Convert.ToDateTime(x.Date) <= DateTime.Parse(dateToVerified)))
-                .ToList();
-            return GetRightPublicationView(allPublications, isMineWihoutNull, pageNumber, pageSize, searchString);
-        }
-
-        private void PutCathedraAndFacultyIntoViewBag(bool isMine = false)
-        {
-            var users = db.Users.Include(x=>x.I18nUserInitials).Include(x=>x.Cathedra.Faculty).Where(x => x.IsActive == true && x.I18nUserInitials.Any(y=>y.Language==Language.UA)).ToList();
-            var cathedas = db.Cathedra.OrderBy(x => x.Name).ToList();
-            var faculties = db.Faculty.OrderBy(x => x.Name).ToList();
-            var currentUser = UserManager.FindByName(User.Identity.Name);
-            //UserManager.IsInRole(x.Id, "Працівник") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-            //    || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")
-            if (isMine && !User.IsInRole("Superadmin") && !User.IsInRole("Адміністрація ректорату"))
-            {
-                if(User.IsInRole("Адміністрація деканату"))
-                {
-                    cathedas = cathedas.Where(x => x.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
-                    users = users.Where(x=>x.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id).ToList();
-                }
-                else if (User.IsInRole("Керівник кафедри"))
-                {
-                    users = users.Where(x => x.Cathedra.Id == currentUser.Cathedra.Id).ToList();
-                }
-            }
-            ViewBag.AllUsers = users;
-            ViewBag.AllCathedras = cathedas;
-            ViewBag.AllFaculties = faculties
-                .Select(x =>
-                     new SelectListItem
-                     {
-                         Text = x.Name,
-                         Value = x.Id.ToString()
-                     }).ToList();
-        }
-
-        private ActionResult GetRightPublicationView(List<Publication> allPublications, bool isMineWihoutNull,
-                                                        int pageNumber, int pageSize, string searchString)
-        {
-            var publications = allPublications.ToList();
-            var currentUser = UserManager.FindByName(User.Identity.Name);
-            var search = searchString?.ToLower();
-            if (!string.IsNullOrEmpty(search))
-            {
-                publications = publications.Where(s => s.Name.ToLower().Contains(search))
-                    .ToList();
-            }
-            if (!User.IsInRole("Superadmin") && !User.IsInRole("Адміністрація ректорату"))
-            {
-                if (User.IsInRole("Адміністрація деканату"))
-                {
-                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name
-                    || y.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id))
-                    .ToList();
-                }
-                else if (User.IsInRole("Керівник кафедри"))
-                {
-                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name
-                    || y.Cathedra.Id == currentUser.Cathedra.Id))
-                    .ToList();
-                }
-                else if (User.IsInRole("Працівник"))
-                {
-                    publications = publications.Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
-                    .ToList();
-                }
-            }
-
-            return View(publications.ToPagedList(pageNumber, pageSize));
-        }
-
         [HttpGet]
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Publication publication = db.Publication.Find(id);
+            var publication = await _publicationCrudService.GetAsync(id);
             if (publication == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.PublicationUsers = (publication.AuthorsOrder ?? publication.OtherAuthors)?.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
             return View(publication);
         }
 
@@ -580,36 +478,24 @@ namespace UserManagement.Controllers
             return View(publication);
         }
 
-        public ActionResult Delete(int? id)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Publication publication = db.Publication.Find(id);
-            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Count() > 0)
-            {
-                ViewBag.Exists = "Ця публікація включена в звіт. Неможливо видалити.";
-            }
+            var publication = await _publicationCrudService.GetAsync(id);
             if (publication == null)
             {
                 return HttpNotFound();
             }
+
             return View(publication);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Publication publication = db.Publication.Find(id);
-            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Count() > 0)
-            {
-                return RedirectToAction("Index");
-            }
-            db.Publication.Remove(publication);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            await _publicationCrudService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
