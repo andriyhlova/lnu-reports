@@ -12,14 +12,15 @@
 }
 
 <h2>Публікації</h2>
-<form>
+<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
+<form id="filter-container" class="collapse-target">
     @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
     @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
     <div class="form-group">
-        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        <input type="submit" class="btn btn-info" value="Застосувати" />
     </div>
 </form>
 
@@ -28,58 +29,61 @@
 </p>
 <div class="table-responsive">
     <table class="table">
-        <tr>
-            <th>
-                @Html.ActionLink("Назва", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.Name, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.Name, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Рік", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.Date, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Тип", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.PublicationType, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.PublicationType, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Автори", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.AuthorsOrder, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.AuthorsOrder, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.Items)
-        {
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @item.PublicationType.ToString().Replace('_', ' ')
-                </td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.AuthorsOrder))
-                    {
-                        @Html.DisplayFor(modelItem => item.AuthorsOrder)
-                    }
-                    else
-                    {
-                        <span>--</span>
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class="btn btn-info" }) |
-                    @if (item.UserIds.Any(x => x == userId))
-                    {
-                        @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                    }
-                </td>
+                <th>
+                    @Html.ActionLink("Назва", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.Name, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.Name, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Рік", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.Date, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Тип", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.PublicationType, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.PublicationType, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Автори", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.AuthorsOrder, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.AuthorsOrder, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
             </tr>
-        }
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @item.PublicationType.ToString().Replace('_', ' ')
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.AuthorsOrder))
+                        {
+                            @Html.DisplayFor(modelItem => item.AuthorsOrder)
+                        }
+                        else
+                        {
+                            <span>--</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @if (item.UserIds.Any(x => x == userId))
+                        {
+                            @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
 @{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
@@ -92,4 +96,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/collapsible")
 }

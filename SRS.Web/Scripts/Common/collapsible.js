@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var collapsed = true;
     $('.collapsible').click(function (e) {
-        let target = $(e.target).data('target');
+        let target = $(e.currentTarget).data('target');
         if (collapsed) {
             $(target).css('visibility', 'visible');
             $(target).css('height', 'auto');
@@ -12,6 +12,6 @@ $(document).ready(function () {
         }
 
         collapsed = !collapsed;
-        $(e.target).blur();
+        $(e.currentTarget).blur();
     });
 });

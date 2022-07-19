@@ -141,3 +141,7 @@ td a.btn{
     visibility: hidden;
     height: 0px;
 }
+
+.collapsible{
+    margin-bottom: 8px;
+}
