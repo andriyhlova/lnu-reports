@@ -41,20 +41,6 @@ namespace SRS.Services.Implementations
             return _mapper.Map<TUserModel>(user);
         }
 
-        public async Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, int? facultyId, int? cathedraId)
-        {
-            var actions = new Dictionary<string, Func<Task<IList<ApplicationUser>>>>
-            {
-                [RoleNames.Superadmin] = async () => await _repo.GetAsync(new UserWithInitialsSpecification(facultyId, cathedraId, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new UserWithInitialsSpecification(facultyId, cathedraId, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new UserWithInitialsSpecification(facultyId, cathedraId, x => x.Cathedra.FacultyId == user.FacultyId)),
-                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new UserWithInitialsSpecification(facultyId, cathedraId, x => x.Cathedra.Id == user.CathedraId))
-            };
-
-            var users = await _roleActionService.TakeRoleActionAsync(user, actions);
-            return _mapper.Map<IList<TUserModel>>(users ?? new List<ApplicationUser>());
-        }
-
         public async Task<IList<TUserModel>> GetAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<ApplicationUser>>>>

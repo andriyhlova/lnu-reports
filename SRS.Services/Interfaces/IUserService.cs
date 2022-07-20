@@ -10,8 +10,6 @@ namespace SRS.Services.Interfaces
     {
         Task<TUserModel> GetByIdAsync(string id);
 
-        Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, int? facultyId, int? cathedraId);
-
         Task<IList<TUserModel>> GetAsync(UserAccountModel user, DepartmentFilterModel filterModel);
 
         Task<TUserModel> UpdateAsync(TUserModel user, string approvedById = null);
