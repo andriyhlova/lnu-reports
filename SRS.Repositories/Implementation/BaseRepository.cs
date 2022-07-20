@@ -15,7 +15,7 @@ namespace SRS.Repositories.Implementations
     public class BaseRepository<TEntity> : IBaseRepository<TEntity>
         where TEntity : BaseEntity
     {
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
         public BaseRepository(ApplicationDbContext context)
         {
@@ -25,6 +25,7 @@ namespace SRS.Repositories.Implementations
         public virtual async Task<int> AddAsync(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
+            AddRelatedEntities(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
         }
@@ -100,6 +101,10 @@ namespace SRS.Repositories.Implementations
         {
             return SpecificationEvaluator<TEntity>.GetQuery(_context.Set<TEntity>(), specification)
                 .CountAsync();
+        }
+
+        protected virtual void AddRelatedEntities(TEntity entity)
+        {
         }
     }
 }

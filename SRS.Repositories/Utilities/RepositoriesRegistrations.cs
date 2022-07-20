@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 using SRS.Repositories.Implementations;
 using SRS.Repositories.Interfaces;
@@ -12,6 +13,7 @@ namespace SRS.Repositories.Utilities
             Bind(typeof(IBaseRepository<>)).To(typeof(BaseRepository<>));
             Bind<IUserRepository>().To<UserRepository>();
             Bind<IRoleRepository>().To<RoleRepository>();
+            Bind<IBaseRepository<Publication>>().To<PublicationRepository>();
             Bind<ApplicationDbContext>().ToSelf();
         }
     }

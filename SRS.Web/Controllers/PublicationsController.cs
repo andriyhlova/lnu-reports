@@ -26,13 +26,13 @@ namespace UserManagement.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        private UserManager<ApplicationUser> UserManager;
         private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<PublicationModel> _publicationCrudService;
         private readonly IPublicationService _publicationService;
         private readonly IUserService<UserAccountModel> _userService;
+        private readonly IUserService<UserInitialsModel> _userWithInitialService;
         private readonly IMapper _mapper;
 
         public PublicationsController(
@@ -42,15 +42,16 @@ namespace UserManagement.Controllers
             IBaseCrudService<PublicationModel> publicationCrudService,
             IPublicationService publicationService,
             IUserService<UserAccountModel> userService,
+            IUserService<UserInitialsModel> userWithInitialService,
             IMapper mapper)
         {
-            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             _cathedraCrudService = cathedraCrudService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _publicationCrudService = publicationCrudService;
             _publicationService = publicationService;
             _userService = userService;
+            _userWithInitialService = userWithInitialService;
             _mapper = mapper;
         }
 
@@ -85,42 +86,35 @@ namespace UserManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(string language)
+        public async Task<ActionResult> Create()
         {
-            var languageVerified = language == null || language == "" ? "UA" : language;
-            var users = db.Users.Include(x=>x.I18nUserInitials).Include(x=>x.Roles).Where(x => x.IsActive == true).ToList();
-            var roles = db.Roles.Where(x=> x.Name == "Працівник"
-            || x.Name == "Керівник кафедри"
-            || x.Name == "Адміністрація ректорату"
-            || x.Name == "Адміністрація деканату").Select(x=>x.Id).ToList();
-            ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Where(x => x != nameof(PublicationType.Стаття))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які",", які"), Value = x }).ToList();
-            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            ViewBag.AllUsers = users
-                .Where(x => x.IsActive && x.Roles.Any(y=>roles.Contains(y.RoleId)))
-                .Select(x => {
-                    var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified));
-                    return new SelectListItem
-                    {
-                        Selected = false,
-                        Text = string.Join(" ", name?.LastName,
-                                                name?.FirstName,
-                                                name?.FathersName),
-                        Value = x.Id
-                    };
-                     })
-                    .ToList();
-            ViewBag.CurrentUser = users
-                .Where(x => x.UserName == User.Identity.Name)
-                .Select(x => x.Id).ToList();
-            return View();
+            FillRelatedEntities();
+            var currentUser = await _userWithInitialService.GetByIdAsync(User.Identity.GetUserId());
+            var model = new PublicationEditViewModel
+            {
+                Users = new List<UserInitialsModel> { currentUser },
+                Year = DateTime.Now.Year
+            };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
+        public async Task<ActionResult> Create(PublicationEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
+                return RedirectToAction(nameof(Index));
+            }
+
+            FillRelatedEntities();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create1([Bind(Include = "Id,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
             [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include = "authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
             [Bind(Include = "PagesTo")] int pagesTo = -1)
@@ -278,58 +272,35 @@ namespace UserManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Publication publication = db.Publication.Find(id);
+            var publication = await _publicationCrudService.GetAsync(id);
             if (publication == null)
             {
                 return HttpNotFound();
-            }            
-            ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Where(x => x != nameof(PublicationType.Стаття))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();            
-            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var users = db.Users.Include(x => x.I18nUserInitials).Include(x => x.Roles).ToList();
-            var roles = db.Roles.Where(x => x.Name == "Працівник"
-            || x.Name == "Керівник кафедри"
-            || x.Name == "Адміністрація ректорату"
-            || x.Name == "Адміністрація деканату").Select(x => x.Id).ToList();
-            ViewBag.AllUsers = users
-                .Where(x => x.IsActive && x.Roles.Any(y => roles.Contains(y.RoleId)))
-                .Select(x =>
-                {
-                    var name = x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language);
-                    return new SelectListItem
-                    {
-                        Selected = false,
-                        Text = String.Join(" ", name?.LastName,
-                                                name?.FirstName,
-                                                name?.FathersName),
-                        Value = x.Id
-                    };
-                }).ToList();
-            ViewBag.PagesFrom = 0;
-            ViewBag.PagesTo = 0;
-            if(publication.Pages != null)
-            {
-                var pages = publication.Pages.Split('-');
-                ViewBag.PagesFrom = pages[0];
-                if (pages.Length == 2)
-                    ViewBag.PagesTo = pages[1];
-                else if (pages.Length == 1)
-                    ViewBag.PagesTo = pages[0];
             }
-            return View(publication);
+
+            FillRelatedEntities();
+            return View(_mapper.Map<PublicationEditViewModel>(publication));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,OtherAuthors,AuthorsOrder,Date,PagesFrom,PagesTo,PublicationType,Language," +
+        public async Task<ActionResult> Edit(PublicationEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
+                return RedirectToAction(nameof(Index));
+            }
+
+            FillRelatedEntities();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit1([Bind(Include = "Id,Name,OtherAuthors,AuthorsOrder,Date,PagesFrom,PagesTo,PublicationType,Language," +
             "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication, [Bind(Include = "authorsIds")] string[] authorsIds, int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor, 
             [Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
@@ -517,6 +488,15 @@ namespace UserManagement.Controllers
             {
                 ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
             }
+        }
+
+        private void FillRelatedEntities()
+        {
+            ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
+                .Where(x => x != nameof(PublicationType.Стаття))
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();
+            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
         }
     }
 }

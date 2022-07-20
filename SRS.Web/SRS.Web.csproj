@@ -263,6 +263,7 @@
     <Compile Include="Models\Account\UpdateProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\CathedraReportViewModel.cs" />
+    <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\Shared\DateRangeViewModel.cs" />

@@ -11,12 +11,15 @@ namespace SRS.Services.Models
         [RequiredField]
         public string Name { get; set; }
 
+        [RequiredField]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
 
+        [RequiredField]
         public PublicationType PublicationType { get; set; }
 
+        [RequiredField]
         public string AuthorsOrder { get; set; }
 
         public IList<string> UserIds { get; set; }
