@@ -35,7 +35,7 @@ namespace UserManagement.Services
                         || publication.PublicationType == PublicationType.Підручник
                         || publication.PublicationType == PublicationType.Навчальний_Посібник)
             {
-                toReturn = toReturn + publication.Pages;
+                toReturn = toReturn + publication.GetPages();
                 if (publication.Language == Language.UA)
                     toReturn = toReturn + " c.";
                 if (publication.Language == Language.EN)
@@ -48,7 +48,7 @@ namespace UserManagement.Services
                     toReturn = toReturn + (!FinishesWithHyphen(toReturn) ? "–" : "") + " C. ";
                 if (publication.Language == Language.EN)
                     toReturn = toReturn + (!FinishesWithHyphen(toReturn) ? "–" : "") + " P. ";
-                toReturn = toReturn + (publication.Pages == null ? "" : (publication.Pages + ". "));
+                toReturn = toReturn + (publication.GetPages() == null ? "" : (publication.GetPages() + ". "));
             }
             toReturn = toReturn + (publication.DOI == null ? "" : "(" + publication.DOI + ")." );
             return toReturn;

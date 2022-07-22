@@ -99,6 +99,10 @@
     <Compile Include="Migrations\202207051011370_AddedBaseEntity.designer.cs">
       <DependentUpon>202207051011370_AddedBaseEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202207222301000_ChangedPublicationPages.cs" />
+    <Compile Include="Migrations\202207222301000_ChangedPublicationPages.designer.cs">
+      <DependentUpon>202207222301000_ChangedPublicationPages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -122,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202207051011370_AddedBaseEntity.resx">
       <DependentUpon>202207051011370_AddedBaseEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207222301000_ChangedPublicationPages.resx">
+      <DependentUpon>202207222301000_ChangedPublicationPages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

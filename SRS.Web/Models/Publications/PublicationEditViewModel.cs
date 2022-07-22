@@ -1,8 +1,10 @@
 ﻿using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models;
+using SRS.Services.Models.Constants;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SRS.Web.Models.Publications
 {
@@ -40,30 +42,12 @@ namespace SRS.Web.Models.Publications
 
         public string Tome { get; set; }
 
+        [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний номер сторінки")]
         public int? PageFrom { get; set; }
 
+        [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний номер сторінки")]
         public int? PageTo { get; set; }
 
         public IList<UserInitialsModel> Users { get; set; }
-
-        public string GetPagesRange()
-        {
-            if (PageFrom.HasValue && PageTo.HasValue)
-            {
-                return PageFrom == PageTo ? PageFrom.ToString() : $"{PageFrom}-{PageTo}";
-            }
-
-            return null;
-        }
-
-        public double GetSizeOfPages()
-        {
-            if (PageFrom.HasValue && PageTo.HasValue)
-            {
-                return Math.Round((PageTo.Value - PageFrom.Value + 1) / 16.0, 1);
-            }
-
-            return 0.0;
-        }
     }
 }

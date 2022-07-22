@@ -20,7 +20,9 @@ namespace SRS.Domain.Entities
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
 
-        public string Pages { get; set; }
+        public int? PageFrom { get; set; }
+
+        public int? PageTo { get; set; }
 
         public double SizeOfPages { get; set; }
 
@@ -59,5 +61,15 @@ namespace SRS.Domain.Entities
         public virtual ICollection<CathedraReport> PrintedPublicationInWorkCathedraReport { get; set; }
 
         public virtual ICollection<CathedraReport> PrintedPublicationHospDohovirCathedraReport { get; set; }
+
+        public string GetPages()
+        {
+            if (!PageFrom.HasValue || !PageTo.HasValue)
+            {
+                return null;
+            }
+
+            return PageFrom.Value != PageTo.Value ? $"{PageFrom.Value}-{PageTo.Value}" : PageFrom.Value.ToString();
+        }
     }
 }

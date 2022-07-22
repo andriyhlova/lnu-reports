@@ -67,6 +67,9 @@ namespace SRS.Web
             bundles.Add(new StyleBundle("~/Content/usersManagement/bundle").Include(
                       "~/Content/UsersManagement/edit.css"));
 
+            bundles.Add(new StyleBundle("~/Content/publications/bundle").Include(
+                      "~/Content/Publications/edit.css"));
+
             bundles.Add(new StyleBundle("~/Content/search/bundle").Include(
                       "~/Content/Search/search.css"));
         }

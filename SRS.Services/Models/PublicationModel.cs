@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SRS.Domain.Enums;
 using SRS.Services.Attributes;
+using SRS.Services.Models.Constants;
 
 namespace SRS.Services.Models
 {
@@ -13,9 +14,9 @@ namespace SRS.Services.Models
         [RequiredField]
         public string MainAuthor { get; set; }
 
-        public string Pages { get; set; }
+        public int? PageFrom { get; set; }
 
-        public double SizeOfPages { get; set; }
+        public int? PageTo { get; set; }
 
         public string Link { get; set; }
 
@@ -31,27 +32,14 @@ namespace SRS.Services.Models
 
         public IList<UserInitialsModel> Users { get; set; }
 
-        public int? GetPageNumber(int rangePosition)
+        public double GetSizeOfPages()
         {
-            try
+            if (PageFrom.HasValue && PageTo.HasValue)
             {
-                var pages = Pages?.Trim('-').Replace("--", "-");
-                if (string.IsNullOrEmpty(pages))
-                {
-                    return null;
-                }
-
-                if (pages.Contains("-"))
-                {
-                    return Convert.ToInt32(pages.Split('-')[rangePosition]);
-                }
-
-                return Convert.ToInt32(pages);
+                return Math.Round((PageTo.Value - PageFrom.Value + 1) / PublicationValues.FontSize, 1);
             }
-            catch
-            {
-                return null;
-            }
+
+            return 0.0;
         }
     }
 }
