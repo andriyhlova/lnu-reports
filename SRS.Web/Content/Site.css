@@ -145,3 +145,10 @@ td a.btn{
 .collapsible{
     margin-bottom: 8px;
 }
+
+.input-group-addon+input {
+    max-width: 240px;
+}
+.cursor-pointer{
+    cursor: pointer;
+}

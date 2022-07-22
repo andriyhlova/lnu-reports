@@ -39,6 +39,7 @@ namespace SRS.Repositories.Implementations
                 return existingEntity;
             }
 
+            UpdateRelatedEntities(existingEntity, entity);
             _context.Entry(existingEntity).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
 
@@ -104,6 +105,10 @@ namespace SRS.Repositories.Implementations
         }
 
         protected virtual void AddRelatedEntities(TEntity entity)
+        {
+        }
+
+        protected virtual void UpdateRelatedEntities(TEntity existingEntity, TEntity newEntity)
         {
         }
     }

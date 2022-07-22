@@ -7,5 +7,7 @@
         public string LastName { get; set; }
 
         public string FathersName { get; set; }
+
+        public string FullName => string.Join(" ", LastName, FirstName, FathersName);
     }
 }

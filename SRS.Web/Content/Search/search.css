@@ -1,0 +1,29 @@
+﻿.search-container{
+    max-width:280px;
+    margin-bottom: 16px;
+    position:relative;
+}
+
+.search-results {
+    width: 100%;
+    position: absolute;
+    max-height: 300px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    background: white;
+    z-index: 1;
+    box-shadow: 5px 5px 5px lightgrey;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-item{
+    display: flex;
+    align-items: center;
+    padding:10px;
+    cursor: pointer;
+}
+
+.search-item:not(:last-child){
+    border-bottom: 1px solid grey;
+}

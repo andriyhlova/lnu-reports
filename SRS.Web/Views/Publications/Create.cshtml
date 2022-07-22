@@ -20,20 +20,20 @@
             <label class="control-label col-md-2">Мова публікації <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Language,
-                                                    new SelectList(ViewBag.AllLanguages, "Value", "Text"),
-                                                    new { @class = "form-control" })
+                                                                   new SelectList(ViewBag.AllLanguages, "Value", "Text"),
+                                                                   new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Тип публікації <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.PublicationType,
-                                                               new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
-                                                               new
-                                                               {
-                                                                   @class = "form-control col-md-2",
-                                                                   @onchange = "publicationTypeChange(this)"
-                                                               })
+                                                                              new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
+                                                                              new
+                                                                              {
+                                                                                  @class = "form-control col-md-2",
+                                                                                  @onchange = "publicationTypeChange(this)"
+                                                                              })
                 @Html.ValidationMessageFor(model => model.PublicationType, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -65,14 +65,26 @@
         <div class="form-group">
             <label class="control-label col-md-2">Доступно користувачам <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @for (var i = 0; i < Model.Users.Count; i++)
-                {
-                    <div>@string.Join(" ", Model.Users[i].LastName, Model.Users[i].FirstName, Model.Users[i].FathersName)</div>
-                    <input type="hidden" name="Users[@i].Id" value="@Model.Users[i].Id" />
-                    <input type="hidden" name="Users[@i].LastName" value="@Model.Users[i].LastName" />
-                    <input type="hidden" name="Users[@i].FirstName" value="@Model.Users[i].FirstName" />
-                    <input type="hidden" name="Users[@i].FathersName" value="@Model.Users[i].FathersName" />
-                }
+                <div id="user-search" class="search-container">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                        <input class="form-control" placeholder="Пошук за прізвищем або поштою" />
+                    </div>
+                    <div class="search-results">
+                    </div>
+                </div>
+                <div class="selected-users">
+                    @for (var i = 0; i < Model.Users.Count; i++)
+                    {
+                        <div class="user">
+                            <div class="fullname">@Model.Users[i].FullName <i class="bi bi-trash text-danger cursor-pointer"></i></div>
+                            <input type="hidden" name="Users[@i].Id"  class="id" value="@Model.Users[i].Id" />
+                            <input type="hidden" name="Users[@i].LastName"  class="lastname" value="@Model.Users[i].LastName" />
+                            <input type="hidden" name="Users[@i].FirstName"  class="firstname" value="@Model.Users[i].FirstName" />
+                            <input type="hidden" name="Users[@i].FathersName" class="fathersname" value="@Model.Users[i].FathersName" />
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 
@@ -160,17 +172,11 @@
     @Html.ActionLink("Повернутись до списку", "Index")
 </div>
 
-<script type="text/javascript">
-    function publicationTypeChange(e) {
-        if (e.options[e.selectedIndex].value == "Монографія" || e.options[e.selectedIndex].value == "Підручник") {
-            $(".sizeOfPages").css("display", "block");
-        } else {
-            $(".sizeOfPages").css("display", "none");
-        }
-    }
-</script>
 @section Styles {
+    @Styles.Render("~/Content/search/bundle")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/searchComponent")
+    @Scripts.Render("~/bundles/publications/edit")
 }

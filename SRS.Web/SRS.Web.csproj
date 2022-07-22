@@ -295,6 +295,7 @@
     <Content Include="Content\Chosen\DocSupport\prism.css" />
     <Content Include="Content\Chosen\DocSupport\style.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Search\search.css" />
     <Content Include="Content\step.css" />
     <Content Include="Content\UsersManagement\edit.css" />
     <Content Include="favicon.ico" />
@@ -322,6 +323,7 @@
     <Content Include="Scripts\Chosen\DocSupport\jquery-3.2.1.min.js" />
     <Content Include="Scripts\Chosen\DocSupport\prism.js" />
     <Content Include="Scripts\Chosen\DocSupport\prototype-1.7.0.0.js" />
+    <Content Include="Scripts\Common\searchComponent.js" />
     <Content Include="Scripts\Common\collapsible.js" />
     <Content Include="Scripts\Common\customDatatable.js" />
     <Content Include="Scripts\Common\departmentSelector.js" />
@@ -353,6 +355,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Publications\edit.js" />
     <Content Include="Scripts\UsersManagement\edit.js" />
     <Content Include="Scripts\Login\login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

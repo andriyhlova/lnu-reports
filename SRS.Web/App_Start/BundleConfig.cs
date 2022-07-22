@@ -44,6 +44,12 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/collapsible").Include(
                         "~/Scripts/Common/collapsible.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/searchComponent").Include(
+                        "~/Scripts/Common/searchComponent.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/publications/edit").Include(
+                        "~/Scripts/Publications/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)
@@ -60,6 +66,9 @@ namespace SRS.Web
 
             bundles.Add(new StyleBundle("~/Content/usersManagement/bundle").Include(
                       "~/Content/UsersManagement/edit.css"));
+
+            bundles.Add(new StyleBundle("~/Content/search/bundle").Include(
+                      "~/Content/Search/search.css"));
         }
     }
 }
