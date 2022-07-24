@@ -64,6 +64,7 @@
                                     @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
                                     {
                                         <li>@Html.ActionLink("Наукові ступені", "Index", "AcademicStatus")</li>
+                                        <li>@Html.ActionLink("Журнали", "Index", "Journals")</li>
                                     }
                                     <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
                                 </ul>

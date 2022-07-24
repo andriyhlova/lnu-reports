@@ -1,0 +1,57 @@
+﻿@using SRS.Services.Models
+@model JournalModel
+
+@{
+    ViewBag.Title = "Видалити";
+}
+
+<h2>Видалити</h2>
+
+<h3>Ви впевнені, що хочете видалити це?</h3>
+<h4 class="text-warning">*Видалити журнал можна лише тоді, коли він не належить до жодної публікації.</h4>
+<div>
+    <h4>Журнал</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Назва
+        <dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            Скорочена назва
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShortName)
+        </dd>
+        <dt>
+            Друкований ISSN
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrintIssn)
+        </dd>
+        <dt>
+            Електронний ISSN
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ElectronicIssn)
+        </dd>
+        <dt>
+            Квартиль
+        </dt>
+        <dd>
+            @Model.BestQuartile.ToString()
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Повернутись до списку", "Index")
+        </div>
+    }
+</div>

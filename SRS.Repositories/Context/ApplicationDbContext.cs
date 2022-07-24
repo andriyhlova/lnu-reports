@@ -29,6 +29,8 @@ namespace SRS.Repositories.Context
 
         public DbSet<CathedraReport> CathedraReport { get; set; }
 
+        public DbSet<Journal> Journals { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

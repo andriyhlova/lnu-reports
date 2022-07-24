@@ -1,0 +1,49 @@
+﻿@using SRS.Services.Models
+@model JournalModel
+
+@{
+    ViewBag.Title = "Деталі";
+}
+
+<h2>Деталі</h2>
+
+<div>
+    <h4>Журнал</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Назва
+        <dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            Скорочена назва
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShortName)
+        </dd>
+        <dt>
+            Друкований ISSN
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrintIssn)
+        </dd>
+        <dt>
+            Електронний ISSN
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ElectronicIssn)
+        </dd>
+        <dt>
+            Квартиль
+        </dt>
+        <dd>
+            @Model.BestQuartile.ToString()
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) |
+    @Html.ActionLink("Повернутись до списку", "Index")
+</p>

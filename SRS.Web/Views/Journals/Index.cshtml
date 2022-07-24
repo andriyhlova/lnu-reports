@@ -1,0 +1,77 @@
+﻿@using PagedList.Mvc
+@using SRS.Domain.Enums
+@using SRS.Services.Models
+@using SRS.Web.Models.Shared
+@model ItemsViewModel<BaseFilterViewModel, JournalModel>
+@{
+    ViewBag.Title = "Журнали";
+}
+
+<h2>Журнали</h2>
+<form>
+    @{ViewBag.SearchPlaceholder = "Пошук";}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+    </div>
+</form>
+<p>
+    @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Name, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.Name, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th>
+                @Html.ActionLink("Скорочена назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ShortName, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.ShortName, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th>
+                @Html.ActionLink("Друкований ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.PrintIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.PrintIssn, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th>
+                @Html.ActionLink("Електронний ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ElectronicIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.ElectronicIssn, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th>
+                @Html.ActionLink("Квартиль", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Quartile, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.Quartile, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrintIssn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ElectronicIssn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BestQuartile)
+                </td>
+                <td>
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new BaseFilterViewModel { Page = page, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))
