@@ -17,7 +17,8 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<Publication, PublicationModel>()
                 .IncludeBase<Publication, BasePublicationModel>()
-                .ForMember(dest => dest.Users, opts => opts.MapFrom(src => src.User));
+                .ForMember(dest => dest.Users, opts => opts.MapFrom(src => src.User))
+                .ForMember(dest => dest.JournalName, opts => opts.MapFrom(src => src.GetJournalName()));
 
             CreateMap<PublicationModel, Publication>()
                 .IncludeBase<BasePublicationModel, Publication>()

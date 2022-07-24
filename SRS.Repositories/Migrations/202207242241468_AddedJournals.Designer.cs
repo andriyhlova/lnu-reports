@@ -7,13 +7,13 @@ namespace SRS.Repositories.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddedJournalEntity : IMigrationMetadata
+    public sealed partial class AddedJournals : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedJournalEntity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedJournals));
         
         string IMigrationMetadata.Id
         {
-            get { return "202207242123433_AddedJournalEntity"; }
+            get { return "202207242241468_AddedJournals"; }
         }
         
         string IMigrationMetadata.Source

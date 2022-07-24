@@ -103,9 +103,9 @@
     <Compile Include="Migrations\202207222301000_ChangedPublicationPages.designer.cs">
       <DependentUpon>202207222301000_ChangedPublicationPages.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202207242123433_AddedJournalEntity.cs" />
-    <Compile Include="Migrations\202207242123433_AddedJournalEntity.designer.cs">
-      <DependentUpon>202207242123433_AddedJournalEntity.cs</DependentUpon>
+    <Compile Include="Migrations\202207242241468_AddedJournals.cs" />
+    <Compile Include="Migrations\202207242241468_AddedJournals.designer.cs">
+      <DependentUpon>202207242241468_AddedJournals.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -134,8 +134,8 @@
     <EmbeddedResource Include="Migrations\202207222301000_ChangedPublicationPages.resx">
       <DependentUpon>202207222301000_ChangedPublicationPages.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202207242123433_AddedJournalEntity.resx">
-      <DependentUpon>202207242123433_AddedJournalEntity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202207242241468_AddedJournals.resx">
+      <DependentUpon>202207242241468_AddedJournals.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

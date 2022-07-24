@@ -24,13 +24,17 @@ namespace SRS.Services.Models
 
         public string Place { get; set; }
 
-        public string Magazine { get; set; }
+        public int? JournalId { get; set; }
+
+        public string OtherJournal { get; set; }
 
         public string DOI { get; set; }
 
         public string Tome { get; set; }
 
         public IList<UserInitialsModel> Users { get; set; }
+
+        public string JournalName { get; set; }
 
         public double GetSizeOfPages()
         {

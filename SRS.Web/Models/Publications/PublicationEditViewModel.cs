@@ -34,7 +34,9 @@ namespace SRS.Web.Models.Publications
 
         public string Edition { get; set; }
 
-        public string Magazine { get; set; }
+        public int? JournalId { get; set; }
+
+        public string OtherJournal { get; set; }
 
         public string Link { get; set; }
 

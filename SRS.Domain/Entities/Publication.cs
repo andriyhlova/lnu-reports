@@ -34,7 +34,9 @@ namespace SRS.Domain.Entities
 
         public string Edition { get; set; }
 
-        public string Magazine { get; set; }
+        public int? JournalId { get; set; }
+
+        public string OtherJournal { get; set; }
 
         public string DOI { get; set; }
 
@@ -47,6 +49,8 @@ namespace SRS.Domain.Entities
         public string AuthorsOrder { get; set; }
 
         public bool IsMainAuthorRegistered { get; set; }
+
+        public virtual Journal Journal { get; set; }
 
         public virtual ICollection<ApplicationUser> User { get; set; }
 
@@ -70,6 +74,11 @@ namespace SRS.Domain.Entities
             }
 
             return PageFrom.Value != PageTo.Value ? $"{PageFrom.Value}-{PageTo.Value}" : PageFrom.Value.ToString();
+        }
+
+        public string GetJournalName()
+        {
+            return Journal?.Name ?? OtherJournal;
         }
     }
 }

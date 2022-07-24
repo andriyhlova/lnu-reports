@@ -20,20 +20,20 @@
             <label class="control-label col-md-2">Мова публікації <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Language,
-                                                                        new SelectList(ViewBag.AllLanguages, "Value", "Text"),
-                                                                        new { @class = "form-control" })
+                                                                                  new SelectList(ViewBag.AllLanguages, "Value", "Text"),
+                                                                                  new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Тип публікації <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.PublicationType,
-                                                                                   new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
-                                                                                   new
-                                                                                   {
-                                                                                       @class = "form-control col-md-2",
-                                                                                       @onchange = "publicationTypeChange(this)"
-                                                                                   })
+                                                                                             new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
+                                                                                             new
+                                                                                             {
+                                                                                                 @class = "form-control col-md-2",
+                                                                                                 @onchange = "publicationTypeChange(this)"
+                                                                                             })
                 @Html.ValidationMessageFor(model => model.PublicationType, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -113,10 +113,19 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Назва журналу</label>
+            <label class="control-label col-md-2">Журнал</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Magazine, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Magazine, "", new { @class = "text-danger" })
+                <select id="journal-selector" class="form-control chosen-select" name="JournalId" data-selected="@Model.JournalId">
+                    <option value="">Виберіть журнал</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Інший журнал</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OtherJournal, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OtherJournal, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -173,11 +182,13 @@
 </div>
 
 @section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
     @Styles.Render("~/Content/search/bundle")
     @Styles.Render("~/Content/publications/bundle")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/searchComponent")
     @Scripts.Render("~/bundles/publications/edit")
 }

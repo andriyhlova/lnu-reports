@@ -4,7 +4,8 @@
         const searchComponent = new SearchComponent('#user-search', '/api/users/searchAll', getUserSearchResultText, appendUserSearchResultItem);
         searchComponent.load();
         getSelectedUsers();
-        $('.selected-users').on('click', '.bi-trash', removeUser)
+        $('.selected-users').on('click', '.bi-trash', removeUser);
+        fillJournals();
     });
 
     function getSelectedUsers() {
@@ -66,4 +67,19 @@
                             <input type="hidden" name="Users[${index}].FathersName" class="fathersname" value="${user.FathersName}" />
                         </div>`;
     };
+
+    function fillJournals() {
+        let selectedJournal = $('#journal-selector').val() || $('#journal-selector')[0].dataset.selected;
+        $.ajax('/api/journalsapi/getall')
+            .done(function (journals) {
+                let str = "<option value=''>Виберіть журнал</option>";
+                for (var i = 0; i < journals.length; i++) {
+                    let journal = journals[i];
+                    str += `<option value='${journal.Id}' ${journal.Id == selectedJournal ? 'selected' : ''}>${journal.Name}</option>`;
+                }
+
+                $("#journal-selector").html(str);
+                $("#journal-selector").trigger("chosen:updated");
+            });
+    }
 }());
