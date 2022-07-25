@@ -53,24 +53,24 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Sign(int reportId)
+        public async Task<ActionResult> Sign(int reportId, ReportFilterViewModel filterViewModel)
         {
             await _reportService.SignAsync(reportId);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), filterViewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Negate(int reportId)
+        public async Task<ActionResult> Negate(int reportId, ReportFilterViewModel filterViewModel)
         {
             await _reportService.ReturnAsync(reportId);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), filterViewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Confirm(int reportId)
+        public async Task<ActionResult> Confirm(int reportId, ReportFilterViewModel filterViewModel)
         {
             await _reportService.ConfirmAsync(reportId);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), filterViewModel);
         }
 
         private async Task FillAvailableDepartments(int? facultyId)

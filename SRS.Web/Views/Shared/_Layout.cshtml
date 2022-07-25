@@ -28,28 +28,22 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
-                        if (User.IsInRole("Працівник") || User.IsInRole("Керівник кафедри"))
-                        {
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Звіти <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    @if (User.IsInRole("Керівник кафедри"))
-                                    {
-                                        <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
-                                    }
-                                    @if (User.IsInRole("Працівник"))
-                                    {
-                                        <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
-                                    }
-                                    @if (User.IsInRole("Працівник") || User.IsInRole("Керівник кафедри"))
-                                    {
-                                        <li>@Html.ActionLink("Список звітів", "Index", "ReportList")</li>
-                                    }
-                                </ul>
-                            </li>
-                        }
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Звіти <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (User.IsInRole("Керівник кафедри"))
+                                {
+                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
+                                }
+                                @if (User.IsInRole("Працівник"))
+                                {
+                                    <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
+                                }
+                                <li>@Html.ActionLink("Персональні звіти", "Index", "ReportList")</li>
+                            </ul>
+                        </li>
                         if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin)
                                     || User.IsInRole(RoleNames.DeaneryAdmin)

@@ -78,7 +78,7 @@
                             }
                             else
                             {
-                                using (Html.BeginForm("Sign", "ReportList"))
+                                using (Html.BeginForm("Sign", "ReportList", Model.FilterModel))
                                 {
                                     @Html.Hidden("reportId", item.Id)
                                     <button type="submit" class="btn btn-primary">Підписати</button>
@@ -95,7 +95,7 @@
                             && (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
                             && item.IsSigned)
                         {
-                            using (Html.BeginForm("Confirm", "ReportList"))
+                            using (Html.BeginForm("Confirm", "ReportList", Model.FilterModel))
                             {
                                 @Html.Hidden("reportId", item.Id)
                                 <button type="submit" class="btn btn-success">Підтвердити</button>
@@ -111,7 +111,7 @@
                         {
                             if (initial.Language == Language.UA)
                             {
-                                <span>@initial.FirstName&nbsp;@initial.LastName</span>
+                                <span>@initial.LastName&nbsp;@initial.FirstName</span>
                                 break;
                             }
                         }
@@ -133,7 +133,7 @@
                             @if ((User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
                                     && item.IsSigned)
                             {
-                                using (Html.BeginForm("Negate", "ReportList"))
+                                using (Html.BeginForm("Negate", "ReportList", Model.FilterModel))
                                 {
                                     @Html.Hidden("reportId", item.Id)
                                     <button type="submit" class="btn btn-danger">Повернути</button>
