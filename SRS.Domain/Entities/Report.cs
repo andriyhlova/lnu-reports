@@ -33,9 +33,12 @@ namespace SRS.Domain.Entities
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public bool IsSigned { get; set; } = false;
+        public bool IsSigned { get; set; }
 
-        public bool IsConfirmed { get; set; } = false;
+        public bool IsConfirmed { get; set; }
+
+        [Column("User_Id")]
+        public string UserId { get; set; }
 
         public virtual ThemeOfScientificWork ThemeOfScientificWork { get; set; }// Пункт 1
 

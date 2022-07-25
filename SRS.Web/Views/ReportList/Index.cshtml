@@ -1,191 +1,166 @@
-﻿@model PagedList.IPagedList<SRS.Domain.Entities.Report>
+﻿@using Microsoft.AspNet.Identity;
+@using PagedList.Mvc
+@using SRS.Domain.Enums
+@using SRS.Services.Models
+@using SRS.Services.Models.Constants
+@using SRS.Web.Extensions
+@using SRS.Web.Models.Reports
+@using SRS.Web.Models.Shared
+
+@model ItemsViewModel<ReportFilterViewModel, BaseReportModel>
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Звіти";
+    ViewBag.Title = "Персональні звіти";
+    var userId = User.Identity.GetUserId();
 }
 
 <h2>Персональні звіти</h2>
-
-@if (User.IsInRole("Адміністрація деканату"))
-{
-    @Html.ActionLink("Звіти кафедр факультету", "Index", "ReportCathedraList")
-}
-else if (User.IsInRole("Керівник кафедри"))
-{
-    @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
-}
-<form asp-controller="ReportList" asp-action="Index" id="dateForm" style="display:flex">
-    <div style="margin: 10px">
-        <label style="display:block">З: </label>
-        <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
-    </div>
-    <div style="margin: 10px">
-        <label style="display:block">До: </label>
-        <input type="date" name="dateTo" value="@ViewBag.dateTo" />
-    </div>
-    @if (User.IsInRole("Адміністрація деканату"))
-    {
-        <div style="margin: 10px">
-            <label style="display:block">Кафедра</label>
-            @Html.DropDownList("cathedra",
-                          new SelectList(ViewBag.Cathedras, "Value", "Text", ViewBag.cathedra),
-                          "Виберіть кафедру",
-                          new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
-        </div>
-    }
-    <div style="height:50%; margin: 10px; padding-top:25px">
-        <input type="submit" value="Пошук" />
+<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
+<form id="filter-container" class="collapse-target">
+    @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
+    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+    @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Застосувати" />
     </div>
 </form>
 
-<table class="table">
-    <tr>
-        <th>
-            Протокол
-        </th>
-        <th>
-            Дата
-        </th>
-        <th>
-            Підписаний
-        </th>
-        <th>
-            Підтверджений
-        </th>
-        <th>
-            Користувач
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Protocol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @if (!item.IsSigned)
-                {
-                    if (item.Date == null || item.Protocol == null)
-                    {
-                        @Html.DisplayFor(modelItem => item.IsSigned)
-                    }
-                    else
-                    {
-                        using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.Id }))
-                        {
-                            @Html.Hidden("reportId", item.Id)
-                        }
-                        @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.Id })
-                    }
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.IsSigned)
-                }
-            </td>
-            <td>
-                @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
-                {
-                    using (Html.BeginForm("Confirm", "ReportList", FormMethod.Get, new { @id = "confirmCheckboxForm_" + item.Id }))
-                    {
-                        @Html.Hidden("reportId", item.Id)
-                    }
-                    @Html.CheckBoxFor(modelItem => item.IsConfirmed, new { @id = "confirmCheckbox_" + item.Id })
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.IsConfirmed)
-                }
-            </td>
-            <td>
-                @foreach (var initial in item.User.I18nUserInitials)
-                {
-                    if (initial.Language == SRS.Domain.Enums.Language.UA)
-                    {
-                        <span>@initial.FirstName&nbsp;@initial.LastName</span>
-                        break;
-                    }
-                }
-            </td>
-            <td>
-                <a href="@Url.Action("Preview", "Reports", new { reportId = item.Id })"
-                   target="_blank">
-                    Переглянути
-                </a>
-                @if (!item.IsSigned)
-                {
-                    if (@item.User.UserName == @User.Identity.Name)
-                    {
-                        @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.Id }, new { @style = "margin-right: 5px;" })
-                    }
-                }
-                @if ((User.IsInRole("Керівник кафедри") || User.IsInRole("Адміністрація деканату")) && item.IsSigned)
-                {
-                    @Html.ActionLink("Повернути", "Negate", "ReportList", new { reportId = item.Id }, new { @style = "margin-right: 5px;" })
-                }
-
-                @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.Id }, new { @target = "_blank" })
-                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.Id }, new { @style = "margin-left:5px;" })
-            </td>
-        </tr>
-    }
-
-</table>
-<link rel="stylesheet" href="../Scripts/chosen.css">
-@section Scripts {
-    <script src="../Scripts/chosen.jquery.js" type="text/javascript"></script>
-    <script>
-    function submitDate() {
-        $('#dateForm').submit();
-    }
-    function events() {
-
-        $('[id^="signCheckbox"]').on('click', function (ev) {
-            if (this.checked == true) {
-                if (confirm('Після підписання ви не будете мати право редагувати звіт.\n' +
-                    'Лише завідувач кафедри може зняти підпис.\n' +
-                    'Ви впевнені, що бажаєте підписати звіт?') == false) {
-
-                    return false;
-                }
-                else {
-                    console.log(this.id.split("_")[1]);
-                    $('#signCheckboxForm_' + this.id.split("_")[1]).submit();
-                }
-            }
-        });
-
-        $('[id^="confirmCheckbox"]').on('click', function (ev) {
-            if (this.checked == true) {
-                if (confirm('Після затвердження підпис зможе зняти лише адміністратор деканату.\n' +
-                    'Ви впевнені, що бажаєте затвердити звіт?') == false) {
-                    return false;
-                }
-                else {
-                    $('#confirmCheckboxForm_' + this.id.split("_")[1]).submit();
-                }
-            }
-        });
-    }
-    function updateSelect() {
-        $('.chosen-select').chosen(
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Протокол", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.Protocol, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.Protocol, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Дата", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.Date, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Підписаний", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.IsSigned, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.IsSigned, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Підтверджений", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.IsConfirmed, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.IsConfirmed, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Користувач", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.User, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.User, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
             {
-                allow_single_deselect: false,
-                disable_search_threshold: 10,
-                no_results_text: 'Не знайдено',
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Protocol)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @if (!item.IsSigned)
+                        {
+                            if (item.Date == null)
+                            {
+                                <span>Відсутня дата</span>
+                            }
+                            if (item.Protocol == null)
+                            {
+                                <span>Відсутній протокол</span>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("Sign", "ReportList"))
+                                {
+                                    @Html.Hidden("reportId", item.Id)
+                                    <button type="submit" class="btn btn-primary">Підписати</button>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @Html.YesNo(item.IsSigned)
+                        }
+                    </td>
+                    <td>
+                        @if (!item.IsConfirmed
+                            && (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
+                            && item.IsSigned)
+                        {
+                            using (Html.BeginForm("Confirm", "ReportList"))
+                            {
+                                @Html.Hidden("reportId", item.Id)
+                                <button type="submit" class="btn btn-success">Підтвердити</button>
+                            }
+                        }
+                        else
+                        {
+                            @Html.YesNo(item.IsConfirmed)
+                        }
+                    </td>
+                    <td>
+                        @foreach (var initial in item.I18nUserInitials)
+                        {
+                            if (initial.Language == Language.UA)
+                            {
+                                <span>@initial.FirstName&nbsp;@initial.LastName</span>
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        <div>
+                            <a href="@Url.Action("Preview", "Reports", new { reportId = item.Id })"
+                               class="btn btn-info"
+                               target="_blank">
+                                Переглянути
+                            </a>
+                            @if (!item.IsSigned)
+                            {
+                                if (@item.UserId == @userId)
+                                {
+                                    @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.Id }, new { @class = "btn btn-info" })
+                                }
+                            }
+                            @if ((User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
+                                    && item.IsSigned)
+                            {
+                                using (Html.BeginForm("Negate", "ReportList"))
+                                {
+                                    @Html.Hidden("reportId", item.Id)
+                                    <button type="submit" class="btn btn-danger">Повернути</button>
+                                }
+                            }
+                        </div>
+                        <div>
+                            @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
+                            @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                        </div>
+                            </td>
+                </tr>
             }
-        );
-    }
-    events();
-    updateSelect();
-</script>
-}
-Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
+        </tbody>
+    </table>
+</div>
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.dateFrom, ViewBag.dateTo, ViewBag.cathedra }))
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new ReportFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search }))
+
+
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/collapsible")
+}

@@ -111,8 +111,12 @@ h1, h2, h3, h4 {
     white-space:nowrap;
 }
 
-td a.btn{
-    margin-bottom:4px;
+td .btn {
+    margin-bottom: 4px;
+}
+
+td form{
+    display: inline-block;
 }
 
 .text-center{

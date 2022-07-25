@@ -92,6 +92,7 @@
     <Compile Include="Entities\ScienceDegree.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
     <Compile Include="Enums\OrderTypes\JournalOrderType.cs" />
+    <Compile Include="Enums\OrderTypes\ReportOrderType.cs" />
     <Compile Include="Enums\Quartile.cs" />
     <Compile Include="Enums\OrderTypes\ThemeOfScientificWorkOrderType.cs" />
     <Compile Include="Enums\OrderTypes\PublicationOrderType.cs" />

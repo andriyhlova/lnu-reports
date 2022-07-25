@@ -1,9 +1,12 @@
 ﻿@using SRS.Web.Models.Shared
 @model BaseFilterViewModel
-<div class="form-group">
-    <div>
-        <input name="Search" class="form-control" value="@Model.Search" placeholder="@ViewBag.SearchPlaceholder" />
+@if (!Model.HideSearch)
+{
+    <div class="form-group">
+        <div>
+            <input name="Search" class="form-control" value="@Model.Search" placeholder="@ViewBag.SearchPlaceholder" />
+        </div>
     </div>
-</div>
+}
 <input type="hidden" name="OrderBy" value="@Model.OrderBy" />
 <input type="hidden" name="Desc" value="@Model.Desc.ToString()" />

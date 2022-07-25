@@ -35,6 +35,7 @@ namespace SRS.Services.Utilities
             Bind<IAcademicStatusService>().To<AcademicStatusService>();
             Bind<IPublicationService>().To<PublicationService>();
             Bind<IJournalService>().To<JournalService>();
+            Bind<IReportService>().To<ReportService>();
             Bind(typeof(IUserService<>)).To(typeof(UserService<>));
             Bind<IRoleService>().To<RoleService>();
             Bind<IConfigurationProvider>().To<ConfigurationProvider>();

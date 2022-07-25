@@ -251,10 +251,12 @@
     <Compile Include="Controllers\ThemeOfScientificWorksController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Converter\ReportConverter.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapping\Profiles\ReportProfile.cs" />
     <Compile Include="Mapping\Profiles\SharedProfile.cs" />
     <Compile Include="Mapping\Profiles\PublicationProfile.cs" />
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
@@ -267,6 +269,7 @@
     <Compile Include="Models\CathedraReportViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
+    <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\Shared\DateRangeViewModel.cs" />
     <Compile Include="Models\Shared\PageInfoViewModel.cs" />

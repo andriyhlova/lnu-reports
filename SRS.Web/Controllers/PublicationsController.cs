@@ -24,7 +24,6 @@ namespace UserManagement.Controllers
     [Authorize]
     public class PublicationsController : Controller
     {
-        private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<PublicationModel> _publicationCrudService;
@@ -34,7 +33,6 @@ namespace UserManagement.Controllers
         private readonly IMapper _mapper;
 
         public PublicationsController(
-            IBaseCrudService<CathedraModel> cathedraCrudService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<PublicationModel> publicationCrudService,
@@ -43,7 +41,6 @@ namespace UserManagement.Controllers
             IUserService<UserInitialsModel> userWithInitialService,
             IMapper mapper)
         {
-            _cathedraCrudService = cathedraCrudService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _publicationCrudService = publicationCrudService;
@@ -155,7 +152,7 @@ namespace UserManagement.Controllers
         {
             if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
             {
-                ViewBag.AllCathedras = await _cathedraCrudService.GetAllAsync();
+                ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(null);
                 ViewBag.AllFaculties = await _facultyService.GetAllAsync();
             }
             else if (User.IsInRole(RoleNames.DeaneryAdmin))

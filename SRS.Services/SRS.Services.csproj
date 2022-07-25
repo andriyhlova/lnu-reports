@@ -96,6 +96,7 @@
     <Compile Include="Implementations\ConfigurationProvider.cs" />
     <Compile Include="Implementations\CathedraService.cs" />
     <Compile Include="Implementations\AcademicStatusService.cs" />
+    <Compile Include="Implementations\ReportService.cs" />
     <Compile Include="Implementations\RoleActionService.cs" />
     <Compile Include="Implementations\PublicationService.cs" />
     <Compile Include="Implementations\ThemeOfScientificWorkService.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Interfaces\IConfigurationProvider.cs" />
     <Compile Include="Interfaces\ICathedraService.cs" />
     <Compile Include="Interfaces\IAcademicStatusService.cs" />
+    <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\IRoleActionService.cs" />
     <Compile Include="Interfaces\IPublicationService.cs" />
     <Compile Include="Interfaces\IThemeOfScientificWorkService.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Interfaces\IBaseCrudService.cs" />
     <Compile Include="Mapping\Profiles\JournalProfile.cs" />
     <Compile Include="Mapping\Profiles\PositionProfile.cs" />
+    <Compile Include="Mapping\Profiles\ReportProfile.cs" />
     <Compile Include="Mapping\Profiles\ScientificDegreeProfile.cs" />
     <Compile Include="Mapping\Profiles\I18nUserInitialsProfile.cs" />
     <Compile Include="Mapping\Profiles\CathedraProfile.cs" />
@@ -125,7 +128,9 @@
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
+    <Compile Include="Models\BaseReportModel.cs" />
     <Compile Include="Models\Constants\PublicationValues.cs" />
+    <Compile Include="Models\FilterModels\ReportFilterModel.cs" />
     <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PublicationModel.cs" />
     <Compile Include="Models\UserInitialsModel.cs" />
@@ -157,6 +162,7 @@
     <Compile Include="Providers\RolesProvider.cs" />
     <Compile Include="Specifications\JournalSpecification.cs" />
     <Compile Include="Specifications\AcademicStatusSpecification.cs" />
+    <Compile Include="Specifications\ReportSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecification.cs" />
     <Compile Include="Specifications\ThemeOfScientificWorkSpecification.cs" />
     <Compile Include="Specifications\UserWithInitialsSpecification.cs" />

@@ -1,109 +1,89 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using PagedList;
-using SRS.Domain.Entities;
-using SRS.Repositories.Context;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+using SRS.Services.Interfaces;
+using SRS.Services.Models;
+using SRS.Services.Models.Constants;
+using SRS.Services.Models.FilterModels;
+using SRS.Web.Models.Reports;
+using SRS.Web.Models.Shared;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace UserManagement.Controllers
 {
-    [Authorize(Roles = "Працівник, Керівник кафедри, Адміністрація деканату")]
+    [Authorize]
     public class ReportListController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ICathedraService _cathedraService;
+        private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly IUserService<UserAccountModel> _userService;
+        private readonly IReportService _reportService;
+        private readonly IMapper _mapper;
 
-        // GET: ReportList
-        public ActionResult Index(int? page, string dateFrom, string dateTo, int? cathedra)
+        public ReportListController(
+            ICathedraService cathedraService,
+            IBaseCrudService<FacultyModel> facultyService,
+            IUserService<UserAccountModel> userService,
+            IReportService reportService,
+            IMapper mapper)
         {
-            db = new ApplicationDbContext();
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
-            string dateFromVerified = dateFrom ?? "";
-            string dateToVerified = dateTo ?? "";
-            ViewBag.dateFrom = dateFrom;
-            ViewBag.dateTo = dateTo;
-            ViewBag.page = pageNumber;
-            ViewBag.cathedra = cathedra ?? 0;
-            var currentUser = db.Users.Find(User.Identity.GetUserId());
-            List<Report> reports;
-            var parsedDateFrom = dateFromVerified != "" ? DateTime.Parse(dateFromVerified) : DateTime.Now;
-            var parsedDateTo = dateToVerified != "" ? DateTime.Parse(dateToVerified) : DateTime.Now;
-            var isCathedraAdmin = User.IsInRole("Керівник кафедри");
-            if (User.IsInRole("Адміністрація деканату"))
-            {
-                ViewBag.Cathedras = db.Cathedra.Include(x => x.Faculty)
-                    .Where(x => x.Faculty.Id == currentUser.Cathedra.Faculty.Id)
-                    .Select(x => new SelectListItem
-                    {
-                        Text = x.Name,
-                        Value = x.Id.ToString()
-                    })
-                    .ToList();
-                reports = db.Reports.Include(x => x.User.Cathedra.Faculty)
-                    .Where(x => (cathedra != null && x.User.Cathedra.Id == cathedra
-                        || cathedra == null  && x.User.Cathedra.Faculty.Id == currentUser.Cathedra.Faculty.Id)
-                    && (x.User.Id == currentUser.Id 
-                        || (x.User.Id != currentUser.Id 
-                                && (x.IsConfirmed || (x.IsSigned && isCathedraAdmin && x.User.Cathedra.Id == currentUser.Cathedra.Id)))))
-                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
-                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
-                .OrderByDescending(x => x.Date)
-                .ToList();
-            }
-            else if (isCathedraAdmin)
-            {
-                reports = db.Reports.Include(x=>x.User.Cathedra).Where(x => (x.User.Cathedra.Id == currentUser.Cathedra.Id)
-                && (x.User.Id == currentUser.Id || (x.User.Id != currentUser.Id && x.IsSigned)))
-                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
-                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
-                .OrderByDescending(x=>x.Date)
-                .ToList();
-            }
-            else
-            {
-                reports = db.Reports.Where(x => x.User.Id == currentUser.Id)
-                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && x.Date.Value >= parsedDateFrom))
-                .Where(x => dateToVerified == "" || (dateToVerified != "" && x.Date.Value <= parsedDateTo))
-                .OrderByDescending(x => x.Date)
-                .ToList();
-            }
-            return View(reports.ToPagedList(pageNumber, pageSize));
+            _cathedraService = cathedraService;
+            _facultyService = facultyService;
+            _userService = userService;
+            _reportService = reportService;
+            _mapper = mapper;
         }
 
-        public ActionResult Sign(int reportId)
+        public async Task<ActionResult> Index(ReportFilterViewModel filterViewModel)
         {
-            var report = db.Reports.Find(reportId);
-            report.IsSigned = true;
-            db.SaveChanges();
-            return RedirectToAction("Index", "ReportList");
-        }
-        public ActionResult Negate(int reportId)
-        {
-            var report = db.Reports.Find(reportId);
-            report.IsSigned = false;
-            report.IsConfirmed = false;
-            db.SaveChanges();
-            return RedirectToAction("Index", "ReportList");
-        }
-        public ActionResult Confirm(int reportId)
-        {
-            var report = db.Reports.Find(reportId);
-            report.IsConfirmed = true;
-            db.SaveChanges();
-            return RedirectToAction("Index", "ReportList");
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var filterModel = _mapper.Map<ReportFilterModel>(filterViewModel);
+            var reports = await _reportService.GetReportsForUserAsync(user, filterModel);
+            var total = await _reportService.CountReportsForUserAsync(user, filterModel);
+
+            await FillAvailableDepartments(user.FacultyId);
+
+            var viewModel = new ItemsViewModel<ReportFilterViewModel, BaseReportModel>
+            {
+                FilterModel = filterViewModel,
+                Items = new StaticPagedList<BaseReportModel>(reports, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+            };
+            return View(viewModel);
         }
 
-        protected override void Dispose(bool disposing)
+        [HttpPost]
+        public async Task<ActionResult> Sign(int reportId)
         {
-            if (disposing)
+            await _reportService.SignAsync(reportId);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Negate(int reportId)
+        {
+            await _reportService.ReturnAsync(reportId);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Confirm(int reportId)
+        {
+            await _reportService.ConfirmAsync(reportId);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task FillAvailableDepartments(int? facultyId)
+        {
+            if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
             {
-                db.Dispose();
+                ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(null);
+                ViewBag.AllFaculties = await _facultyService.GetAllAsync();
             }
-            base.Dispose(disposing);
+            else if (User.IsInRole(RoleNames.DeaneryAdmin))
+            {
+                ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
+            }
         }
     }
 }

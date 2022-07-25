@@ -11,5 +11,7 @@
         public bool Desc { get; set; }
 
         public string Search { get; set; }
+
+        public bool HideSearch { get; set; }
     }
 }
