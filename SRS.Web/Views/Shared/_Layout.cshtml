@@ -42,6 +42,13 @@
                                     <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
                                 }
                                 <li>@Html.ActionLink("Персональні звіти", "Index", "ReportList")</li>
+                                @if (User.IsInRole(RoleNames.Superadmin)
+                                    || User.IsInRole(RoleNames.RectorateAdmin)
+                                    || User.IsInRole(RoleNames.DeaneryAdmin)
+                                    || User.IsInRole(RoleNames.CathedraAdmin))
+                                {
+                                    <li>@Html.ActionLink("Кафедральні звіти", "Index", "CathedraReportList")</li>
+                                }
                             </ul>
                         </li>
                         if (User.IsInRole(RoleNames.Superadmin)

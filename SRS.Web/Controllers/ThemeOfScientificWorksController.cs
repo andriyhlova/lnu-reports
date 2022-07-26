@@ -6,6 +6,7 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Shared;
 using System;
 using System.Data;
@@ -50,8 +51,8 @@ namespace SRS.Web.Controllers
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
-            var scientifthemes = await _themeOfScientificWorkService.GetThemesForUserAsync(user, filterModel);
-            var total = await _themeOfScientificWorkService.CountThemesForUserAsync(user, filterModel);
+            var scientifthemes = await _themeOfScientificWorkService.GetForUserAsync(user, filterModel);
+            var total = await _themeOfScientificWorkService.CountForUserAsync(user, filterModel);
 
             await FillAvailableDepartments(user.FacultyId);
 

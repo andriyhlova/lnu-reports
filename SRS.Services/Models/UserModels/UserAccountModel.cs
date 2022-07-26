@@ -2,7 +2,7 @@
 using System.Linq;
 using SRS.Services.Providers;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.UserModels
 {
     public class UserAccountModel : BaseUserModel
     {

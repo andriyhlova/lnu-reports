@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity;
 @using PagedList.Mvc
 @using SRS.Domain.Enums
-@using SRS.Services.Models
+@using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Models.Constants
+@using SRS.Services.Models.ReportModels
 @using SRS.Web.Extensions
 @using SRS.Web.Models.Reports
 @using SRS.Web.Models.Shared
 
 @model ItemsViewModel<ReportFilterViewModel, BaseReportModel>
-@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Персональні звіти";
@@ -18,7 +18,6 @@
 <h2>Персональні звіти</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
 <form id="filter-container" class="collapse-target">
-    @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
     @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
@@ -144,7 +143,7 @@
                             @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
                             @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.Id }, new { @class = "btn btn-default" })
                         </div>
-                            </td>
+                    </td>
                 </tr>
             }
         </tbody>

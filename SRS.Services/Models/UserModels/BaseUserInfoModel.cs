@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Services.Models.BaseModels;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.UserModels
 {
     public class BaseUserInfoModel : BaseUserModel
     {

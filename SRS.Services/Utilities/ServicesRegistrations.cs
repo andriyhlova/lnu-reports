@@ -4,6 +4,8 @@ using SRS.Domain.Entities;
 using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
+using SRS.Services.Models.PublicationModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Utilities
 {
@@ -36,6 +38,7 @@ namespace SRS.Services.Utilities
             Bind<IPublicationService>().To<PublicationService>();
             Bind<IJournalService>().To<JournalService>();
             Bind<IReportService>().To<ReportService>();
+            Bind<ICathedraReportService>().To<CathedraReportService>();
             Bind(typeof(IUserService<>)).To(typeof(UserService<>));
             Bind<IRoleService>().To<RoleService>();
             Bind<IConfigurationProvider>().To<ConfigurationProvider>();

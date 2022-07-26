@@ -1,4 +1,4 @@
-﻿namespace SRS.Services.Models
+﻿namespace SRS.Services.Models.BaseModels
 {
     public class BaseModel
     {

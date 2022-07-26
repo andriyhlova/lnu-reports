@@ -5,8 +5,8 @@ using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Implementations
 {

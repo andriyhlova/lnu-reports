@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using SRS.Domain.Entities;
-using SRS.Domain.Enums;
+using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Extensions;
 using SRS.Services.Models.FilterModels;
 

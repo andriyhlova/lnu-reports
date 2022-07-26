@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using SRS.Domain.Entities;
 using SRS.Services.Extensions;
 
-namespace SRS.Domain.Specifications
+namespace SRS.Domain.Specifications.UserSpecifications
 {
     public class UserWithInitialsSpecification : BaseSpecification<ApplicationUser>
     {

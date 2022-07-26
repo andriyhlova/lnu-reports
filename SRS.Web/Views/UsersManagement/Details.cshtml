@@ -1,5 +1,6 @@
-﻿@using SRS.Services.Providers
-@model SRS.Services.Models.UserInfoModel
+﻿@using SRS.Services.Models.UserModels
+@using SRS.Services.Providers
+@model UserInfoModel
 
 @{
     ViewBag.Title = "Деталі";
@@ -131,7 +132,7 @@
 <p>
     @if (Model.Email != User.Identity.Name)
     {
-        @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id })
+        @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" })
         <span>|</span>
     }
 

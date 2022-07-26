@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Services.Models;
+using SRS.Services.Models.PublicationModels;
 
 namespace SRS.Services.Mapping.Profiles
 {

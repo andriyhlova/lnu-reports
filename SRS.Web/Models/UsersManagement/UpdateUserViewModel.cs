@@ -1,6 +1,4 @@
-﻿using SRS.Services.Attributes;
-using SRS.Services.Models;
-using System;
+﻿using SRS.Services.Models.UserModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

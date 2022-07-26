@@ -1,6 +1,6 @@
 ﻿using SRS.Services.Attributes;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.BaseModels
 {
     public class BaseValueModel : BaseModel
     {

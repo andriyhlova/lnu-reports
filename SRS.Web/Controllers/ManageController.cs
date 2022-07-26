@@ -9,6 +9,7 @@ using SRS.Web.Models.Account;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using AutoMapper;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Controllers
 {

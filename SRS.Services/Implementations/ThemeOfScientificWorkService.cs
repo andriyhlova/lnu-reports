@@ -9,6 +9,7 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Implementations
 {
@@ -47,7 +48,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<ThemeOfScientificWorkModel>(entity);
         }
 
-        public async Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
+        public async Task<IList<ThemeOfScientificWorkModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<ThemeOfScientificWork>>>>
             {
@@ -61,7 +62,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(scientificThemes ?? new List<ThemeOfScientificWork>());
         }
 
-        public async Task<int> CountThemesForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
+        public async Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
             var countFilterModel = new DepartmentFilterModel
             {

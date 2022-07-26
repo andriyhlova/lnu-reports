@@ -1,4 +1,6 @@
-﻿namespace SRS.Services.Models
+﻿using SRS.Services.Models.BaseModels;
+
+namespace SRS.Services.Models.UserModels
 {
     public class UserInitialsModel : BaseUserModel
     {

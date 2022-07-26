@@ -5,12 +5,14 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.ReportModels;
+using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace UserManagement.Controllers
+namespace SRS.Web.Controllers
 {
     [Authorize]
     public class ReportListController : Controller
@@ -39,8 +41,8 @@ namespace UserManagement.Controllers
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             var filterModel = _mapper.Map<ReportFilterModel>(filterViewModel);
-            var reports = await _reportService.GetReportsForUserAsync(user, filterModel);
-            var total = await _reportService.CountReportsForUserAsync(user, filterModel);
+            var reports = await _reportService.GetForUserAsync(user, filterModel);
+            var total = await _reportService.CountForUserAsync(user, filterModel);
 
             await FillAvailableDepartments(user.FacultyId);
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Services.Models;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Mapping.Profiles
 {

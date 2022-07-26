@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SRS.Services.Models;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Interfaces
 {

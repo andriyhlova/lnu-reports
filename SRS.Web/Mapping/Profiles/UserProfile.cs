@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SRS.Services.Models;
+using SRS.Services.Models.UserModels;
 using SRS.Web.Models.UsersManagement;
 
 namespace SRS.Services.Mapping.Profiles

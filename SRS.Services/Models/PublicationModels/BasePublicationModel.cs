@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SRS.Domain.Enums;
 using SRS.Services.Attributes;
+using SRS.Services.Models.BaseModels;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.PublicationModels
 {
     public class BasePublicationModel : BaseModel
     {

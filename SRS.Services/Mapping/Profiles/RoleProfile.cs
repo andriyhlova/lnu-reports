@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
-using SRS.Domain.Entities;
-using SRS.Services.Models;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Mapping.Profiles
 {

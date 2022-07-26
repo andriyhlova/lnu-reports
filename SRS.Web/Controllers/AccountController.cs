@@ -14,6 +14,7 @@ using SRS.Services.Models;
 using SRS.Web.Models.Account;
 using AutoMapper;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Controllers
 {

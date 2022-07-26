@@ -1,4 +1,4 @@
-﻿namespace SRS.Domain.Enums
+﻿namespace SRS.Domain.Enums.OrderTypes
 {
     public enum PublicationOrderType
     {

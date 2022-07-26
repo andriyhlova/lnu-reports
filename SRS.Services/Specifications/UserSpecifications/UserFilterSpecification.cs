@@ -3,10 +3,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Extensions;
 using SRS.Services.Models.FilterModels;
 
-namespace SRS.Domain.Specifications
+namespace SRS.Domain.Specifications.UserSpecifications
 {
     public class UserFilterSpecification : BaseSpecification<ApplicationUser>
     {

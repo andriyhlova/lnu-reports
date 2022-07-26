@@ -1,25 +1,22 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
-using SRS.Domain.Entities;
 using SRS.Domain.Enums;
-using SRS.Repositories.Context;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.PublicationModels;
+using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Publications;
 using SRS.Web.Models.Shared;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace UserManagement.Controllers
+namespace SRS.Web.Controllers
 {
     [Authorize]
     public class PublicationsController : Controller
@@ -55,8 +52,8 @@ namespace UserManagement.Controllers
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             var filterModel = _mapper.Map<PublicationFilterModel>(filterViewModel);
-            var publications = await _publicationService.GetPublicationsForUserAsync(user, filterModel);
-            var total = await _publicationService.CountPublicationsForUserAsync(user, filterModel);
+            var publications = await _publicationService.GetForUserAsync(user, filterModel);
+            var total = await _publicationService.CountForUserAsync(user, filterModel);
 
             await FillAvailableDepartments(user.FacultyId);
 

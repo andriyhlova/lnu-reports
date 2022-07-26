@@ -5,6 +5,7 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Shared;
 using SRS.Web.Models.UsersManagement;
 using System.Threading.Tasks;
@@ -51,8 +52,8 @@ namespace SRS.Web.Controllers
         {
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
             var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
-            var users = await _baseUserInfoService.GetAsync(currentUser, filterModel);
-            var total = await _baseUserInfoService.CountAsync(currentUser, filterModel);
+            var users = await _baseUserInfoService.GetForUserAsync(currentUser, filterModel);
+            var total = await _baseUserInfoService.CountForUserAsync(currentUser, filterModel);
 
             await FillAvailableDepartments(currentUser.FacultyId);
 

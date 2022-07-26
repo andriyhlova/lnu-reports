@@ -1,5 +1,5 @@
 ﻿using SRS.Domain.Entities;
-using SRS.Domain.Enums;
+using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Models.FilterModels;
 
 namespace SRS.Domain.Specifications

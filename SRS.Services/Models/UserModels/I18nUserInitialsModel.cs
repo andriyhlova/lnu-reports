@@ -1,6 +1,7 @@
 ﻿using SRS.Domain.Enums;
+using SRS.Services.Models.BaseModels;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.UserModels
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Old name")]
     public class I18nUserInitialsModel : BaseModel

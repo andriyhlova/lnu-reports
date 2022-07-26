@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using SRS.Services.Models;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Interfaces
 {
@@ -11,8 +12,8 @@ namespace SRS.Services.Interfaces
 
         Task<ThemeOfScientificWorkModel> UpdateAsync(UserAccountModel user, ThemeOfScientificWorkModel model);
 
-        Task<IList<ThemeOfScientificWorkModel>> GetThemesForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<IList<ThemeOfScientificWorkModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
 
-        Task<int> CountThemesForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
     }
 }

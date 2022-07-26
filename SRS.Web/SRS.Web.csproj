@@ -243,7 +243,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
-    <Compile Include="Controllers\ReportCathedraListController.cs" />
+    <Compile Include="Controllers\CathedraReportListController.cs" />
     <Compile Include="Controllers\ReportListController.cs" />
     <Compile Include="Controllers\ReportsCathedraController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -256,6 +256,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapping\Profiles\CathedraReportProfile.cs" />
     <Compile Include="Mapping\Profiles\ReportProfile.cs" />
     <Compile Include="Mapping\Profiles\SharedProfile.cs" />
     <Compile Include="Mapping\Profiles\PublicationProfile.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="Models\CathedraReportViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
+    <Compile Include="Models\Reports\CathedraReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\Shared\DateRangeViewModel.cs" />
@@ -414,7 +416,7 @@
     <Content Include="Views\ReportList\Index.cshtml" />
     <Content Include="Views\ReportsCathedra\EditorTemplates\PublicationOption.cshtml" />
     <Content Include="Views\ReportsCathedra\Index.cshtml" />
-    <Content Include="Views\ReportCathedraList\Index.cshtml" />
+    <Content Include="Views\CathedraReportList\Index.cshtml" />
     <Content Include="Views\AcademicStatus\Create.cshtml" />
     <Content Include="Views\AcademicStatus\Delete.cshtml" />
     <Content Include="Views\AcademicStatus\Edit.cshtml" />

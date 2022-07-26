@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Domain.Specifications;
+using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Implementations
 {
@@ -41,7 +41,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<TUserModel>(user);
         }
 
-        public async Task<IList<TUserModel>> GetAsync(UserAccountModel user, DepartmentFilterModel filterModel)
+        public async Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<ApplicationUser>>>>
             {
@@ -55,7 +55,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<TUserModel>>(users ?? new List<ApplicationUser>());
         }
 
-        public async Task<int> CountAsync(UserAccountModel user, DepartmentFilterModel filterModel)
+        public async Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
             var countFilterModel = new DepartmentFilterModel
             {

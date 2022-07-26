@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SRS.Services.Models;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Interfaces
 {
@@ -10,12 +10,12 @@ namespace SRS.Services.Interfaces
     {
         Task<TUserModel> GetByIdAsync(string id);
 
-        Task<IList<TUserModel>> GetAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
 
         Task<TUserModel> UpdateAsync(TUserModel user, string approvedById = null);
 
         Task<bool> DeleteAsync(string id);
 
-        Task<int> CountAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
     }
 }

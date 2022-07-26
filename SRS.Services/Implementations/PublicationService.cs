@@ -7,9 +7,10 @@ using SRS.Domain.Entities;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.PublicationModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Implementations
 {
@@ -23,7 +24,7 @@ namespace SRS.Services.Implementations
             _roleActionService = roleActionService;
         }
 
-        public async Task<IList<BasePublicationModel>> GetPublicationsForUserAsync(UserAccountModel user, PublicationFilterModel filterModel)
+        public async Task<IList<BasePublicationModel>> GetForUserAsync(UserAccountModel user, PublicationFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<Publication>>>>
             {
@@ -38,7 +39,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<BasePublicationModel>>(publications ?? new List<Publication>());
         }
 
-        public async Task<int> CountPublicationsForUserAsync(UserAccountModel user, PublicationFilterModel filterModel)
+        public async Task<int> CountForUserAsync(UserAccountModel user, PublicationFilterModel filterModel)
         {
             var countFilterModel = new PublicationFilterModel
             {
@@ -54,9 +55,9 @@ namespace SRS.Services.Implementations
             {
                 [RoleNames.Superadmin] = async () => await _repo.CountAsync(new PublicationSpecification(countFilterModel, null)),
                 [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new PublicationSpecification(countFilterModel, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new PublicationSpecification(filterModel, x => x.User.Any(u => u.Cathedra.FacultyId == user.FacultyId))),
-                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new PublicationSpecification(filterModel, x => x.User.Any(u => u.CathedraId == user.CathedraId))),
-                [RoleNames.Worker] = async () => await _repo.CountAsync(new PublicationSpecification(filterModel, x => x.User.Any(u => u.Id == user.Id)))
+                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new PublicationSpecification(countFilterModel, x => x.User.Any(u => u.Cathedra.FacultyId == user.FacultyId))),
+                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new PublicationSpecification(countFilterModel, x => x.User.Any(u => u.CathedraId == user.CathedraId))),
+                [RoleNames.Worker] = async () => await _repo.CountAsync(new PublicationSpecification(countFilterModel, x => x.User.Any(u => u.Id == user.Id)))
             };
 
             return await _roleActionService.TakeRoleActionAsync(user, actions);

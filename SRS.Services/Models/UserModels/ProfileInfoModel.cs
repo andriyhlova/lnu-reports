@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using SRS.Services.Models.BaseModels;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.UserModels
 {
     public class ProfileInfoModel : BaseUserModel
     {

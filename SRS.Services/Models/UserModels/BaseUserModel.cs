@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.UserModels
 {
     public class BaseUserModel
     {

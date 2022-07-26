@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Services.Models.BaseModels;
+using SRS.Services.Models.UserModels;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.ReportModels
 {
     public class BaseReportModel : BaseModel
     {

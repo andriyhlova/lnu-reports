@@ -1,0 +1,97 @@
+﻿@using PagedList.Mvc
+@using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Models.CathedraReportModels
+@using SRS.Web.Models.Reports
+@using SRS.Web.Models.Shared
+
+@model ItemsViewModel<CathedraReportFilterViewModel, BaseCathedraReportModel>
+
+@{
+    ViewBag.Title = "Кафедральні звіти";
+}
+
+<h2>Кафедральні звіти</h2>
+
+<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
+<form id="filter-container" class="collapse-target">
+    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Застосувати" />
+    </div>
+</form>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Протокол", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Protocol, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Protocol, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Дата", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Date, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Кафедра", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Cathedra, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Cathedra, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Керівник кафедри", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.User, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.User, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Protocol)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CathedraName)
+                    </td>
+                    <td>
+                        @foreach (var initial in item.I18nUserInitials)
+                        {
+                            if (initial.Language == SRS.Domain.Enums.Language.UA)
+                            {
+                                <span>@initial.FirstName&nbsp;@initial.LastName</span>
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = item.Id })"
+                           class="btn btn-info"
+                           target="_blank">
+                            Переглянути
+                        </a>
+                        @Html.ActionLink("PDF", "PreviewPdf", "ReportsCathedra", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
+                        @Html.ActionLink("LaTex", "GetLatex", "ReportsCathedra", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new CathedraReportFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search }))
+
+
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/collapsible")
+}
