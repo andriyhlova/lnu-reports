@@ -132,12 +132,18 @@
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
     <Compile Include="Models\CathedraReportModels\BaseCathedraReportModel.cs" />
+    <Compile Include="Models\FilterModels\ReportPublicationFilterModel.cs" />
+    <Compile Include="Models\ReportModels\ReportModel.cs" />
+    <Compile Include="Models\ReportModels\ReportPublicationsModel.cs" />
     <Compile Include="Models\ReportModels\BaseReportModel.cs" />
     <Compile Include="Models\Constants\PublicationValues.cs" />
     <Compile Include="Models\FilterModels\CathedraReportFilterModel.cs" />
     <Compile Include="Models\FilterModels\ReportFilterModel.cs" />
     <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PublicationModels\PublicationModel.cs" />
+    <Compile Include="Models\ReportModels\ReportOtherInfoModel.cs" />
+    <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
+    <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
     <Compile Include="Models\UserModels\UserInitialsModel.cs" />
     <Compile Include="Models\UserModels\BaseUserModel.cs" />
     <Compile Include="Models\Constants\Dates.cs" />
@@ -168,6 +174,8 @@
     <Compile Include="Specifications\JournalSpecification.cs" />
     <Compile Include="Specifications\AcademicStatusSpecification.cs" />
     <Compile Include="Specifications\CathedraReportSpecification.cs" />
+    <Compile Include="Specifications\PublicationSpecifications\PublicationSpecification.cs" />
+    <Compile Include="Specifications\PublicationSpecifications\ReportPublicationSpecification.cs" />
     <Compile Include="Specifications\ReportSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecification.cs" />
     <Compile Include="Specifications\ThemeOfScientificWorkSpecification.cs" />

@@ -81,5 +81,13 @@ namespace SRS.Services.Implementations
 
             return await _roleActionService.TakeRoleActionAsync(user, actions);
         }
+
+        public async Task<IList<ThemeOfScientificWorkModel>> GetActiveForFacultyAsync(int? facultyId)
+        {
+            var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
+            var themes = await _repo.GetAsync(x => (facultyId == null || x.Cathedra.FacultyId == facultyId)
+                                                    && x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear);
+            return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
+        }
     }
 }

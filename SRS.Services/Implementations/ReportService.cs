@@ -6,6 +6,7 @@ using SRS.Domain.Entities;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
+using SRS.Services.Models.BaseModels;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
@@ -86,6 +87,39 @@ namespace SRS.Services.Implementations
             report.IsConfirmed = false;
             await _repo.UpdateAsync(report);
             return true;
+        }
+
+        public async Task<bool> UpsertAsync<TModel>(TModel model, string currentUserId)
+            where TModel : BaseModel
+        {
+            var report = new Report();
+            if (model.Id != 0)
+            {
+                report = await _repo.GetAsync(model.Id, new BaseSpecification<Report>(asNoTracking: true));
+                _mapper.Map(model, report);
+                await _repo.UpdateAsync(report);
+                return true;
+            }
+
+            report.UserId = currentUserId;
+            _mapper.Map(model, report);
+            await _repo.AddAsync(report);
+            return true;
+        }
+
+        public async Task<ReportModel> GetUserReportAsync(string userId, int? reportId)
+        {
+            Report oldReport;
+            if (!reportId.HasValue)
+            {
+                oldReport = await _repo.GetFirstOrDefaultAsync(x => !x.IsSigned && x.UserId == userId);
+            }
+            else
+            {
+                oldReport = await _repo.GetAsync(reportId.Value);
+            }
+
+            return _mapper.Map<ReportModel>(oldReport ?? new Report());
         }
     }
 }

@@ -33,6 +33,9 @@ namespace SRS.Web
                         "~/Scripts/Chosen/DocSupport/prism.js",
                         "~/Scripts/Chosen/custom.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/steps").Include(
+                        "~/Scripts/Steps/jquery.steps.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/departmentSelector").Include(
                         "~/Scripts/Common/departmentSelector.js"));
 
@@ -50,6 +53,9 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/publications/edit").Include(
                         "~/Scripts/Publications/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/reports/edit").Include(
+                        "~/Scripts/Reports/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)
@@ -64,6 +70,9 @@ namespace SRS.Web
                       "~/Content/Chosen/chosen.css",
                       "~/Content/Chosen/custom.css"));
 
+            bundles.Add(new StyleBundle("~/Content/steps/bundle").Include(
+                      "~/Content/Steps/steps.css"));
+
             bundles.Add(new StyleBundle("~/Content/usersManagement/bundle").Include(
                       "~/Content/UsersManagement/edit.css"));
 
@@ -72,6 +81,9 @@ namespace SRS.Web
 
             bundles.Add(new StyleBundle("~/Content/search/bundle").Include(
                       "~/Content/Search/search.css"));
+
+            bundles.Add(new StyleBundle("~/Content/reports/bundle").Include(
+                      "~/Content/Reports/edit.css"));
         }
     }
 }

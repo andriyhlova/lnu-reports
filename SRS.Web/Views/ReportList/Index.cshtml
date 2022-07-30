@@ -11,11 +11,11 @@
 @model ItemsViewModel<ReportFilterViewModel, BaseReportModel>
 
 @{
-    ViewBag.Title = "Персональні звіти";
+    ViewBag.Title = "Індивідуальні звіти";
     var userId = User.Identity.GetUserId();
 }
 
-<h2>Персональні звіти</h2>
+<h2>Індивідуальні звіти</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
 <form id="filter-container" class="collapse-target">
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}

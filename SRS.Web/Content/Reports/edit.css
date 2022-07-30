@@ -1,0 +1,19 @@
+﻿.publication-block {
+    margin-top: 25px;
+}
+
+.publication-header {
+    font-weight: 600;
+}
+
+.section-body {
+    overflow-y: auto;
+}
+
+.wizard > .content {
+    background: #fbfdfe;
+}
+
+.wizard > .content > .body {
+    width: 100%;
+}

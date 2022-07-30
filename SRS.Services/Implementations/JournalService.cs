@@ -19,8 +19,8 @@ namespace SRS.Services.Implementations
 
         public async Task<IList<JournalModel>> GetAllAsync(BaseFilterModel filterModel)
         {
-            var academicStatuses = await _repo.GetAsync(new JournalSpecification(filterModel));
-            return _mapper.Map<IList<JournalModel>>(academicStatuses);
+            var journals = await _repo.GetAsync(new JournalSpecification(filterModel));
+            return _mapper.Map<IList<JournalModel>>(journals);
         }
 
         public async Task<int> CountAsync(BaseFilterModel filterModel)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Domain.Specifications;
+using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.Constants;
@@ -61,6 +61,12 @@ namespace SRS.Services.Implementations
             };
 
             return await _roleActionService.TakeRoleActionAsync(user, actions);
+        }
+
+        public async Task<IList<BasePublicationModel>> GetAvailableReportPublicationsAsync(ReportPublicationFilterModel filterModel)
+        {
+            var publications = await _repo.GetAsync(new ReportPublicationSpecification(filterModel));
+            return _mapper.Map<IList<BasePublicationModel>>(publications);
         }
     }
 }

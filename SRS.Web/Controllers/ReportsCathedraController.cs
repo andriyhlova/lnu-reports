@@ -3,6 +3,7 @@ using Rotativa;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Repositories.Context;
+using SRS.Web.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -92,7 +93,7 @@ namespace UserManagement.Controllers
             var publicationOptions = allPublications
                 .Select(x =>
                 {
-                    var option = new PublicationOption()
+                    var option = new CheckboxListItem()
                     {
                         Checked = true,
                         Id = x.Id,
@@ -257,7 +258,7 @@ namespace UserManagement.Controllers
             viewModel.PrintedPublicationBudgetTheme = allPublications
                 .Select(x =>
                 {
-                    var option = new PublicationOption()
+                    var option = new CheckboxListItem()
                     {
                         Checked = false,
                         Id = x.Id,
@@ -273,7 +274,7 @@ namespace UserManagement.Controllers
             viewModel.PrintedPublicationHospDohovirTheme = allPublications
                 .Select(x =>
                 {
-                    var option = new PublicationOption()
+                    var option = new CheckboxListItem()
                     {
                         Checked = false,
                         Id = x.Id,
@@ -289,7 +290,7 @@ namespace UserManagement.Controllers
             viewModel.PrintedPublicationThemeInWorkTime = allPublications
                 .Select(x =>
                 {
-                    var option = new PublicationOption()
+                    var option = new CheckboxListItem()
                     {
                         Checked = false,
                         Id = x.Id,

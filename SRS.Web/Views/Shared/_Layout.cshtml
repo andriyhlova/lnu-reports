@@ -37,11 +37,11 @@
                                 {
                                     <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
                                 }
-                                @if (User.IsInRole("Працівник"))
+                                @if (User.IsInRole(RoleNames.Worker))
                                 {
                                     <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
                                 }
-                                <li>@Html.ActionLink("Персональні звіти", "Index", "ReportList")</li>
+                                <li>@Html.ActionLink("Індивідуальні звіти", "Index", "ReportList")</li>
                                 @if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin)
                                     || User.IsInRole(RoleNames.DeaneryAdmin)

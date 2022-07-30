@@ -257,6 +257,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mapping\Profiles\CathedraReportProfile.cs" />
+    <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\ReportProfile.cs" />
     <Compile Include="Mapping\Profiles\SharedProfile.cs" />
     <Compile Include="Mapping\Profiles\PublicationProfile.cs" />
@@ -271,14 +272,17 @@
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\Reports\CathedraReportFilterViewModel.cs" />
+    <Compile Include="Models\Reports\ReportPublicationsFilterViewModel.cs" />
+    <Compile Include="Models\Reports\ReportPublicationsViewModel.cs" />
     <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
-    <Compile Include="Models\ReportViewModel.cs" />
+    <Compile Include="Models\Reports\ReportViewModel.cs" />
     <Compile Include="Models\Shared\DateRangeViewModel.cs" />
     <Compile Include="Models\Shared\PageInfoViewModel.cs" />
     <Compile Include="Models\Shared\OrderDirectionViewModel.cs" />
     <Compile Include="Models\Shared\BaseFilterViewModel.cs" />
     <Compile Include="Models\Shared\ItemsViewModel.cs" />
     <Compile Include="Models\Shared\DepartmentFilterViewModel.cs" />
+    <Compile Include="Models\Shared\CheckboxListItem.cs" />
     <Compile Include="Models\UsersManagement\UpdateUserViewModel.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -302,9 +306,11 @@
     <Content Include="Content\Chosen\DocSupport\prism.css" />
     <Content Include="Content\Chosen\DocSupport\style.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Reports\edit.css" />
     <Content Include="Content\Search\search.css" />
     <Content Include="Content\step.css" />
     <Content Include="Content\Publications\edit.css" />
+    <Content Include="Content\Steps\steps.css" />
     <Content Include="Content\UsersManagement\edit.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -351,8 +357,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\composer.json" />
-    <Content Include="Scripts\jquery.steps.js" />
-    <Content Include="Scripts\jquery.steps.min.js" />
+    <Content Include="Scripts\Reports\edit.js" />
+    <Content Include="Scripts\Steps\jquery.steps.js" />
+    <Content Include="Scripts\Steps\jquery.steps.min.js" />
     <Content Include="Scripts\LICENSE.md" />
     <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -412,7 +419,7 @@
     <Content Include="Views\ThemeOfScientificWorks\Edit.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Index.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
-    <Content Include="Views\Reports\EditorTemplates\PublicationOption.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckboxListItem.cshtml" />
     <Content Include="Views\ReportList\Index.cshtml" />
     <Content Include="Views\ReportsCathedra\EditorTemplates\PublicationOption.cshtml" />
     <Content Include="Views\ReportsCathedra\Index.cshtml" />

@@ -111,5 +111,22 @@ namespace SRS.Repositories.Implementations
         protected virtual void UpdateRelatedEntities(TEntity existingEntity, TEntity newEntity)
         {
         }
+
+        protected void UpdateCollection<TRelatedEntity>(ICollection<TRelatedEntity> existingCollection, ICollection<TRelatedEntity> newCollection)
+            where TRelatedEntity : BaseEntity
+        {
+            var toDelete = existingCollection.Where(x => !newCollection.Any(y => y.Id == x.Id)).ToList();
+            foreach (var item in toDelete)
+            {
+                existingCollection.Remove(item);
+            }
+
+            var toAdd = newCollection.Where(x => !existingCollection.Any(y => y.Id == x.Id)).ToList();
+            foreach (var item in toAdd)
+            {
+                _context.Entry(item).State = EntityState.Unchanged;
+                existingCollection.Add(item);
+            }
+        }
     }
 }

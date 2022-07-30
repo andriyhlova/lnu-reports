@@ -1,4 +1,5 @@
 ﻿using SRS.Domain.Entities;
+using SRS.Web.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace UserManagement.Models.Reports
         public string AllDescriptionBudgetTheme { get; set; }
         public string CVBudgetTheme { get; set; }//2.1
         public string DefensesOfCoworkersBudgetTheme { get; set; }//2.2
-        public List<PublicationOption> PrintedPublicationBudgetTheme { get; set; }//2.3
+        public List<CheckboxListItem> PrintedPublicationBudgetTheme { get; set; }//2.3
         public string ApplicationAndPatentsOnInventionBudgetTheme { get; set; }//2.4
         public string OtherBudgetTheme { get; set; }//2.5
 
@@ -22,7 +23,7 @@ namespace UserManagement.Models.Reports
         public string AllDescriptionThemeInWorkTime { get; set; }
         public string CVThemeInWorkTime { get; set; }//3.1
         public string DefensesOfCoworkersThemeInWorkTime { get; set; }//3.2
-        public List<PublicationOption> PrintedPublicationThemeInWorkTime { get; set; }//3.3
+        public List<CheckboxListItem> PrintedPublicationThemeInWorkTime { get; set; }//3.3
         public string ApplicationAndPatentsOnInventionThemeInWorkTime { get; set; }//3.4
         public string OtherThemeInWorkTime { get; set; }//3.5
 
@@ -30,7 +31,7 @@ namespace UserManagement.Models.Reports
         public string AllDescriptionHospDohovirTheme { get; set; }
         public string CVHospDohovirTheme { get; set; }//4.1
         public string DefensesOfCoworkersHospDohovirTheme { get; set; }//4.2
-        public List<PublicationOption> PrintedPublicationHospDohovirTheme { get; set; }//4.3
+        public List<CheckboxListItem> PrintedPublicationHospDohovirTheme { get; set; }//4.3
         public string ApplicationAndPatentsOnInventionHospDohovirTheme { get; set; }//4.4
         public string OtherHospDohovirTheme { get; set; }//4.5
 

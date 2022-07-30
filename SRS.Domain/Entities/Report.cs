@@ -40,6 +40,9 @@ namespace SRS.Domain.Entities
         [Column("User_Id")]
         public string UserId { get; set; }
 
+        [Column("ThemeOfScientificWork_Id")]
+        public int? ThemeOfScientificWorkId { get; set; }// Пункт 1
+
         public virtual ThemeOfScientificWork ThemeOfScientificWork { get; set; }// Пункт 1
 
         public virtual ApplicationUser User { get; set; }

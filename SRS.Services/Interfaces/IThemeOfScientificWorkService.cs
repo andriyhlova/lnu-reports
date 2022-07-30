@@ -15,5 +15,7 @@ namespace SRS.Services.Interfaces
         Task<IList<ThemeOfScientificWorkModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
 
         Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+
+        Task<IList<ThemeOfScientificWorkModel>> GetActiveForFacultyAsync(int? facultyId);
     }
 }

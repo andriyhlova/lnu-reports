@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SRS.Services.Models.BaseModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
@@ -17,5 +18,10 @@ namespace SRS.Services.Interfaces
         Task<bool> ConfirmAsync(int id);
 
         Task<bool> ReturnAsync(int id);
+
+        Task<bool> UpsertAsync<TModel>(TModel model, string currentUserId)
+            where TModel : BaseModel;
+
+        Task<ReportModel> GetUserReportAsync(string userId, int? reportId);
     }
 }

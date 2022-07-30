@@ -1,4 +1,5 @@
 ﻿using SRS.Domain.Entities;
+using SRS.Web.Models.Shared;
 using System.Linq;
 using UserManagement.Models.Reports;
 
@@ -6,61 +7,6 @@ namespace UserManagement.Converter
 {
     public class ReportConverter
     {
-
-        public static ReportViewModel ConvertToViewModel(Report report)
-        {
-            var viewModel = new ReportViewModel()
-            {
-                Id = report.Id,
-                ParticipationInGrands = report.ParticipationInGrands,
-                ScientificTrainings = report.ScientificTrainings,
-                ScientificControlDoctorsWork = report.ScientificControlDoctorsWork,
-                ScientificControlStudentsWork = report.ScientificControlStudentsWork,
-                ApplicationForInevention = report.ApplicationForInevention,
-                ThemeOfScientificWorkDescription = report.ThemeOfScientificWorkDescription,
-                PatentForInevention = report.PatentForInevention,
-                ReviewForTheses = report.ReviewForTheses,
-                MembershipInCouncils = report.MembershipInCouncils,
-                Other = report.Other,
-                Protocol = report.Protocol,
-                Date = report.Date,
-                IsSigned = report.IsSigned,
-                IsConfirmed = report.IsConfirmed,
-                ThemeOfScientificWorkId = report.ThemeOfScientificWork?.Id,
-            };
-
-            viewModel.PrintedPublication = report.PrintedPublication.Select(x => new PublicationOption() { Id = x.Id, Checked = true, Name = x.Name }).ToList();
-            viewModel.AcceptedToPrintPublication = report.AcceptedToPrintPublication.Select(x => new PublicationOption() { Id = x.Id, Checked = true, Name = x.Name }).ToList();
-            viewModel.RecomendedPublication = report.RecomendedPublication.Select(x => new PublicationOption() { Id = x.Id, Checked = true, Name = x.Name }).ToList();
-
-            return viewModel;
-        }
-
-        public static Report ConvertToEntity(ReportViewModel reportViewModel)
-        {
-            var report = new Report()
-            {
-                ParticipationInGrands = reportViewModel.ParticipationInGrands,
-                ScientificTrainings = reportViewModel.ScientificTrainings,
-                ScientificControlDoctorsWork = reportViewModel.ScientificControlDoctorsWork,
-                ScientificControlStudentsWork = reportViewModel.ScientificControlStudentsWork,
-                ApplicationForInevention = reportViewModel.ApplicationForInevention,
-                ThemeOfScientificWorkDescription = reportViewModel.ThemeOfScientificWorkDescription,
-                PatentForInevention = reportViewModel.PatentForInevention,
-                ReviewForTheses = reportViewModel.ReviewForTheses,
-                MembershipInCouncils = reportViewModel.MembershipInCouncils,
-                Other = reportViewModel.Other,
-                Protocol = reportViewModel.Protocol,
-                Date = reportViewModel.Date,
-                IsSigned = reportViewModel.IsSigned,
-                IsConfirmed = reportViewModel.IsConfirmed,
-            };
-
-            return report;
-        }
-
-
-
         public static CathedraReportViewModel ConvertToViewModel(CathedraReport report)
         {
             var viewModel = new CathedraReportViewModel()
@@ -101,9 +47,9 @@ namespace UserManagement.Converter
                 ThemeInWorkTimeId = report.ThemeInWorkTime?.Id
             };
 
-            viewModel.PrintedPublicationBudgetTheme = report.PrintedPublicationBudgetTheme.Select(x => new PublicationOption() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
-            viewModel.PrintedPublicationHospDohovirTheme = report.PrintedPublicationHospDohovirTheme.Select(x => new PublicationOption() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
-            viewModel.PrintedPublicationThemeInWorkTime = report.PrintedPublicationThemeInWorkTime.Select(x => new PublicationOption() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
+            viewModel.PrintedPublicationBudgetTheme = report.PrintedPublicationBudgetTheme.Select(x => new CheckboxListItem() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
+            viewModel.PrintedPublicationHospDohovirTheme = report.PrintedPublicationHospDohovirTheme.Select(x => new CheckboxListItem() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
+            viewModel.PrintedPublicationThemeInWorkTime = report.PrintedPublicationThemeInWorkTime.Select(x => new CheckboxListItem() { Id = x.Id, Checked = false, Name = x.Name }).ToList();
 
             return viewModel;
         }

@@ -11,5 +11,7 @@ namespace SRS.Services.Interfaces
         Task<IList<BasePublicationModel>> GetForUserAsync(UserAccountModel user, PublicationFilterModel filterModel);
 
         Task<int> CountForUserAsync(UserAccountModel user, PublicationFilterModel filterModel);
+
+        Task<IList<BasePublicationModel>> GetAvailableReportPublicationsAsync(ReportPublicationFilterModel filterModel);
     }
 }
