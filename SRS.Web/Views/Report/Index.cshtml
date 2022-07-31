@@ -9,7 +9,7 @@
 <div id="wizard">
     <h3>Публікації</h3>
     <section class="section-body">
-        <form asp-controller="Reports" asp-action="Index" id="dateForm">
+        <form asp-controller="Report" asp-action="Index" id="dateForm">
             <div class="form-group">
                 <label class="control-label">
                     Період з
@@ -30,7 +30,7 @@
             <input type="hidden" name="reportId" value="@Model.Id" />
             <button type="submit" class="btn btn-default">Пошук</button>
         </form>
-        @using (@Html.BeginForm("UpdatePublications", "Reports", FormMethod.Post, new { @id = "updatePublicationForm" }))
+        @using (@Html.BeginForm("UpdatePublications", "Report", FormMethod.Post, new { @id = "updatePublicationForm" }))
         {
             if (Model.PrintedPublication.Count > 0)
             {
@@ -71,7 +71,7 @@
     </section>
     <h3>Наукова робота</h3>
     <section class="section-body">
-        @using (@Html.BeginForm("UpdateScientificWork", "Reports", FormMethod.Post, new { @id = "updateThemeForm" }))
+        @using (@Html.BeginForm("UpdateScientificWork", "Report", FormMethod.Post, new { @id = "updateThemeForm" }))
         {
             <div class="form-group">
                 <label class="control-label">
@@ -79,13 +79,13 @@
                 </label>
                 <div>
                     @Html.DropDownList("ThemeOfScientificWorkId",
-                                                                        new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
-                                                                        "Виберіть тему наукової роботи",
-                                                                        new
-                                                                        {
-                                                                            @class = "form-control chosen-select",
-                                                                            @Value = Model.ThemeOfScientificWorkId
-                                                                        })
+                                                                             new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
+                                                                             "Виберіть тему наукової роботи",
+                                                                             new
+                                                                             {
+                                                                                 @class = "form-control chosen-select",
+                                                                                 @Value = Model.ThemeOfScientificWorkId
+                                                                             })
                 </div>
             </div>
             <div class="form-group">
@@ -107,7 +107,7 @@
     </section>
     <h3>Інше</h3>
     <section class="section-body">
-        @using (@Html.BeginForm("UpdateOtherInfo", "Reports", FormMethod.Post, new { @id = "updateOtherForm" }))
+        @using (@Html.BeginForm("UpdateOtherInfo", "Report", FormMethod.Post, new { @id = "updateOtherForm" }))
         {
             <div class="form-group">
                 <label class="control-label">
@@ -246,7 +246,7 @@
 
     <h3>Дата та протокол</h3>
     <section class="section-body">
-        @using (@Html.BeginForm("UpdateFinalInfo", "Reports", FormMethod.Post, new { @id = "updateFinishForm" }))
+        @using (@Html.BeginForm("UpdateFinalInfo", "Report", FormMethod.Post, new { @id = "updateFinishForm" }))
         {
             <div class="form-group">
                 <label class="control-label">
@@ -272,7 +272,7 @@
     </section>
     <h3>Завершення</h3>
     <section class="section-body">
-        @using (@Html.BeginForm("Finalize", "Reports", FormMethod.Post, new { @id = "finalizeForm" }))
+        @using (@Html.BeginForm("Finalize", "Report", FormMethod.Post, new { @id = "finalizeForm" }))
         {
             <div style="text-align: center;
                         margin: 20px;
@@ -285,9 +285,9 @@
                         display: flex;
                         justify-content: space-evenly;">
                 @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.Id }, new { @class = "btn btn-primary", @id = "signButton" })
-                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-                @Html.ActionLink("Експорт у LaTex", "GetLatex", "Reports", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-                <a href="@Url.Action("Preview", "Reports", new { reportId = Model.Id })"
+                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Report", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+                @Html.ActionLink("Експорт у LaTex", "GetLatex", "Report", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Preview", "Report", new { reportId = Model.Id })"
                    target="_blank"
                    class="btn btn-default">
                     Переглянути
@@ -308,5 +308,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/steps")
+    @Scripts.Render("~/bundles/stepper")
     @Scripts.Render("~/bundles/reports/edit")
 }

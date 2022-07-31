@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
@@ -87,6 +89,13 @@ namespace SRS.Services.Implementations
             var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
             var themes = await _repo.GetAsync(x => (facultyId == null || x.Cathedra.FacultyId == facultyId)
                                                     && x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear);
+            return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
+        }
+
+        public async Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial)
+        {
+            var themes = await _repo.GetAsync(x => x.Financial == financial
+                                                   && x.Report.Any(y => y.User.CathedraId == cathedraId && y.ThemeOfScientificWork.Financial == financial && y.IsSigned && y.IsConfirmed));
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
         }
     }

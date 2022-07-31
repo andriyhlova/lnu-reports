@@ -68,5 +68,11 @@ namespace SRS.Services.Implementations
             var publications = await _repo.GetAsync(new ReportPublicationSpecification(filterModel));
             return _mapper.Map<IList<BasePublicationModel>>(publications);
         }
+
+        public async Task<IList<BasePublicationModel>> GetAvailableCathedraReportPublicationsAsync(CathedraReportPublicationFilterModel filterModel)
+        {
+            var publications = await _repo.GetAsync(new CathedraReportPublicationSpecification(filterModel));
+            return _mapper.Map<IList<BasePublicationModel>>(publications);
+        }
     }
 }

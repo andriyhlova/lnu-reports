@@ -15,9 +15,9 @@ namespace SRS.Services.Mapping.Profiles
                 .IncludeBase<DepartmentFilterViewModel, DepartmentFilterModel>();
 
             CreateMap<ReportPublicationsViewModel, ReportPublicationsModel>()
-                .ForMember(dest => dest.PrintedPublication, opts => opts.MapFrom(src => src.PrintedPublication.Where(x=>x.Checked).Select(x=>x.Id)))
-                .ForMember(dest => dest.RecomendedPublication, opts => opts.MapFrom(src => src.RecomendedPublication.Where(x => x.Checked).Select(x => x.Id)))
-                .ForMember(dest => dest.AcceptedToPrintPublication, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Where(x => x.Checked).Select(x => x.Id)));
+                .ForMember(dest => dest.PrintedPublicationIds, opts => opts.MapFrom(src => src.PrintedPublication.Where(x=>x.Checked).Select(x=>x.Id)))
+                .ForMember(dest => dest.RecomendedPublicationIds, opts => opts.MapFrom(src => src.RecomendedPublication.Where(x => x.Checked).Select(x => x.Id)))
+                .ForMember(dest => dest.AcceptedToPrintPublicationIds, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Where(x => x.Checked).Select(x => x.Id)));
 
             CreateMap<ReportModel, ReportViewModel>();
         }

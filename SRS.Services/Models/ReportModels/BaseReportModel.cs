@@ -12,7 +12,7 @@ namespace SRS.Services.Models.ReportModels
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public bool IsSigned { get; set; }
 

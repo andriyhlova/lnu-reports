@@ -19,7 +19,7 @@ using UserManagement.Services;
 
 namespace SRS.Web.Controllers
 {
-    public class ReportsController : Controller
+    public class ReportController : Controller
     {
         private ReportService reportService;
 
@@ -29,7 +29,7 @@ namespace SRS.Web.Controllers
         private readonly IPublicationService _publicationService;
         private readonly IMapper _mapper;
 
-        public ReportsController(
+        public ReportController(
             IReportService __reportService, 
             IThemeOfScientificWorkService themeOfScientificWorkService,
             IUserService<UserAccountModel> userAccountService,
@@ -73,14 +73,14 @@ namespace SRS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateOtherInfo(ReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
         {
-            await _reportService.UpsertAsync(_mapper.Map<ReportOtherInfoModel>(reportOtherInfoViewModel), User.Identity.GetUserId());
+            await _reportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportOtherInfoViewModel.Id, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateFinalInfo(ReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
         {
-            await _reportService.UpsertAsync(_mapper.Map<ReportFinalInfoModel>(reportFinalInfoViewModel), User.Identity.GetUserId());
+            await _reportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportFinalInfoViewModel.Id, StepIndex = stepIndex });
         }
 

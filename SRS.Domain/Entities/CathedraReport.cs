@@ -9,7 +9,8 @@ namespace SRS.Domain.Entities
     {
         public string AchivementSchool { get; set; } // 1
 
-        public virtual ThemeOfScientificWork BudgetTheme { get; set; }// 2
+        [Column("BudgetTheme_Id")]
+        public int? BudgetThemeId { get; set; }// 2
 
         public string AllDescriptionBudgetTheme { get; set; }
 
@@ -17,14 +18,12 @@ namespace SRS.Domain.Entities
 
         public string DefensesOfCoworkersBudgetTheme { get; set; }// 2.2
 
-        [InverseProperty("PrintedPublicationBudgetCathedraReport")]
-        public virtual List<Publication> PrintedPublicationBudgetTheme { get; set; }// 2.3
-
         public string ApplicationAndPatentsOnInventionBudgetTheme { get; set; }// 2.4
 
         public string OtherBudgetTheme { get; set; }// 2.5
 
-        public virtual ThemeOfScientificWork ThemeInWorkTime { get; set; }// 3
+        [Column("ThemeInWorkTime_Id")]
+        public int? ThemeInWorkTimeId { get; set; }// 3
 
         public string AllDescriptionThemeInWorkTime { get; set; }
 
@@ -32,23 +31,18 @@ namespace SRS.Domain.Entities
 
         public string DefensesOfCoworkersThemeInWorkTime { get; set; } // 3.2
 
-        [InverseProperty("PrintedPublicationInWorkCathedraReport")]
-        public virtual List<Publication> PrintedPublicationThemeInWorkTime { get; set; }// 3.3
-
         public string ApplicationAndPatentsOnInventionThemeInWorkTime { get; set; }// 3.4
 
         public string OtherThemeInWorkTime { get; set; }// 3.5
 
-        public virtual ThemeOfScientificWork HospDohovirTheme { get; set; }// 4
+        [Column("HospDohovirTheme_Id")]
+        public int? HospDohovirThemeId { get; set; }// 3
 
         public string AllDescriptionHospDohovirTheme { get; set; }
 
         public string CVHospDohovirTheme { get; set; }// 4.1
 
         public string DefensesOfCoworkersHospDohovirTheme { get; set; }// 4.2
-
-        [InverseProperty("PrintedPublicationHospDohovirCathedraReport")]
-        public virtual List<Publication> PrintedPublicationHospDohovirTheme { get; set; }// 4.3
 
         public string ApplicationAndPatentsOnInventionHospDohovirTheme { get; set; }// 4.4
 
@@ -59,12 +53,6 @@ namespace SRS.Domain.Entities
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1
 
         public string CooperationWithForeignScientificInstitution { get; set; } // 6.2
-
-        public virtual List<CathedraDefenses> DefenseOfDoctorantsAndAspirants { get; set; }// 7.1
-
-        public virtual List<CoworkersDefenses> DefenseOfCoworkers { get; set; }// 7.2
-
-        public virtual List<OtherDefenses> DefenseWithSpecialPeople { get; set; }// 7.3
 
         public string StudentsWorks { get; set; }// 8
 
@@ -84,8 +72,32 @@ namespace SRS.Domain.Entities
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
+        [Column("User_Id")]
+        public string UserId { get; set; }
+
         public virtual ApplicationUser User { get; set; }
 
         public virtual List<Report> UserReport { get; set; }
+
+        public virtual ThemeOfScientificWork BudgetTheme { get; set; }// 2
+
+        public virtual ThemeOfScientificWork ThemeInWorkTime { get; set; }// 3
+
+        public virtual ThemeOfScientificWork HospDohovirTheme { get; set; }// 4
+
+        [InverseProperty("PrintedPublicationBudgetCathedraReport")]
+        public virtual List<Publication> PrintedPublicationBudgetTheme { get; set; }// 2.3
+
+        [InverseProperty("PrintedPublicationInWorkCathedraReport")]
+        public virtual List<Publication> PrintedPublicationThemeInWorkTime { get; set; }// 3.3
+
+        [InverseProperty("PrintedPublicationHospDohovirCathedraReport")]
+        public virtual List<Publication> PrintedPublicationHospDohovirTheme { get; set; }// 4.3
+
+        public virtual List<CathedraDefenses> DefenseOfDoctorantsAndAspirants { get; set; }// 7.1
+
+        public virtual List<CoworkersDefenses> DefenseOfCoworkers { get; set; }// 7.2
+
+        public virtual List<OtherDefenses> DefenseWithSpecialPeople { get; set; }// 7.3
     }
 }

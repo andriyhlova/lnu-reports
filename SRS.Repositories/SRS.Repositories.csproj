@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
+    <Compile Include="Implementation\CathedraReportRepository.cs" />
     <Compile Include="Implementation\ReportRepository.cs" />
     <Compile Include="Implementation\PublicationRepository.cs" />
     <Compile Include="Implementation\RoleRepository.cs" />

@@ -1,7 +1,7 @@
 ﻿@using PagedList.Mvc
 @using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Models.CathedraReportModels
-@using SRS.Web.Models.Reports
+@using SRS.Web.Models.CathedraReports
 @using SRS.Web.Models.Shared
 
 @model ItemsViewModel<CathedraReportFilterViewModel, BaseCathedraReportModel>
@@ -68,13 +68,13 @@
                         }
                     </td>
                     <td>
-                        <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = item.Id })"
+                        <a href="@Url.Action("Preview", "CathedraReport", new { reportId = item.Id })"
                            class="btn btn-info"
                            target="_blank">
                             Переглянути
                         </a>
-                        @Html.ActionLink("PDF", "PreviewPdf", "ReportsCathedra", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
-                        @Html.ActionLink("LaTex", "GetLatex", "ReportsCathedra", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("PDF", "PreviewPdf", "CathedraReport", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
+                        @Html.ActionLink("LaTex", "GetLatex", "CathedraReport", new { reportId = item.Id }, new { @class = "btn btn-default" })
                     </td>
                 </tr>
             }

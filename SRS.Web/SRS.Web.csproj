@@ -245,12 +245,12 @@
     <Compile Include="Controllers\PublicationsController.cs" />
     <Compile Include="Controllers\CathedraReportListController.cs" />
     <Compile Include="Controllers\ReportListController.cs" />
-    <Compile Include="Controllers\ReportsCathedraController.cs" />
-    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\CathedraReportController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\JournalsController.cs" />
     <Compile Include="Controllers\ThemeOfScientificWorksController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
-    <Compile Include="Converter\ReportConverter.cs" />
+    <Compile Include="Enums\CathedraReportStep.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -268,10 +268,13 @@
     <Compile Include="Models\Account\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Account\UpdateProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterViewModel.cs" />
-    <Compile Include="Models\CathedraReportViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportBudgetThemeViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportHospDohovirThemeViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
-    <Compile Include="Models\Reports\CathedraReportFilterViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsViewModel.cs" />
     <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
@@ -337,6 +340,7 @@
     <Content Include="Scripts\Chosen\DocSupport\jquery-3.2.1.min.js" />
     <Content Include="Scripts\Chosen\DocSupport\prism.js" />
     <Content Include="Scripts\Chosen\DocSupport\prototype-1.7.0.0.js" />
+    <Content Include="Scripts\Common\stepper.js" />
     <Content Include="Scripts\Common\searchComponent.js" />
     <Content Include="Scripts\Common\collapsible.js" />
     <Content Include="Scripts\Common\customDatatable.js" />
@@ -357,6 +361,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\composer.json" />
+    <Content Include="Scripts\jquery.steps.js" />
+    <Content Include="Scripts\jquery.steps.min.js" />
+    <Content Include="Scripts\CathedraReports\edit.js" />
     <Content Include="Scripts\Reports\edit.js" />
     <Content Include="Scripts\Steps\jquery.steps.js" />
     <Content Include="Scripts\Steps\jquery.steps.min.js" />
@@ -418,11 +425,10 @@
     <Content Include="Views\ThemeOfScientificWorks\Details.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Edit.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Index.cshtml" />
-    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckboxListItem.cshtml" />
     <Content Include="Views\ReportList\Index.cshtml" />
-    <Content Include="Views\ReportsCathedra\EditorTemplates\PublicationOption.cshtml" />
-    <Content Include="Views\ReportsCathedra\Index.cshtml" />
+    <Content Include="Views\CathedraReport\Index.cshtml" />
     <Content Include="Views\CathedraReportList\Index.cshtml" />
     <Content Include="Views\AcademicStatus\Create.cshtml" />
     <Content Include="Views\AcademicStatus\Delete.cshtml" />

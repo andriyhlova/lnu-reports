@@ -15,6 +15,7 @@ namespace SRS.Repositories.Utilities
             Bind<IRoleRepository>().To<RoleRepository>();
             Bind<IBaseRepository<Publication>>().To<PublicationRepository>();
             Bind<IBaseRepository<Report>>().To<ReportRepository>();
+            Bind<IBaseRepository<CathedraReport>>().To<CathedraReportRepository>();
             Bind<ApplicationDbContext>().ToSelf();
         }
     }

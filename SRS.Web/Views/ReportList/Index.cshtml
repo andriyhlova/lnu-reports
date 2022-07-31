@@ -117,7 +117,7 @@
                     </td>
                     <td>
                         <div>
-                            <a href="@Url.Action("Preview", "Reports", new { reportId = item.Id })"
+                            <a href="@Url.Action("Preview", "Report", new { reportId = item.Id })"
                                class="btn btn-info"
                                target="_blank">
                                 Переглянути
@@ -126,7 +126,7 @@
                             {
                                 if (@item.UserId == @userId)
                                 {
-                                    @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.Id }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
                                 }
                             }
                             @if ((User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
@@ -140,8 +140,8 @@
                             }
                         </div>
                         <div>
-                            @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
-                            @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                            @Html.ActionLink("PDF", "PreviewPdf", "Report", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
+                            @Html.ActionLink("LaTex", "GetLatex", "Report", new { reportId = item.Id }, new { @class = "btn btn-default" })
                         </div>
                     </td>
                 </tr>

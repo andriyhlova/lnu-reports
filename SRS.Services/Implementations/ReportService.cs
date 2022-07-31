@@ -89,6 +89,21 @@ namespace SRS.Services.Implementations
             return true;
         }
 
+        public async Task<ReportModel> GetUserReportAsync(string userId, int? reportId)
+        {
+            Report oldReport;
+            if (!reportId.HasValue)
+            {
+                oldReport = await _repo.GetFirstOrDefaultAsync(x => !x.IsSigned && x.UserId == userId);
+            }
+            else
+            {
+                oldReport = await _repo.GetAsync(reportId.Value);
+            }
+
+            return _mapper.Map<ReportModel>(oldReport ?? new Report());
+        }
+
         public async Task<bool> UpsertAsync<TModel>(TModel model, string currentUserId)
             where TModel : BaseModel
         {
@@ -105,21 +120,6 @@ namespace SRS.Services.Implementations
             _mapper.Map(model, report);
             await _repo.AddAsync(report);
             return true;
-        }
-
-        public async Task<ReportModel> GetUserReportAsync(string userId, int? reportId)
-        {
-            Report oldReport;
-            if (!reportId.HasValue)
-            {
-                oldReport = await _repo.GetFirstOrDefaultAsync(x => !x.IsSigned && x.UserId == userId);
-            }
-            else
-            {
-                oldReport = await _repo.GetAsync(reportId.Value);
-            }
-
-            return _mapper.Map<ReportModel>(oldReport ?? new Report());
         }
     }
 }

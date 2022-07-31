@@ -7,7 +7,7 @@ using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
-using SRS.Web.Models.Reports;
+using SRS.Web.Models.CathedraReports;
 using SRS.Web.Models.Shared;
 using System.Threading.Tasks;
 using System.Web.Mvc;

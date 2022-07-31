@@ -1,4 +1,5 @@
-﻿@using SRS.Services.Models.Constants
+﻿@using SRS.Domain.Enums
+@using SRS.Services.Models.Constants
 
 <!DOCTYPE html>
 <html>
@@ -33,13 +34,13 @@
                                 Звіти <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                @if (User.IsInRole("Керівник кафедри"))
+                                @if (User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
+                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "CathedraReport", new { Financial = Financial.БЮДЖЕТ }, null)</li>
                                 }
                                 @if (User.IsInRole(RoleNames.Worker))
                                 {
-                                    <li>@Html.ActionLink("Звіт працівника", "Index", "Reports")</li>
+                                    <li>@Html.ActionLink("Звіт працівника", "Index", "Report")</li>
                                 }
                                 <li>@Html.ActionLink("Індивідуальні звіти", "Index", "ReportList")</li>
                                 @if (User.IsInRole(RoleNames.Superadmin)
@@ -89,8 +90,8 @@
         </div>
     </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -6,8 +6,8 @@ namespace SRS.Web.Models.Reports
     public class ReportPublicationsViewModel
     {
         public int Id { get; set; }
-        public List<CheckboxListItem> PrintedPublication { get; set; } = new List<CheckboxListItem>();
-        public List<CheckboxListItem> RecomendedPublication { get; set; } = new List<CheckboxListItem>();
-        public List<CheckboxListItem> AcceptedToPrintPublication { get; set; } = new List<CheckboxListItem>();
+        public IList<CheckboxListItem> PrintedPublication { get; set; } = new List<CheckboxListItem>();
+        public IList<CheckboxListItem> RecomendedPublication { get; set; } = new List<CheckboxListItem>();
+        public IList<CheckboxListItem> AcceptedToPrintPublication { get; set; } = new List<CheckboxListItem>();
     }
 }

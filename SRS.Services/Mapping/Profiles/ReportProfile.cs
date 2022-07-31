@@ -13,9 +13,9 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.I18nUserInitials, opts => opts.MapFrom(src => src.User.I18nUserInitials));
 
             CreateMap<ReportPublicationsModel, Report>()
-                .ForMember(dest => dest.PrintedPublication, opts => opts.MapFrom(src => src.PrintedPublication.Select(x => new Publication { Id = x })))
-                .ForMember(dest => dest.RecomendedPublication, opts => opts.MapFrom(src => src.RecomendedPublication.Select(x => new Publication { Id = x })))
-                .ForMember(dest => dest.AcceptedToPrintPublication, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Select(x => new Publication { Id = x })));
+                .ForMember(dest => dest.PrintedPublication, opts => opts.MapFrom(src => src.PrintedPublicationIds.Select(x => new Publication { Id = x })))
+                .ForMember(dest => dest.RecomendedPublication, opts => opts.MapFrom(src => src.RecomendedPublicationIds.Select(x => new Publication { Id = x })))
+                .ForMember(dest => dest.AcceptedToPrintPublication, opts => opts.MapFrom(src => src.AcceptedToPrintPublicationIds.Select(x => new Publication { Id = x })));
 
             CreateMap<ReportScientificWorkModel, Report>();
 

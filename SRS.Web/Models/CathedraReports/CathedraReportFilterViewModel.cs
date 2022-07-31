@@ -1,7 +1,7 @@
 ﻿using SRS.Web.Models.Shared;
 using System;
 
-namespace SRS.Web.Models.Reports
+namespace SRS.Web.Models.CathedraReports
 {
     public class CathedraReportFilterViewModel : DepartmentFilterViewModel
     {

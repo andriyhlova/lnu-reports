@@ -51,11 +51,17 @@ namespace SRS.Web
             bundles.Add(new ScriptBundle("~/bundles/searchComponent").Include(
                         "~/Scripts/Common/searchComponent.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/stepper").Include(
+                        "~/Scripts/Common/stepper.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/publications/edit").Include(
                         "~/Scripts/Publications/edit.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports/edit").Include(
                         "~/Scripts/Reports/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/cathedrareports/edit").Include(
+                        "~/Scripts/CathedraReports/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)

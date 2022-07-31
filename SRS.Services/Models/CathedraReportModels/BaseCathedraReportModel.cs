@@ -12,9 +12,11 @@ namespace SRS.Services.Models.CathedraReportModels
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public string CathedraName { get; set; }
+
+        public string UserId { get; set; }
 
         public IList<I18nUserInitialsModel> I18nUserInitials { get; set; }
     }

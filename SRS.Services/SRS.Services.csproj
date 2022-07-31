@@ -132,6 +132,13 @@
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\AcademicStatusProfile.cs" />
     <Compile Include="Models\CathedraReportModels\BaseCathedraReportModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportBudgetThemeModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportInTimeThemeModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportHospDohovirThemeModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportOtherInfoModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportFinalInfoModel.cs" />
+    <Compile Include="Models\FilterModels\CathedraReportPublicationFilterModel.cs" />
     <Compile Include="Models\FilterModels\ReportPublicationFilterModel.cs" />
     <Compile Include="Models\ReportModels\ReportModel.cs" />
     <Compile Include="Models\ReportModels\ReportPublicationsModel.cs" />
@@ -175,6 +182,7 @@
     <Compile Include="Specifications\AcademicStatusSpecification.cs" />
     <Compile Include="Specifications\CathedraReportSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\PublicationSpecification.cs" />
+    <Compile Include="Specifications\PublicationSpecifications\CathedraReportPublicationSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\ReportPublicationSpecification.cs" />
     <Compile Include="Specifications\ReportSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecification.cs" />
