@@ -101,10 +101,10 @@ namespace SRS.Services.Implementations
                 oldReport = await _repo.GetAsync(reportId.Value);
             }
 
-            return _mapper.Map<ReportModel>(oldReport ?? new Report());
+            return _mapper.Map<ReportModel>(oldReport ?? new Report { UserId = userId });
         }
 
-        public async Task<bool> UpsertAsync<TModel>(TModel model, string currentUserId)
+        public async Task<int> UpsertAsync<TModel>(TModel model, string currentUserId)
             where TModel : BaseModel
         {
             var report = new Report();
@@ -113,13 +113,12 @@ namespace SRS.Services.Implementations
                 report = await _repo.GetAsync(model.Id, new BaseSpecification<Report>(asNoTracking: true));
                 _mapper.Map(model, report);
                 await _repo.UpdateAsync(report);
-                return true;
+                return report.Id;
             }
 
             report.UserId = currentUserId;
             _mapper.Map(model, report);
-            await _repo.AddAsync(report);
-            return true;
+            return await _repo.AddAsync(report);
         }
     }
 }

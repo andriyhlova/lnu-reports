@@ -21,7 +21,7 @@ namespace SRS.Services.Interfaces
 
         Task<ReportModel> GetUserReportAsync(string userId, int? reportId);
 
-        Task<bool> UpsertAsync<TModel>(TModel model, string currentUserId)
+        Task<int> UpsertAsync<TModel>(TModel model, string currentUserId)
             where TModel : BaseModel;
     }
 }

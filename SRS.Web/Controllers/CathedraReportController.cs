@@ -51,7 +51,7 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Index(int? reportId, int? stepIndex)
         {
             var report = await _cathedraReportService.GetUserCathedraReportAsync(User.Identity.GetUserId(), reportId);
-            var user = await _userAccountService.GetByIdAsync(report.UserId);
+            var user = await _userAccountService.GetByIdAsync(report.UserId );
             var viewModel = _mapper.Map<CathedraReportViewModel>(report);
             var financial = GetFinancialByStep(stepIndex);
             await FillPublications(viewModel, report, financial);
@@ -64,36 +64,36 @@ namespace SRS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateBudgetThemeInfo(CathedraReportBudgetThemeViewModel reportBudgetThemeViewModel, int? stepIndex)
         {
-            await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportBudgetThemeModel>(reportBudgetThemeViewModel), User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportBudgetThemeViewModel.Id, StepIndex = stepIndex });
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportBudgetThemeModel>(reportBudgetThemeViewModel), User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateInWorkThemeInfo(CathedraReportInTimeThemeViewModel reportInTimeThemeModel, int? stepIndex)
         {
-            await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportInTimeThemeModel>(reportInTimeThemeModel), User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportInTimeThemeModel.Id, StepIndex = stepIndex });
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportInTimeThemeModel>(reportInTimeThemeModel), User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateHospDohovirThemeInfo(CathedraReportHospDohovirThemeViewModel reportHospDohovirThemeModel, int? stepIndex)
         {
-            await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportHospDohovirThemeModel>(reportHospDohovirThemeModel), User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportHospDohovirThemeModel.Id, StepIndex = stepIndex });
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportHospDohovirThemeModel>(reportHospDohovirThemeModel), User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateOtherInfo(CathedraReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
         {
-            await _cathedraReportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportOtherInfoViewModel.Id, StepIndex = stepIndex });
+            var reportId = await _cathedraReportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateFinalInfo(CathedraReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
         {
-            await _cathedraReportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportFinalInfoViewModel.Id, StepIndex = stepIndex });
+            var reportId = await _cathedraReportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]

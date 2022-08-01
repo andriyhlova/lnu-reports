@@ -13,20 +13,9 @@ namespace SRS.Repositories.Implementations
 
         protected override void AddRelatedEntities(Report entity)
         {
-            foreach (var user in entity.PrintedPublication)
-            {
-                _context.Entry(user).State = EntityState.Unchanged;
-            }
-
-            foreach (var user in entity.RecomendedPublication)
-            {
-                _context.Entry(user).State = EntityState.Unchanged;
-            }
-
-            foreach (var user in entity.AcceptedToPrintPublication)
-            {
-                _context.Entry(user).State = EntityState.Unchanged;
-            }
+            AddCollection(entity.PrintedPublication);
+            AddCollection(entity.RecomendedPublication);
+            AddCollection(entity.AcceptedToPrintPublication);
         }
 
         protected override void UpdateRelatedEntities(Report existingEntity, Report newEntity)

@@ -112,6 +112,18 @@ namespace SRS.Repositories.Implementations
         {
         }
 
+        protected void AddCollection<TRelatedEntity>(ICollection<TRelatedEntity> newCollection)
+            where TRelatedEntity : BaseEntity
+        {
+            if (newCollection != null)
+            {
+                foreach (var item in newCollection)
+                {
+                    _context.Entry(item).State = EntityState.Unchanged;
+                }
+            }
+        }
+
         protected void UpdateCollection<TRelatedEntity>(ICollection<TRelatedEntity> existingCollection, ICollection<TRelatedEntity> newCollection)
             where TRelatedEntity : BaseEntity
         {

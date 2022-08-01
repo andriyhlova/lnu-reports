@@ -13,20 +13,9 @@ namespace SRS.Repositories.Implementations
 
         protected override void AddRelatedEntities(CathedraReport entity)
         {
-            foreach (var user in entity.PrintedPublicationBudgetTheme)
-            {
-                _context.Entry(user).State = EntityState.Unchanged;
-            }
-
-            foreach (var user in entity.PrintedPublicationThemeInWorkTime)
-            {
-                _context.Entry(user).State = EntityState.Unchanged;
-            }
-
-            foreach (var user in entity.PrintedPublicationHospDohovirTheme)
-            {
-                _context.Entry(user).State = EntityState.Unchanged;
-            }
+            AddCollection(entity.PrintedPublicationBudgetTheme);
+            AddCollection(entity.PrintedPublicationThemeInWorkTime);
+            AddCollection(entity.PrintedPublicationHospDohovirTheme);
         }
 
         protected override void UpdateRelatedEntities(CathedraReport existingEntity, CathedraReport newEntity)

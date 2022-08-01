@@ -59,29 +59,29 @@ namespace SRS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdatePublications(ReportPublicationsViewModel reportPublicationsViewModel, int? stepIndex)
         {
-            await _reportService.UpsertAsync(_mapper.Map<ReportPublicationsModel>(reportPublicationsViewModel), User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportPublicationsViewModel.Id, StepIndex = stepIndex });
+            var reportId = await _reportService.UpsertAsync(_mapper.Map<ReportPublicationsModel>(reportPublicationsViewModel), User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateScientificWork(ReportScientificWorkModel reportScientificWorkModel, int? stepIndex)
         {
-            await _reportService.UpsertAsync(reportScientificWorkModel, User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportScientificWorkModel.Id, StepIndex = stepIndex });
+            var reportId = await _reportService.UpsertAsync(reportScientificWorkModel, User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateOtherInfo(ReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
         {
-            await _reportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportOtherInfoViewModel.Id, StepIndex = stepIndex });
+            var reportId = await _reportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         public async Task<ActionResult> UpdateFinalInfo(ReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
         {
-            await _reportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportFinalInfoViewModel.Id, StepIndex = stepIndex });
+            var reportId = await _reportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
+            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
