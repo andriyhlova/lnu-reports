@@ -93,6 +93,7 @@ namespace UserManagement.Services
         {
             this.db = db;
         }
+
         public string GenerateHTMLReport(int reportId)
         {
             return GenerateHTMLReport(db.Reports.Find(reportId));
@@ -183,41 +184,41 @@ namespace UserManagement.Services
 
             var formetedBody = ReplaceStringWithParameters(body, new Dictionary<string, string>()
             {
-                [REPORT_HEADER] = readyReportHeader,
-                [PUNKT_1] = readyPunktOne,
-                [PUNKT_2] = readyPunktTwo,
-                [PUNKT_3] = readyPunktTree,
-                [PUNKT_4] = readyPunktFour,
-                [PUNKT_5] = readyPunktFive,
-                [PUNKT_6_TABLE] = readyPunktSixTable,
-                [PUNKT_6_1] = readyPunktSixOne,
-                [PUNKT_6_1_MONO] = readyPunktSixOneMono,
-                [PUNKT_6_1_BOOK] = readyPunktSixOneBook,
-                [PUNKT_6_1_TRAINING] = readyPunktSixOneTrainingBook,
-                [PUNKT_6_1_OTHER] = readyPunktSixOneOther,
-                [PUNKT_6_1_ARTICLES] = readyPunktSixOneArticles,
-                [PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS] = readyPunktSixOneArticlesInternationalsMetricals,
-                [PUNKT_6_1_ARTICLES_FACTOR] = readyPunktSixOneArticlesFactor,
-                [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals,
-                [PUNKT_6_1_ARTICLES_NATIONAL_FAH] = readyPunktSixOneArticlesNationalFah,
-                [PUNKT_6_1_ARTICLES_NATIONAL] = readyPunktSixOneArticlesNational,
-                [PUNKT_6_1_CONFERENCES] = readyPunktSixOneConferences,
-                [PUNKT_6_1_CONFERENCES_INTERNATIONAL] = readyPunktSixOneConferencesInternational,
-                [PUNKT_6_1_CONFERENCES_NATIONAL] = readyPunktSixOneConferencesNational,
-                [PUNKT_6_2] = readyPunktSixTwo,
-                [PUNKT_6_2_MONO] = readyPunktSixTwoMono,
-                [PUNKT_6_2_BOOK] = readyPunktSixTwoBook,
-                [PUNKT_6_2_TRAINING] = readyPunktSixTwoTrainingBook,
-                [PUNKT_6_2_OTHER] = readyPunktSixTwoOther,
-                [PUNKT_6_2_ARTICLES] = readyPunktSixTwoArticles,
-                [PUNKT_7] = readyPunktSeven,
-                [PUNKT_7_1] = readyPunktSevenOne,
-                [PUNKT_7_2] = readyPunktSevenTwo,
-                [PUNKT_8] = readyPunktEight,
-                [PUNKT_9] = readyPunktNine,
-                [PUNKT_10] = readyPunktTen,
-                [SIGNATURE] = readySignature,
-                [FOOTER] = readyFooter
+                [REPORT_HEADER] = readyReportHeader, //Done
+                [PUNKT_1] = readyPunktOne, //Done
+                [PUNKT_2] = readyPunktTwo, //Done
+                [PUNKT_3] = readyPunktTree, //Done
+                [PUNKT_4] = readyPunktFour, //Done
+                [PUNKT_5] = readyPunktFive, //Done
+                [PUNKT_6_TABLE] = readyPunktSixTable, //Done
+                [PUNKT_6_1] = readyPunktSixOne, //Done
+                [PUNKT_6_1_MONO] = readyPunktSixOneMono, //Done
+                [PUNKT_6_1_BOOK] = readyPunktSixOneBook, //Done
+                [PUNKT_6_1_TRAINING] = readyPunktSixOneTrainingBook, //Done
+                [PUNKT_6_1_OTHER] = readyPunktSixOneOther, //Done
+                [PUNKT_6_1_ARTICLES] = readyPunktSixOneArticles, //Done
+                [PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS] = readyPunktSixOneArticlesInternationalsMetricals, //Done
+                [PUNKT_6_1_ARTICLES_FACTOR] = readyPunktSixOneArticlesFactor, //Done
+                [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals, //Done
+                [PUNKT_6_1_ARTICLES_NATIONAL_FAH] = readyPunktSixOneArticlesNationalFah, //Done
+                [PUNKT_6_1_ARTICLES_NATIONAL] = readyPunktSixOneArticlesNational, //Done
+                [PUNKT_6_1_CONFERENCES] = readyPunktSixOneConferences, //Done
+                [PUNKT_6_1_CONFERENCES_INTERNATIONAL] = readyPunktSixOneConferencesInternational, //Done
+                [PUNKT_6_1_CONFERENCES_NATIONAL] = readyPunktSixOneConferencesNational, //Done
+                [PUNKT_6_2] = readyPunktSixTwo, //Done
+                [PUNKT_6_2_MONO] = readyPunktSixTwoMono, //Done
+                [PUNKT_6_2_BOOK] = readyPunktSixTwoBook, //Done
+                [PUNKT_6_2_TRAINING] = readyPunktSixTwoTrainingBook, //Done
+                [PUNKT_6_2_OTHER] = readyPunktSixTwoOther, //Done
+                [PUNKT_6_2_ARTICLES] = readyPunktSixTwoArticles, //Done
+                [PUNKT_7] = readyPunktSeven, //Done
+                [PUNKT_7_1] = readyPunktSevenOne,//Done
+                [PUNKT_7_2] = readyPunktSevenTwo,//Done
+                [PUNKT_8] = readyPunktEight, //Done
+                [PUNKT_9] = readyPunktNine, //Done
+                [PUNKT_10] = readyPunktTen, //Done
+                [SIGNATURE] = readySignature, //Done
+                [FOOTER] = readyFooter //Done
             });
             return formetedBody;
         }

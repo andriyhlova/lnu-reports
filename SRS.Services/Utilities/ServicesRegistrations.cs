@@ -5,6 +5,7 @@ using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.PublicationModels;
+using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Utilities
@@ -45,6 +46,9 @@ namespace SRS.Services.Utilities
             Bind<ISmtpClient>().To<SmtpClient>();
             Bind<IEmailService>().To<EmailService>();
             Bind<IRoleActionService>().To<RoleActionService>();
+            Bind<IReportTemplateService>().To<ReportTemplateService>();
+            Bind<IHtmlCompiler>().To<HandlebarsHtmlCompiler>();
+            Bind<IReportBuilderService<ReportTemplateModel>>().To<ReportBuilderService<ReportTemplateModel>>();
         }
     }
 }

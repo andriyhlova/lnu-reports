@@ -45,6 +45,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Handlebars, Version=2.1.2.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661, processorArchitecture=MSIL">
+      <HintPath>..\packages\Handlebars.Net.2.1.2\lib\net452\Handlebars.dll</HintPath>
+    </Reference>
     <Reference Include="MailKit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.3.2.0\lib\net452\MailKit.dll</HintPath>
     </Reference>
@@ -91,12 +94,15 @@
   <ItemGroup>
     <Compile Include="Attributes\RequiredFieldAttribute.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Implementations\ReportBuilderService.cs" />
     <Compile Include="Implementations\JournalService.cs" />
     <Compile Include="Implementations\BaseService.cs" />
     <Compile Include="Implementations\ConfigurationProvider.cs" />
     <Compile Include="Implementations\CathedraService.cs" />
     <Compile Include="Implementations\AcademicStatusService.cs" />
     <Compile Include="Implementations\CathedraReportService.cs" />
+    <Compile Include="Implementations\HandlebarsHtmlCompiler.cs" />
+    <Compile Include="Implementations\ReportTemplateService.cs" />
     <Compile Include="Implementations\ReportService.cs" />
     <Compile Include="Implementations\RoleActionService.cs" />
     <Compile Include="Implementations\PublicationService.cs" />
@@ -105,11 +111,14 @@
     <Compile Include="Implementations\UserService.cs" />
     <Compile Include="Implementations\BaseCrudService.cs" />
     <Compile Include="Implementations\EmailService.cs" />
+    <Compile Include="Interfaces\IHtmlCompiler.cs" />
     <Compile Include="Interfaces\IJournalService.cs" />
     <Compile Include="Interfaces\IConfigurationProvider.cs" />
     <Compile Include="Interfaces\ICathedraService.cs" />
     <Compile Include="Interfaces\IAcademicStatusService.cs" />
     <Compile Include="Interfaces\ICathedraReportService.cs" />
+    <Compile Include="Interfaces\IReportBuilderService.cs" />
+    <Compile Include="Interfaces\IReportTemplateService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\IRoleActionService.cs" />
     <Compile Include="Interfaces\IPublicationService.cs" />
@@ -140,6 +149,7 @@
     <Compile Include="Models\CathedraReportModels\CathedraReportFinalInfoModel.cs" />
     <Compile Include="Models\FilterModels\CathedraReportPublicationFilterModel.cs" />
     <Compile Include="Models\FilterModels\ReportPublicationFilterModel.cs" />
+    <Compile Include="Models\ReportModels\ReportTemplateModel.cs" />
     <Compile Include="Models\ReportModels\ReportModel.cs" />
     <Compile Include="Models\ReportModels\ReportPublicationsModel.cs" />
     <Compile Include="Models\ReportModels\BaseReportModel.cs" />
