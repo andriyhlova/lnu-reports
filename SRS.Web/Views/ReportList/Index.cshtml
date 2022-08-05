@@ -117,10 +117,15 @@
                     </td>
                     <td>
                         <div>
-                            <a href="@Url.Action("Preview", "Report", new { reportId = item.Id })"
+                            <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = item.Id })"
                                class="btn btn-info"
                                target="_blank">
                                 Переглянути
+                            </a>
+                            <a href="@Url.Action("PreviewOld", "ReportGeneration", new { reportId = item.Id })"
+                               class="btn btn-info"
+                               target="_blank">
+                                Переглянути Старий
                             </a>
                             @if (!item.IsSigned)
                             {
@@ -140,8 +145,8 @@
                             }
                         </div>
                         <div>
-                            @Html.ActionLink("PDF", "PreviewPdf", "Report", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
-                            @Html.ActionLink("LaTex", "GetLatex", "Report", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                            @Html.ActionLink("PDF", "PreviewPdf", "ReportGeneration", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
+                            @Html.ActionLink("LaTex", "GetLatex", "ReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
                         </div>
                     </td>
                 </tr>

@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
-using Rotativa;
-using SRS.Repositories.Context;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
@@ -9,20 +7,14 @@ using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using UserManagement.Services;
 
 namespace SRS.Web.Controllers
 {
     public class ReportController : Controller
     {
-        private ReportService reportService;
-
         private readonly IReportService _reportService;
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly IUserService<UserAccountModel> _userAccountService;
@@ -36,7 +28,6 @@ namespace SRS.Web.Controllers
             IPublicationService publicationService,
             IMapper mapper)
         {
-            reportService = new ReportService(new ApplicationDbContext());
             _reportService = __reportService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userAccountService = userAccountService;
@@ -88,54 +79,6 @@ namespace SRS.Web.Controllers
         public ActionResult Finalize(int id, int? stepIndex)
         {
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });
-        }
-
-        [HttpGet]
-        public ActionResult Preview(int reportId)
-        {
-            return Content(reportService.GenerateHTMLReport(reportId));
-        }
-
-        [HttpGet]
-        public ActionResult PreviewPdf(int reportId)
-        {
-            return new ActionAsPdf(nameof(Preview), new { reportId = reportId});
-        }
-
-        public ActionResult GetLatex(int reportId)
-        {
-            string content = reportService.GenerateHTMLReport(reportId);
-            var file = Path.Combine(ConfigurationManager.AppSettings["HtmlFilePath"],@"test.html");
-            System.IO.File.WriteAllText(file, content);
-            string result = "";
-            var proc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = Path.Combine(ConfigurationManager.AppSettings["PandocPath"], "pandoc.exe"),
-                    Arguments = $@"--from html {file} --to latex -s --wrap=preserve",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                    StandardOutputEncoding = System.Text.Encoding.GetEncoding(866)
-                }
-            };
-            proc.Start();
-            int i = 0;
-            while (!proc.StandardOutput.EndOfStream)
-            {
-                string line = proc.StandardOutput.ReadLine();
-                result += line;
-                result += "\n";
-                i++;
-                if (i == 8)
-                {
-                    result += @"\usepackage[ukrainian]{babel}" + "\n";
-                }
-            }
-
-            return File(System.Text.Encoding.GetEncoding(866).GetBytes(result), "application/x-latex", "report.tex");
         }
 
         private async Task FillThemeOfScientificWorks(int? facultyId)

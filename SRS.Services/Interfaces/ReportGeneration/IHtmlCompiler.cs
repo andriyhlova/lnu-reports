@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace SRS.Services.Interfaces
+﻿namespace SRS.Services.Interfaces.ReportGeneration
 {
     public interface IHtmlCompiler
     {

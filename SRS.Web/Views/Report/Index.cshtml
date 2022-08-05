@@ -285,9 +285,9 @@
                         display: flex;
                         justify-content: space-evenly;">
                 @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.Id }, new { @class = "btn btn-primary", @id = "signButton" })
-                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Report", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-                @Html.ActionLink("Експорт у LaTex", "GetLatex", "Report", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-                <a href="@Url.Action("Preview", "Report", new { reportId = Model.Id })"
+                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+                @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
                    target="_blank"
                    class="btn btn-default">
                     Переглянути

@@ -80,5 +80,22 @@ namespace SRS.Domain.Entities
         {
             return Journal?.Name ?? OtherJournal;
         }
+
+        public bool IsArticle()
+        {
+            return PublicationType == PublicationType.Стаття
+                || PublicationType == PublicationType.Стаття_В_Закордонних_Виданнях
+                || PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України
+                || PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях
+                || PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор
+                || PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних
+                || PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України;
+        }
+
+        public bool IsConference()
+        {
+            return PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції
+                || PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції;
+        }
     }
 }

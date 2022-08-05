@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using SRS.Services.Models.ReportModels;
+using SRS.Services.Models.ReportGenerationModels;
 
-namespace SRS.Services.Interfaces
+namespace SRS.Services.Interfaces.ReportGeneration
 {
     public interface IReportTemplateService
     {

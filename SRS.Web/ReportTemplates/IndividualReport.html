@@ -1,0 +1,515 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Звіт</title>
+    <style>
+        p, h2 {
+            margin: 0;
+        }
+
+        .body {
+            line-height: 23px;
+            padding: 5mm 10mm;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .block {
+            margin-top: 25px;
+        }
+
+        .input-text {
+            margin-left: 34px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 7px;
+        }
+
+        .table-report {
+            margin: auto;
+        }
+
+        .footer-text {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <div class="header">
+            {{#with GeneralInfo}}
+            <h2>
+                Індивідуальний звіт про наукову роботу в {{Year}} році
+            </h2>
+            {{/with}}
+            {{#with UserInfo}}
+            <p>
+                <i>
+                    {{Position}} кафедри {{Cathedra}} {{UserFullName}}
+                </i>
+            </p>
+            {{/with}}
+        </div>
+
+        {{#with UserInfo}}
+        <div class="input-text">
+            <p>
+                <b>Відомості про вченого:</b>
+            </p>
+            <p>
+                Рік народження: {{BirthYear}}
+            </p>
+            <p>
+                Рік закінчення ЗВО: {{GraduationYear}}
+            </p>
+            {{#if AspStart}}
+            <p>
+                Перебування в аспірантурі ({{AspStart}} - {{AspFinish}})
+            </p>
+            {{/if}}
+            {{#if DocStart}}
+            <p>
+                Перебування в докторантурі ({{DocStart}} - {{DocFinish}})
+            </p>
+            {{/if}}
+            <p>
+                Науковий ступінь, рік захисту:
+                {{#if ScientificDegree}}
+                {{ScientificDegree}}, {{ScientificDegreeYear}}
+                {{else}}
+                Без ступеня
+                {{/if}}
+            </p>
+            <p>
+                Вчене звання, рік присвоєння:
+                {{#if AcademicStatus}}
+                {{AcademicStatus}}, {{AcademicStatusYear}}
+                {{else}}
+                Без ступеня
+                {{/if}}
+            </p>
+        </div>
+        {{/with}}
+
+        {{#with ThemeOfScientificWork}}
+        <div class="block">
+            <p style="margin-left:34px">1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
+            <p class="input-text">
+                <i>
+                    Тема {{Financial}} - {{Title}}. {{Number}}{{#if Code}}{{Code}}{{/if}}; {{Head}} {{PeriodFrom}} - {{PeriodTo}}
+                </i>
+            </p>
+            <p class="input-text block" style="white-space:pre-line;">{{ThemeOfScientificWorkDescription}}</p>
+        </div>
+        {{/with}}
+
+        {{#with GeneralInfo}}
+        {{#if ParticipationInGrands}}
+        <div class="block">
+            <p style="margin-left:34px">
+                2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{ParticipationInGrands}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ScientificTrainings}}
+        <div class="block">
+            <p style="margin-left:34px">
+                3. Наукові стажування
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{ScientificTrainings}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ScientificControlDoctorsWork}}
+        <div class="block">
+            <p style="margin-left:34px">
+                4. Наукове керівництво аспірантами, здобувачами, наукове консультування при написанні
+                докторських дисертацій. Захист дисертацій аспірантами, докторантами(прізвище, назва дисертації,
+                спеціальність, дата захисту, рік закінчення аспірантури, докторантури).
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{ScientificControlDoctorsWork}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ScientificControlStudentsWork}}
+        <div class="block">
+            <p style="margin-left:34px">
+                5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
+                гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
+                тощо.
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{ScientificControlStudentsWork}}</p>
+        </div>
+        {{/if}}
+        {{/with}}
+
+        {{#with PublicationCounters}}
+        <div class="block">
+            <p style="margin-left:34px">6.</p><table class="table-report">
+                <tr><th>Загальна кількість наукових публікацій</th><th>Разом</th><th>За звітний період</th></tr>
+                <tr>
+                    <td>Монографії</td>
+                    <td>
+                        {{MonographsAllCount}}
+                    </td>
+                    <td>
+                        {{MonographsPeriodCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Підручників</td>
+                    <td>
+                        {{BooksAllCount}}
+                    </td>
+                    <td>
+                        {{BooksPeriodCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Навчальні посібники</td>
+                    <td>
+                        {{TrainingBooksAllCount}}
+                    </td>
+                    <td>
+                        {{TrainingBooksPeriodCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Статті</td>
+                    <td>
+                        {{ArticlesAllCount}}
+                    </td>
+                    <td>
+                        {{ArticlesPeriodCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Інші наукові видання</td>
+                    <td>
+                        {{OtherWritingsAllCount}}
+                    </td>
+                    <td>
+                        {{OtherWritingsPeriodCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Тези доповідей на конференціях</td>
+                    <td>
+                        {{ConferencesAllCount}}
+                    </td>
+                    <td>
+                        {{ConferencesPeriodCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Патенти</td>
+                    <td>
+                        {{PatentsAllCount}}
+                    </td>
+                    <td>
+                        {{PatentsPeriodCount}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {{/with}}
+
+        {{#with Publications}}
+        {{#if PrintedPublicationCount}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1 Праці, що вийшли з друку (бібліографічний опис згідно з державним стандартом):
+            </p>
+        </div>
+
+        {{#if Monographs.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.1 Монографії:
+            </p>
+        </div>
+        {{#each Monographs}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if Books.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.2 Підручники:
+            </p>
+        </div>
+        {{#each Books}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if TrainingBooks.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.3 Навчальні посібники:
+            </p>
+        </div>
+        {{#each TrainingBooks}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if OtherWritings.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.4  Інші наукові видання (словники, переклади наукових праць, науковий коментар,
+                бібліографічний покажчик тощо):
+            </p>
+        </div>
+        {{#each OtherWritings}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if ArticlesCount}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.5 Статті:
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if ImpactFactorArticles.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.5.1  Статті у виданнях, які мають імпакт-фактор:
+            </p>
+        </div>
+        {{#each ImpactFactorArticles}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if InternationalMetricArticles.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.5.2  Статті в інших виданнях, які включені до міжнародних наукометричних баз даних Web of
+                Science, Scopus та інших:
+            </p>
+        </div>
+        {{#each InternationalMetricArticles}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if OtherInternationalArticles.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.5.3 Статті в інших закордонних виданнях:
+            </p>
+        </div>
+        {{#each OtherInternationalArticles}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if NationalProfessionalArticles.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.5.4 Статті у фахових виданнях України:
+            </p>
+        </div>
+        {{#each NationalProfessionalArticles}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if OtherNationalArticles.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.5.5 Статті в інших виданнях України:
+            </p>
+        </div>
+        {{#each OtherNationalArticles}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if ConferencesCount}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.6 Тези доповідей:
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if InternationalConferences.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.6.1 Тези доповідей на міжнародних конференціях:
+            </p>
+        </div>
+        {{#each InternationalConferences}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if NationalConferences.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1.6.2 Тези доповідей на вітчизняних конференціях:
+            </p>
+        </div>
+        {{#each NationalConferences}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if RecommendedPublications.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.Праці, рекомендовані Вченою радою університету до друку(автори, назва праці, обсяг, дата
+                подачі):
+            </p>
+        </div>
+        {{#each RecommendedPublications}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if RecommendedMonographs.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.1 Монографії:
+            </p>
+        </div>
+        {{#each RecommendedMonographs}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if RecommendedBooks.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.2 Підручники:
+            </p>
+        </div>
+        {{#each RecommendedBooks}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if RecommendedTrainingBooks.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.3 Навчальні посібники:
+            </p>
+        </div>
+        {{#each RecommendedTrainingBooks}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if RecommendedOtherWritings.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.4  Інші наукові видання (словники, переклади наукових праць, науковий коментар,
+                бібліографічний покажчик тощо):
+            </p>
+        </div>
+        {{#each RecommendedOtherWritings}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{#if AcceptedToPrintPublications.Count}}
+        <div class="block">
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2.5 Статті, прийняті до друку:
+            </p>
+        </div>
+        {{#each AcceptedToPrintPublications}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{inc @index}}. {{this}}<br />
+        {{/each}}
+        {{/if}}
+
+        {{/if}}
+        {{/with}}
+
+        {{#with GeneralInfo}}
+        {{#if ApplicationForInevention}}
+        {{#if PatentForInevention}}
+        <div class="block">
+            <p style="margin-left:34px">
+                7. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+        {{#if ApplicationForInevention}}
+        <div class="block">
+            <p style="margin-left:34px">
+                7.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) -
+                автори, назва, № заявки, дата подачі, заявник(и):
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{ApplicationForInevention}}</p>
+        </div>
+        {{/if}}
+        {{#if PatentForInevention}}
+        <div class="block">
+            <p style="margin-left:34px">
+                7.2 Патенти на винахід (корисну модель) - автори, назва, № патенту, дата видачі, заявник(и):
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{PatentForInevention}}</p>
+        </div>
+        {{/if}}
+        {{/if}}
+        {{/if}}
+
+        {{#if ReviewForTheses}}
+        <div class="block">
+            <p style="margin-left:34px">
+                8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{ReviewForTheses}}</p>
+        </div>
+        {{/if}}
+
+        {{#if MembershipInCouncils}}
+        <div class="block">
+            <p style="margin-left:34px">
+                9. Членство у спеціалізованих вчених, експертних радах, редколегіях наукових журналів тощо:
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{MembershipInCouncils}}</p>
+        </div>
+        {{/if}}
+
+        {{#if Other}}
+        <div class="block">
+            <p style="margin-left:34px">
+                10. Інше:
+            </p>
+            <p class="input-text" style="white-space:pre-line;">{{Other}}</p>
+        </div>
+        {{/if}}
+        {{/with}}
+
+        <div class="block input-text"><p>Підпис_______________</p></div>
+        <div class="block input-text">
+            <p>Звіт заслухано і затверджено на засіданні кафедри (підрозділу)</p>
+            <p class="footer-text">
+                {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}
+            </p>
+            <p class="footer-text">
+                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}}{{CathedraLeadStatus}} {{CathedraLead}}{{/with}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

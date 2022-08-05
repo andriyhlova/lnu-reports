@@ -2,30 +2,14 @@
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Text;
 
-namespace SRS.Services.Interfaces
+namespace SRS.Services.Interfaces.ReportGeneration
 {
-    public class ReportBuilderService<TModel> : IReportBuilderService<TModel>
+    public class TexReportBuilderService : ITexReportBuilderService
     {
-        private readonly IHtmlCompiler _htmlCompiler;
-
-        public ReportBuilderService(IHtmlCompiler htmlCompiler)
+        public string Build(string htmlText)
         {
-            _htmlCompiler = htmlCompiler;
-        }
-
-        public string BuildHtml(string templateName, TModel model)
-        {
-            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ReportTemplates");
-            var templateText = File.ReadAllText(Path.Combine(path, templateName + ".html"));
-            return _htmlCompiler.Compile(templateText, model);
-        }
-
-        public string BuildTex(string templateName, TModel model)
-        {
-            var htmlText = BuildHtml(templateName, model);
             var fileUniqueId = Guid.NewGuid();
             var file = Path.Combine(ConfigurationManager.AppSettings["HtmlFilePath"], $"{fileUniqueId}.html");
             File.WriteAllText(file, htmlText);
@@ -43,8 +27,8 @@ namespace SRS.Services.Interfaces
                     StandardOutputEncoding = Encoding.GetEncoding(866)
                 }
             };
-
             proc.Start();
+
             var i = 0;
             while (!proc.StandardOutput.EndOfStream)
             {
@@ -59,6 +43,7 @@ namespace SRS.Services.Interfaces
                 }
             }
 
+            File.Delete(file);
             return result.ToString();
         }
     }

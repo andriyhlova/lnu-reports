@@ -2,10 +2,12 @@
 using Ninject.Modules;
 using SRS.Domain.Entities;
 using SRS.Services.Implementations;
+using SRS.Services.Implementations.ReportGeneration;
 using SRS.Services.Interfaces;
+using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models;
 using SRS.Services.Models.PublicationModels;
-using SRS.Services.Models.ReportModels;
+using SRS.Services.Models.ReportGenerationModels;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Utilities
@@ -48,7 +50,9 @@ namespace SRS.Services.Utilities
             Bind<IRoleActionService>().To<RoleActionService>();
             Bind<IReportTemplateService>().To<ReportTemplateService>();
             Bind<IHtmlCompiler>().To<HandlebarsHtmlCompiler>();
-            Bind<IReportBuilderService<ReportTemplateModel>>().To<ReportBuilderService<ReportTemplateModel>>();
+            Bind<IHtmlReportBuilderService<ReportTemplateModel>>().To<HtmlReportBuilderService<ReportTemplateModel>>();
+            Bind<ITexReportBuilderService>().To<TexReportBuilderService>();
+            Bind<IBibliographyService>().To<BibliographyService>();
         }
     }
 }

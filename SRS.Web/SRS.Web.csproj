@@ -244,6 +244,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
     <Compile Include="Controllers\CathedraReportListController.cs" />
+    <Compile Include="Controllers\ReportGenerationController.cs" />
     <Compile Include="Controllers\ReportListController.cs" />
     <Compile Include="Controllers\CathedraReportController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -319,7 +320,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ReportTemplates\Report.html" />
+    <Content Include="ReportTemplates\IndividualReport.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Scripts\chosen-sprite%402x.png" />
