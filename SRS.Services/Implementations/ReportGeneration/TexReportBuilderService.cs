@@ -33,12 +33,12 @@ namespace SRS.Services.Interfaces.ReportGeneration
             while (!proc.StandardOutput.EndOfStream)
             {
                 var line = proc.StandardOutput.ReadLine();
-                result.AppendLine(line);
-                result.AppendLine("\n");
+                result.Append(line);
+                result.Append("\n");
                 i++;
                 if (i == 8)
                 {
-                    result.AppendLine(@"\usepackage[ukrainian]{babel}");
+                    result.Append(@"\usepackage[ukrainian]{babel}");
                     result.Append("\n");
                 }
             }
