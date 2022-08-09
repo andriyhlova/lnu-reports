@@ -9,7 +9,7 @@ using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Services.Providers;
 
-namespace UserManagement.Areas.Api.Controllers
+namespace SRS.Web.Areas.Api.Controllers
 {
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class UsersController : Controller

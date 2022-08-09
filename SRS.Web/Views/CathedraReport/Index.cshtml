@@ -562,9 +562,9 @@
             <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReport", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-                @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReport", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-                <a href="@Url.Action("Preview", "CathedraReport", new { reportId = Model.Id })"
+                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+                @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id })"
                    target="_blank"
                    class="btn btn-default">
                     Переглянути

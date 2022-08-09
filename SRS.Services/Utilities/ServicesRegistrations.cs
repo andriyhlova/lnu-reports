@@ -7,7 +7,8 @@ using SRS.Services.Interfaces;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models;
 using SRS.Services.Models.PublicationModels;
-using SRS.Services.Models.ReportGenerationModels;
+using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using SRS.Services.Models.ReportGenerationModels.IndividualReport;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Utilities
@@ -49,8 +50,10 @@ namespace SRS.Services.Utilities
             Bind<IEmailService>().To<EmailService>();
             Bind<IRoleActionService>().To<RoleActionService>();
             Bind<IReportTemplateService>().To<ReportTemplateService>();
+            Bind<ICathedraReportTemplateService>().To<CathedraReportTemplateService>();
             Bind<IHtmlCompiler>().To<HandlebarsHtmlCompiler>();
             Bind<IHtmlReportBuilderService<ReportTemplateModel>>().To<HtmlReportBuilderService<ReportTemplateModel>>();
+            Bind<IHtmlReportBuilderService<CathedraReportTemplateModel>>().To<HtmlReportBuilderService<CathedraReportTemplateModel>>();
             Bind<ITexReportBuilderService>().To<TexReportBuilderService>();
             Bind<IBibliographyService>().To<BibliographyService>();
         }

@@ -3,5 +3,7 @@
     public static class PositionNames
     {
         public const string CathedraLead = "завідувач кафедри";
+
+        public const string FacultyLead = "декан";
     }
 }

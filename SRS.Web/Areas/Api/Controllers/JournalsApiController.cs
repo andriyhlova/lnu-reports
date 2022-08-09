@@ -3,7 +3,7 @@ using SRS.Services.Models;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace UserManagement.Areas.Api.Controllers
+namespace SRS.Web.Areas.Api.Controllers
 {
     [Authorize]
     public class JournalsApiController : Controller

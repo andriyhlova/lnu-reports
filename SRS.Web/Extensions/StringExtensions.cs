@@ -1,10 +1,10 @@
-﻿namespace UserManagement.Extensions
+﻿namespace SRS.Web.Extensions
 {
     public static class StringExtensions
     {
         public static string GetFriendlyName(this string val)
         {
-            return val.ToString().ToLower().Replace('_', ' ');
+            return val.ToLower().Replace('_', ' ');
         }
     }
 }

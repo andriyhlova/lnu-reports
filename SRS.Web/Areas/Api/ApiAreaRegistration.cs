@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace UserManagement.Areas.Api
+namespace SRS.Web.Areas.Api
 {
     public class ApiAreaRegistration : AreaRegistration 
     {

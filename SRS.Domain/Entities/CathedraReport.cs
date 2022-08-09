@@ -99,5 +99,10 @@ namespace SRS.Domain.Entities
         public virtual List<CoworkersDefenses> DefenseOfCoworkers { get; set; }// 7.2
 
         public virtual List<OtherDefenses> DefenseWithSpecialPeople { get; set; }// 7.3
+
+        public object GroupBy(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

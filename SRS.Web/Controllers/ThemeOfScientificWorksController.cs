@@ -7,13 +7,13 @@ using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
+using SRS.Web.Extensions;
 using SRS.Web.Models.Shared;
 using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using UserManagement.Extensions;
 
 namespace SRS.Web.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace SRS.Services.Models.ReportGenerationModels
+﻿namespace SRS.Services.Models.ReportGenerationModels.IndividualReport
 {
     public class ReportGeneralInfoModel
     {
