@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using SRS.Services.Models.ReportGenerationModels.IndividualReport;
+using SRS.Services.Models.ReportGenerationModels.Report;
 
 namespace SRS.Services.Interfaces.ReportGeneration
 {

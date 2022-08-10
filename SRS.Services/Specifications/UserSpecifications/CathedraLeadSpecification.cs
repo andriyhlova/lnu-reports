@@ -10,7 +10,7 @@ namespace SRS.Domain.Specifications.UserSpecifications
                   x => x.CathedraId == cathedraId && x.Position.Value == PositionNames.CathedraLead,
                   true)
         {
-            AddIncludes(x => x.I18nUserInitials, x => x.ScienceDegree);
+            AddIncludes(x => x.I18nUserInitials, x => x.AcademicStatus);
         }
     }
 }

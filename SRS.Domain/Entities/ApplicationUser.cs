@@ -85,17 +85,17 @@ namespace SRS.Domain.Entities
         [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }
 
+        [Column("Degree_Id")]
+        public int? DegreeId { get; set; }
+
+        [Display(Name = "Науковий ступінь")]
+        public virtual Degree Degree { get; set; }
+
         [Column("AcademicStatus_Id")]
         public int? AcademicStatusId { get; set; }
 
-        [Display(Name = "Науковий ступінь")]
-        public virtual AcademicStatus AcademicStatus { get; set; }
-
-        [Column("ScienceDegree_Id")]
-        public int? ScienceDegreeId { get; set; }
-
         [Display(Name = "Вчене звання")]
-        public virtual ScienceDegree ScienceDegree { get; set; }
+        public virtual AcademicStatus AcademicStatus { get; set; }
 
         [Column("Position_Id")]
         public int? PositionId { get; set; }

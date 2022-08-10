@@ -1,4 +1,4 @@
-﻿namespace SRS.Services.Models.ReportGenerationModels.IndividualReport
+﻿namespace SRS.Services.Models.ReportGenerationModels.Report
 {
     public class ReportPublicationCountersModel
     {

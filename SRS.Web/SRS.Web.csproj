@@ -238,7 +238,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
-    <Compile Include="Controllers\AcademicStatusController.cs" />
+    <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -438,10 +438,10 @@
     <Content Include="Views\ReportList\Index.cshtml" />
     <Content Include="Views\CathedraReport\Index.cshtml" />
     <Content Include="Views\CathedraReportList\Index.cshtml" />
-    <Content Include="Views\AcademicStatus\Create.cshtml" />
-    <Content Include="Views\AcademicStatus\Delete.cshtml" />
-    <Content Include="Views\AcademicStatus\Edit.cshtml" />
-    <Content Include="Views\AcademicStatus\Index.cshtml" />
+    <Content Include="Views\Degrees\Create.cshtml" />
+    <Content Include="Views\Degrees\Delete.cshtml" />
+    <Content Include="Views\Degrees\Edit.cshtml" />
+    <Content Include="Views\Degrees\Index.cshtml" />
     <Content Include="Views\UsersManagement\Delete.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitials.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitialsModel.cshtml" />

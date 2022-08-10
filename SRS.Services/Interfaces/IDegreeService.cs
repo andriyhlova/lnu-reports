@@ -5,9 +5,9 @@ using SRS.Services.Models.FilterModels;
 
 namespace SRS.Services.Interfaces
 {
-    public interface IAcademicStatusService
+    public interface IDegreeService
     {
-        Task<IList<AcademicStatusModel>> GetAllAsync(BaseFilterModel filterModel);
+        Task<IList<DegreeModel>> GetAllAsync(BaseFilterModel filterModel);
 
         Task<int> CountAsync(BaseFilterModel filterModel);
     }

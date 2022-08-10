@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SRS.Services.Models.ReportGenerationModels.IndividualReport
+namespace SRS.Services.Models.ReportGenerationModels.Report
 {
     public class ReportPublicationsModel
     {

@@ -38,9 +38,9 @@ namespace SRS.Services.Models.UserModels
 
         public DateTime? DoctorFinishYear { get; set; }
 
-        public int? AcademicStatusId { get; set; }
+        public int? DegreeId { get; set; }
 
-        public int? ScienceDegreeId { get; set; }
+        public int? AcademicStatusId { get; set; }
 
         public int? PositionId { get; set; }
     }

@@ -11,9 +11,9 @@ namespace SRS.Repositories.Context
         {
         }
 
-        public DbSet<AcademicStatus> AcademicStatus { get; set; }
+        public DbSet<Degree> Degree { get; set; }
 
-        public DbSet<ScienceDegree> ScienceDegree { get; set; }
+        public DbSet<AcademicStatus> AcademicStatus { get; set; }
 
         public DbSet<Cathedra> Cathedra { get; set; }
 

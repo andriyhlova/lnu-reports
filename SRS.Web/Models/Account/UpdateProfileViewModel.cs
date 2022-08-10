@@ -70,10 +70,10 @@ namespace SRS.Web.Models.Account
 
         [RequiredField]
         [Display(Name = "Науковий ступінь")]
-        public int? AcademicStatusId { get; set; }
+        public int? DegreeId { get; set; }
         [RequiredField]
         [Display(Name = "Вчене звання")]
-        public int? ScienceDegreeId { get; set; }
+        public int? AcademicStatusId { get; set; }
         [RequiredField]
         [Display(Name = "Посада")]
         public int? PositionId { get; set; }

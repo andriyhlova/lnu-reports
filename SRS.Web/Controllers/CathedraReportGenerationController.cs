@@ -28,13 +28,13 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Preview(int reportId)
         {
             var model = await _cathedraReportTemplateService.BuildAsync(reportId);
-            return Content(_htmlCathedraReportBuilderService.Build(ReportTemplates.IndividualReport, model));
+            return Content(_htmlCathedraReportBuilderService.Build(ReportTemplates.CathedraReport, model));
         }
 
         [HttpGet]
         public ActionResult PreviewOld(int reportId)
         {
-            var reportService = new UserManagement.Services.ReportService(new Repositories.Context.ApplicationDbContext());
+            var reportService = new UserManagement.Services.CathedraReportService(new Repositories.Context.ApplicationDbContext());
             return Content(reportService.GenerateHTMLReport(reportId));
         }
 

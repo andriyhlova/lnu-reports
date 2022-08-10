@@ -670,7 +670,7 @@ namespace UserManagement.Services
                 initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()
                     + ". " + cathedraLeadInitials.FathersName?.Substring(0, 1).ToUpper()
                     + ". " + cathedraLeadInitials.LastName;
-            var cathedraLeadStatus = lead?.ScienceDegree.Value;
+            var cathedraLeadStatus = lead?.AcademicStatus.Value;
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol != null ? report.Protocol : "",

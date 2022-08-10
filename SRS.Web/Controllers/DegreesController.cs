@@ -11,19 +11,19 @@ using System.Web.Mvc;
 namespace SRS.Web.Controllers
 {
     [Authorize(Roles = "Superadmin")]
-    public class AcademicStatusController : Controller
+    public class DegreesController : Controller
     {
-        private readonly IBaseCrudService<AcademicStatusModel> _academicStatusCrudService;
-        private readonly IAcademicStatusService _academicStatusService;
+        private readonly IBaseCrudService<DegreeModel> _degreesCrudService;
+        private readonly IDegreeService _degreesService;
         private readonly IMapper _mapper;
 
-        public AcademicStatusController(
-            IBaseCrudService<AcademicStatusModel> academicStatusCrudService,
-            IAcademicStatusService academicStatusService,
+        public DegreesController(
+            IBaseCrudService<DegreeModel> degreesCrudService,
+            IDegreeService degreesService,
             IMapper mapper)
         {
-            _academicStatusCrudService = academicStatusCrudService;
-            _academicStatusService = academicStatusService;
+            _degreesCrudService = degreesCrudService;
+            _degreesService = degreesService;
             _mapper = mapper;
         }
 
@@ -31,12 +31,12 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Index(BaseFilterViewModel filterViewModel)
         {
             var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
-            var academicStatuses = await _academicStatusService.GetAllAsync(filterModel);
-            var total = await _academicStatusService.CountAsync(filterModel);
-            var viewModel = new ItemsViewModel<BaseFilterViewModel, AcademicStatusModel>
+            var degrees = await _degreesService.GetAllAsync(filterModel);
+            var total = await _degreesService.CountAsync(filterModel);
+            var viewModel = new ItemsViewModel<BaseFilterViewModel, DegreeModel>
             {
                 FilterModel = filterViewModel,
-                Items = new StaticPagedList<AcademicStatusModel>(academicStatuses, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+                Items = new StaticPagedList<DegreeModel>(degrees, filterViewModel.Page.Value, PaginationValues.PageSize, total)
             };
             return View(viewModel);
         }
@@ -49,15 +49,15 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AcademicStatusModel academicStatus)
+        public async Task<ActionResult> Create(DegreeModel degrees)
         {
             if (ModelState.IsValid)
             {
-                await _academicStatusCrudService.AddAsync(academicStatus);
+                await _degreesCrudService.AddAsync(degrees);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(academicStatus);
+            return View(degrees);
         }
 
         [HttpGet]
@@ -68,15 +68,15 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AcademicStatusModel academicStatus)
+        public async Task<ActionResult> Edit(DegreeModel degrees)
         {
             if (ModelState.IsValid)
             {
-                await _academicStatusCrudService.UpdateAsync(academicStatus);
+                await _degreesCrudService.UpdateAsync(degrees);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(academicStatus);
+            return View(degrees);
         }
 
         [HttpGet]
@@ -89,19 +89,19 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            await _academicStatusCrudService.DeleteAsync(id);
+            await _degreesCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<ActionResult> Details(int id)
         {
-            var academicStatus = await _academicStatusCrudService.GetAsync(id);
-            if (academicStatus == null)
+            var degrees = await _degreesCrudService.GetAsync(id);
+            if (degrees == null)
             {
                 return HttpNotFound();
             }
 
-            return View(academicStatus);
+            return View(degrees);
         }
     }
 }

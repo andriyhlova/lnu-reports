@@ -20,8 +20,8 @@ namespace SRS.Web.Controllers
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
+        private readonly IBaseCrudService<DegreeModel> _degreeService;
         private readonly IBaseCrudService<AcademicStatusModel> _academicStatusService;
-        private readonly IBaseCrudService<ScienceDegreeModel> _scientificDegreeService;
         private readonly IBaseCrudService<PositionModel> _positionService;
         private readonly IUserService<ProfileInfoModel> _userService;
         private readonly IMapper _mapper;
@@ -29,14 +29,14 @@ namespace SRS.Web.Controllers
         public ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController(
+            IBaseCrudService<DegreeModel> degreeService,
             IBaseCrudService<AcademicStatusModel> academicStatusService,
-            IBaseCrudService<ScienceDegreeModel> scientificDegreeService,
             IBaseCrudService<PositionModel> positionService,
             IUserService<ProfileInfoModel> userService,
             IMapper mapper)
         {
+            _degreeService = degreeService;
             _academicStatusService = academicStatusService;
-            _scientificDegreeService = scientificDegreeService;
             _positionService = positionService;
             _userService = userService;
             _mapper = mapper;
@@ -109,7 +109,7 @@ namespace SRS.Web.Controllers
         private async Task FillRelatedInfo()
         {
             ViewBag.AllAcademicStatuses = await _academicStatusService.GetAllAsync();
-            ViewBag.AllScienceDegrees = await _scientificDegreeService.GetAllAsync();
+            ViewBag.AllDegrees = await _degreeService.GetAllAsync();
             ViewBag.AllPositions = await _positionService.GetAllAsync();
         }
     }

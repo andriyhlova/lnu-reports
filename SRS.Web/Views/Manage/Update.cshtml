@@ -120,16 +120,16 @@
     <div class="form-group">
         <label class="control-label col-md-2">Науковий ступінь</label>
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.AcademicStatusId,
-                                                 new SelectList(ViewBag.AllAcademicStatuses, "Id", "Value"),
+            @Html.DropDownListFor(m => m.DegreeId,
+                                                 new SelectList(ViewBag.AllDegrees, "Id", "Value"),
                                                  new { @class = "form-control chosen-select" })
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-2">Вчене звання</label>
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.ScienceDegreeId,
-                                            new SelectList(ViewBag.AllScienceDegrees, "Id", "Value"),
+            @Html.DropDownListFor(m => m.AcademicStatusId,
+                                            new SelectList(ViewBag.AllAcademicStatuses, "Id", "Value"),
                                             new { @class = "form-control chosen-select" })
         </div>
     </div>

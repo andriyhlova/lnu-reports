@@ -28,15 +28,15 @@ namespace SRS.Services.Models.UserModels
         [Display(Name = "Факультет")]
         public string FacultyName { get; set; }
 
-        public int? AcademicStatusId { get; set; }
+        public int? DegreeId { get; set; }
 
         [Display(Name = "Науковий ступінь")]
-        public string AcademicStatusName { get; set; }
+        public string DegreeName { get; set; }
 
-        public int? ScienceDegreeId { get; set; }
+        public int? AcademicStatusId { get; set; }
 
         [Display(Name = "Вчене звання")]
-        public string ScienceDegreeName { get; set; }
+        public string AcademicStatusName { get; set; }
 
         public int? PositionId { get; set; }
 

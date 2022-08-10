@@ -32,9 +32,9 @@ namespace SRS.Services.Implementations.ReportGeneration
             var facultyLeads = await _userRepo.GetAsync(new FacultyLeadSpecification(dbReport.User.Cathedra.FacultyId));
             var report = new CathedraReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
-            report.BudgetThemeOfScientificWork = GetBudgetThemeOfScientificWork(dbReport);
-            report.InWorkTimeThemeOfScientificWork = GetInWorkTimeThemeOfScientificWork(dbReport);
-            report.HospDohovirThemeOfScientificWork = GetHospDohovirThemeOfScientificWork(dbReport);
+            report.BudgetThemeOfScientificWork = dbReport.BudgetTheme != null ? GetBudgetThemeOfScientificWork(dbReport) : null;
+            report.InWorkTimeThemeOfScientificWork = dbReport.ThemeInWorkTime != null ? GetInWorkTimeThemeOfScientificWork(dbReport) : null;
+            report.HospDohovirThemeOfScientificWork = dbReport.HospDohovirTheme != null ? GetHospDohovirThemeOfScientificWork(dbReport) : null;
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, facultyLeads);
             return report;
@@ -155,7 +155,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             signature.Protocol = dbReport.Protocol;
             signature.Date = dbReport.Date?.ToString("dd.MM.yyyy");
             signature.FacultyLead = facultyLead?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
-            signature.FacultyLeadStatus = facultyLead?.ScienceDegree?.Value;
+            signature.FacultyLeadStatus = facultyLead?.AcademicStatus?.Value;
             return signature;
         }
 

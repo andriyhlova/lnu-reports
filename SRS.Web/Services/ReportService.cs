@@ -334,8 +334,8 @@ namespace UserManagement.Services
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.HasValue ? report.User.GraduationDate.Value.Year.ToString():string.Empty,
                 [ASPIRANTURA] = (!string.IsNullOrEmpty(AspStart) || !string.IsNullOrEmpty(AspFinish)) ? $"</p><p> Перебування в аспірантурі ({AspStart} - {AspFinish})" : string.Empty,
                 [DOCTORANTURA] = (!string.IsNullOrEmpty(DocStart) || !string.IsNullOrEmpty(DocFinish)) ? $"</p><p> Перебування в докторантурі ({DocStart} - {DocFinish})" : string.Empty,
-                [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus == null ? "" : report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + (report.User.DefenseYear.HasValue ? report.User.DefenseYear.Value.Year.ToString() : string.Empty),
-                [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree == null ? "" : report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + (report.User.AwardingDate.HasValue ? report.User.AwardingDate.Value.Year.ToString() : string.Empty),
+                [ACADEMIC_STATUS_YEAR_CONST] = report.User.Degree == null ? "" : report.User.Degree.Value == "Без ступеня" ? report.User.Degree.Value : report.User.Degree.Value + ", " + (report.User.DefenseYear.HasValue ? report.User.DefenseYear.Value.Year.ToString() : string.Empty),
+                [SCIENCE_DEGREE_YEAR_CONST] = report.User.AcademicStatus == null ? "" : report.User.AcademicStatus.Value == "Без звання" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + (report.User.AwardingDate.HasValue ? report.User.AwardingDate.Value.Year.ToString() : string.Empty),
             });
         }
         private string GetPunktOne(Report report)
@@ -526,7 +526,7 @@ namespace UserManagement.Services
                 initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()
                     + ". " + cathedraLeadInitials.FathersName?.Substring(0, 1).ToUpper()
                     + ". " + cathedraLeadInitials.LastName;
-            var cathedraLeadStatus = lead?.ScienceDegree.Value;
+            var cathedraLeadStatus = lead?.AcademicStatus.Value;
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol,

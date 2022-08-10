@@ -1,7 +1,7 @@
 ﻿using Rotativa;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.Constants;
-using SRS.Services.Models.ReportGenerationModels.IndividualReport;
+using SRS.Services.Models.ReportGenerationModels.Report;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;

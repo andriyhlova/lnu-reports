@@ -10,17 +10,17 @@ using SRS.Services.Models.FilterModels;
 
 namespace SRS.Services.Implementations
 {
-    public class AcademicStatusService : BaseService<AcademicStatus>, IAcademicStatusService
+    public class DegreeService : BaseService<Degree>, IDegreeService
     {
-        public AcademicStatusService(IBaseRepository<AcademicStatus> repo, IMapper mapper)
+        public DegreeService(IBaseRepository<Degree> repo, IMapper mapper)
             : base(repo, mapper)
         {
         }
 
-        public async Task<IList<AcademicStatusModel>> GetAllAsync(BaseFilterModel filterModel)
+        public async Task<IList<DegreeModel>> GetAllAsync(BaseFilterModel filterModel)
         {
-            var academicStatuses = await _repo.GetAsync(new AcademicStatusSpecification(filterModel));
-            return _mapper.Map<IList<AcademicStatusModel>>(academicStatuses);
+            var degrees = await _repo.GetAsync(new DegreeSpecification(filterModel));
+            return _mapper.Map<IList<DegreeModel>>(degrees);
         }
 
         public async Task<int> CountAsync(BaseFilterModel filterModel)
@@ -29,7 +29,7 @@ namespace SRS.Services.Implementations
             {
                 Search = filterModel.Search
             };
-            return await _repo.CountAsync(new AcademicStatusSpecification(countFilterModel));
+            return await _repo.CountAsync(new DegreeSpecification(countFilterModel));
         }
     }
 }

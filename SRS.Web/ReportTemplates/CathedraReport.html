@@ -66,9 +66,9 @@
         {{/if}}
         {{/with}}
 
+        {{#if BudgetThemeOfScientificWork}}
         {{#with BudgetThemeOfScientificWork}}
 
-        {{#if BudgetThemeOfScientificWork}}
         <div class="block">
             <p style="margin-left:34px">
                 2. Держбюджетні теми: шифр, назва, науковий керівник (науковий ступінь, вчене звання),
@@ -120,10 +120,7 @@
                 навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
             </p>
             <p class="input-text" style="white-space:pre-line;">
-                Всього по темі опубліковано
-                {{#each PublicationsCounters}}
-                {{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}
-                {{/each}}
+                Всього по темі опубліковано {{#each PublicationsCounters}}{{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}{{/each}}
             </p>
         </div>
         {{/if}}
@@ -150,13 +147,12 @@
         </div>
         {{/if}}
 
+        {{/with}}
         {{/if}}
 
-        {{/with}}
-
+        {{#if InWorkTimeThemeOfScientificWork}}
         {{#with InWorkTimeThemeOfScientificWork}}
 
-        {{#if InWorkTimeThemeOfScientificWork}}
         <div class="block">
             <p style="margin-left:34px">
                 3. Теми, які виконуються в межах робочого часу викладачів: назва,
@@ -207,10 +203,7 @@
                 навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
             </p>
             <p class="input-text" style="white-space:pre-line;">
-                Всього по темі опубліковано
-                {{#each PublicationsCounters}}
-                {{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}
-                {{/each}}
+                Всього по темі опубліковано {{#each PublicationsCounters}}{{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}{{/each}}
             </p>
         </div>
         {{/if}}
@@ -237,13 +230,12 @@
         </div>
         {{/if}}
 
+        {{/with}}
         {{/if}}
 
-        {{/with}}
-
+        {{#if HospDohovirThemeOfScientificWork}}
         {{#with HospDohovirThemeOfScientificWork}}
 
-        {{#if HospDohovirThemeOfScientificWork}}
         <div class="block">
             <p style="margin-left:34px">
                 4. Госпдоговірна тематика (шифр, назва, науковий керівник, термін виконання,
@@ -294,10 +286,7 @@
                 навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
             </p>
             <p class="input-text" style="white-space:pre-line;">
-                Всього по темі опубліковано
-                {{#each PublicationsCounters}}
-                {{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}
-                {{/each}}
+                Всього по темі опубліковано {{#each PublicationsCounters}}{{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}{{/each}}
             </p>
         </div>
         {{/if}}
@@ -324,9 +313,8 @@
         </div>
         {{/if}}
 
-        {{/if}}
-
         {{/with}}
+        {{/if}}
 
         {{#with GeneralInfo}}
         {{#if OtherFormsOfScientificWork}}

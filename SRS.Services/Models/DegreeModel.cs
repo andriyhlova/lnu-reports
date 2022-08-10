@@ -2,7 +2,7 @@
 
 namespace SRS.Services.Models
 {
-    public class ScienceDegreeModel : BaseValueModel
+    public class DegreeModel : BaseValueModel
     {
     }
 }

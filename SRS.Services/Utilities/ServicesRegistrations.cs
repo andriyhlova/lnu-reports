@@ -8,7 +8,7 @@ using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
-using SRS.Services.Models.ReportGenerationModels.IndividualReport;
+using SRS.Services.Models.ReportGenerationModels.Report;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Utilities
@@ -23,8 +23,8 @@ namespace SRS.Services.Utilities
 
         private void AddBaseCrudServices()
         {
+            Bind<IBaseCrudService<DegreeModel>>().To<BaseCrudService<Degree, DegreeModel>>();
             Bind<IBaseCrudService<AcademicStatusModel>>().To<BaseCrudService<AcademicStatus, AcademicStatusModel>>();
-            Bind<IBaseCrudService<ScienceDegreeModel>>().To<BaseCrudService<ScienceDegree, ScienceDegreeModel>>();
             Bind<IBaseCrudService<PositionModel>>().To<BaseCrudService<Position, PositionModel>>();
             Bind<IBaseCrudService<CathedraModel>>().To<BaseCrudService<Cathedra, CathedraModel>>();
             Bind<IBaseCrudService<ThemeOfScientificWorkModel>>().To<BaseCrudService<ThemeOfScientificWork, ThemeOfScientificWorkModel>>();
@@ -38,7 +38,7 @@ namespace SRS.Services.Utilities
         {
             Bind<ICathedraService>().To<CathedraService>();
             Bind<IThemeOfScientificWorkService>().To<ThemeOfScientificWorkService>();
-            Bind<IAcademicStatusService>().To<AcademicStatusService>();
+            Bind<IDegreeService>().To<DegreeService>();
             Bind<IPublicationService>().To<PublicationService>();
             Bind<IJournalService>().To<JournalService>();
             Bind<IReportService>().To<ReportService>();
