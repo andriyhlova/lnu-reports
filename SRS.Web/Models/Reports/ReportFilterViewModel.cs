@@ -1,5 +1,5 @@
-﻿using SRS.Web.Models.Shared;
-using System;
+﻿using System;
+using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
 {

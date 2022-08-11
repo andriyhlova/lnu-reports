@@ -1,6 +1,6 @@
-﻿using SRS.Services.Models.UserModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Models.UsersManagement
 {

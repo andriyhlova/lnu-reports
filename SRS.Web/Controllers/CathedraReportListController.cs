@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using SRS.Services.Interfaces;
@@ -9,8 +11,6 @@ using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.CathedraReports;
 using SRS.Web.Models.Shared;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -23,7 +23,8 @@ namespace SRS.Web.Controllers
         private readonly ICathedraReportService _cathedraReportService;
         private readonly IMapper _mapper;
 
-        public CathedraReportListController(ICathedraService cathedraService,
+        public CathedraReportListController(
+            ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
             IUserService<UserAccountModel> userService,
             ICathedraReportService cathedraReportService,

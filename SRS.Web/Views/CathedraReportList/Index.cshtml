@@ -73,11 +73,6 @@
                            target="_blank">
                             Переглянути
                         </a>
-                        <a href="@Url.Action("PreviewOld", "CathedraReportGeneration", new { reportId = item.Id })"
-                           class="btn btn-info"
-                           target="_blank">
-                            Переглянути Старий
-                        </a>
                         @Html.ActionLink("PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
                         @Html.ActionLink("LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
                     </td>

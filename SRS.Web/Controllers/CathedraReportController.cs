@@ -1,7 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using SRS.Domain.Enums;
-using SRS.Repositories.Context;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.FilterModels;
@@ -10,10 +13,6 @@ using SRS.Services.Models.UserModels;
 using SRS.Web.Enums;
 using SRS.Web.Models.CathedraReports;
 using SRS.Web.Models.Shared;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -27,13 +26,13 @@ namespace SRS.Web.Controllers
         private readonly IMapper _mapper;
 
         public CathedraReportController(
-            ICathedraReportService __cathedraReportService,
+            ICathedraReportService cathedraReportService,
             IThemeOfScientificWorkService themeOfScientificWorkService,
             IUserService<UserAccountModel> userAccountService,
             IPublicationService publicationService,
             IMapper mapper)
         {
-            _cathedraReportService = __cathedraReportService;
+            _cathedraReportService = cathedraReportService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userAccountService = userAccountService;
             _publicationService = publicationService;
@@ -43,7 +42,7 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Index(int? reportId, int? stepIndex)
         {
             var report = await _cathedraReportService.GetUserCathedraReportAsync(User.Identity.GetUserId(), reportId);
-            var user = await _userAccountService.GetByIdAsync(report.UserId );
+            var user = await _userAccountService.GetByIdAsync(report.UserId);
             var viewModel = _mapper.Map<CathedraReportViewModel>(report);
             var financial = GetFinancialByStep(stepIndex);
             await FillPublications(viewModel, report, financial);

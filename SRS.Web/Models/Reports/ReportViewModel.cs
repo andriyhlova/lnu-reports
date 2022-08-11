@@ -1,7 +1,7 @@
-﻿using SRS.Web.Models.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
 {

@@ -3,27 +3,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using SRS.Services.Utilities;
-using SRS.Domain.Enums;
 using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
-using SRS.Web.Models.Account;
-using AutoMapper;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.UserModels;
+using SRS.Services.Utilities;
+using SRS.Web.Identity;
+using SRS.Web.Models.Account;
 
 namespace SRS.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
         private readonly IBaseCrudService<CathedraModel> _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<I18nUserInitialsModel> _i18nUserInitialsService;
@@ -31,7 +29,7 @@ namespace SRS.Web.Controllers
         private readonly IMapper _mapper;
 
         public AccountController(
-            IBaseCrudService<CathedraModel> cathedraService, 
+            IBaseCrudService<CathedraModel> cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<I18nUserInitialsModel> i18nUserInitialsService,
             IEmailService emailService,
@@ -43,6 +41,12 @@ namespace SRS.Web.Controllers
             _emailService = emailService;
             _mapper = mapper;
         }
+
+        private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -63,9 +67,9 @@ namespace SRS.Web.Controllers
             }
 
             var user = UserManager.FindByEmail(model.Email);
-            if (user != null && !user.IsActive)
+            if (user?.IsActive == false)
             {
-                ModelState.AddModelError("", "Неактивний користувач");
+                ModelState.AddModelError(string.Empty, "Неактивний користувач");
                 return View(model);
             }
 
@@ -74,9 +78,8 @@ namespace SRS.Web.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
-                case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Неправильні електронна пошта або пароль");
+                    ModelState.AddModelError(string.Empty, "Неправильні електронна пошта або пароль");
                     return View(model);
             }
         }
@@ -101,12 +104,11 @@ namespace SRS.Web.Controllers
                 {
                     await UserManager.AddToRoleAsync(user.Id, RoleNames.Worker);
                     await AddUserInitials(user.Id);
-                    
                     TempData["Success"] = true;
                     return RedirectToAction(nameof(Login));
                 }
 
-                ModelState.AddModelError("", "Помилка реєстрації");
+                ModelState.AddModelError(string.Empty, "Помилка реєстрації");
             }
 
             await AddDepartments();
@@ -130,7 +132,7 @@ namespace SRS.Web.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
-                    return View(model);                    
+                    return View(model);
                 }
 
                 var hashedGuid = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -171,7 +173,7 @@ namespace SRS.Web.Controllers
             if (user == null)
             {
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
-            }            
+            }
 
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code.Decrypt(), model.Password);
             if (result.Succeeded)
@@ -179,7 +181,7 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
 
-            ModelState.AddModelError("", "Помилка відновлення паролю");
+            ModelState.AddModelError(string.Empty, "Помилка відновлення паролю");
             return View();
         }
 
@@ -208,7 +210,7 @@ namespace SRS.Web.Controllers
                 });
             }
         }
-        
+
         private async Task AddDepartments()
         {
             ViewBag.AllCathedras = (await _cathedraService.GetAllAsync())

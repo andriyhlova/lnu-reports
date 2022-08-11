@@ -6,9 +6,13 @@ using Microsoft.Owin.Security.Cookies;
 using Owin;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
+using SRS.Web.Identity;
 
 namespace SRS.Web
 {
+    /// <summary>
+    /// Startup class.
+    /// </summary>
     public partial class Startup
     {
         public void ConfigureAuth(IAppBuilder app)
@@ -27,7 +31,7 @@ namespace SRS.Web
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5));

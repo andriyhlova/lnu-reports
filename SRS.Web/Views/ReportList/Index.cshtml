@@ -122,11 +122,6 @@
                                target="_blank">
                                 Переглянути
                             </a>
-                            <a href="@Url.Action("PreviewOld", "ReportGeneration", new { reportId = item.Id })"
-                               class="btn btn-info"
-                               target="_blank">
-                                Переглянути Старий
-                            </a>
                             @if (!item.IsSigned)
                             {
                                 if (@item.UserId == @userId)

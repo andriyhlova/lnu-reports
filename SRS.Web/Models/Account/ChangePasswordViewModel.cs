@@ -1,5 +1,5 @@
-﻿using SRS.Services.Attributes;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using SRS.Services.Attributes;
 
 namespace SRS.Web.Models.Account
 {

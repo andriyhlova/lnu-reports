@@ -1,32 +1,25 @@
 ﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using SRS.Repositories.Context;
-using SRS.Web.Models.Account;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
-using AutoMapper;
 using SRS.Services.Models.UserModels;
+using SRS.Web.Identity;
+using SRS.Web.Models.Account;
 
 namespace SRS.Web.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
-        private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
-
         private readonly IBaseCrudService<DegreeModel> _degreeService;
         private readonly IBaseCrudService<AcademicStatusModel> _academicStatusService;
         private readonly IBaseCrudService<PositionModel> _positionService;
         private readonly IUserService<ProfileInfoModel> _userService;
         private readonly IMapper _mapper;
-
-        public ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController(
             IBaseCrudService<DegreeModel> degreeService,
@@ -41,6 +34,10 @@ namespace SRS.Web.Controllers
             _userService = userService;
             _mapper = mapper;
         }
+
+        private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
         [HttpGet]
         public ActionResult Index()

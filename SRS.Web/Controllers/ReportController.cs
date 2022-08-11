@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
@@ -6,10 +10,6 @@ using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -22,13 +22,13 @@ namespace SRS.Web.Controllers
         private readonly IMapper _mapper;
 
         public ReportController(
-            IReportService __reportService, 
+            IReportService reportService,
             IThemeOfScientificWorkService themeOfScientificWorkService,
             IUserService<UserAccountModel> userAccountService,
             IPublicationService publicationService,
             IMapper mapper)
         {
-            _reportService = __reportService;
+            _reportService = reportService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userAccountService = userAccountService;
             _publicationService = publicationService;
@@ -84,7 +84,7 @@ namespace SRS.Web.Controllers
         private async Task FillThemeOfScientificWorks(int? facultyId)
         {
             var themes = await _themeOfScientificWorkService.GetActiveForFacultyAsync(facultyId);
-            ViewBag.ScientificThemesByFaculty = _mapper.Map<IList<SelectListItem>>(themes); 
+            ViewBag.ScientificThemesByFaculty = _mapper.Map<IList<SelectListItem>>(themes);
         }
 
         private async Task FillPublications(ReportViewModel viewModel, ReportModel report, ReportPublicationsFilterViewModel publicationDateFilter)

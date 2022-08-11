@@ -1,12 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Web.Mvc;
+using AutoMapper;
 using SRS.Domain.Enums;
 using SRS.Services.Models;
-using SRS.Services.Models.FilterModels;
-using SRS.Services.Models.ReportModels;
-using SRS.Web.Models.Reports;
-using SRS.Web.Models.Shared;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace SRS.Services.Mapping.Profiles
 {
@@ -21,12 +16,12 @@ namespace SRS.Services.Mapping.Profiles
 
         private string GetThemeOfScientificWorkText(ThemeOfScientificWorkModel src)
         {
-            if(src.Financial == Financial.БЮДЖЕТ)
+            if (src.Financial == Financial.БЮДЖЕТ)
             {
                 return $"{src.Code} {src.Value}";
             }
 
-            if(src.Financial == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ)
+            if (src.Financial == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ)
             {
                 return $"{src.ScientificHead} {src.Value}";
             }

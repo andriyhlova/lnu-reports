@@ -1,20 +1,23 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 using SRS.Repositories.Migrations;
-using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Providers;
-using System;
-using System.Data.Entity;
-using System.Linq;
 
 [assembly: OwinStartup(typeof(SRS.Web.Startup))]
+
 namespace SRS.Web
 {
+    /// <summary>
+    /// Startup class.
+    /// </summary>
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
@@ -22,7 +25,7 @@ namespace SRS.Web
             ConfigureAuth(app);
             CreateRolesAndUsers();
         }
- 
+
         private void CreateRolesAndUsers()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
@@ -36,7 +39,7 @@ namespace SRS.Web
             CreateCathedraAdmin(roleManager);
             CreateWorker(roleManager);
 
-            RolesProvider.AllRoles = context.Roles.ToDictionary(x=>x.Id, x=>x.Name);
+            RolesProvider.AllRoles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
         }
 
         private void CreateSuperadmin(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
@@ -114,6 +117,5 @@ namespace SRS.Web
                 roleManager.Create(role);
             }
         }
-
     }
 }

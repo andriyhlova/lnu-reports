@@ -1,9 +1,9 @@
-﻿using SRS.Domain.Enums;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.UserModels;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SRS.Web.Models.Publications
 {

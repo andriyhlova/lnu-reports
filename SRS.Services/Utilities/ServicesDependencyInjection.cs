@@ -8,8 +8,10 @@ namespace SRS.Services.Utilities
     {
         public static INinjectModule[] GetRegistrations()
         {
-            var registrations = new List<INinjectModule>();
-            registrations.Add(new ServicesRegistrations());
+            var registrations = new List<INinjectModule>
+            {
+                new ServicesRegistrations()
+            };
             registrations.AddRange(RepositoriesDependencyInjection.GetRegistrations());
             return registrations.ToArray();
         }

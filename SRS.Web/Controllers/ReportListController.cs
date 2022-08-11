@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using SRS.Services.Interfaces;
@@ -9,8 +11,6 @@ using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {

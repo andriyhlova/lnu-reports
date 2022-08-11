@@ -1,10 +1,10 @@
-﻿using Rotativa;
+﻿using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Rotativa;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -32,16 +32,9 @@ namespace SRS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult PreviewOld(int reportId)
-        {
-            var reportService = new UserManagement.Services.CathedraReportService(new Repositories.Context.ApplicationDbContext());
-            return Content(reportService.GenerateHTMLReport(reportId));
-        }
-
-        [HttpGet]
         public ActionResult PreviewPdf(int reportId)
         {
-            return new ActionAsPdf(nameof(Preview), new { reportId = reportId});
+            return new ActionAsPdf(nameof(Preview), new { reportId });
         }
 
         [HttpGet]

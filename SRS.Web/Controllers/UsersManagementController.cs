@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using SRS.Services.Interfaces;
@@ -8,15 +10,12 @@ using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Shared;
 using SRS.Web.Models.UsersManagement;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class UsersManagementController : Controller
     {
-        private readonly IEmailService _emailService;
         private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
@@ -27,7 +26,6 @@ namespace SRS.Web.Controllers
         private readonly IMapper _mapper;
 
         public UsersManagementController(
-            IEmailService emailService,
             IBaseCrudService<CathedraModel> cathedraCrudService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
@@ -37,7 +35,6 @@ namespace SRS.Web.Controllers
             IRoleService roleService,
             IMapper mapper)
         {
-            _emailService = emailService;
             _cathedraCrudService = cathedraCrudService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
@@ -109,16 +106,11 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(string id)
         {
-            var user = await _userInfoService.GetByIdAsync(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(user);
+            return await Details(id);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {

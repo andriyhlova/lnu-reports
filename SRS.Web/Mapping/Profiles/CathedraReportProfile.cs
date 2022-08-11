@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
 using SRS.Web.Models.CathedraReports;
 using SRS.Web.Models.Shared;
-using System.Linq;
 
 namespace SRS.Services.Mapping.Profiles
 {

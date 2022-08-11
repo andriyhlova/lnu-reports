@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
@@ -36,9 +36,9 @@ namespace SRS.Web.Areas.Api.Controllers
         {
             var users = await _userInitialsService.GetForUserAsync(
                 new UserAccountModel
-                { 
+                {
                     RoleIds = new List<string> { RolesProvider.AllRoles.FirstOrDefault(x => x.Value == RoleNames.Superadmin).Key }
-                }, 
+                },
                 new DepartmentFilterModel { Search = search });
             return Json(users, JsonRequestBehavior.AllowGet);
         }

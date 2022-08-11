@@ -1,4 +1,9 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using SRS.Domain.Enums;
@@ -10,11 +15,6 @@ using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Publications;
 using SRS.Web.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -137,7 +137,8 @@ namespace SRS.Web.Controllers
             return await Details(id);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {

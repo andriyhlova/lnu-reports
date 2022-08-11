@@ -7,8 +7,10 @@ namespace SRS.Repositories.Utilities
     {
         public static INinjectModule[] GetRegistrations()
         {
-            var registrations = new List<INinjectModule>();
-            registrations.Add(new RepositoriesRegistrations());
+            var registrations = new List<INinjectModule>
+            {
+                new RepositoriesRegistrations()
+            };
             return registrations.ToArray();
         }
     }

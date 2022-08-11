@@ -1,7 +1,7 @@
-﻿using SRS.Services.Interfaces;
-using SRS.Services.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using SRS.Services.Interfaces;
+using SRS.Services.Models;
 
 namespace SRS.Web.Areas.Api.Controllers
 {

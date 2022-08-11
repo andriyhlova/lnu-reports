@@ -1,5 +1,5 @@
-﻿using SRS.Web.Models.Shared;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.CathedraReports
 {

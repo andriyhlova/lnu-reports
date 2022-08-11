@@ -7,7 +7,7 @@ namespace SRS.Services.Implementations.ReportGeneration
     {
         static HandlebarsHtmlCompiler()
         {
-            Handlebars.RegisterHelper("inc", (writer, context, arguments) => writer.WriteSafeString((int)arguments[0] + 1));
+            Handlebars.RegisterHelper("inc", (writer, _, arguments) => writer.WriteSafeString((int)arguments[0] + 1));
         }
 
         public string Compile<TModel>(string templateText, TModel model)

@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Account;
-using System;
 
 namespace SRS.Services.Models
 {
@@ -12,7 +12,7 @@ namespace SRS.Services.Models
         {
             CreateMap<RegisterViewModel, ApplicationUser>()
                 .ForMember(dest => dest.UserName, opts => opts.MapFrom(src => src.Email))
-                .ForMember(dest => dest.BirthDate, opts => opts.MapFrom(src => new DateTime(1950, 1, 1)));
+                .ForMember(dest => dest.BirthDate, opts => opts.MapFrom(_ => new DateTime(1950, 1, 1)));
 
             CreateMap<ProfileInfoModel, UpdateProfileViewModel>()
                 .ForMember(dest => dest.GraduationDate, opts => opts.MapFrom(src => src.GraduationDate.HasValue ? src.GraduationDate.Value.Year : (int?)null))
