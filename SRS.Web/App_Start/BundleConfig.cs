@@ -62,6 +62,9 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/cathedrareports/edit").Include(
                         "~/Scripts/CathedraReports/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/themeofscientificworks/edit").Include(
+                        "~/Scripts/ThemeOfScientificWorks/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)

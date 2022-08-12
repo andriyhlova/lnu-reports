@@ -42,8 +42,23 @@
         <div class="form-group">
             <label class="control-label col-md-2">Фінансування <span class="text-danger">*</span></label>
             @Html.DropDownList("Financial",
-                                                new SelectList(ViewBag.AllFinancials, "Value", "Text"),
-                                                new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                                     new SelectList(ViewBag.AllFinancials, "Value", "Text"),
+                                                     new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+        </div>
+
+        <div class="form-group subcategory-container">
+            <label class="control-label col-md-2">Підкатегорія</label>
+            @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
+                                                          new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Науковий керівник <span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                <select id="user-selector" class="form-control chosen-select" name="UserId" data-selected="@Model.UserId">
+                    <option value="">Виберіть користувача</option>
+                </select>
+            </div>
         </div>
 
         <div class="form-group">
@@ -70,52 +85,6 @@
             </div>
         </div>
 
-        @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))
-        {
-            if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
-            {
-                <div class="form-group">
-                    <label class="control-label col-md-2">Факультет <span class="text-danger">*</span></label>
-                    <div class="col-md-10">
-                        <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
-                            <option value="">Виберіть факультет</option>
-                            @foreach (var faculty in ViewBag.AllFaculties)
-                            {
-                                <option value="@faculty.Id" selected="@(faculty.Id == Model.FacultyId)">@faculty.Name</option>
-                            }
-                        </select>
-                        <div>
-                            @Html.ValidationMessageFor(model => model.FacultyId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            }
-            else
-            {
-                @Html.HiddenFor(model => model.FacultyId)
-            }
-            <div class="form-group">
-                <label class="control-label col-md-2">Кафедра <span class="text-danger">*</span></label>
-                <div class="col-md-10">
-                    <select id="cathedra-selector" class="form-control chosen-select" name="CathedraId">
-                        <option value="">Виберіть кафедру</option>
-                        @foreach (var cathedra in ViewBag.AllCathedras)
-                        {
-                            <option value="@cathedra.Id" data-faculty="@cathedra.FacultyId" selected="@(cathedra.Id == Model.CathedraId)">@cathedra.Name</option>
-                        }
-                    </select>
-                    <div>
-                        @Html.ValidationMessageFor(model => model.CathedraId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-        }
-        else
-        {
-            @Html.HiddenFor(model => model.FacultyId)
-            @Html.HiddenFor(model => model.CathedraId)
-        }
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Зберегти" class="btn btn-info" />
@@ -134,4 +103,5 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/themeofscientificworks/edit")
 }

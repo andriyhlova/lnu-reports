@@ -13,7 +13,6 @@ namespace SRS.Services.Models
 
         public string Code { get; set; }
 
-        [RequiredField]
         public string ScientificHead { get; set; }
 
         [RequiredField]
@@ -29,12 +28,8 @@ namespace SRS.Services.Models
         [RequiredField]
         public Financial Financial { get; set; }
 
-        [RequiredField]
-        public int? CathedraId { get; set; }
+        public ScientificWorkSubCategory? SubCategory { get; set; }
 
-        public string CathedraName { get; set; }
-
-        [RequiredField]
-        public int? FacultyId { get; set; }
+        public string UserId { get; set; }
     }
 }

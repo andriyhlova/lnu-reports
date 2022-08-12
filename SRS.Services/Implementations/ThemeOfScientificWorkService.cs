@@ -25,39 +25,12 @@ namespace SRS.Services.Implementations
             _roleActionService = roleActionService;
         }
 
-        public async Task<int> AddAsync(UserAccountModel user, ThemeOfScientificWorkModel model)
-        {
-            var actions = new Dictionary<string, Func<Task<int?>>>
-            {
-                [RoleNames.CathedraAdmin] = () => Task.FromResult(user.CathedraId)
-            };
-
-            var entity = _mapper.Map<ThemeOfScientificWork>(model);
-            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions) ?? entity.CathedraId;
-            return await _repo.AddAsync(entity);
-        }
-
-        public async Task<ThemeOfScientificWorkModel> UpdateAsync(UserAccountModel user, ThemeOfScientificWorkModel model)
-        {
-            var actions = new Dictionary<string, Func<Task<int?>>>
-            {
-                [RoleNames.CathedraAdmin] = () => Task.FromResult(user.CathedraId)
-            };
-
-            var entity = _mapper.Map<ThemeOfScientificWork>(model);
-            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions) ?? entity.CathedraId;
-            entity = await _repo.UpdateAsync(entity);
-            return _mapper.Map<ThemeOfScientificWorkModel>(entity);
-        }
-
         public async Task<IList<ThemeOfScientificWorkModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<ThemeOfScientificWork>>>>
             {
                 [RoleNames.Superadmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, null)),
                 [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
-                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.CathedraId == user.CathedraId))
             };
 
             var scientificThemes = await _roleActionService.TakeRoleActionAsync(user, actions);

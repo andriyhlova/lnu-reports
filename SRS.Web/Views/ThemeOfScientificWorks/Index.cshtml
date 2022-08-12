@@ -1,6 +1,7 @@
 ﻿@using PagedList.Mvc
 @using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Models
+@using SRS.Web.Extensions
 @using SRS.Web.Models.Shared
 @model ItemsViewModel<DepartmentFilterViewModel, ThemeOfScientificWorkModel>
 @{
@@ -10,7 +11,6 @@
 <h2>Наукові роботи</h2>
 <form>
     @{ViewBag.SearchPlaceholder = "Пошук";}
-    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     <div class="form-group">
         <input type="submit" class="btn btn-info" value="Фільтрувати" />
@@ -47,10 +47,6 @@
                     @Html.ActionLink("Фінансування", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Financial, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Financial, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
-                <th>
-                    @Html.ActionLink("Кафедра", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.CathedraName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.CathedraName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -75,10 +71,7 @@
                         <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodTo)</div>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Financial)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CathedraName)
+                        @item.Financial.GetDisplayName()
                     </td>
                     <td>
                         @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })

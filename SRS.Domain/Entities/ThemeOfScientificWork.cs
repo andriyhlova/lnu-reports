@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SRS.Domain.Enums;
 
@@ -20,11 +19,17 @@ namespace SRS.Domain.Entities
 
         public Financial Financial { get; set; }
 
+        public ScientificWorkSubCategory? SubCategory { get; set; }
+
         public virtual ICollection<Report> Report { get; set; }
 
         [Column("Cathedra_Id")]
         public int? CathedraId { get; set; }
 
         public virtual Cathedra Cathedra { get; set; }
+
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }

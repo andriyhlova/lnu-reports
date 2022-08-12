@@ -16,12 +16,12 @@ namespace SRS.Services.Mapping.Profiles
 
         private string GetThemeOfScientificWorkText(ThemeOfScientificWorkModel src)
         {
-            if (src.Financial == Financial.БЮДЖЕТ)
+            if (src.Financial == Financial.Budget)
             {
                 return $"{src.Code} {src.Value}";
             }
 
-            if (src.Financial == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ)
+            if (src.Financial == Financial.InWorkTime)
             {
                 return $"{src.ScientificHead} {src.Value}";
             }

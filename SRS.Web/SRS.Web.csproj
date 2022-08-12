@@ -254,6 +254,7 @@
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Enums\CathedraReportStep.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -373,6 +374,7 @@
     <Content Include="Scripts\jquery.steps.js" />
     <Content Include="Scripts\jquery.steps.min.js" />
     <Content Include="Scripts\CathedraReports\edit.js" />
+    <Content Include="Scripts\ThemeOfScientificWorks\edit.js" />
     <Content Include="Scripts\Reports\edit.js" />
     <Content Include="Scripts\Steps\jquery.steps.js" />
     <Content Include="Scripts\Steps\jquery.steps.min.js" />

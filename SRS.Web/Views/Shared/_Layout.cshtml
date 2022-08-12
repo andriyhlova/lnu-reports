@@ -36,7 +36,7 @@
                             <ul class="dropdown-menu">
                                 @if (User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "CathedraReport", new { Financial = Financial.БЮДЖЕТ }, null)</li>
+                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "CathedraReport", new { Financial = Financial.Budget }, null)</li>
                                 }
                                 @if (User.IsInRole(RoleNames.Worker))
                                 {
@@ -67,8 +67,8 @@
                                     {
                                         <li>@Html.ActionLink("Наукові ступені", "Index", "Degrees")</li>
                                         <li>@Html.ActionLink("Журнали", "Index", "Journals")</li>
+                                        <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
                                     }
-                                    <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
                                 </ul>
                             </li>
                         }

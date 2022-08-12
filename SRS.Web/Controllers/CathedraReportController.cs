@@ -98,9 +98,9 @@ namespace SRS.Web.Controllers
             var cathedraReportStep = (CathedraReportStep?)stepIndex;
             switch (cathedraReportStep)
             {
-                case CathedraReportStep.BudgetThemeInfo: return Financial.БЮДЖЕТ;
-                case CathedraReportStep.InTimeTHemeInfo: return Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ;
-                case CathedraReportStep.HospDohovirThemeInfo: return Financial.ГОСПДОГОВІР;
+                case CathedraReportStep.BudgetThemeInfo: return Financial.Budget;
+                case CathedraReportStep.InTimeTHemeInfo: return Financial.InWorkTime;
+                case CathedraReportStep.HospDohovirThemeInfo: return Financial.BusinessContract;
                 default: return null;
             }
         }
