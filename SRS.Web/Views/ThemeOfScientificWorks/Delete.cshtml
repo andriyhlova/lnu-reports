@@ -1,4 +1,5 @@
 ﻿@using SRS.Services.Models
+@using SRS.Web.Extensions
 @model ThemeOfScientificWorkModel
 
 @{
@@ -30,6 +31,27 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Value)
+        </dd>
+        <dt>
+            Тип фінансування
+        </dt>
+        <dd>
+            @Model.Financial.GetDisplayName()
+        </dd>
+        <dt>
+            Підкатегорія
+        </dt>
+        <dd>
+            @(Model.SubCategory != null ? Model.SubCategory.GetDisplayName() : null)
+        </dd>
+        <dt>
+            Фінансування по роках
+        </dt>
+        <dd>
+            @for(var i=0; i< Model.ThemeOfScientificWorkFinancials.Count; i++)
+            {
+                <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн </div>
+            }
         </dd>
         <dt>
             Науковий керівник

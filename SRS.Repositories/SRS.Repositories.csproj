@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Implementation\CathedraReportRepository.cs" />
+    <Compile Include="Implementation\ThemeOfScientificWorkRepository.cs" />
     <Compile Include="Implementation\ReportRepository.cs" />
     <Compile Include="Implementation\PublicationRepository.cs" />
     <Compile Include="Implementation\RoleRepository.cs" />
@@ -113,9 +114,9 @@
     <Compile Include="Migrations\202208102221439_RenamedScienceDegreeAcademicStatusTable.designer.cs">
       <DependentUpon>202208102221439_RenamedScienceDegreeAcademicStatusTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202208122104106_ChangedThemeOfScientificWork.cs" />
-    <Compile Include="Migrations\202208122104106_ChangedThemeOfScientificWork.designer.cs">
-      <DependentUpon>202208122104106_ChangedThemeOfScientificWork.cs</DependentUpon>
+    <Compile Include="Migrations\202208162057166_ChangedThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202208162057166_ChangedThemeOfScientificWork.designer.cs">
+      <DependentUpon>202208162057166_ChangedThemeOfScientificWork.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,8 +151,8 @@
     <EmbeddedResource Include="Migrations\202208102221439_RenamedScienceDegreeAcademicStatusTable.resx">
       <DependentUpon>202208102221439_RenamedScienceDegreeAcademicStatusTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208122104106_ChangedThemeOfScientificWork.resx">
-      <DependentUpon>202208122104106_ChangedThemeOfScientificWork.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202208162057166_ChangedThemeOfScientificWork.resx">
+      <DependentUpon>202208162057166_ChangedThemeOfScientificWork.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,7 @@ namespace SRS.Repositories.Utilities
             Bind<IBaseRepository<Publication>>().To<PublicationRepository>();
             Bind<IBaseRepository<Report>>().To<ReportRepository>();
             Bind<IBaseRepository<CathedraReport>>().To<CathedraReportRepository>();
+            Bind<IBaseRepository<ThemeOfScientificWork>>().To<ThemeOfScientificWorkRepository>();
             Bind<ApplicationDbContext>().ToSelf();
         }
     }

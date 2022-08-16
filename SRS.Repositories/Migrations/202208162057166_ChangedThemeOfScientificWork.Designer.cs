@@ -13,7 +13,7 @@ namespace SRS.Repositories.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202208122104106_ChangedThemeOfScientificWork"; }
+            get { return "202208162057166_ChangedThemeOfScientificWork"; }
         }
         
         string IMigrationMetadata.Source

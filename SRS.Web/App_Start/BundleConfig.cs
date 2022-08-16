@@ -85,14 +85,14 @@ namespace SRS.Web
             bundles.Add(new StyleBundle("~/Content/usersManagement/bundle").Include(
                       "~/Content/UsersManagement/edit.css"));
 
-            bundles.Add(new StyleBundle("~/Content/publications/bundle").Include(
-                      "~/Content/Publications/edit.css"));
-
             bundles.Add(new StyleBundle("~/Content/search/bundle").Include(
                       "~/Content/Search/search.css"));
 
             bundles.Add(new StyleBundle("~/Content/reports/bundle").Include(
                       "~/Content/Reports/edit.css"));
+
+            bundles.Add(new StyleBundle("~/Content/themeOfScientificWorks/bundle").Include(
+                      "~/Content/ThemeOfScientificWorks/edit.css"));
         }
     }
 }

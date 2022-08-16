@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,26 +21,17 @@ namespace SRS.Web.Controllers
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Керівник кафедри, Адміністрація деканату")]
     public class ThemeOfScientificWorksController : Controller
     {
-        private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
-        private readonly ICathedraService _cathedraService;
-        private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<ThemeOfScientificWorkModel> _themeOfScientificWorkCrudService;
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly IUserService<UserAccountModel> _userService;
         private readonly IMapper _mapper;
 
         public ThemeOfScientificWorksController(
-            IBaseCrudService<CathedraModel> cathedraCrudService,
-            ICathedraService cathedraService,
-            IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<ThemeOfScientificWorkModel> themeOfScientificWorkCrudService,
             IThemeOfScientificWorkService themeOfScientificWorkService,
             IUserService<UserAccountModel> userService,
             IMapper mapper)
         {
-            _cathedraCrudService = cathedraCrudService;
-            _cathedraService = cathedraService;
-            _facultyService = facultyService;
             _themeOfScientificWorkCrudService = themeOfScientificWorkCrudService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userService = userService;
@@ -53,8 +45,6 @@ namespace SRS.Web.Controllers
             var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
             var scientifthemes = await _themeOfScientificWorkService.GetForUserAsync(user, filterModel);
             var total = await _themeOfScientificWorkService.CountForUserAsync(user, filterModel);
-
-            FillAllRelatedEntities();
 
             var viewModel = new ItemsViewModel<DepartmentFilterViewModel, ThemeOfScientificWorkModel>
             {
@@ -79,8 +69,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            FillAllRelatedEntities();
-            return View(new ThemeOfScientificWorkModel());
+            return View(new ThemeOfScientificWorkModel { ThemeOfScientificWorkFinancials = new List<ThemeOfScientificWorkFinancialModel>() });
         }
 
         [HttpPost]
@@ -89,18 +78,31 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
+#pragma warning disable S2486 // Generic exceptions should not be ignored
+#pragma warning disable CS0168 // Variable is declared but never used
+#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
+                try
+                {
+                    await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
+                }
+                catch (Exception exc)
+#pragma warning disable S108 // Nested blocks of code should not be left empty
+                {
+                }
+#pragma warning restore S108 // Nested blocks of code should not be left empty
+#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
+#pragma warning restore CS0168 // Variable is declared but never used
+#pragma warning restore S2486 // Generic exceptions should not be ignored
+
                 return RedirectToAction(nameof(Index));
             }
 
-            FillAllRelatedEntities();
             return View(themeOfScientificWork);
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            FillAllRelatedEntities();
             return await Details(id);
         }
 
@@ -114,7 +116,6 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillAllRelatedEntities();
             return View(themeOfScientificWork);
         }
 
@@ -131,18 +132,6 @@ namespace SRS.Web.Controllers
         {
             await _themeOfScientificWorkCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private void FillAllRelatedEntities()
-        {
-            FillFinancials();
-        }
-
-        private void FillFinancials()
-        {
-            ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
-                .Select(x => new SelectListItem { Text = x.GetFriendlyName(), Value = x })
-                .ToList();
         }
     }
 }

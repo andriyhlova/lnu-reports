@@ -40,16 +40,37 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Фінансування <span class="text-danger">*</span></label>
-            @Html.DropDownList("Financial",
-                                                     new SelectList(ViewBag.AllFinancials, "Value", "Text"),
-                                                     new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+            <label class="control-label col-md-2">Тип фінансування <span class="text-danger">*</span></label>
+            @Html.EnumDropDownListFor(model => model.Financial,
+                                                                    new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
         </div>
 
         <div class="form-group subcategory-container">
             <label class="control-label col-md-2">Підкатегорія</label>
             @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
-                                                          new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                                               new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Фінансування по роках</label>
+            <div class="col-md-10">
+                <button class="btn btn-info add-financial" type="button">Додати</button>
+                <div class="selected-items selected-financials">
+                    @for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
+                    {
+                        <div>
+                            <div class="selected-item">
+                                <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн <i class="bi bi-trash text-danger cursor-pointer"></i></div>
+                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Id" class="id" value="@Model.ThemeOfScientificWorkFinancials[i].Id" />
+                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Year" class="year" value="@Model.ThemeOfScientificWorkFinancials[i].Year" />
+                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Amount" class="amount" value="@Model.ThemeOfScientificWorkFinancials[i].Amount" />
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="new-financial">
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -98,6 +119,7 @@
 </div>
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/themeOfScientificWorks/bundle")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

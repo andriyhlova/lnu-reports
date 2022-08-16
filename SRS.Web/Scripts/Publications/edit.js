@@ -59,7 +59,7 @@
     };
 
     function getUserHtml(index, user) {
-        return `<div class="user">
+        return `<div class="selected-item user">
                             <div class="fullname">${user.FullName} <i class="bi bi-trash text-danger cursor-pointer"></i></div>
                             <input type="hidden" name="Users[${index}].Id" class="id" value="${user.Id}" />
                             <input type="hidden" name="Users[${index}].LastName" class="lastname" value="${user.LastName}" />

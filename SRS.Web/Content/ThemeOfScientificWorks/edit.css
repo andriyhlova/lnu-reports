@@ -1,0 +1,10 @@
+﻿.selected-financials, .financial-buttons {
+    margin-top: 8px;
+}
+.new-financial-form {
+    border: solid 1px grey;
+    border-radius: 4px;
+    background: aliceblue;
+    max-width: 280px;
+    padding: 16px;
+}

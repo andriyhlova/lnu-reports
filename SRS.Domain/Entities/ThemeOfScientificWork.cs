@@ -31,5 +31,7 @@ namespace SRS.Domain.Entities
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+
+        public virtual ICollection<ThemeOfScientificWorkFinancial> ThemeOfScientificWorkFinancials { get; set; }
     }
 }

@@ -314,8 +314,8 @@
     <Content Include="Content\Reports\edit.css" />
     <Content Include="Content\Search\search.css" />
     <Content Include="Content\step.css" />
-    <Content Include="Content\Publications\edit.css" />
     <Content Include="Content\Steps\steps.css" />
+    <Content Include="Content\ThemeOfScientificWorks\edit.css" />
     <Content Include="Content\UsersManagement\edit.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

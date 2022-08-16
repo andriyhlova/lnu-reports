@@ -185,6 +185,7 @@
     <Compile Include="Models\ReportModels\ReportOtherInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkFinancialModel.cs" />
     <Compile Include="Models\UserModels\UserInitialsModel.cs" />
     <Compile Include="Models\UserModels\BaseUserModel.cs" />
     <Compile Include="Models\Constants\Dates.cs" />
