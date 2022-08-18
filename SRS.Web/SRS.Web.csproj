@@ -236,6 +236,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
@@ -254,7 +255,6 @@
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Enums\CathedraReportStep.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

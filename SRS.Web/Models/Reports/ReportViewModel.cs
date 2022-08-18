@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Services.Models;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
@@ -39,7 +40,7 @@ namespace SRS.Web.Models.Reports
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public int? ThemeOfScientificWorkId { get; set; }
+        public List<BaseThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
         public List<CheckboxListItem> PrintedPublication { get; set; }
 

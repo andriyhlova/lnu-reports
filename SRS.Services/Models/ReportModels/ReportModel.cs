@@ -24,7 +24,7 @@ namespace SRS.Services.Models.ReportModels
 
         public string ThemeOfScientificWorkDescription { get; set; }// Пункт 1
 
-        public int? ThemeOfScientificWorkId { get; set; }// Пункт 1
+        public IList<BaseThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
         public IList<int> PrintedPublicationIds { get; set; }// Пункт 6.1
 

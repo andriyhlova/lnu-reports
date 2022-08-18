@@ -10,6 +10,8 @@ namespace SRS.Services.Mapping.Profiles
         {
             CreateMap<ThemeOfScientificWork, ThemeOfScientificWorkModel>().ReverseMap();
             CreateMap<ThemeOfScientificWorkFinancial, ThemeOfScientificWorkFinancialModel>().ReverseMap();
+
+            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkModel>().ReverseMap();
         }
     }
 }

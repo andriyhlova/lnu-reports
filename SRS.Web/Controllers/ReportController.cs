@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -7,7 +6,6 @@ using Microsoft.AspNet.Identity;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
-using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
 
@@ -16,21 +14,15 @@ namespace SRS.Web.Controllers
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
-        private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
-        private readonly IUserService<UserAccountModel> _userAccountService;
         private readonly IPublicationService _publicationService;
         private readonly IMapper _mapper;
 
         public ReportController(
             IReportService reportService,
-            IThemeOfScientificWorkService themeOfScientificWorkService,
-            IUserService<UserAccountModel> userAccountService,
             IPublicationService publicationService,
             IMapper mapper)
         {
             _reportService = reportService;
-            _themeOfScientificWorkService = themeOfScientificWorkService;
-            _userAccountService = userAccountService;
             _publicationService = publicationService;
             _mapper = mapper;
         }
@@ -38,10 +30,8 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Index(int? reportId, int? stepIndex, ReportPublicationsFilterViewModel publicationDateFilter)
         {
             var report = await _reportService.GetUserReportAsync(User.Identity.GetUserId(), reportId);
-            var user = await _userAccountService.GetByIdAsync(report.UserId);
             var viewModel = _mapper.Map<ReportViewModel>(report);
             await FillPublications(viewModel, report, publicationDateFilter);
-            await FillThemeOfScientificWorks(user.FacultyId);
             FillFilters(publicationDateFilter);
             FillStepIndex(stepIndex);
             return View(viewModel);
@@ -79,12 +69,6 @@ namespace SRS.Web.Controllers
         public ActionResult Finalize(int id, int? stepIndex)
         {
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });
-        }
-
-        private async Task FillThemeOfScientificWorks(int? facultyId)
-        {
-            var themes = await _themeOfScientificWorkService.GetActiveForFacultyAsync(facultyId);
-            ViewBag.ScientificThemesByFaculty = _mapper.Map<IList<SelectListItem>>(themes);
         }
 
         private async Task FillPublications(ReportViewModel viewModel, ReportModel report, ReportPublicationsFilterViewModel publicationDateFilter)

@@ -4,6 +4,8 @@
     {
         public int Year { get; set; }
 
+        public string ThemeOfScientificWorkDescription { get; set; }
+
         public string ParticipationInGrands { get; set; }
 
         public string ScientificTrainings { get; set; }

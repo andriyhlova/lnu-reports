@@ -6,6 +6,7 @@ using SRS.Domain.Enums;
 using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
+using SRS.Services.Extensions;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.ReportGenerationModels.Report;
 
@@ -38,7 +39,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var report = new ReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
             report.UserInfo = GetUserInfo(dbReport);
-            report.ThemeOfScientificWork = dbReport.ThemeOfScientificWork != null ? GetThemeOfScientificWork(dbReport) : null;
+            report.ThemeOfScientificWorks = GetThemeOfScientificWorks(dbReport);
             report.PublicationCounters = GetPublicationCounters(dbReport, allPrintedPublications);
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, cathedraLeads);
@@ -49,6 +50,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         {
             var generalInfo = new ReportGeneralInfoModel();
             generalInfo.Year = dbReport.Date?.Year ?? 0;
+            generalInfo.ThemeOfScientificWorkDescription = dbReport.ThemeOfScientificWorkDescription;
             generalInfo.ParticipationInGrands = dbReport.ParticipationInGrands;
             generalInfo.ScientificTrainings = dbReport.ScientificTrainings;
             generalInfo.ScientificControlDoctorsWork = dbReport.ScientificControlDoctorsWork;
@@ -80,18 +82,23 @@ namespace SRS.Services.Implementations.ReportGeneration
             return userInfo;
         }
 
-        private ReportThemeOfScientificWorkModel GetThemeOfScientificWork(Report dbReport)
+        private List<ReportThemeOfScientificWorkModel> GetThemeOfScientificWorks(Report dbReport)
         {
-            var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
-            themeOfScientificWork.Title = dbReport.ThemeOfScientificWork.Value;
-            themeOfScientificWork.Number = dbReport.ThemeOfScientificWork.ThemeNumber;
-            themeOfScientificWork.Code = dbReport.ThemeOfScientificWork.Code;
-            themeOfScientificWork.PeriodFrom = dbReport.ThemeOfScientificWork.PeriodFrom.Year.ToString();
-            themeOfScientificWork.PeriodTo = dbReport.ThemeOfScientificWork.PeriodTo.Year.ToString();
-            themeOfScientificWork.Description = dbReport.ThemeOfScientificWorkDescription;
-            themeOfScientificWork.Head = dbReport.ThemeOfScientificWork.ScientificHead;
-            themeOfScientificWork.Financial = dbReport.ThemeOfScientificWork.Financial.ToString().ToLower().Replace("_", " ");
-            return themeOfScientificWork;
+            var result = new List<ReportThemeOfScientificWorkModel>();
+            foreach (var theme in dbReport.ThemeOfScientificWorks)
+            {
+                var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
+                themeOfScientificWork.Title = theme.Value;
+                themeOfScientificWork.Number = theme.ThemeNumber;
+                themeOfScientificWork.Code = theme.Code;
+                themeOfScientificWork.PeriodFrom = theme.PeriodFrom.Year.ToString();
+                themeOfScientificWork.PeriodTo = theme.PeriodTo.Year.ToString();
+                themeOfScientificWork.Head = theme.ScientificHead;
+                themeOfScientificWork.Financial = theme.Financial.GetDisplayName().ToLower();
+                result.Add(themeOfScientificWork);
+            }
+
+            return result;
         }
 
         private ReportPublicationCountersModel GetPublicationCounters(Report dbReport, List<Publication> allPrintedPublications)

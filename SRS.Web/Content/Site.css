@@ -1,4 +1,4 @@
-﻿html{
+﻿html {
     height: 100%;
 }
 
@@ -9,10 +9,10 @@ body {
     min-height: 100%;
 }
 
-.footer-container{
+.footer-container {
     position: absolute;
     height: 100px;
-    bottom:0;
+    bottom: 0;
     width: 100%;
 }
 
@@ -36,11 +36,11 @@ textarea {
     max-width: 280px;
 }
 
-.header{
+.header {
     padding: 0 16px 0 16px;
 }
 
-@media(min-width:768px){
+@media(min-width:768px) {
     .header .navbar-brand {
         font-size: 14px;
     }
@@ -105,19 +105,19 @@ h1, h2, h3, h4 {
     overflow: hidden;
 }
 
-.white-space-nowrap{
-    white-space:nowrap;
+.white-space-nowrap {
+    white-space: nowrap;
 }
 
 td .btn {
     margin-bottom: 4px;
 }
 
-td form{
+td form {
     display: inline-block;
 }
 
-.text-center{
+.text-center {
     text-align: center;
 }
 
@@ -127,31 +127,32 @@ td form{
     border-radius: 8px;
 }
 
-.data-table{
+.data-table {
     width: 100% !important;
 }
 
-.dt-buttons{
-    float:left;
+.dt-buttons {
+    float: left;
 }
 
-.display-label{
-    padding-top:7px;
+.display-label {
+    padding-top: 7px;
 }
 
-.collapse-target{
+.collapse-target {
     visibility: hidden;
     height: 0px;
 }
 
-.collapsible{
+.collapsible {
     margin-bottom: 8px;
 }
 
-.input-group-addon+input {
+.input-group-addon + input {
     max-width: 240px;
 }
-.cursor-pointer{
+
+.cursor-pointer {
     cursor: pointer;
 }
 
@@ -160,14 +161,18 @@ td form{
 }
 
 .selected-item {
+    position: relative;
     display: inline-block;
-    padding: 5px;
+    padding: 5px 24px 5px 5px;
     background: aliceblue;
     border: 1px solid aliceblue;
     border-radius: 8px;
     margin-bottom: 8px;
 }
 
-    .selected-item i {
-        margin-left: 8px;
-    }
+.selected-item i {
+    font-size: 16px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}

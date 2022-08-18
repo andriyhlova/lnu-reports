@@ -14,17 +14,13 @@ namespace SRS.Domain.Specifications
                   filterModel.Skip,
                   filterModel.Take,
                   expression.AndAlso(
-                      x => (string.IsNullOrEmpty(filterModel.Search) ||
+                      x => string.IsNullOrEmpty(filterModel.Search) ||
                                 x.ThemeNumber.Contains(filterModel.Search) ||
                                 x.Code.Contains(filterModel.Search) ||
                                 x.Value.Contains(filterModel.Search) ||
-                                x.ScientificHead.Contains(filterModel.Search) ||
-                                x.Cathedra.Name.Contains(filterModel.Search)) &&
-                            (filterModel.CathedraId == null || x.CathedraId == filterModel.CathedraId) &&
-                            (filterModel.FacultyId == null || x.Cathedra.FacultyId == filterModel.FacultyId)),
+                                x.ScientificHead.Contains(filterModel.Search)),
                   true)
         {
-            AddInclude(x => x.Cathedra);
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 

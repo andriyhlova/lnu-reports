@@ -101,17 +101,19 @@
         </div>
         {{/with}}
 
-        {{#with ThemeOfScientificWork}}
         <div class="top-ident">
             <p>1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
+            {{#each ThemeOfScientificWorks}}
             <p>
                 <i>
-                    Тема {{Financial}} - {{Title}}. {{Number}}{{#if Code}} {{Code}}{{/if}}; {{Head}} {{PeriodFrom}} - {{PeriodTo}}
+                    Тема {{this.Financial}} - {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
                 </i>
             </p>
-            <p class="top-ident pre-line">{{Description}}</p>
+            {{/each}}
+            {{#with GeneralInfo}}
+            <p class="top-ident pre-line">{{ThemeOfScientificWorkDescription}}</p>
+            {{/with}}
         </div>
-        {{/with}}
 
         {{#with GeneralInfo}}
         {{#if ParticipationInGrands}}

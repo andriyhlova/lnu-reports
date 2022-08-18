@@ -15,7 +15,5 @@
         public string PeriodFrom { get; set; }
 
         public string PeriodTo { get; set; }
-
-        public string Description { get; set; }
     }
 }

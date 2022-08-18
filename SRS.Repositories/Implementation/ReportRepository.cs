@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 
 namespace SRS.Repositories.Implementations
@@ -16,6 +15,7 @@ namespace SRS.Repositories.Implementations
             AddCollection(entity.PrintedPublication);
             AddCollection(entity.RecomendedPublication);
             AddCollection(entity.AcceptedToPrintPublication);
+            AddCollection(entity.ThemeOfScientificWorks);
         }
 
         protected override void UpdateRelatedEntities(Report existingEntity, Report newEntity)
@@ -23,6 +23,7 @@ namespace SRS.Repositories.Implementations
             UpdateCollection(existingEntity.PrintedPublication, newEntity.PrintedPublication);
             UpdateCollection(existingEntity.RecomendedPublication, newEntity.RecomendedPublication);
             UpdateCollection(existingEntity.AcceptedToPrintPublication, newEntity.AcceptedToPrintPublication);
+            UpdateCollection(existingEntity.ThemeOfScientificWorks, newEntity.ThemeOfScientificWorks);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿@using SRS.Services.Models
-@using SRS.Web.Extensions
+﻿@using SRS.Services.Extensions
+@using SRS.Services.Models
 @model ThemeOfScientificWorkModel
 
 @{
@@ -74,6 +74,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info"}) |
+    @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) |
     @Html.ActionLink("Повернутись до списку", "Index")
 </p>

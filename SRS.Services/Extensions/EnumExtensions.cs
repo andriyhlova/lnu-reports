@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace SRS.Web.Extensions
+namespace SRS.Services.Extensions
 {
     public static class EnumExtensions
     {

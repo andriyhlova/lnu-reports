@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
-using Microsoft.AspNet.Identity;
 using PagedList;
-using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
-using SRS.Web.Extensions;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Controllers
@@ -41,15 +36,14 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(DepartmentFilterViewModel filterViewModel)
         {
-            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
             var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
-            var scientifthemes = await _themeOfScientificWorkService.GetForUserAsync(user, filterModel);
-            var total = await _themeOfScientificWorkService.CountForUserAsync(user, filterModel);
+            var scientifthemes = await _themeOfScientificWorkService.GetAsync(filterModel);
+            var total = await _themeOfScientificWorkService.CountAsync(filterModel);
 
-            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, ThemeOfScientificWorkModel>
+            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, BaseThemeOfScientificWorkModel>
             {
                 FilterModel = filterViewModel,
-                Items = new StaticPagedList<ThemeOfScientificWorkModel>(scientifthemes, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+                Items = new StaticPagedList<BaseThemeOfScientificWorkModel>(scientifthemes, filterViewModel.Page.Value, PaginationValues.PageSize, total)
             };
             return View(viewModel);
         }

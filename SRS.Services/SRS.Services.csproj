@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\RequiredFieldAttribute.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Implementations\BibliographyService.cs" />
     <Compile Include="Implementations\ReportGeneration\CathedraReportTemplateService.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkFinancialModel.cs" />
+    <Compile Include="Models\BaseThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\UserModels\UserInitialsModel.cs" />
     <Compile Include="Models\UserModels\BaseUserModel.cs" />
     <Compile Include="Models\Constants\Dates.cs" />

@@ -75,17 +75,31 @@
         {
             <div class="form-group">
                 <label class="control-label">
-                    Тема наукової роботи:
+                    Теми наукової роботи:
                 </label>
                 <div>
-                    @Html.DropDownList("ThemeOfScientificWorkId",
-                                                                             new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
-                                                                             "Виберіть тему наукової роботи",
-                                                                             new
-                                                                             {
-                                                                                 @class = "form-control chosen-select",
-                                                                                 @Value = Model.ThemeOfScientificWorkId
-                                                                             })
+                    <div id="scientific-work-search" class="search-container">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Пошук за назвою, номером, шифром" />
+                        </div>
+                        <div class="search-results">
+                        </div>
+                    </div>
+                    @if (Model.ThemeOfScientificWorks != null)
+                    {
+                        for (var i = 0; i < Model.ThemeOfScientificWorks.Count; i++)
+                        {
+                            <input type="hidden" class="initial-scientific-work"
+                                   data-id="@Model.ThemeOfScientificWorks[i].Id"
+                                   data-themenumber="@Model.ThemeOfScientificWorks[i].ThemeNumber"
+                                   data-code="@Model.ThemeOfScientificWorks[i].Code"
+                                   data-scientifichead="@Model.ThemeOfScientificWorks[i].ScientificHead"
+                                   data-value="@Model.ThemeOfScientificWorks[i].Value" />
+                        }
+                    }
+                    <div class="selected-items selected-scientific-works">
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -301,6 +315,7 @@
 
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/search/bundle")
     @Styles.Render("~/Content/steps/bundle")
     @Styles.Render("~/Content/reports/bundle")
 }
@@ -309,5 +324,6 @@
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/steps")
     @Scripts.Render("~/bundles/stepper")
+    @Scripts.Render("~/bundles/searchComponent")
     @Scripts.Render("~/bundles/reports/edit")
 }

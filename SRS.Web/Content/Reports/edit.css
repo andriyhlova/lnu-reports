@@ -17,3 +17,15 @@
 .wizard > .content > .body {
     width: 100%;
 }
+
+.selected-items{
+    max-width: 100%;
+}
+
+.input-group-addon + input, .search-container {
+    max-width: 100%;
+}
+
+span.theme-name{
+    font-style: italic;
+}

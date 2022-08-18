@@ -1,4 +1,6 @@
-﻿namespace SRS.Services.Models.ReportGenerationModels.Report
+﻿using System.Collections.Generic;
+
+namespace SRS.Services.Models.ReportGenerationModels.Report
 {
     public class ReportTemplateModel
     {
@@ -6,7 +8,7 @@
 
         public ReportUserInfoModel UserInfo { get; set; }
 
-        public ReportThemeOfScientificWorkModel ThemeOfScientificWork { get; set; }
+        public List<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
         public ReportPublicationCountersModel PublicationCounters { get; set; }
 

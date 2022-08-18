@@ -21,7 +21,8 @@ namespace SRS.Domain.Entities
 
         public ScientificWorkSubCategory? SubCategory { get; set; }
 
-        public virtual ICollection<Report> Report { get; set; }
+        [InverseProperty("ThemeOfScientificWorks")]
+        public virtual ICollection<Report> Reports { get; set; }
 
         [Column("Cathedra_Id")]
         public int? CathedraId { get; set; }

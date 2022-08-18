@@ -107,7 +107,7 @@
     }
 
     function removeFinancialEvent() {
-        $('form').on('click', '.bi-trash', (element) => {
+        $('form').on('click', '.bi-file-x-fill', (element) => {
             const container = $(element.currentTarget).closest('.selected-item');
             const id = container.find('.id').val();
             const index = selectedFinancials.findIndex(x => x.Id == id);
@@ -147,7 +147,7 @@
     function getSelectedFinancial(index, financial) {
         return `<div>
                     <div class="selected-item">
-                        <div>${financial.Year} рік - ${financial.Amount} грн<i class="bi bi-trash text-danger cursor-pointer"></i></div>
+                        <div>${financial.Year} рік - ${financial.Amount} грн<i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
                             <input type="hidden" name="ThemeOfScientificWorkFinancials[${index}].Id" class="id" value="${financial.Id}" />
                             <input type="hidden" name="ThemeOfScientificWorkFinancials[${index}].Year" class="year" value="${financial.Year}" />
                             <input type="hidden" name="ThemeOfScientificWorkFinancials[${index}].Amount" class="amount" value="${financial.Amount}" />

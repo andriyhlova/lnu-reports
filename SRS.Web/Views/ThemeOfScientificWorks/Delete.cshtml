@@ -1,5 +1,5 @@
-﻿@using SRS.Services.Models
-@using SRS.Web.Extensions
+﻿@using SRS.Services.Extensions
+@using SRS.Services.Models
 @model ThemeOfScientificWorkModel
 
 @{
@@ -48,7 +48,7 @@
             Фінансування по роках
         </dt>
         <dd>
-            @for(var i=0; i< Model.ThemeOfScientificWorkFinancials.Count; i++)
+            @for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
             {
                 <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн </div>
             }
