@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.CathedraReportModels;
@@ -52,6 +53,27 @@ namespace SRS.Web.Controllers
                 Items = new StaticPagedList<BaseCathedraReportModel>(cathedraReports, filterViewModel.Page.Value, PaginationValues.PageSize, total)
             };
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Sign(int reportId, CathedraReportFilterViewModel filterViewModel)
+        {
+            await _cathedraReportService.ChangeState(reportId, ReportState.Signed);
+            return RedirectToAction(nameof(Index), filterViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Negate(int reportId, CathedraReportFilterViewModel filterViewModel)
+        {
+            await _cathedraReportService.ChangeState(reportId, ReportState.Draft);
+            return RedirectToAction(nameof(Index), filterViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Confirm(int reportId, CathedraReportFilterViewModel filterViewModel)
+        {
+            await _cathedraReportService.ChangeState(reportId, ReportState.Confirmed);
+            return RedirectToAction(nameof(Index), filterViewModel);
         }
 
         private async Task FillAvailableDepartments(int? facultyId)

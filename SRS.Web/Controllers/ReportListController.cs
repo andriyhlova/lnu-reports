@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -57,21 +58,21 @@ namespace SRS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Sign(int reportId, ReportFilterViewModel filterViewModel)
         {
-            await _reportService.SignAsync(reportId);
+            await _reportService.ChangeState(reportId, ReportState.Signed);
             return RedirectToAction(nameof(Index), filterViewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> Negate(int reportId, ReportFilterViewModel filterViewModel)
         {
-            await _reportService.ReturnAsync(reportId);
+            await _reportService.ChangeState(reportId, ReportState.Draft);
             return RedirectToAction(nameof(Index), filterViewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> Confirm(int reportId, ReportFilterViewModel filterViewModel)
         {
-            await _reportService.ConfirmAsync(reportId);
+            await _reportService.ChangeState(reportId, ReportState.Confirmed);
             return RedirectToAction(nameof(Index), filterViewModel);
         }
 

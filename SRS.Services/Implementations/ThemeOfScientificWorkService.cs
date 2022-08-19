@@ -46,7 +46,7 @@ namespace SRS.Services.Implementations
         public async Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial)
         {
             var themes = await _repo.GetAsync(x => x.Financial == financial
-                                                   && x.Reports.Any(y => y.User.CathedraId == cathedraId && y.IsSigned && y.IsConfirmed));
+                                                   && x.Reports.Any(y => y.User.CathedraId == cathedraId && y.State == ReportState.Confirmed));
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
         }
     }

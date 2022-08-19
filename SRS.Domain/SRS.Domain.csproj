@@ -92,6 +92,7 @@
     <Compile Include="Entities\AcademicStatus.cs" />
     <Compile Include="Entities\ThemeOfScientificWorkFinancial.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+    <Compile Include="Enums\ReportState.cs" />
     <Compile Include="Enums\ScientificWorkSubCategory.cs" />
     <Compile Include="Enums\OrderTypes\JournalOrderType.cs" />
     <Compile Include="Enums\OrderTypes\CathedraReportOrderType.cs" />

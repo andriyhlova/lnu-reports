@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
@@ -29,9 +30,9 @@ namespace SRS.Services.Implementations
             var actions = new Dictionary<string, Func<Task<IList<Report>>>>
             {
                 [RoleNames.Superadmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.IsConfirmed || x.IsSigned || x.UserId == user.Id)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.IsConfirmed || x.IsSigned || x.UserId == user.Id))),
-                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.CathedraId == user.CathedraId && (x.IsSigned || x.UserId == user.Id))),
+                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id)),
+                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id))),
+                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.CathedraId == user.CathedraId && (x.State == ReportState.Signed || x.UserId == user.Id))),
                 [RoleNames.Worker] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.UserId == user.Id))
             };
 
@@ -54,37 +55,19 @@ namespace SRS.Services.Implementations
             var actions = new Dictionary<string, Func<Task<int>>>
             {
                 [RoleNames.Superadmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.IsConfirmed || x.IsSigned || x.UserId == user.Id)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.IsConfirmed || x.IsSigned || x.UserId == user.Id))),
-                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.CathedraId == user.CathedraId && (x.IsSigned || x.UserId == user.Id))),
+                [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id)),
+                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id))),
+                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.CathedraId == user.CathedraId && (x.State == ReportState.Signed || x.UserId == user.Id))),
                 [RoleNames.Worker] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.UserId == user.Id))
             };
 
             return await _roleActionService.TakeRoleActionAsync(user, actions);
         }
 
-        public async Task<bool> SignAsync(int id)
+        public async Task<bool> ChangeState(int id, ReportState state)
         {
             var report = await _repo.GetAsync(id);
-            report.IsSigned = true;
-            await _repo.UpdateAsync(report);
-            return true;
-        }
-
-        public async Task<bool> ConfirmAsync(int id)
-        {
-            var report = await _repo.GetAsync(id);
-            report.IsSigned = true;
-            report.IsConfirmed = true;
-            await _repo.UpdateAsync(report);
-            return true;
-        }
-
-        public async Task<bool> ReturnAsync(int id)
-        {
-            var report = await _repo.GetAsync(id);
-            report.IsSigned = false;
-            report.IsConfirmed = false;
+            report.State = state;
             await _repo.UpdateAsync(report);
             return true;
         }
@@ -94,7 +77,7 @@ namespace SRS.Services.Implementations
             Report oldReport;
             if (!reportId.HasValue)
             {
-                oldReport = await _repo.GetFirstOrDefaultAsync(x => !x.IsSigned && x.UserId == userId);
+                oldReport = await _repo.GetFirstOrDefaultAsync(x => x.State == ReportState.Draft && x.UserId == userId);
             }
             else
             {

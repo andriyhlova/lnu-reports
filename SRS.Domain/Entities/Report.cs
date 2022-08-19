@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
@@ -33,9 +34,7 @@ namespace SRS.Domain.Entities
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public bool IsSigned { get; set; }
-
-        public bool IsConfirmed { get; set; }
+        public ReportState State { get; set; }
 
         [Column("User_Id")]
         public string UserId { get; set; }

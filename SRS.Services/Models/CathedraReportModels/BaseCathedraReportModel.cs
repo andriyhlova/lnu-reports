@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Domain.Enums;
 using SRS.Services.Models.BaseModels;
 using SRS.Services.Models.UserModels;
 
@@ -15,6 +16,8 @@ namespace SRS.Services.Models.CathedraReportModels
         public DateTime? Date { get; set; }
 
         public string CathedraName { get; set; }
+
+        public ReportState State { get; set; }
 
         public string UserId { get; set; }
 

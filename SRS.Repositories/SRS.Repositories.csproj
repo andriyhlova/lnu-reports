@@ -122,6 +122,10 @@
     <Compile Include="Migrations\202208182122522_AssignedMultipleThemesToReport.designer.cs">
       <DependentUpon>202208182122522_AssignedMultipleThemesToReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202208192259179_AddedReportState.cs" />
+    <Compile Include="Migrations\202208192259179_AddedReportState.designer.cs">
+      <DependentUpon>202208192259179_AddedReportState.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -160,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202208182122522_AssignedMultipleThemesToReport.resx">
       <DependentUpon>202208182122522_AssignedMultipleThemesToReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208192259179_AddedReportState.resx">
+      <DependentUpon>202208192259179_AddedReportState.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

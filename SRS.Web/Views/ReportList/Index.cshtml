@@ -2,6 +2,7 @@
 @using PagedList.Mvc
 @using SRS.Domain.Enums
 @using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Extensions
 @using SRS.Services.Models.Constants
 @using SRS.Services.Models.ReportModels
 @using SRS.Web.Extensions
@@ -40,12 +41,8 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Підписаний", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.IsSigned, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.IsSigned, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-                </th>
-                <th>
-                    @Html.ActionLink("Підтверджений", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.IsConfirmed, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
-                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.IsConfirmed, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                    @Html.ActionLink("Статус", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.State, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ReportOrderType.State, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
                     @Html.ActionLink("Користувач", "Index", new ReportFilterViewModel { Page = 1, OrderBy = (int)ReportOrderType.User, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
@@ -65,45 +62,7 @@
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
-                        @if (!item.IsSigned)
-                        {
-                            if (item.Date == null)
-                            {
-                                <span>Відсутня дата</span>
-                            }
-                            if (item.Protocol == null)
-                            {
-                                <span>Відсутній протокол</span>
-                            }
-                            else
-                            {
-                                using (Html.BeginForm("Sign", "ReportList", Model.FilterModel))
-                                {
-                                    @Html.Hidden("reportId", item.Id)
-                                    <button type="submit" class="btn btn-primary">Підписати</button>
-                                }
-                            }
-                        }
-                        else
-                        {
-                            @Html.YesNo(item.IsSigned)
-                        }
-                    </td>
-                    <td>
-                        @if (!item.IsConfirmed
-                            && (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
-                            && item.IsSigned)
-                        {
-                            using (Html.BeginForm("Confirm", "ReportList", Model.FilterModel))
-                            {
-                                @Html.Hidden("reportId", item.Id)
-                                <button type="submit" class="btn btn-success">Підтвердити</button>
-                            }
-                        }
-                        else
-                        {
-                            @Html.YesNo(item.IsConfirmed)
-                        }
+                        @item.State.GetDisplayName()
                     </td>
                     <td>
                         @foreach (var initial in item.I18nUserInitials)
@@ -122,20 +81,35 @@
                                target="_blank">
                                 Переглянути
                             </a>
-                            @if (!item.IsSigned)
+                            @if (item.State == ReportState.Draft && item.UserId == userId)
                             {
-                                if (@item.UserId == @userId)
-                                {
-                                    @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
-                                }
+                                @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
                             }
-                            @if ((User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
-                                    && item.IsSigned)
+                            @if (item.State == ReportState.Draft)
                             {
-                                using (Html.BeginForm("Negate", "ReportList", Model.FilterModel))
+                                using (Html.BeginForm("Sign", "ReportList", Model.FilterModel))
                                 {
                                     @Html.Hidden("reportId", item.Id)
-                                    <button type="submit" class="btn btn-danger">Повернути</button>
+                                    <button type="submit" class="btn btn-primary">Підписати</button>
+                                }
+                            }
+                            @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
+                            {
+                                if (item.State == ReportState.Signed)
+                                {
+                                    using (Html.BeginForm("Confirm", "ReportList", Model.FilterModel))
+                                    {
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-success">Підтвердити</button>
+                                    }
+                                }
+                                if (item.State != ReportState.Draft)
+                                {
+                                    using (Html.BeginForm("Negate", "ReportList", Model.FilterModel))
+                                    {
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-danger">Повернути</button>
+                                    }
                                 }
                             }
                         </div>

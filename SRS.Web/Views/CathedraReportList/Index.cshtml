@@ -1,5 +1,9 @@
-﻿@using PagedList.Mvc
+﻿@using Microsoft.AspNet.Identity;
+@using PagedList.Mvc
+@using SRS.Domain.Enums
 @using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Extensions
+@using SRS.Services.Models.Constants
 @using SRS.Services.Models.CathedraReportModels
 @using SRS.Web.Models.CathedraReports
 @using SRS.Web.Models.Shared
@@ -8,6 +12,7 @@
 
 @{
     ViewBag.Title = "Кафедральні звіти";
+    var userId = User.Identity.GetUserId();
 }
 
 <h2>Кафедральні звіти</h2>
@@ -34,6 +39,10 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
+                    @Html.ActionLink("Статус", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.State, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.State, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
                     @Html.ActionLink("Кафедра", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Cathedra, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Cathedra, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
@@ -55,6 +64,9 @@
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
+                        @item.State.GetDisplayName()
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.CathedraName)
                     </td>
                     <td>
@@ -68,11 +80,44 @@
                         }
                     </td>
                     <td>
-                        <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = item.Id })"
-                           class="btn btn-info"
-                           target="_blank">
-                            Переглянути
-                        </a>
+                        <div>
+                            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = item.Id })"
+                               class="btn btn-info"
+                               target="_blank">
+                                Переглянути
+                            </a>
+                            @if (item.State == ReportState.Draft && item.UserId == userId)
+                            {
+                                @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
+                            }
+                            @if (item.State == ReportState.Draft)
+                            {
+                                using (Html.BeginForm("Sign", "CathedraReportList", Model.FilterModel))
+                                {
+                                    @Html.Hidden("reportId", item.Id)
+                                    <button type="submit" class="btn btn-primary">Підписати</button>
+                                }
+                            }
+                            @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))
+                            {
+                                if (item.State == ReportState.Signed)
+                                {
+                                    using (Html.BeginForm("Confirm", "CathedraReportList", Model.FilterModel))
+                                    {
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-success">Підтвердити</button>
+                                    }
+                                }
+                                if (item.State != ReportState.Draft)
+                                {
+                                    using (Html.BeginForm("Negate", "CathedraReportList", Model.FilterModel))
+                                    {
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-danger">Повернути</button>
+                                    }
+                                }
+                            }
+                        </div>
                         @Html.ActionLink("PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
                         @Html.ActionLink("LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
                     </td>

@@ -5,8 +5,7 @@
         None,
         Protocol,
         Date,
-        IsSigned,
-        IsConfirmed,
+        State,
         User
     }
 }
