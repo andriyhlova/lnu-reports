@@ -15,7 +15,7 @@ using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Controllers
 {
-    [Authorize(Roles = "Superadmin, Адміністрація ректорату, Керівник кафедри, Адміністрація деканату")]
+    [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class CathedraReportListController : Controller
     {
         private readonly ICathedraService _cathedraService;
@@ -56,6 +56,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Sign(int reportId, CathedraReportFilterViewModel filterViewModel)
         {
             await _cathedraReportService.ChangeState(reportId, ReportState.Signed);
@@ -63,6 +64,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Negate(int reportId, CathedraReportFilterViewModel filterViewModel)
         {
             await _cathedraReportService.ChangeState(reportId, ReportState.Draft);
@@ -70,6 +72,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Confirm(int reportId, CathedraReportFilterViewModel filterViewModel)
         {
             await _cathedraReportService.ChangeState(reportId, ReportState.Confirmed);

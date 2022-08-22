@@ -32,6 +32,7 @@
         </form>
         @using (@Html.BeginForm("UpdatePublications", "Report", FormMethod.Post, new { @id = "updatePublicationForm" }))
         {
+            @Html.AntiForgeryToken()
             if (Model.PrintedPublication.Count > 0)
             {
                 <div class="publication-block">
@@ -73,6 +74,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateScientificWork", "Report", FormMethod.Post, new { @id = "updateThemeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     Теми наукової роботи:
@@ -123,6 +125,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateOtherInfo", "Report", FormMethod.Post, new { @id = "updateOtherForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) − згідно з додатком 3:
@@ -262,6 +265,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateFinalInfo", "Report", FormMethod.Post, new { @id = "updateFinishForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     Дата:
@@ -288,6 +292,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("Finalize", "Report", FormMethod.Post, new { @id = "finalizeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div style="text-align: center;
                         margin: 20px;
                         font-size: 22px;
@@ -297,22 +302,26 @@
             <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
-        <div style="padding-top: 50px;
+    <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-            @using (Html.BeginForm("Sign", "ReportList"))
+        @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+        {
+            using (Html.BeginForm("Sign", "ReportList"))
             {
+                @Html.AntiForgeryToken()
                 @Html.Hidden("reportId", Model.Id)
                 <button type="submit" class="btn btn-primary" id="signButton">Підписати</button>
             }
-            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-            @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-            <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
-               target="_blank"
-               class="btn btn-default">
-                Переглянути
-            </a>
-        </div>
+        }
+        @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+        @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+        <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
+           target="_blank"
+           class="btn btn-default">
+            Переглянути
+        </a>
+    </div>
     </section>
 </div>
 

@@ -53,6 +53,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateBudgetThemeInfo(CathedraReportBudgetThemeViewModel reportBudgetThemeViewModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportBudgetThemeModel>(reportBudgetThemeViewModel), User.Identity.GetUserId());
@@ -60,6 +61,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateInWorkThemeInfo(CathedraReportInTimeThemeViewModel reportInTimeThemeModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportInTimeThemeModel>(reportInTimeThemeModel), User.Identity.GetUserId());
@@ -67,6 +69,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateHospDohovirThemeInfo(CathedraReportHospDohovirThemeViewModel reportHospDohovirThemeModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportHospDohovirThemeModel>(reportHospDohovirThemeModel), User.Identity.GetUserId());
@@ -74,6 +77,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateOtherInfo(CathedraReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
@@ -81,6 +85,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateFinalInfo(CathedraReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
@@ -88,6 +93,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Finalize(int id, int? stepIndex)
         {
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });
@@ -95,8 +101,7 @@ namespace SRS.Web.Controllers
 
         private Financial? GetFinancialByStep(int? stepIndex)
         {
-            var cathedraReportStep = (CathedraReportStep?)stepIndex;
-            switch (cathedraReportStep)
+            switch ((CathedraReportStep?)stepIndex)
             {
                 case CathedraReportStep.BudgetThemeInfo: return Financial.Budget;
                 case CathedraReportStep.InTimeTHemeInfo: return Financial.InWorkTime;

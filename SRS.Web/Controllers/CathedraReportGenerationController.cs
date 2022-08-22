@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 using Rotativa;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.Constants;
@@ -8,6 +10,7 @@ using SRS.Services.Models.ReportGenerationModels.CathedraReport;
 
 namespace SRS.Web.Controllers
 {
+    [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class CathedraReportGenerationController : Controller
     {
         private readonly ICathedraReportTemplateService _cathedraReportTemplateService;
@@ -34,7 +37,12 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult PreviewPdf(int reportId)
         {
-            return new ActionAsPdf(nameof(Preview), new { reportId });
+            var cookies = Request.Cookies.AllKeys.ToDictionary(k => k, k => Request.Cookies[k].Value);
+            return new ActionAsPdf(nameof(Preview), new { reportId })
+            {
+                FormsAuthenticationCookieName = FormsAuthentication.FormsCookieName,
+                Cookies = cookies
+            };
         }
 
         [HttpGet]

@@ -67,9 +67,14 @@ namespace SRS.Services.Implementations
         public async Task<bool> ChangeState(int id, ReportState state)
         {
             var report = await _repo.GetAsync(id);
-            report.State = state;
-            await _repo.UpdateAsync(report);
-            return true;
+            if (report.Date.HasValue && !string.IsNullOrEmpty(report.Protocol))
+            {
+                report.State = state;
+                await _repo.UpdateAsync(report);
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<ReportModel> GetUserReportAsync(string userId, int? reportId)

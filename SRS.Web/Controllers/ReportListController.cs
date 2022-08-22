@@ -56,6 +56,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Sign(int reportId, ReportFilterViewModel filterViewModel)
         {
             await _reportService.ChangeState(reportId, ReportState.Signed);
@@ -63,6 +64,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Negate(int reportId, ReportFilterViewModel filterViewModel)
         {
             await _reportService.ChangeState(reportId, ReportState.Draft);
@@ -70,6 +72,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Confirm(int reportId, ReportFilterViewModel filterViewModel)
         {
             await _reportService.ChangeState(reportId, ReportState.Confirmed);

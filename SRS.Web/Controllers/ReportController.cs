@@ -11,6 +11,7 @@ using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Controllers
 {
+    [Authorize(Roles = "Працівник")]
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
@@ -38,6 +39,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdatePublications(ReportPublicationsViewModel reportPublicationsViewModel, int? stepIndex)
         {
             var reportId = await _reportService.UpsertAsync(_mapper.Map<ReportPublicationsModel>(reportPublicationsViewModel), User.Identity.GetUserId());
@@ -45,6 +47,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateScientificWork(ReportScientificWorkModel reportScientificWorkModel, int? stepIndex)
         {
             var reportId = await _reportService.UpsertAsync(reportScientificWorkModel, User.Identity.GetUserId());
@@ -52,6 +55,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateOtherInfo(ReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
         {
             var reportId = await _reportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
@@ -59,6 +63,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateFinalInfo(ReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
         {
             var reportId = await _reportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
@@ -66,6 +71,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Finalize(int id, int? stepIndex)
         {
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });

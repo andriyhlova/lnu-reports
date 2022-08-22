@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
@@ -27,7 +28,7 @@ namespace SRS.Web.Areas.Api.Controllers
         public async Task<ActionResult> GetByFacultyAndCathedra(int? facultyId, int? cathedraId)
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
-            var users = await _userInitialsService.GetForUserAsync(user, new DepartmentFilterModel { FacultyId = facultyId, CathedraId = cathedraId });
+            var users = await _userInitialsService.GetForUserAsync(user, new DepartmentFilterModel { FacultyId = facultyId, CathedraId = cathedraId, OrderBy = (int)UserOrderType.LastName });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
@@ -39,7 +40,7 @@ namespace SRS.Web.Areas.Api.Controllers
                 {
                     RoleIds = new List<string> { RolesProvider.AllRoles.FirstOrDefault(x => x.Value == RoleNames.Superadmin).Key }
                 },
-                new DepartmentFilterModel { Search = search });
+                new DepartmentFilterModel { Search = search, OrderBy = (int)UserOrderType.LastName });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
     }

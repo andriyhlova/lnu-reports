@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm("Update", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    Html.RenderPartial("Common/RequiredFieldsInfo");
     @Html.AntiForgeryToken()
     <hr />
     @Html.EditorFor(x => x.I18nUserInitials)

@@ -85,10 +85,11 @@
                             {
                                 @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
                             }
-                            @if (item.State == ReportState.Draft)
+                            @if (item.State == ReportState.Draft && item.Date.HasValue && !string.IsNullOrEmpty(item.Protocol))
                             {
                                 using (Html.BeginForm("Sign", "ReportList", Model.FilterModel))
                                 {
+                                    @Html.AntiForgeryToken()
                                     @Html.Hidden("reportId", item.Id)
                                     <button type="submit" class="btn btn-primary">Підписати</button>
                                 }
@@ -99,6 +100,7 @@
                                 {
                                     using (Html.BeginForm("Confirm", "ReportList", Model.FilterModel))
                                     {
+                                        @Html.AntiForgeryToken()
                                         @Html.Hidden("reportId", item.Id)
                                         <button type="submit" class="btn btn-success">Підтвердити</button>
                                     }
@@ -107,6 +109,7 @@
                                 {
                                     using (Html.BeginForm("Negate", "ReportList", Model.FilterModel))
                                     {
+                                        @Html.AntiForgeryToken()
                                         @Html.Hidden("reportId", item.Id)
                                         <button type="submit" class="btn btn-danger">Повернути</button>
                                     }

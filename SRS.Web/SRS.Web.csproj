@@ -459,6 +459,7 @@
     <Content Include="Views\Journals\Details.cshtml" />
     <Content Include="Views\Journals\Edit.cshtml" />
     <Content Include="Views\Journals\Index.cshtml" />
+    <Content Include="Views\Shared\Common\RequiredFieldsInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

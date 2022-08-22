@@ -11,6 +11,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateBudgetThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateBudgetThemeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     2. Держбюджетні теми: шифр, назва, науковий керівник (науковий ступінь, вчене звання),
@@ -125,6 +126,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateInWorkThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateInWorkThemeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     3. Теми, які виконуються в межах робочого часу викладачів: назва,
@@ -132,13 +134,13 @@
                 </label>
                 <div>
                     @Html.DropDownList("ThemeInWorkTimeId",
-                                                                             new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
-                                                                             "Виберіть тему наукової роботи",
-                                                                             new
-                                                                             {
-                                                                                 @class = "form-control chosen-select chosen-select-in-work-theme",
-                                                                                 @Value = Model.ThemeInWorkTimeId,
-                                                                             })
+                                                                                  new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
+                                                                                  "Виберіть тему наукової роботи",
+                                                                                  new
+                                                                                  {
+                                                                                      @class = "form-control chosen-select chosen-select-in-work-theme",
+                                                                                      @Value = Model.ThemeInWorkTimeId,
+                                                                                  })
                 </div>
             </div>
 
@@ -240,6 +242,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateHospDohovirThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateHospDohovirThemeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     4. Госпдоговірна тематика (шифр, назва, науковий керівник, термін виконання,
@@ -247,13 +250,13 @@
                 </label>
                 <div>
                     @Html.DropDownList("HospDohovirThemeId",
-                                                                                  new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
-                                                                                  "Виберіть тему наукової роботи",
-                                                                                  new
-                                                                                  {
-                                                                                      @class = "form-control chosen-select chosen-select-hospdohovir-theme",
-                                                                                      @Value = Model.HospDohovirThemeId,
-                                                                                  })
+                                                                                       new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
+                                                                                       "Виберіть тему наукової роботи",
+                                                                                       new
+                                                                                       {
+                                                                                           @class = "form-control chosen-select chosen-select-hospdohovir-theme",
+                                                                                           @Value = Model.HospDohovirThemeId,
+                                                                                       })
                 </div>
             </div>
 
@@ -354,6 +357,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateOtherInfo", "CathedraReport", FormMethod.Post, new { @id = "updateOtherForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     1. Досягнення провідних наукових шкіл за звітний рік (до 1 с.):
@@ -526,6 +530,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateFinalInfo", "CathedraReport", FormMethod.Post, new { @id = "updateFinishForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     Дата:
@@ -553,6 +558,7 @@
     <section class="section-body">
         @using (@Html.BeginForm("Finalize", "CathedraReport", FormMethod.Post, new { @id = "updateEndForm" }))
         {
+            @Html.AntiForgeryToken()
             <div style="text-align: center;
                         margin: 20px;
                         font-size: 22px;
@@ -562,22 +568,26 @@
             <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_6" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
-        <div style="padding-top: 50px;
+    <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-            @using (Html.BeginForm("Sign", "CathedraReportList"))
+        @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+        {
+            using (Html.BeginForm("Sign", "CathedraReportList"))
             {
+                @Html.AntiForgeryToken()
                 @Html.Hidden("reportId", Model.Id)
                 <button type="submit" class="btn btn-primary" id="signButton">Підписати</button>
             }
-            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-            @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id })"
-               target="_blank"
-               class="btn btn-default">
-                Переглянути
-            </a>
-        </div>
+        }
+        @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+        @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+        <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id })"
+           target="_blank"
+           class="btn btn-default">
+            Переглянути
+        </a>
+    </div>
     </section>
 </div>
 

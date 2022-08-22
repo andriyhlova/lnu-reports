@@ -56,6 +56,8 @@ class SearchComponent {
 
     addItemClickEvent() {
         $(`${this._searchContainerId} .search-results`).on('click', '.search-item', (e) => {
+            $(`${this._searchContainerId}.search-container input`).val('');
+            this.updateSearchResults([]);
             $(`${this._searchContainerId} .search-results`).hide();
             const found = this._results.find(x => x.Id == e.currentTarget.dataset.id);
             this._appendSearchResultItem(found);
