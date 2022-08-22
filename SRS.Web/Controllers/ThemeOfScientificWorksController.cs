@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -8,28 +7,24 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
-using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Controllers
 {
-    [Authorize(Roles = "Superadmin, Адміністрація ректорату, Керівник кафедри, Адміністрація деканату")]
+    [Authorize(Roles = "Superadmin, Адміністрація ректорату")]
     public class ThemeOfScientificWorksController : Controller
     {
         private readonly IBaseCrudService<ThemeOfScientificWorkModel> _themeOfScientificWorkCrudService;
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
-        private readonly IUserService<UserAccountModel> _userService;
         private readonly IMapper _mapper;
 
         public ThemeOfScientificWorksController(
             IBaseCrudService<ThemeOfScientificWorkModel> themeOfScientificWorkCrudService,
             IThemeOfScientificWorkService themeOfScientificWorkService,
-            IUserService<UserAccountModel> userService,
             IMapper mapper)
         {
             _themeOfScientificWorkCrudService = themeOfScientificWorkCrudService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
-            _userService = userService;
             _mapper = mapper;
         }
 
@@ -72,22 +67,7 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-#pragma warning disable S2486 // Generic exceptions should not be ignored
-#pragma warning disable CS0168 // Variable is declared but never used
-#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
-                try
-                {
-                    await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
-                }
-                catch (Exception exc)
-#pragma warning disable S108 // Nested blocks of code should not be left empty
-                {
-                }
-#pragma warning restore S108 // Nested blocks of code should not be left empty
-#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
-#pragma warning restore CS0168 // Variable is declared but never used
-#pragma warning restore S2486 // Generic exceptions should not be ignored
-
+                await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
                 return RedirectToAction(nameof(Index));
             }
 
