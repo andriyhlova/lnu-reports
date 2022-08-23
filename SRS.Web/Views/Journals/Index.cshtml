@@ -23,23 +23,23 @@
         <tr>
             <th>
                 @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Name, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.Name, Desc = Model.FilterModel.Desc });}
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.Name, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
                 @Html.ActionLink("Скорочена назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ShortName, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.ShortName, Desc = Model.FilterModel.Desc });}
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ShortName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
                 @Html.ActionLink("Друкований ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.PrintIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.PrintIssn, Desc = Model.FilterModel.Desc });}
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.PrintIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
                 @Html.ActionLink("Електронний ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ElectronicIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.ElectronicIssn, Desc = Model.FilterModel.Desc });}
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ElectronicIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
                 @Html.ActionLink("Квартиль", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Quartile, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderBy = (int)JournalOrderType.Quartile, Desc = Model.FilterModel.Desc });}
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.Quartile, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th></th>
         </tr>
