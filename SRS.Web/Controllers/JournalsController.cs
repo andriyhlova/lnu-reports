@@ -1,11 +1,7 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using PagedList;
-using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -60,7 +56,6 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            FillQuartiles();
             return View();
         }
 
@@ -74,14 +69,12 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillQuartiles();
             return View(journal);
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            FillQuartiles();
             return await Details(id);
         }
 
@@ -95,7 +88,6 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillQuartiles();
             return View(journal);
         }
 
@@ -112,13 +104,6 @@ namespace SRS.Web.Controllers
         {
             await _journalCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private void FillQuartiles()
-        {
-            ViewBag.AllQuartiles = Enum.GetNames(typeof(Quartile))
-                .Select(x => new SelectListItem { Text = x, Value = x })
-                .ToList();
         }
     }
 }
