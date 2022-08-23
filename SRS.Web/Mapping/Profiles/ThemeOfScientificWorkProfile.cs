@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using AutoMapper;
 using SRS.Domain.Enums;
-using SRS.Services.Models;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
 
 namespace SRS.Services.Mapping.Profiles
 {

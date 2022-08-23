@@ -1,5 +1,5 @@
-﻿@using SRS.Services.Models
-@using SRS.Services.Models.Constants
+﻿@using SRS.Services.Models.Constants
+@using SRS.Services.Models.ThemeOfScientificWorkModels
 @model ThemeOfScientificWorkModel
 
 @{
@@ -60,13 +60,13 @@
         <div class="form-group">
             <label class="control-label col-md-2">Тип фінансування <span class="text-danger">*</span></label>
             @Html.EnumDropDownListFor(model => model.Financial,
-                                                               new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                                                         new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
         </div>
 
         <div class="form-group subcategory-container">
             <label class="control-label col-md-2">Підкатегорія</label>
             @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
-                                                          new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                                                    new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
         </div>
 
         <div class="form-group">

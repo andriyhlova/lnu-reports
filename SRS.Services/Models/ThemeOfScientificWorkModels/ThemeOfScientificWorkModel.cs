@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using SRS.Domain.Enums;
-using SRS.Services.Attributes;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
     public class ThemeOfScientificWorkModel : BaseThemeOfScientificWorkModel
     {

@@ -9,6 +9,7 @@ using SRS.Services.Models;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
 using SRS.Services.Models.ReportGenerationModels.Report;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Utilities

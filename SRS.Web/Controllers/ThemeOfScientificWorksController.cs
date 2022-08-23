@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using AutoMapper;
 using PagedList;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Controllers

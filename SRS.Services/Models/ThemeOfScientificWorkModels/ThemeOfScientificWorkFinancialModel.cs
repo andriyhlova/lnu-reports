@@ -1,6 +1,6 @@
 ﻿using SRS.Services.Models.BaseModels;
 
-namespace SRS.Services.Models
+namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
     public class ThemeOfScientificWorkFinancialModel : BaseModel
     {

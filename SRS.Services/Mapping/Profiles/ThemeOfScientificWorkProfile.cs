@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Services.Models;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
 
 namespace SRS.Services.Mapping.Profiles
 {

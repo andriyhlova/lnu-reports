@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SRS.Domain.Enums;
-using SRS.Services.Models;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
 
 namespace SRS.Services.Interfaces
 {

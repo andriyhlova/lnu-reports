@@ -186,8 +186,8 @@
     <Compile Include="Models\ReportModels\ReportOtherInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
-    <Compile Include="Models\ThemeOfScientificWorkFinancialModel.cs" />
-    <Compile Include="Models\BaseThemeOfScientificWorkModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\UserModels\UserInitialsModel.cs" />
     <Compile Include="Models\UserModels\BaseUserModel.cs" />
     <Compile Include="Models\Constants\Dates.cs" />
@@ -209,7 +209,7 @@
     <Compile Include="Models\UserModels\I18nUserInitialsModel.cs" />
     <Compile Include="Models\UserModels\ProfileInfoModel.cs" />
     <Compile Include="Models\UserModels\UserAccountModel.cs" />
-    <Compile Include="Models\ThemeOfScientificWorkModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\DegreeModel.cs" />
     <Compile Include="Models\BaseModels\BaseValueModel.cs" />
     <Compile Include="Models\BaseModels\BaseModel.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
 
 namespace SRS.Services.Models.ReportModels
 {
