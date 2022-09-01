@@ -1,8 +1,13 @@
-﻿@using SRS.Services.Models.PublicationModels
+﻿@using SRS.Services.Extensions
+@using SRS.Services.Models.PublicationModels
+@using SRS.Web.Enums
+@using SRS.Web.Services
+
 @model PublicationModel
 
 @{
     ViewBag.Title = "Видалити";
+    var publicationTypeSeparator = ",";
 }
 
 <h2>Видалити</h2>
@@ -12,81 +17,211 @@
 <div>
     <h4>Публікація</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Назва
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            Автори
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AuthorsOrder)
-        </dd>
-        <dt>
-            Рік публікації
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>
-            К-сть друк. арк.
-        </dt>
-        <dd>
-            @Model.GetSizeOfPages()
-        </dd>
-        <dt>
-            Тип
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PublicationType)
-        </dd>
-        <dt>
-            Мова
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Language)
-        </dd>
-        <dt>
-            Посилання на публікацію в інтернеті
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Link)
-        </dd>
-        <dt>
-            Видавництво
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Edition)
-        </dd>
-        <dt>
-            Місто, де розташоване видавництво
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Place)
-        </dd>
-        <dt>
-            Назва журналу
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.JournalName)
-        </dd>
-        <dt>
-            ДОІ
-        </dt>
+    <div>
+        <div class="row">
+            <label class="col-md-2">Мова публікації</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Language)
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DOI)
-        </dd>
-        <dt>
-            Том
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tome)
-        </dd>
-    </dl>
+        <div class="row">
+            <label class="col-md-2">Тип публікації</label>
+            <div class="col-md-10">
+                <input type="hidden" name="PublicationType" value="@((int)Model.PublicationType)" />
+                @Model.PublicationType.GetDisplayName()
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2">Назва</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor))">
+            <label class="col-md-2">Перший автор</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.MainAuthor)
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2">Усі автори</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.AuthorsOrder)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
+            <label class="col-md-2">Журнал</label>
+            <div class="col-md-10">
+                @(Model.JournalName ?? Model.OtherJournal)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName))">
+            <label class="col-md-2">Назва конференції</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ConferenceName)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate))">
+            <label class="col-md-2">Дата проведення</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ConferenceDate)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber))">
+            <label class="col-md-2">Номер заявки</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ApplicationNumber)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate))">
+            <label class="col-md-2">Дата заявки</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ApplicationDate)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate))">
+            <label class="col-md-2">Дата публікації</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Date)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place))">
+            <label class="col-md-2">Місто</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Place)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
+            <label class="col-md-2">Країна</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ConferenceCountry)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Edition))">
+            <label class="col-md-2">Видавництво</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Edition)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Date))">
+            <label class="col-md-2">Рік публікації</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Date)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.BulletinNumber))">
+            <label class="col-md-2">Бюлетень №</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.BulletinNumber)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationOwner))">
+            <label class="col-md-2">Заявник і власник</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ApplicationOwner)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome))">
+            <label class="col-md-2">Том</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Tome)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue))">
+            <label class="col-md-2">Номер, випуск</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Issue)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages))">
+            <label class="col-md-2">Кількість сторінок</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.NumberOfPages)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom))">
+            <label class="col-md-2">Сторінки від</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.PageFrom)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo))">
+            <label class="col-md-2">Сторінки до</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.PageTo)
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2">К-сть друкарських аркушів</label>
+            <div class="col-md-10">
+                @Model.GetSizeOfPages()
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN))">
+            <label class="col-md-2">ISBN</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ISBN)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI))">
+            <label class="col-md-2">DOI</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.DOI)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link))">
+            <label class="col-md-2">Посилання на публікацію в Інтернеті</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Link)
+            </div>
+        </div>
+    </div>
 
     @using (Html.BeginForm())
     {
@@ -97,3 +232,9 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>var separator = '@publicationTypeSeparator';</script>
+    @Scripts.Render("~/bundles/availableFieldsComponent")
+    @Scripts.Render("~/bundles/publications/view")
+}

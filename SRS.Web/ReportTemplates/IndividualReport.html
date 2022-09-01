@@ -84,19 +84,21 @@
             {{/if}}
             <p>
                 Науковий ступінь, рік захисту:
-                {{#if ScientificDegree}}
-                {{ScientificDegree}}, {{ScientificDegreeYear}}
-                {{else}}
-                Без ступеня
-                {{/if}}
+                {{#each ScientificDegrees}}
+                    {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{/each}}
+                {{#unless ScientificDegrees.Count}}
+                    без ступеня
+                {{/unless}}
             </p>
             <p>
                 Вчене звання, рік присвоєння:
-                {{#if AcademicStatus}}
-                {{AcademicStatus}}, {{AcademicStatusYear}}
-                {{else}}
-                Без ступеня
-                {{/if}}
+                {{#each AcademicStatuses}}
+                {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{/each}}
+                {{#unless AcademicStatuses.Count}}
+                без звання
+                {{/unless}}
             </p>
         </div>
         {{/with}}
@@ -492,7 +494,7 @@
                 {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}
             </p>
             <p class="footer-text-ident">
-                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}}{{CathedraLeadStatus}} {{CathedraLead}}{{/with}}
+                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}}{{#each CathedraLeadStatuses}}{{this}}{{#if @last}}{{else}},{{/if}}{{/each}} {{CathedraLead}}{{/with}}
             </p>
         </div>
     </div>

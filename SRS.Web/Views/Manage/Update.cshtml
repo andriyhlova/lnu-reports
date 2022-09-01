@@ -15,7 +15,7 @@
     <div class="form-group">
         <label for="MonographCounterBeforeRegistration" class="control-label col-md-2">Кількість монографій, що внесено до звітів за попередні роки <span class="text-danger">*</span></label>
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.MonographCounterBeforeRegistration, new { @class = "form-control", Type="number", Min = 0 })
+            @Html.TextBoxFor(m => m.MonographCounterBeforeRegistration, new { @class = "form-control", Type = "number", Min = 0 })
             @Html.ValidationMessageFor(model => model.MonographCounterBeforeRegistration, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -90,20 +90,12 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.DefenseYear, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.DegreeDefenseYear, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.DefenseYear, new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year })
-            @Html.ValidationMessageFor(model => model.DefenseYear, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.DegreeDefenseYear, new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year })
+            @Html.ValidationMessageFor(model => model.DegreeDefenseYear, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.AwardingDate, new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year })
-            @Html.ValidationMessageFor(model => model.AwardingDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
     <div class="form-group">
         @Html.LabelFor(m => m.DoctorStartYear, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -119,27 +111,98 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Науковий ступінь</label>
+        @Html.LabelFor(m => m.AcademicStatusDefenseYear, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.DegreeId,
-                                                 new SelectList(ViewBag.AllDegrees, "Id", "Value"),
-                                                 new { @class = "form-control chosen-select" })
+            @Html.TextBoxFor(m => m.AcademicStatusDefenseYear, new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year })
+            @Html.ValidationMessageFor(model => model.AcademicStatusDefenseYear, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Вчене звання</label>
+        @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.AcademicStatusId,
-                                            new SelectList(ViewBag.AllAcademicStatuses, "Id", "Value"),
-                                            new { @class = "form-control chosen-select" })
+            @Html.TextBoxFor(m => m.AwardingDate, new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year })
+            @Html.ValidationMessageFor(model => model.AwardingDate, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-2">Посада</label>
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.PositionId,
-                                                  new SelectList(ViewBag.AllPositions, "Id", "Value"),
-                                                  new { @class = "form-control chosen-select" })
+            @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), new { @class = "form-control chosen-select" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Наукові ступені</label>
+        <div class="col-md-10" id="degree-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @for (var i = 0; i < Model.Degrees.Count; i++)
+                {
+                    <div>
+                        <div class="selected-item">
+                            <div>
+                                <div>@Model.Degrees[i].DegreeName</div>
+                                <div>Рік присвоєння: @Model.Degrees[i].AwardYear </div>
+                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                            </div>
+                            <input type="hidden" name="Degrees[@i].Id" class="id" value="@Model.Degrees[i].Id" />
+                            <input type="hidden" name="Degrees[@i].DegreeId" class="degreeId" value="@Model.Degrees[i].DegreeId" />
+                            <input type="hidden" name="Degrees[@i].DegreeName" class="degreeName" value="@Model.Degrees[i].DegreeName" />
+                            <input type="hidden" name="Degrees[@i].AwardYear" class="awardYear" value="@Model.Degrees[i].AwardYear" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="new-related-entity">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Вчені звання</label>
+        <div class="col-md-10" id="academic-status-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @for (var i = 0; i < Model.AcademicStatuses.Count; i++)
+                {
+                    <div>
+                        <div class="selected-item">
+                            <div>
+                                <div>@Model.AcademicStatuses[i].AcademicStatusName</div>
+                                <div>Рік присудження: @Model.AcademicStatuses[i].AwardYear </div>
+                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                            </div>
+                            <input type="hidden" name="AcademicStatuses[@i].Id" class="id" value="@Model.AcademicStatuses[i].Id" />
+                            <input type="hidden" name="AcademicStatuses[@i].AcademicStatusId" class="academicStatusId" value="@Model.AcademicStatuses[i].AcademicStatusId" />
+                            <input type="hidden" name="AcademicStatuses[@i].AcademicStatusName" class="academicStatusName" value="@Model.AcademicStatuses[i].AcademicStatusName" />
+                            <input type="hidden" name="AcademicStatuses[@i].AwardYear" class="awardYear" value="@Model.AcademicStatuses[i].AwardYear" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="new-related-entity">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Почесні звання</label>
+        <div class="col-md-10" id="honorary-title-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @for (var i = 0; i < Model.HonoraryTitles.Count; i++)
+                {
+                    <div>
+                        <div class="selected-item">
+                            <div>
+                                @Model.HonoraryTitles[i].Value
+                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                            </div>
+                            <input type="hidden" name="HonoraryTitles[@i].Id" class="id" value="@Model.HonoraryTitles[i].Id" />
+                            <input type="hidden" name="HonoraryTitles[@i].Value" class="value" value="@Model.HonoraryTitles[i].Value" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="new-related-entity">
+            </div>
         </div>
     </div>
     @Html.HiddenFor(model => model.Id)
@@ -152,9 +215,12 @@
 
 @section Styles{
     @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/relatedEntity/bundle")
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/relatedEntityComponent")
+    @Scripts.Render("~/bundles/manage/update")
 }

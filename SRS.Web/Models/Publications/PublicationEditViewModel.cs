@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SRS.Domain.Enums;
 using SRS.Services.Attributes;
@@ -20,7 +21,6 @@ namespace SRS.Web.Models.Publications
         [RequiredField]
         public string Name { get; set; }
 
-        [RequiredField]
         public string MainAuthor { get; set; }
 
         [RequiredField]
@@ -28,10 +28,9 @@ namespace SRS.Web.Models.Publications
 
         public string Place { get; set; }
 
-        [RequiredField]
-        public int Year { get; set; }
-
         public string Edition { get; set; }
+
+        public int Year { get; set; }
 
         public int? JournalId { get; set; }
 
@@ -50,5 +49,33 @@ namespace SRS.Web.Models.Publications
         public int? PageTo { get; set; }
 
         public IList<UserInitialsModel> Users { get; set; }
+
+        public int? NumberOfPages { get; set; }
+
+        public string ISBN { get; set; }
+
+        public string ConferenceName { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? ConferenceDate { get; set; } = DateTime.Now;
+
+        public string ConferenceCountry { get; set; }
+
+        public string Issue { get; set; }
+
+        public string ApplicationNumber { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? ApplicationDate { get; set; } = DateTime.Now;
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? PublicationDate { get; set; } = DateTime.Now;
+
+        public string ApplicationOwner { get; set; }
+
+        public string BulletinNumber { get; set; }
     }
 }

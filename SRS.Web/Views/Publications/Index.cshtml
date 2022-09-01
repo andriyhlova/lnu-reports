@@ -2,6 +2,7 @@
 @using PagedList.Mvc
 @using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Models.PublicationModels
+@using SRS.Services.Extensions
 @using SRS.Web.Models.Publications
 @using SRS.Web.Models.Shared
 
@@ -14,7 +15,7 @@
 <h2>Публікації</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
 <form id="filter-container" class="collapse-target">
-    @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
+    @{ViewBag.SearchPlaceholder = "Пошук";}
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
     @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
@@ -61,7 +62,7 @@
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
-                        @item.PublicationType.ToString().Replace('_', ' ')
+                        @item.PublicationType.GetDisplayName()
                     </td>
                     <td>
                         @if (!string.IsNullOrEmpty(item.AuthorsOrder))

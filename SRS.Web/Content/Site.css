@@ -29,6 +29,10 @@ body {
     white-space: normal;
 }
 
+dd{
+    margin-bottom: 12px;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,

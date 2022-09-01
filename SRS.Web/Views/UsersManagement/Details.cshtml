@@ -60,11 +60,51 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DefenseYear)
+            @Html.DisplayNameFor(model => model.AspirantStartYear)
         </dt>
 
         <dd>
-            @(Model.DefenseYear.HasValue ? Model.DefenseYear.Value.Year : (int?)null)
+            @(Model.AspirantStartYear.HasValue ? Model.AspirantStartYear.Value.Year : (int?)null)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspirantFinishYear)
+        </dt>
+
+        <dd>
+            @(Model.AspirantFinishYear.HasValue ? Model.AspirantFinishYear.Value.Year : (int?)null)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DegreeDefenseYear)
+        </dt>
+
+        <dd>
+            @(Model.DegreeDefenseYear.HasValue ? Model.DegreeDefenseYear.Value.Year : (int?)null)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoctorStartYear)
+        </dt>
+
+        <dd>
+            @(Model.DoctorStartYear.HasValue ? Model.DoctorStartYear.Value.Year : (int?)null)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoctorFinishYear)
+        </dt>
+
+        <dd>
+            @(Model.DoctorFinishYear.HasValue ? Model.DoctorFinishYear.Value.Year : (int?)null)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcademicStatusDefenseYear)
+        </dt>
+
+        <dd>
+            @(Model.AcademicStatusDefenseYear.HasValue ? Model.AcademicStatusDefenseYear.Value.Year : (int?)null)
         </dd>
 
         <dt>
@@ -96,31 +136,49 @@
         <dd>
             @Html.DisplayFor(model => model.FacultyName)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DegreeName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DegreeName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AcademicStatusName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AcademicStatusName)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.PositionName)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.PositionName)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Degrees)
+        </dt>
+        <dd>
+            @for (var i = 0; i < Model.Degrees.Count; i++)
+            {
+                <div>@Model.Degrees[i].DegreeName</div>
+                <div>Рік присвоєння: @Model.Degrees[i].AwardDate.Year</div>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcademicStatuses)
+        </dt>
+        <dd>
+            @for (var i = 0; i < Model.AcademicStatuses.Count; i++)
+            {
+                <div>@Model.AcademicStatuses[i].AcademicStatusName</div>
+                <div>Рік присудження: @Model.AcademicStatuses[i].AwardDate.Year</div>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HonoraryTitles)
+        </dt>
+        <dd>
+            @for (var i = 0; i < Model.HonoraryTitles.Count; i++)
+            {
+                <div>@Model.HonoraryTitles[i].Value</div>
+            }
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.RoleIds)
         </dt>
-
         <dd>
             @foreach (var role in Model.RoleIds)
             {

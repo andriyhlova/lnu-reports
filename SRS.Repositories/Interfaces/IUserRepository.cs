@@ -15,6 +15,8 @@ namespace SRS.Repositories.Interfaces
 
         Task<List<ApplicationUser>> GetAsync(ISpecification<ApplicationUser> specification);
 
+        Task<ApplicationUser> GetAsync(string id, ISpecification<ApplicationUser> specification);
+
         Task<int> CountAsync(ISpecification<ApplicationUser> specification);
 
         Task<ApplicationUser> UpdateAsync(ApplicationUser user);

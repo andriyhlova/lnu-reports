@@ -75,10 +75,16 @@ namespace SRS.Services.Implementations.ReportGeneration
             userInfo.AspFinish = dbReport.User.AspirantFinishYear?.Year;
             userInfo.DocStart = dbReport.User.DoctorStartYear?.Year;
             userInfo.DocFinish = dbReport.User.DoctorFinishYear?.Year;
-            userInfo.ScientificDegree = dbReport.User.Degree?.Value;
-            userInfo.ScientificDegreeYear = dbReport.User.DefenseYear?.Year;
-            userInfo.AcademicStatus = dbReport.User.AcademicStatus?.Value;
-            userInfo.AcademicStatusYear = dbReport.User.AwardingDate?.Year;
+            userInfo.Degrees = dbReport.User.Degrees.Select(degree => new ReportUserTitleModel
+            {
+                Title = degree.Degree.Value,
+                Year = degree.AwardDate.Year
+            }).ToList();
+            userInfo.AcademicStatuses = dbReport.User.AcademicStatuses.Select(academiStatus => new ReportUserTitleModel
+            {
+                Title = academiStatus.AcademicStatus.Value,
+                Year = academiStatus.AwardDate.Year
+            }).ToList();
             return userInfo;
         }
 
@@ -158,7 +164,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             signature.Protocol = dbReport.Protocol;
             signature.Date = dbReport.Date?.ToString("dd.MM.yyyy");
             signature.CathedraLead = cathedraLead?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
-            signature.CathedraLeadStatus = cathedraLead?.AcademicStatus?.Value;
+            signature.CathedraLeadStatuses = cathedraLead?.AcademicStatuses.Select(academicStatus => academicStatus.AcademicStatus.Value).ToList();
             return signature;
         }
 

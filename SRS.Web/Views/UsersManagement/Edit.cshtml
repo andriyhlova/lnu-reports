@@ -43,9 +43,44 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AspirantStartYear, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <label class="display-label">@(Model.DefenseYear.HasValue ? Model.DefenseYear.Value.Year : (int?)null)</label>
+                <label class="display-label">@(Model.AspirantStartYear.HasValue ? Model.AspirantStartYear.Value.Year : (int?)null)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AspirantFinishYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="display-label">@(Model.AspirantFinishYear.HasValue ? Model.AspirantFinishYear.Value.Year : (int?)null)</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.DegreeDefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="display-label">@(Model.DegreeDefenseYear.HasValue ? Model.DegreeDefenseYear.Value.Year : (int?)null)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DoctorStartYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="display-label">@(Model.DoctorStartYear.HasValue ? Model.DoctorStartYear.Value.Year : (int?)null)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DoctorFinishYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="display-label">@(Model.DoctorFinishYear.HasValue ? Model.DoctorFinishYear.Value.Year : (int?)null)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AcademicStatusDefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="display-label">@(Model.AcademicStatusDefenseYear.HasValue ? Model.AcademicStatusDefenseYear.Value.Year : (int?)null)</label>
             </div>
         </div>
 
@@ -116,21 +151,38 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Науковий ступінь</label>
-            <div class="col-md-10">
-                <label class="display-label">@Model.DegreeName</label>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Вчене звання</label>
-            <div class="col-md-10">
-                <label class="display-label">@Model.AcademicStatusName</label>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label col-md-2">Посада</label>
             <div class="col-md-10">
                 <label class="display-label">@Model.PositionName</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Наукові ступені</label>
+            <div class="col-md-10">
+                @foreach (var item in Model.Degrees)
+                {
+                    <div><label class="display-label">@item.DegreeName</label></div>
+                    <div><label class="display-label">Рік присвоєння: @item.AwardDate.Year</label></div>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Вчені звання</label>
+            <div class="col-md-10">
+                @foreach (var item in Model.AcademicStatuses)
+                {
+                    <div><label class="display-label">@item.AcademicStatusName</label></div>
+                    <div><label class="display-label">Рік присвоєння: @item.AwardDate.Year</label></div>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Почесні звання</label>
+            <div class="col-md-10">
+                @foreach (var item in Model.HonoraryTitles)
+                {
+                    <div><label class="display-label">@item.Value</label></div>
+                }
             </div>
         </div>
         <div class="form-group">

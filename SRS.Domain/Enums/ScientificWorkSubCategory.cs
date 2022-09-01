@@ -4,13 +4,13 @@ namespace SRS.Domain.Enums
 {
     public enum ScientificWorkSubCategory
     {
-        [Display(Name = "фундаментальні")]
+        [Display(Name = "Фундаментальні")]
         Fundamental,
-        [Display(Name = "прикладні")]
+        [Display(Name = "Прикладні")]
         Applied,
-        [Display(Name = "розробки")]
+        [Display(Name = "Розробки")]
         Developments,
-        [Display(Name = "наукові роботи молодих вчених")]
+        [Display(Name = "Наукові роботи молодих вчених")]
         ScientificWorkOfYoungScientists
     }
 }

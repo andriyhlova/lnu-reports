@@ -15,10 +15,11 @@ namespace SRS.Services.Mapping.Profiles
                 .IncludeBase<DepartmentFilterViewModel, DepartmentFilterModel>();
 
             CreateMap<PublicationModel, PublicationEditViewModel>()
-                .ForMember(dest => dest.Year, opts => opts.MapFrom(src => src.Date.Year));
+                .ForMember(dest => dest.Year, opts => opts.MapFrom(src => src.Date.Year))
+                .ForMember(dest => dest.PublicationDate, opts => opts.MapFrom(src => src.Date));
 
             CreateMap<PublicationEditViewModel, PublicationModel>()
-                .ForMember(dest => dest.Date, opts => opts.MapFrom(src => new DateTime(src.Year, 1, 1)));
+                .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.PublicationDate ?? src.ApplicationDate ?? new DateTime(src.Year, 1, 1)));
         }
     }
 }

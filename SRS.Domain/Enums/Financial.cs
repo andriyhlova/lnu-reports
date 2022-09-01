@@ -6,19 +6,19 @@ namespace SRS.Domain.Enums
     {
         [Display(Name = "Бюджет")]
         Budget,
-        [Display(Name = "Госпдоговір")]
+        [Display(Name = "Господарчий договір")]
         BusinessContract,
-        [Display(Name = "В межах робочого часу")]
+        [Display(Name = "Тема в межах робочого часу викладачів")]
         InWorkTime,
-        [Display(Name = "МОН України")]
-        MinistryOfEducationAndScienceOfUkraine,
+        [Display(Name = "Міжнародний науковий проєкт МОН України")]
+        InternationalScienceProject,
         [Display(Name = "Базове фінансування")]
         Base,
-        [Display(Name = "Нацнадбання")]
+        [Display(Name = "Національне надбання")]
         NationalProperty,
-        [Display(Name = "НФДУ")]
-        NationalResearchFoundationOfUkraine,
-        [Display(Name = "Міжнародні гранти")]
-        InternationalGrants
+        [Display(Name = "Національний фонд досліджень")]
+        NationalResearchFoundation,
+        [Display(Name = "Міжнародний грант")]
+        InternationalGrant
     }
 }

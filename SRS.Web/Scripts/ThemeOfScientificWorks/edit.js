@@ -6,11 +6,20 @@
         getUsers();
         getSelectedFinancials();
         toggleSubCategories();
-        addFinancialEvent();
-        cancelFinancialEvent();
-        saveFinancialEvent();
-        removeFinancialEvent();
+        const financialEntityComponent = new RelatedEntityComponent(getSettings());
+        financialEntityComponent.load();
     });
+
+    function getSettings() {
+        return {
+            relatedEntityContainerId: '#financial-related-entity',
+            selectedItems: selectedFinancials,
+            getFormHtml: getFinancialFormHtml,
+            postLoadForm: null,
+            getRelatedEntityFormObject: getFinancialFormObject,
+            getSelectedRelatedEntityHtml: getSelectedFinancialHtml
+        };
+    }
 
     function getUsers() {
         $.ajax('/api/users/getByFacultyAndCathedra')
@@ -59,43 +68,24 @@
         $('#Financial').change();
     }
 
-    function addFinancialEvent() {
-        $('.add-financial').click(() => {
-            if ($('.new-financial').children().length == 0) {
-                $('.new-financial').html(getFinancialContainer());
-            }
-        });
-    }
+    function getFinancialFormObject() {
+        const year = $('#financial-related-entity .new-related-entity-form input[name=year]').val();
+        if (!validateYear(year)) {
+            alert('Введіть коректний рік');
+            return;
+        }
 
-    function cancelFinancialEvent() {
-        $('form').on('click', '.cancel-financial', () => {
-            $('.new-financial').html('');
-        });
-    }
+        const amount = $('#financial-related-entity .new-related-entity-form input[name=amount]').val();
+        if (!validateAmount(amount)) {
+            alert('Введіть коректну суму');
+            return;
+        }
 
-    function saveFinancialEvent() {
-        $('form').on('click', '.save-financial', () => {
-            const year = $('.new-financial input[name=year]').val();
-            if (!validateYear(year)) {
-                alert('Введіть коректний рік');
-                return;
-            }
-
-            const amount = $('.new-financial input[name=amount]').val();
-            if (!validateAmount(amount)) {
-                alert('Введіть коректну суму');
-                return;
-            }
-
-            const financial = {
-                Id: 0,
-                Year: year,
-                Amount: amount
-            };
-            selectedFinancials.push(financial);
-            $('.selected-financials').append(getSelectedFinancial(selectedFinancials.length-1, financial));
-            $('.new-financial').html('');
-        });
+        return {
+            Id: 0,
+            Year: year,
+            Amount: amount
+        };
     }
 
     function validateYear(value) {
@@ -106,45 +96,18 @@
         return value && +value > minAmount;
     }
 
-    function removeFinancialEvent() {
-        $('form').on('click', '.bi-file-x-fill', (element) => {
-            const container = $(element.currentTarget).closest('.selected-item');
-            const id = container.find('.id').val();
-            const index = selectedFinancials.findIndex(x => x.Id == id);
-            if (index != -1) {
-                container.remove();
-                selectedFinancials.splice(index, 1);
-                renderFinancialList(selectedFinancials);
-            }
-        });
-    }
-
-    function renderFinancialList(financials) {
-        const selectedFinancials = $('.selected-financials');
-        selectedFinancials.html('');
-        for (let i = 0; i < financials.length; i++) {
-            selectedFinancials.append(getSelectedFinancial(i, financials[i]));
-        }
-    };
-
-    function getFinancialContainer() {
-        return `<div class="new-financial-form">
-                    <div>
+    function getFinancialFormHtml() {
+        return `<div>
                         <label class="control-label">Рік <span class="text-danger">*</span></label>
                         <input class="form-control" type="number" name="year" value="" min="${minYear}"/>
                     </div>
                     <div>
                         <label class="control-label">Сума <span class="text-danger">*</span></label>
                         <input class="form-control" type="number" name="amount" value="" min="${minAmount}" />
-                    </div>
-                    <div class="financial-buttons">
-                        <button class="btn btn-danger cancel-financial" type="button">Відмінити</button>
-                        <button class="btn btn-success save-financial" type="button">Зберегти</button>
-                    </div>
-                </div>`;
+                    </div>`;
     }
 
-    function getSelectedFinancial(index, financial) {
+    function getSelectedFinancialHtml(index, financial) {
         return `<div>
                     <div class="selected-item">
                         <div>${financial.Year} рік - ${financial.Amount} грн<i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>

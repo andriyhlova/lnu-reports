@@ -6,6 +6,9 @@
         getSelectedUsers();
         $('.selected-users').on('click', '.bi-file-x-fill', removeUser);
         fillJournals();
+
+        const availableFieldsComponent = new AvailableFieldsComponent('select[name=PublicationType]', 'types', separator);
+        availableFieldsComponent.load();
     });
 
     function getSelectedUsers() {
@@ -83,5 +86,22 @@
                 $("#journal-selector").html(str);
                 $("#journal-selector").trigger("chosen:updated");
             });
+    }
+
+    function onTypeChanged(value) {
+        const fields = $('.field');
+        for (let i = 0; i < fields.length; i++) {
+            const types = fields[i].dataset.types.split(',');
+            const field = $(fields[i]);
+            if (types.includes(value)) {
+                field.show();
+                field.find('[name]').prop("disabled", false);
+            }
+            else {
+                field.hide();
+                field.find('[name]').prop("disabled", true);
+            }
+        }
+        $('.chosen-select').trigger('chosen:updated');
     }
 }());

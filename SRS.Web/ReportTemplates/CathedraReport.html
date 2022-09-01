@@ -687,7 +687,7 @@
                 {{Faculty}}, протокол №: {{Protocol}} від: {{Date}}
             </p>
             <p class="footer-text-ident">
-                Декан факультету {{Faculty}}__________________{{FacultyLeadStatus}} {{FacultyLead}}
+                Декан факультету {{Faculty}}__________________{{#each FacultyLeadStatus}}{{this}}{{#if @last}}{{else}},{{/if}}{{/each}} {{FacultyLead}}
             </p>
         </div>
         {{/with}}

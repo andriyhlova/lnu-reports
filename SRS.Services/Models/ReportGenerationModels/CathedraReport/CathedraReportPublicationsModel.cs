@@ -30,7 +30,6 @@ namespace SRS.Services.Models.ReportGenerationModels.CathedraReport
 
         public int AllArticlesCount => ImpactFactorArticles.Count
             + InternationalMetricArticles.Count
-            + InternationalArticles.Count
             + OtherInternationalArticles.Count
             + NationalProfessionalArticles.Count
             + OtherNationalArticles.Count;

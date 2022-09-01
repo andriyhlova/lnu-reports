@@ -15,6 +15,8 @@ namespace SRS.Repositories.Context
 
         public DbSet<AcademicStatus> AcademicStatus { get; set; }
 
+        public DbSet<HonoraryTitle> HonoraryTitles { get; set; }
+
         public DbSet<Cathedra> Cathedra { get; set; }
 
         public DbSet<Position> Position { get; set; }

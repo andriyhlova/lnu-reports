@@ -1,0 +1,29 @@
+﻿namespace SRS.Web.Enums
+{
+    public enum PublicationField
+    {
+        MainAuthor,
+        Place,
+        Edition,
+        Date,
+        Tome,
+        NumberOfPages,
+        ISBN,
+        Link,
+        PageFrom,
+        PageTo,
+        Journal,
+        OtherJournal,
+        Issue,
+        DOI,
+        ConferenceName,
+        ConferenceDate,
+        ConferenceCountry,
+        ConferenceIssue,
+        ApplicationNumber,
+        ApplicationDate,
+        PublicationDate,
+        BulletinNumber,
+        ApplicationOwner
+    }
+}

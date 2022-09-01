@@ -16,7 +16,12 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                   filterModel.Take,
                   expression.AndAlso(
                       x => (string.IsNullOrEmpty(filterModel.Search) ||
-                                x.Name.Contains(filterModel.Search)) &&
+                            x.Name.Contains(filterModel.Search) ||
+                            x.AuthorsOrder.Contains(filterModel.Search) ||
+                            x.Place.Contains(filterModel.Search) ||
+                            x.Tome.Contains(filterModel.Search) ||
+                            x.Edition.Contains(filterModel.Search) ||
+                            x.DOI.Contains(filterModel.Search)) &&
                             (filterModel.From == null || x.Date >= filterModel.From) &&
                             (filterModel.To == null || x.Date <= filterModel.To) &&
                             (filterModel.UserId == null || x.User.Any(u => u.Id == filterModel.UserId)) &&

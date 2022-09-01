@@ -40,6 +40,8 @@ namespace SRS.Services.Utilities
             Bind<ICathedraService>().To<CathedraService>();
             Bind<IThemeOfScientificWorkService>().To<ThemeOfScientificWorkService>();
             Bind<IDegreeService>().To<DegreeService>();
+            Bind<IAcademicStatusService>().To<AcademicStatusService>();
+            Bind<IHonoraryTitleService>().To<HonoraryTitleService>();
             Bind<IPublicationService>().To<PublicationService>();
             Bind<IJournalService>().To<JournalService>();
             Bind<IReportService>().To<ReportService>();

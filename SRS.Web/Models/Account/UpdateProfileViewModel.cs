@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SRS.Services.Attributes;
+using SRS.Services.Models;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Models.Account
@@ -53,14 +54,14 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Рік присвоєння вченого звання")]
         public int? AwardingDate { get; set; }
 
-        [Display(Name = "Рік захисту")]
-        public int? DefenseYear { get; set; }
-
         [Display(Name = "Рік початку перебування в аспірантурі")]
         public int? AspirantStartYear { get; set; }
 
         [Display(Name = "Рік закінчення перебування в аспірантурі")]
         public int? AspirantFinishYear { get; set; }
+
+        [Display(Name = "Рік захисту кандидатської дисертації/дисертації доктора філософії")]
+        public int? DegreeDefenseYear { get; set; }
 
         [Display(Name = "Рік початку перебування в докторатурі")]
         public int? DoctorStartYear { get; set; }
@@ -68,16 +69,17 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Рік закінчення перебування в докторантурі")]
         public int? DoctorFinishYear { get; set; }
 
-        [RequiredField]
-        [Display(Name = "Науковий ступінь")]
-        public int? DegreeId { get; set; }
-
-        [RequiredField]
-        [Display(Name = "Вчене звання")]
-        public int? AcademicStatusId { get; set; }
+        [Display(Name = "Рік захисту докторської дисертації")]
+        public int? AcademicStatusDefenseYear { get; set; }
 
         [RequiredField]
         [Display(Name = "Посада")]
         public int? PositionId { get; set; }
+
+        public IList<UserDegreeViewModel> Degrees { get; set; }
+
+        public IList<UserAcademicStatusViewModel> AcademicStatuses { get; set; }
+
+        public IList<HonoraryTitleModel> HonoraryTitles { get; set; }
     }
 }

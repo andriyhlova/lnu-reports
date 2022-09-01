@@ -40,11 +40,25 @@ namespace SRS.Repositories.Implementations
                 .ToListAsync();
         }
 
+        public virtual Task<ApplicationUser> GetAsync(string id, ISpecification<ApplicationUser> specification)
+        {
+            return SpecificationEvaluator<ApplicationUser>.GetQuery(_context.Set<ApplicationUser>(), specification)
+                .FirstOrDefaultAsync(entity => entity.Id == id);
+        }
+
         public async Task<ApplicationUser> UpdateAsync(ApplicationUser user)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            var existingEntity = await GetByIdAsync(user.Id);
+            if (existingEntity == null)
+            {
+                return existingEntity;
+            }
+
+            UpdateRelatedEntities(existingEntity, user);
+            _context.Entry(existingEntity).CurrentValues.SetValues(user);
             await _context.SaveChangesAsync();
-            return user;
+
+            return existingEntity;
         }
 
         public async Task<bool> DeleteAsync(string id)
@@ -78,6 +92,46 @@ namespace SRS.Repositories.Implementations
         {
             return SpecificationEvaluator<ApplicationUser>.GetQuery(_context.Set<ApplicationUser>(), specification)
                 .CountAsync();
+        }
+
+        protected void UpdateRelatedEntities(ApplicationUser existingEntity, ApplicationUser newEntity)
+        {
+            var toDeleteDegrees = existingEntity.Degrees.Where(x => !newEntity.Degrees.Any(y => y.Id == x.Id)).ToList();
+            foreach (var degree in toDeleteDegrees)
+            {
+                existingEntity.Degrees.Remove(degree);
+            }
+
+            var toAddDegrees = newEntity.Degrees.Where(x => !existingEntity.Degrees.Any(y => y.Id == x.Id)).ToList();
+            foreach (var degree in toAddDegrees)
+            {
+                existingEntity.Degrees.Add(degree);
+            }
+
+            var toDeleteAcademicStatuses = existingEntity.AcademicStatuses.Where(x => !newEntity.AcademicStatuses.Any(y => y.Id == x.Id)).ToList();
+            foreach (var academicStatus in toDeleteAcademicStatuses)
+            {
+                existingEntity.AcademicStatuses.Remove(academicStatus);
+            }
+
+            var toAddAcademicStatuses = newEntity.AcademicStatuses.Where(x => !existingEntity.AcademicStatuses.Any(y => y.Id == x.Id)).ToList();
+            foreach (var academicStatus in toAddAcademicStatuses)
+            {
+                existingEntity.AcademicStatuses.Add(academicStatus);
+            }
+
+            var toDeleteHonoraryTitle = existingEntity.HonoraryTitles.Where(x => !newEntity.HonoraryTitles.Any(y => y.Id == x.Id)).ToList();
+            foreach (var honoraryTitle in toDeleteHonoraryTitle)
+            {
+                existingEntity.HonoraryTitles.Remove(honoraryTitle);
+            }
+
+            var toAddHonoraryTitles = newEntity.HonoraryTitles.Where(x => !existingEntity.HonoraryTitles.Any(y => y.Id == x.Id)).ToList();
+            foreach (var honoraryTitle in toAddHonoraryTitles)
+            {
+                _context.Entry(honoraryTitle).State = EntityState.Unchanged;
+                existingEntity.HonoraryTitles.Add(honoraryTitle);
+            }
         }
     }
 }

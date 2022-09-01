@@ -37,14 +37,30 @@ namespace SRS.Services.Models.PublicationModels
 
         public string JournalName { get; set; }
 
+        public int? NumberOfPages { get; set; }
+
+        public string ISBN { get; set; }
+
+        public string ConferenceName { get; set; }
+
+        public DateTime? ConferenceDate { get; set; }
+
+        public string ConferenceCountry { get; set; }
+
+        public string Issue { get; set; }
+
+        public string ApplicationNumber { get; set; }
+
+        public DateTime? ApplicationDate { get; set; }
+
+        public string ApplicationOwner { get; set; }
+
+        public string BulletinNumber { get; set; }
+
         public double GetSizeOfPages()
         {
-            if (PageFrom.HasValue && PageTo.HasValue)
-            {
-                return Math.Round((PageTo.Value - PageFrom.Value + 1) / PublicationValues.FontSize, 1);
-            }
-
-            return 0.0;
+            var difference = NumberOfPages ?? (PageTo.GetValueOrDefault() - PageFrom.GetValueOrDefault() + 1);
+            return Math.Round(difference / PublicationValues.FontSize, 1);
         }
     }
 }

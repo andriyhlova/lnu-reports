@@ -1,4 +1,6 @@
-﻿namespace SRS.Services.Models.ReportGenerationModels.Report
+﻿using System.Collections.Generic;
+
+namespace SRS.Services.Models.ReportGenerationModels.Report
 {
     public class ReportSignatureModel
     {
@@ -6,7 +8,7 @@
 
         public string Date { get; set; }
 
-        public string CathedraLeadStatus { get; set; }
+        public List<string> CathedraLeadStatuses { get; set; }
 
         public string CathedraLead { get; set; }
     }

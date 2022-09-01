@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using SRS.Domain.Entities;
 using SRS.Domain.Specifications;
 
 namespace SRS.Repositories.Interfaces

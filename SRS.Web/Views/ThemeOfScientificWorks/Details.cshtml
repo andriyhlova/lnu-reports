@@ -13,27 +13,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Номер ДР
+            Номер державної реєстрації
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ThemeNumber)
         </dd>
         <dt>
-            Шифр
+            Внутрішній шифр
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Code)
         </dd>
         <dt>
-            Тема
+            Назва
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Value)
         </dd>
         <dt>
-            Тип фінансування
+            Тип проєкту
         </dt>
         <dd>
             @Model.Financial.GetDisplayName()
@@ -45,7 +45,7 @@
             @(Model.SubCategory != null ? Model.SubCategory.GetDisplayName() : null)
         </dd>
         <dt>
-            Фінансування по роках
+            Фінансування за роками
         </dt>
         <dd>
             @for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
@@ -60,13 +60,18 @@
             @Html.DisplayFor(model => model.ScientificHead)
         </dd>
         <dt>
-            Період з
+            Період виконання
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            З
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PeriodFrom)
         </dd>
         <dt>
-            Період до
+            По
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PeriodTo)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
+using SRS.Domain.Specifications;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
@@ -77,7 +78,7 @@ namespace SRS.Services.Implementations
 
         public async Task<TUserModel> UpdateAsync(TUserModel user, string approvedById = null)
         {
-            var existingUser = await _repo.GetByIdAsync(user.Id);
+            var existingUser = await _repo.GetAsync(user.Id, new BaseSpecification<ApplicationUser>(asNoTracking: true));
             if (existingUser == null)
             {
                 return null;

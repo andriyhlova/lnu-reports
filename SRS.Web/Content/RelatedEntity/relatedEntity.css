@@ -1,7 +1,7 @@
-﻿.selected-financials, .financial-buttons {
+﻿.selected-items, .related-entity-buttons {
     margin-top: 8px;
 }
-.new-financial-form {
+.new-related-entity-form {
     border: solid 1px grey;
     border-radius: 4px;
     background: aliceblue;

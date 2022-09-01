@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
-using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -80,7 +78,6 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            FillRelatedEntities();
             var currentUser = await _userWithInitialService.GetByIdAsync(User.Identity.GetUserId());
             var model = new PublicationEditViewModel
             {
@@ -100,7 +97,6 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillRelatedEntities();
             return View(model);
         }
 
@@ -113,7 +109,6 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
-            FillRelatedEntities();
             return View(_mapper.Map<PublicationEditViewModel>(publication));
         }
 
@@ -127,7 +122,6 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillRelatedEntities();
             return View(model);
         }
 
@@ -157,15 +151,6 @@ namespace SRS.Web.Controllers
             {
                 ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
             }
-        }
-
-        private void FillRelatedEntities()
-        {
-            ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Where(x => x != nameof(PublicationType.Стаття))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();
-            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
         }
     }
 }
