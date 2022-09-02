@@ -118,7 +118,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate))">
             <label class="control-label col-md-2">Дата проведення</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
                 @Html.ValidationMessageFor(model => model.ConferenceDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -136,7 +136,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate))">
             <label class="control-label col-md-2">Дата заявки</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ApplicationDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ApplicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
                 @Html.ValidationMessageFor(model => model.ApplicationDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -145,7 +145,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate))">
             <label class="control-label col-md-2">Дата публікації</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PublicationDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PublicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
                 @Html.ValidationMessageFor(model => model.PublicationDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -226,7 +226,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages))">
             <label class="control-label col-md-2">Кількість сторінок</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberOfPages, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NumberOfPages, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber } })
                 @Html.ValidationMessageFor(model => model.NumberOfPages, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -235,7 +235,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom))">
             <label class="control-label col-md-2">Сторінки від</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber, max = int.MaxValue } })
+                @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber } })
                 @Html.ValidationMessageFor(model => model.PageFrom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -244,7 +244,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo))">
             <label class="control-label col-md-2">Сторінки до</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PageTo, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber, max = int.MaxValue } })
+                @Html.EditorFor(model => model.PageTo, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber } })
                 @Html.ValidationMessageFor(model => model.PageTo, "", new { @class = "text-danger" })
             </div>
         </div>

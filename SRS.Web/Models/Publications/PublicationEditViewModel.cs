@@ -58,7 +58,7 @@ namespace SRS.Web.Models.Publications
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? ConferenceDate { get; set; } = DateTime.Now;
+        public DateTime? ConferenceDate { get; set; }
 
         public string ConferenceCountry { get; set; }
 
@@ -68,11 +68,11 @@ namespace SRS.Web.Models.Publications
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? ApplicationDate { get; set; } = DateTime.Now;
+        public DateTime? ApplicationDate { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? PublicationDate { get; set; } = DateTime.Now;
+        public DateTime? PublicationDate { get; set; }
 
         public string ApplicationOwner { get; set; }
 
