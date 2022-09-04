@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using SRS.Domain.Enums;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
 using SRS.Web.Models.Reports;
@@ -19,7 +20,9 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.RecomendedPublicationIds, opts => opts.MapFrom(src => src.RecomendedPublication.Where(x => x.Checked).Select(x => x.Id)))
                 .ForMember(dest => dest.AcceptedToPrintPublicationIds, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Where(x => x.Checked).Select(x => x.Id)));
 
-            CreateMap<ReportModel, ReportViewModel>();
+            CreateMap<ReportModel, ReportViewModel>()
+                .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.Financial != Financial.InternationalGrant)))
+                .ForMember(dest => dest.Grants, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.Financial == Financial.InternationalGrant)));
         }
     }
 }

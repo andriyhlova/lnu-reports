@@ -36,10 +36,10 @@ namespace SRS.Services.Implementations
             return await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null));
         }
 
-        public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(DepartmentFilterModel filterModel)
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(DepartmentFilterModel filterModel, params Financial[] financials)
         {
             var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
-            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear));
+            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear && financials.Contains(x.Financial)));
             return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes);
         }
 

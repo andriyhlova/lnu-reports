@@ -7,65 +7,48 @@ namespace SRS.Services.Implementations
     {
         public string Get(Publication publication)
         {
-            return $"{publication.MainAuthor} {publication.Name} /  {publication.AuthorsOrder} // {GetJournalPart(publication)}{GetEditionPart(publication)}{GetPlacePart(publication)}– {publication.Date.Year}.{GetEndOfPublication(publication)}";
+            return $"{publication.MainAuthor} " +
+                $"{publication.Name} / " +
+                $"{publication.AuthorsOrder} // " +
+                $"{GetPublicationPart(publication.GetJournalName())} " +
+                $"{GetPublicationPart(publication.Edition)} " +
+                $"{GetPublicationPart(publication.Place)} " +
+                $"– {GetPublicationPart(publication.Date.Year.ToString())} " +
+                $"– {GetPublicationPart(publication.Tome)} " +
+                $"{GetPublicationPagePart(publication)} " +
+                $"{GetPublicationDoiPart(publication)} "
+                .Trim();
         }
 
-        private string GetJournalPart(Publication publication)
+        private string GetPublicationPagePart(Publication publication)
         {
-            return !string.IsNullOrEmpty(publication.GetJournalName()) ? publication.GetJournalName() + ". " : string.Empty;
-        }
-
-        private string GetEditionPart(Publication publication)
-        {
-            return !string.IsNullOrEmpty(publication.Edition) ? publication.Edition + ". " : string.Empty;
-        }
-
-        private string GetPlacePart(Publication publication)
-        {
-            return !string.IsNullOrEmpty(publication.Place) ? publication.Place + ". " : string.Empty;
-        }
-
-        private string GetEndOfPublication(Publication publication)
-        {
-            var toReturn = $" – {GetTomePart(publication)}";
+            var pageTitle = publication.Language != Language.UA ? "с" : "p";
+            var toReturn = string.Empty;
             if (publication.PublicationType == PublicationType.Монографія
                         || publication.PublicationType == PublicationType.Підручник
-                        || publication.PublicationType == PublicationType.Навчальний_Посібник)
+                        || publication.PublicationType == PublicationType.Навчальний_Посібник
+                        || publication.PublicationType == PublicationType.Інше_Наукове_Видання)
             {
-                toReturn += $"{publication.GetPages()}  {GetPageTitle(publication)}. ";
-            }
-            else
-            {
-                toReturn += $"{(!FinishesWithHyphen(toReturn) ? "–" : string.Empty)} {GetPageTitle(publication).ToUpper()}. {GetPagePart(publication)}";
+                return $"{publication.NumberOfPages?.ToString() ?? publication.GetPages()}  {pageTitle}.";
             }
 
-            toReturn += GetDoiPart(publication);
-            return toReturn;
+            var finishesWithHyphen = !toReturn.Trim().EndsWith("-");
+            return $"{(!finishesWithHyphen ? "–" : string.Empty)} {pageTitle.ToUpper()}. {GetPublicationPart(publication.GetPages())}";
         }
 
-        private bool FinishesWithHyphen(string text)
+        private string GetPublicationDoiPart(Publication publication)
         {
-            return text.EndsWith("-") || text.EndsWith("–") || text.EndsWith("- ") || text.EndsWith("– ");
+            return !string.IsNullOrEmpty(publication.DOI) ? GetPublicationPart("(" + publication.DOI + ")") : string.Empty;
         }
 
-        private string GetTomePart(Publication publication)
+        private string GetPublicationPart(string part)
         {
-            return !string.IsNullOrEmpty(publication.Tome) ? publication.Tome + ". " : string.Empty;
-        }
+            if (string.IsNullOrEmpty(part))
+            {
+                return part;
+            }
 
-        private string GetPageTitle(Publication publication)
-        {
-            return publication.Language == Language.EN ? "p" : "с";
-        }
-
-        private string GetPagePart(Publication publication)
-        {
-            return !string.IsNullOrEmpty(publication.GetPages()) ? (publication.GetPages() + ". ") : string.Empty;
-        }
-
-        private string GetDoiPart(Publication publication)
-        {
-            return !string.IsNullOrEmpty(publication.DOI) ? "(" + publication.DOI + ")." : string.Empty;
+            return part + (!part.EndsWith(".") ? "." : string.Empty);
         }
     }
 }

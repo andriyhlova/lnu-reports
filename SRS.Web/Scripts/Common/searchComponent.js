@@ -27,7 +27,8 @@ class SearchComponent {
             }
 
             this._searchTimeOut = setTimeout(() => {
-                $.ajax(this._searchUrl + `?search=${e.target.value}`)
+                const url = this._searchUrl + (this._searchUrl.indexOf('?') !== -1 ? '&' : '?') + `search=${e.target.value}`;
+                $.ajax(url)
                     .done((results) => {
                         this._results = results;
                         this.updateSearchResults(results);

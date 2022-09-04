@@ -8,7 +8,7 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
 
         public ReportUserInfoModel UserInfo { get; set; }
 
-        public List<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
+        public ReportScientificWorkModel ScientificWork { get; set; }
 
         public ReportPublicationCountersModel PublicationCounters { get; set; }
 

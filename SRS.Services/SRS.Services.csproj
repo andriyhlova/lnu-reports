@@ -175,6 +175,7 @@
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportSignatureModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportGeneralInfoModel.cs" />
     <Compile Include="Models\ReportGenerationModels\Report\ReportPublicationsModel.cs" />
+    <Compile Include="Models\ReportGenerationModels\Report\ReportScientificWorkModel.cs" />
     <Compile Include="Models\ReportGenerationModels\Report\ReportUserTitleModel.cs" />
     <Compile Include="Models\ReportGenerationModels\Report\ReportUserInfoModel.cs" />
     <Compile Include="Models\ReportGenerationModels\Report\ReportThemeOfScientificWorkModel.cs" />

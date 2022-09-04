@@ -85,10 +85,10 @@
             <p>
                 Науковий ступінь, рік захисту:
                 {{#each ScientificDegrees}}
-                    {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
                 {{/each}}
                 {{#unless ScientificDegrees.Count}}
-                    без ступеня
+                без ступеня
                 {{/unless}}
             </p>
             <p>
@@ -103,6 +103,7 @@
         </div>
         {{/with}}
 
+        {{#with ScientificWork}}
         <div class="top-ident">
             <p>1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
             {{#each ThemeOfScientificWorks}}
@@ -112,17 +113,21 @@
                 </i>
             </p>
             {{/each}}
-            {{#with GeneralInfo}}
             <p class="top-ident pre-line">{{ThemeOfScientificWorkDescription}}</p>
-            {{/with}}
         </div>
 
-        {{#with GeneralInfo}}
-        {{#if ParticipationInGrands}}
+        {{#if HasGrants}}
         <div class="top-ident">
             <p>
                 2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
             </p>
+            {{#each Grants}}
+            <p>
+                <i>
+                    {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
+                </i>
+            </p>
+            {{/each}}
             <p class="pre-line">{{ParticipationInGrands}}</p>
         </div>
         {{/if}}

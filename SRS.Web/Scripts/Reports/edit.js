@@ -3,10 +3,10 @@ function changeStepPageAndSubmit(index, newIndex) {
         $(this).val(newIndex);
     });
     if (index == 0) {
-        $('#updatePublicationForm').submit();
+        $('#updateThemeForm').submit();
     }
     if (index == 1) {
-        $('#updateThemeForm').submit();
+        $('#updatePublicationForm').submit();
     }
     if (index == 2) {
         $('#updateOtherForm').submit();
@@ -21,11 +21,30 @@ function changeStepPageAndSubmit(index, newIndex) {
 
 (function () {
     const selectedScientificWorks = [];
+    const selectedGrants = [];
     $(function () {
-        const searchComponent = new SearchComponent('#scientific-work-search', '/api/themeOfScientificWorksApi/searchAll', getScientificWorkSearchResultText, appendScientificWorkSearchResultItem);
+        const scientificWorksSettings = {
+            collection: selectedScientificWorks,
+            selectedItemsSelector: '.selected-scientific-works',
+            fieldName: 'ThemeOfScientificWorkIds',
+            searchUrl: '/api/themeOfScientificWorksApi/search?financials[]=0&financials=1&financials=2&financials=3&financials=4&financials=5&financials=6'
+        };
+        const searchComponent = new SearchComponent('#scientific-work-search', scientificWorksSettings.searchUrl, getScientificWorkSearchResultText, (element) => appendScientificWorkSearchResultItem(element, scientificWorksSettings));
         searchComponent.load();
-        getSelectedScientificWorks();
-        $('.selected-scientific-works').on('click', '.bi-file-x-fill', removeScientificWork);
+        getSelectedScientificWorks('.initial-scientific-work', scientificWorksSettings);
+        $('.selected-scientific-works').on('click', '.bi-file-x-fill', (element) => removeScientificWork(element, scientificWorksSettings));
+
+        const grantsSettings = {
+            collection: selectedGrants,
+            selectedItemsSelector: '.selected-grants',
+            fieldName: 'GrantIds',
+            disableCheck: true,
+            searchUrl: '/api/themeOfScientificWorksApi/search?financials=7'
+        };
+        const grantSearchComponent = new SearchComponent('#grant-search', grantsSettings.searchUrl, getScientificWorkSearchResultText, (element) => appendScientificWorkSearchResultItem(element, grantsSettings));
+        grantSearchComponent.load();
+        getSelectedScientificWorks('.initial-grant', grantsSettings);
+        $('.selected-grants').on('click', '.bi-file-x-fill', (element) => removeScientificWork(element, grantsSettings));
         events();
     });
 
@@ -38,8 +57,8 @@ function changeStepPageAndSubmit(index, newIndex) {
         });
     };
 
-    function getSelectedScientificWorks() {
-        const scientificWorks = $('.initial-scientific-work');
+    function getSelectedScientificWorks(selector, settings) {
+        const scientificWorks = $(selector);
         for (let i = 0; i < scientificWorks.length; i++) {
             const scientificWork = {
                 Id: $(scientificWorks[i])[0].dataset.id,
@@ -49,51 +68,51 @@ function changeStepPageAndSubmit(index, newIndex) {
                 Value: $(scientificWorks[i])[0].dataset.value
             }
 
-            selectedScientificWorks.push(scientificWork);
+            settings.collection.push(scientificWork);
         }
 
-        renderScientificWorkList(selectedScientificWorks);
+        renderScientificWorkList(settings);
     }
 
     function getScientificWorkSearchResultText(scientificWork) {
         return `<div>${scientificWork.ThemeNumber || ''} ${scientificWork.Code || ''} ${scientificWork.ScientificHead || ''}  <span class="theme-name">${scientificWork.Value}</span></div>`;
     };
 
-    function appendScientificWorkSearchResultItem(scientificWork) {
-        if (!selectedScientificWorks.find(x => x.Id == scientificWork.Id)) {
-            selectedScientificWorks.push(scientificWork);
-            renderScientificWorkList(selectedScientificWorks);
+    function appendScientificWorkSearchResultItem(scientificWork, settings) {
+        if (!settings.collection.find(x => x.Id == scientificWork.Id)) {
+            settings.collection.push(scientificWork);
+            renderScientificWorkList(settings);
         }
     };
 
-    function removeScientificWork(element) {
-        if (selectedScientificWorks.length == 1) {
+    function removeScientificWork(element, settings) {
+        if (!settings.disableCheck && settings.collection.length == 1) {
             alert('Звіт повинен мати хоча б одну тему наукової роботи');
             return;
         }
 
         const container = $(element.currentTarget).closest('.scientific-work');
         const id = container.find('.id').val();
-        const index = selectedScientificWorks.findIndex(x => x.Id == id);
+        const index = settings.collection.findIndex(x => x.Id == id);
         if (index != -1) {
             container.remove();
-            selectedScientificWorks.splice(index, 1);
-            renderScientificWorkList(selectedScientificWorks);
+            settings.collection.splice(index, 1);
+            renderScientificWorkList(settings);
         }
     };
 
-    function renderScientificWorkList(scientificWorks) {
-        const selectedScientificWorks = $('.selected-scientific-works');
+    function renderScientificWorkList(settings) {
+        const selectedScientificWorks = $(settings.selectedItemsSelector);
         selectedScientificWorks.html('');
-        for (let i = 0; i < scientificWorks.length; i++) {
-            selectedScientificWorks.append(getScientificWorkHtml(i, scientificWorks[i]));
+        for (let i = 0; i < settings.collection.length; i++) {
+            selectedScientificWorks.append(getScientificWorkHtml(i, settings.collection[i], settings.fieldName));
         }
     };
 
-    function getScientificWorkHtml(index, scientificWork) {
+    function getScientificWorkHtml(index, scientificWork, fieldName) {
         return `<div class="selected-item scientific-work">
                                 <div class="fullname">${getScientificWorkSearchResultText(scientificWork)}<i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
-                                <input type="hidden" name="ThemeOfScientificWorkIds[${index}]" class="id" value="${scientificWork.Id}" />
+                                <input type="hidden" name="${fieldName}[${index}]" class="id" value="${scientificWork.Id}" />
                                  <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
                                  <input type="hidden" class="code" value="${scientificWork.Code}" />
                                  <input type="hidden" class="scientifichead" value="${scientificWork.ScientificHead}" />

@@ -4,16 +4,6 @@
     {
         public int Year { get; set; }
 
-        public string ThemeOfScientificWorkDescription { get; set; }
-
-        public string ParticipationInGrands { get; set; }
-
-        public string ScientificTrainings { get; set; }
-
-        public string ScientificControlDoctorsWork { get; set; }
-
-        public string ScientificControlStudentsWork { get; set; }
-
         public string ApplicationForInevention { get; set; }
 
         public string PatentForInevention { get; set; }

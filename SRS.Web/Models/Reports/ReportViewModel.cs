@@ -42,6 +42,8 @@ namespace SRS.Web.Models.Reports
 
         public List<BaseThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
+        public List<BaseThemeOfScientificWorkModel> Grants { get; set; }
+
         public List<CheckboxListItem> PrintedPublication { get; set; }
 
         public List<CheckboxListItem> RecomendedPublication { get; set; }

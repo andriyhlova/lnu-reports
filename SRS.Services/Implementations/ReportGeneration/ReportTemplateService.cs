@@ -39,7 +39,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var report = new ReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
             report.UserInfo = GetUserInfo(dbReport);
-            report.ThemeOfScientificWorks = GetThemeOfScientificWorks(dbReport);
+            report.ScientificWork = GetScientificWorkInfo(dbReport);
             report.PublicationCounters = GetPublicationCounters(dbReport, allPrintedPublications);
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, cathedraLeads);
@@ -50,11 +50,6 @@ namespace SRS.Services.Implementations.ReportGeneration
         {
             var generalInfo = new ReportGeneralInfoModel();
             generalInfo.Year = dbReport.Date?.Year ?? 0;
-            generalInfo.ThemeOfScientificWorkDescription = dbReport.ThemeOfScientificWorkDescription;
-            generalInfo.ParticipationInGrands = dbReport.ParticipationInGrands;
-            generalInfo.ScientificTrainings = dbReport.ScientificTrainings;
-            generalInfo.ScientificControlDoctorsWork = dbReport.ScientificControlDoctorsWork;
-            generalInfo.ScientificControlStudentsWork = dbReport.ScientificControlStudentsWork;
             generalInfo.ApplicationForInevention = dbReport.ApplicationForInevention;
             generalInfo.PatentForInevention = dbReport.PatentForInevention;
             generalInfo.ReviewForTheses = dbReport.ReviewForTheses;
@@ -88,23 +83,54 @@ namespace SRS.Services.Implementations.ReportGeneration
             return userInfo;
         }
 
+        private ReportScientificWorkModel GetScientificWorkInfo(Report dbReport)
+        {
+            var scientificWorkInfo = new ReportScientificWorkModel();
+            scientificWorkInfo.ThemeOfScientificWorks = GetThemeOfScientificWorks(dbReport);
+            scientificWorkInfo.ThemeOfScientificWorkDescription = dbReport.ThemeOfScientificWorkDescription;
+            scientificWorkInfo.Grants = GetGrants(dbReport);
+            scientificWorkInfo.ParticipationInGrands = dbReport.ParticipationInGrands;
+            scientificWorkInfo.ScientificTrainings = dbReport.ScientificTrainings;
+            scientificWorkInfo.ScientificControlDoctorsWork = dbReport.ScientificControlDoctorsWork;
+            scientificWorkInfo.ScientificControlStudentsWork = dbReport.ScientificControlStudentsWork;
+            return scientificWorkInfo;
+        }
+
         private List<ReportThemeOfScientificWorkModel> GetThemeOfScientificWorks(Report dbReport)
         {
             var result = new List<ReportThemeOfScientificWorkModel>();
-            foreach (var theme in dbReport.ThemeOfScientificWorks)
+            var themes = dbReport.ThemeOfScientificWorks.Where(x => x.Financial != Financial.InternationalGrant);
+            foreach (var theme in themes)
             {
-                var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
-                themeOfScientificWork.Title = theme.Value;
-                themeOfScientificWork.Number = theme.ThemeNumber;
-                themeOfScientificWork.Code = theme.Code;
-                themeOfScientificWork.PeriodFrom = theme.PeriodFrom.Year.ToString();
-                themeOfScientificWork.PeriodTo = theme.PeriodTo.Year.ToString();
-                themeOfScientificWork.Head = theme.ScientificHead;
-                themeOfScientificWork.Financial = theme.Financial.GetDisplayName().ToLower();
-                result.Add(themeOfScientificWork);
+                result.Add(ConvertToReportTheme(theme));
             }
 
             return result;
+        }
+
+        private List<ReportThemeOfScientificWorkModel> GetGrants(Report dbReport)
+        {
+            var result = new List<ReportThemeOfScientificWorkModel>();
+            var grants = dbReport.ThemeOfScientificWorks.Where(x => x.Financial == Financial.InternationalGrant);
+            foreach (var grant in grants)
+            {
+                result.Add(ConvertToReportTheme(grant));
+            }
+
+            return result;
+        }
+
+        private ReportThemeOfScientificWorkModel ConvertToReportTheme(ThemeOfScientificWork theme)
+        {
+            var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
+            themeOfScientificWork.Title = theme.Value;
+            themeOfScientificWork.Number = theme.ThemeNumber;
+            themeOfScientificWork.Code = theme.Code;
+            themeOfScientificWork.PeriodFrom = theme.PeriodFrom.Year.ToString();
+            themeOfScientificWork.PeriodTo = theme.PeriodTo.Year.ToString();
+            themeOfScientificWork.Head = theme.ScientificHead;
+            themeOfScientificWork.Financial = theme.Financial.GetDisplayName().ToLower();
+            return themeOfScientificWork;
         }
 
         private ReportPublicationCountersModel GetPublicationCounters(Report dbReport, List<Publication> allPrintedPublications)

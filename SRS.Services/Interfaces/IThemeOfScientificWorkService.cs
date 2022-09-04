@@ -12,7 +12,7 @@ namespace SRS.Services.Interfaces
 
         Task<int> CountAsync(DepartmentFilterModel filterModel);
 
-        Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(DepartmentFilterModel filterModel);
+        Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(DepartmentFilterModel filterModel, params Financial[] financials);
 
         Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial);
     }
