@@ -9,7 +9,7 @@
         {
             DropForeignKey("dbo.AspNetUsers", "AcademicStatus_Id", "dbo.AcademicStatus");
             DropForeignKey("dbo.AspNetUsers", "Degree_Id", "dbo.Degrees");
-            Sql(@"IF (OBJECT_ID('FK_dbo.AspNetUsers_dbo.ScienceDegrees_ScienceDegree_ID', 'F') IS NOT NULL)
+            Sql(@"IF (OBJECT_ID('[FK_dbo.AspNetUsers_dbo.ScienceDegrees_ScienceDegree_ID]', 'F') IS NOT NULL)
             BEGIN
                 ALTER TABLE dbo.AspNetUsers DROP CONSTRAINT ""FK_dbo.AspNetUsers_dbo.ScienceDegrees_ScienceDegree_ID""
             END;");
