@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Web.Models.Publications;

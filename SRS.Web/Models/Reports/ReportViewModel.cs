@@ -49,5 +49,9 @@ namespace SRS.Web.Models.Reports
         public List<CheckboxListItem> RecomendedPublication { get; set; }
 
         public List<CheckboxListItem> AcceptedToPrintPublication { get; set; }
+
+        public List<CheckboxListItem> ApplicationsForInvention { get; set; }
+
+        public List<CheckboxListItem> PatentsForInvention { get; set; }
     }
 }

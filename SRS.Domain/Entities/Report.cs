@@ -52,6 +52,12 @@ namespace SRS.Domain.Entities
         [InverseProperty("AcceptedToPrintPublicationReport")]
         public virtual ICollection<Publication> AcceptedToPrintPublication { get; set; }// Пункт 6.2.5
 
+        [InverseProperty("ApplicationsForInventionReport")]
+        public virtual ICollection<Publication> ApplicationsForInvention { get; set; }
+
+        [InverseProperty("PatentsForInventionReport")]
+        public virtual ICollection<Publication> PatentsForInvention { get; set; }
+
         public virtual List<CathedraReport> CathedraReport { get; set; }
     }
 }

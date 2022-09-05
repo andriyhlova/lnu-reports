@@ -202,7 +202,29 @@
                     @Html.EditorFor(model => model.AcceptedToPrintPublication)
                 </div>
             }
-            if (Model.PrintedPublication.Count == 0 && Model.RecomendedPublication.Count == 0 && Model.AcceptedToPrintPublication.Count == 0)
+            if (Model.ApplicationsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Заявки на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.ApplicationsForInvention)
+                </div>
+            }
+            if (Model.PatentsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Патенти на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.PatentsForInvention)
+                </div>
+            }
+            if (Model.PrintedPublication.Count == 0 
+                && Model.RecomendedPublication.Count == 0 
+                && Model.AcceptedToPrintPublication.Count == 0
+                && Model.ApplicationsForInvention.Count == 0
+                && Model.PatentsForInvention.Count == 0)
             {
                 <p style="margin-top:100px">
                     Немає публікацій за цей період.
@@ -218,35 +240,6 @@
         @using (@Html.BeginForm("UpdateOtherInfo", "Report", FormMethod.Post, new { @id = "updateOtherForm" }))
         {
             @Html.AntiForgeryToken()
-            <div class="form-group">
-                <label class="control-label">
-                    7.1. Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
-                    автори, назва, № заявки, дата подачі, заявник(и):
-                </label>
-                <div>
-                    @Html.TextAreaFor(model => model.ApplicationForInevention, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.ApplicationForInevention,
-                    })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">
-                    7.2. Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
-                </label>
-                <div>
-                    @Html.TextAreaFor(model => model.PatentForInevention, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.PatentForInevention,
-                    })
-                </div>
-            </div>
-
             <div class="form-group">
                 <label class="control-label">
                     8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:

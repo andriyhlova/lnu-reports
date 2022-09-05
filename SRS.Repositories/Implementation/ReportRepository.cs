@@ -15,6 +15,8 @@ namespace SRS.Repositories.Implementations
             AddCollection(entity.PrintedPublication);
             AddCollection(entity.RecomendedPublication);
             AddCollection(entity.AcceptedToPrintPublication);
+            AddCollection(entity.ApplicationsForInvention);
+            AddCollection(entity.PatentsForInvention);
             AddCollection(entity.ThemeOfScientificWorks);
         }
 
@@ -23,6 +25,8 @@ namespace SRS.Repositories.Implementations
             UpdateCollection(existingEntity.PrintedPublication, newEntity.PrintedPublication);
             UpdateCollection(existingEntity.RecomendedPublication, newEntity.RecomendedPublication);
             UpdateCollection(existingEntity.AcceptedToPrintPublication, newEntity.AcceptedToPrintPublication);
+            UpdateCollection(existingEntity.ApplicationsForInvention, newEntity.ApplicationsForInvention);
+            UpdateCollection(existingEntity.PatentsForInvention, newEntity.PatentsForInvention);
             UpdateCollection(existingEntity.ThemeOfScientificWorks, newEntity.ThemeOfScientificWorks);
         }
     }

@@ -81,6 +81,10 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<Report> AcceptedToPrintPublicationReport { get; set; }
 
+        public virtual ICollection<Report> ApplicationsForInventionReport { get; set; }
+
+        public virtual ICollection<Report> PatentsForInventionReport { get; set; }
+
         public virtual ICollection<CathedraReport> PrintedPublicationBudgetCathedraReport { get; set; }
 
         public virtual ICollection<CathedraReport> PrintedPublicationInWorkCathedraReport { get; set; }

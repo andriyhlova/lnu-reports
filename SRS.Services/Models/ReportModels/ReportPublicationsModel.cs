@@ -10,5 +10,9 @@ namespace SRS.Services.Models.ReportModels
         public IList<int> RecomendedPublicationIds { get; set; }
 
         public IList<int> AcceptedToPrintPublicationIds { get; set; }
+
+        public IList<int> ApplicationsForInventionIds { get; set; }
+
+        public IList<int> PatentsForInventionIds { get; set; }
     }
 }

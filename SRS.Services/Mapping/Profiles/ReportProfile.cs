@@ -15,7 +15,9 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<ReportPublicationsModel, Report>()
                 .ForMember(dest => dest.PrintedPublication, opts => opts.MapFrom(src => src.PrintedPublicationIds.Select(x => new Publication { Id = x })))
                 .ForMember(dest => dest.RecomendedPublication, opts => opts.MapFrom(src => src.RecomendedPublicationIds.Select(x => new Publication { Id = x })))
-                .ForMember(dest => dest.AcceptedToPrintPublication, opts => opts.MapFrom(src => src.AcceptedToPrintPublicationIds.Select(x => new Publication { Id = x })));
+                .ForMember(dest => dest.AcceptedToPrintPublication, opts => opts.MapFrom(src => src.AcceptedToPrintPublicationIds.Select(x => new Publication { Id = x })))
+            .ForMember(dest => dest.ApplicationsForInvention, opts => opts.MapFrom(src => src.ApplicationsForInventionIds.Select(x => new Publication { Id = x })))
+                .ForMember(dest => dest.PatentsForInvention, opts => opts.MapFrom(src => src.PatentsForInventionIds.Select(x => new Publication { Id = x })));
 
             CreateMap<ReportScientificWorkModel, Report>()
                 .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => (src.ThemeOfScientificWorkIds ?? new int[0] { }).Union(src.GrantIds ?? new int[0] { }).Select(x => new ThemeOfScientificWork { Id = x })));
@@ -28,7 +30,9 @@ namespace SRS.Services.Mapping.Profiles
                 .IncludeBase<Report, BaseReportModel>()
                 .ForMember(dest => dest.PrintedPublicationIds, opts => opts.MapFrom(src => src.PrintedPublication.Select(x => x.Id)))
                 .ForMember(dest => dest.RecomendedPublicationIds, opts => opts.MapFrom(src => src.RecomendedPublication.Select(x => x.Id)))
-                .ForMember(dest => dest.AcceptedToPrintPublicationIds, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Select(x => x.Id)));
+                .ForMember(dest => dest.AcceptedToPrintPublicationIds, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Select(x => x.Id)))
+                .ForMember(dest => dest.ApplicationsForInventionIds, opts => opts.MapFrom(src => src.ApplicationsForInvention.Select(x => x.Id)))
+                .ForMember(dest => dest.PatentsForInventionIds, opts => opts.MapFrom(src => src.PatentsForInvention.Select(x => x.Id)));
         }
     }
 }

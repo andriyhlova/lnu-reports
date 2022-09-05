@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
+using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
@@ -85,7 +86,8 @@ namespace SRS.Web.Controllers
                 To = publicationDateFilter.PublicationDateTo,
                 UserId = report.UserId
             };
-            var availablePublications = await _publicationService.GetAvailableReportPublicationsAsync(filterModel);
+            var publications = await _publicationService.GetAvailableReportPublicationsAsync(filterModel);
+            var availablePublications = publications.Where(x => x.PublicationType != PublicationType.Заявка_на_винахід || x.PublicationType != PublicationType.Патент);
             viewModel.RecomendedPublication = availablePublications
                 .Select(x => new CheckboxListItem()
                 {
@@ -106,6 +108,22 @@ namespace SRS.Web.Controllers
                 .Select(x => new CheckboxListItem()
                 {
                     Checked = report.AcceptedToPrintPublicationIds.Any(y => y == x.Id),
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+
+            viewModel.ApplicationsForInvention = publications.Where(x => x.PublicationType == PublicationType.Заявка_на_винахід)
+                .Select(x => new CheckboxListItem()
+                {
+                    Checked = report.ApplicationsForInventionIds.Any(y => y == x.Id),
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+
+            viewModel.PatentsForInvention = publications.Where(x => x.PublicationType == PublicationType.Патент)
+                .Select(x => new CheckboxListItem()
+                {
+                    Checked = report.PatentsForInventionIds.Any(y => y == x.Id),
                     Id = x.Id,
                     Name = x.Name
                 }).ToList();

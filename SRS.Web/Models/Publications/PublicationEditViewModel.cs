@@ -71,6 +71,7 @@ namespace SRS.Web.Models.Publications
         public DateTime? ApplicationDate { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? PublicationDate { get; set; }
 

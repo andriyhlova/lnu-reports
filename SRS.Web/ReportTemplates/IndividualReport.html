@@ -434,36 +434,44 @@
         {{/if}}
 
         {{/if}}
-        {{/with}}
 
-        {{#with GeneralInfo}}
-        {{#if ApplicationForInevention}}
-        {{#if PatentForInevention}}
+        {{#if ApplicationsForInvention.Count}}
+        {{#if PatentsForInvention.Count}}
         <div class="top-ident">
             <p>
                 7. Патентно-ліцензійна діяльність:
             </p>
         </div>
-        {{#if ApplicationForInevention}}
+        {{#if ApplicationsForInvention.Count}}
         <div class="top-ident">
             <p>
                 7.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) -
                 автори, назва, № заявки, дата подачі, заявник(и):
             </p>
-            <p class="pre-line">{{ApplicationForInevention}}</p>
+            <div>
+                {{#each ApplicationsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
-        {{#if PatentForInevention}}
+        {{#if PatentsForInvention.Count}}
         <div class="top-ident">
             <p>
                 7.2 Патенти на винахід (корисну модель) - автори, назва, № патенту, дата видачі, заявник(и):
             </p>
-            <p class="pre-line">{{PatentForInevention}}</p>
+            <div>
+                {{#each PatentsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
         {{/if}}
         {{/if}}
+        {{/with}}
 
+        {{#with GeneralInfo}}
         {{#if ReviewForTheses}}
         <div class="top-ident">
             <p>

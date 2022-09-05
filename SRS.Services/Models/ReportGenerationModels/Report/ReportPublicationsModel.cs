@@ -62,5 +62,9 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
         public List<string> RecommendedOtherWritings { get; set; }
 
         public List<string> AcceptedToPrintPublications { get; set; }
+
+        public List<string> ApplicationsForInvention { get; set; }
+
+        public List<string> PatentsForInvention { get; set; }
     }
 }

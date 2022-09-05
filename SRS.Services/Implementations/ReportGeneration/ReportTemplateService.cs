@@ -159,6 +159,8 @@ namespace SRS.Services.Implementations.ReportGeneration
             var reportPrintedPublications = dbReport.PrintedPublication.ToList();
             var reportRecommendedPublications = dbReport.RecomendedPublication.ToList();
             var reportAcceptedToPrintPublications = dbReport.AcceptedToPrintPublication.ToList();
+            var reportApplicationsForInvention = dbReport.ApplicationsForInvention.ToList();
+            var reportPatentsForInvention = dbReport.PatentsForInvention.ToList();
             var publications = new ReportPublicationsModel();
             publications.Monographs = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія));
             publications.Books = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Підручник));
@@ -180,6 +182,8 @@ namespace SRS.Services.Implementations.ReportGeneration
             publications.RecommendedTrainingBooks = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.RecommendedOtherWritings = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));
             publications.AcceptedToPrintPublications = GetPublicationsBibliography(reportAcceptedToPrintPublications);
+            publications.ApplicationsForInvention = GetPublicationsBibliography(reportApplicationsForInvention);
+            publications.PatentsForInvention = GetPublicationsBibliography(reportPatentsForInvention);
             return publications;
         }
 

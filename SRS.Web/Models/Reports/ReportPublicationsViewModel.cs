@@ -12,5 +12,9 @@ namespace SRS.Web.Models.Reports
         public IList<CheckboxListItem> RecomendedPublication { get; set; } = new List<CheckboxListItem>();
 
         public IList<CheckboxListItem> AcceptedToPrintPublication { get; set; } = new List<CheckboxListItem>();
+
+        public IList<CheckboxListItem> ApplicationsForInvention { get; set; } = new List<CheckboxListItem>();
+
+        public IList<CheckboxListItem> PatentsForInvention { get; set; } = new List<CheckboxListItem>();
     }
 }

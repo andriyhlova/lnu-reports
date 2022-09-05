@@ -32,5 +32,9 @@ namespace SRS.Services.Models.ReportModels
         public IList<int> RecomendedPublicationIds { get; set; }// Пункт 6.2
 
         public IList<int> AcceptedToPrintPublicationIds { get; set; }// Пункт 6.2.5
+
+        public IList<int> ApplicationsForInventionIds { get; set; }
+
+        public IList<int> PatentsForInventionIds { get; set; }
     }
 }

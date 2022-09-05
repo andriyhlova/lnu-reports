@@ -7,17 +7,35 @@ namespace SRS.Services.Implementations
     {
         public string Get(Publication publication)
         {
-            return $"{publication.MainAuthor} " +
-                $"{publication.Name} / " +
-                $"{publication.AuthorsOrder} // " +
-                $"{GetPublicationPart(publication.GetJournalName())} " +
-                $"{GetPublicationPart(publication.Edition)} " +
-                $"{GetPublicationPart(publication.Place)} " +
-                $"– {GetPublicationPart(publication.Date.Year.ToString())} " +
-                $"– {GetPublicationPart(publication.Tome)} " +
-                $"{GetPublicationPagePart(publication)} " +
-                $"{GetPublicationDoiPart(publication)} "
-                .Trim();
+            switch (publication.PublicationType)
+            {
+                case PublicationType.Заявка_на_винахід:
+                case PublicationType.Патент:
+                        return GetInventionBibliography(publication);
+                default:
+                        return $"{publication.MainAuthor} " +
+                               $"{publication.Name} / " +
+                               $"{publication.AuthorsOrder} // " +
+                               $"{GetPublicationPart(publication.GetJournalName())} " +
+                               $"{GetPublicationPart(publication.Edition)} " +
+                               $"{GetPublicationPart(publication.Place)} " +
+                               $"– {GetPublicationPart(publication.Date.Year.ToString())} " +
+                               $"– {GetPublicationPart(publication.Tome)} " +
+                               $"{GetPublicationPagePart(publication)} " +
+                               $"{GetPublicationDoiPart(publication)} "
+                               .Trim();
+            }
+        }
+
+        private string GetInventionBibliography(Publication publication)
+        {
+            return string.Join(
+                ", ",
+                publication.AuthorsOrder,
+                publication.Name,
+                publication.ApplicationNumber,
+                publication.Date.ToString("dd.MM.yyyy"),
+                publication.ApplicationOwner);
         }
 
         private string GetPublicationPagePart(Publication publication)
