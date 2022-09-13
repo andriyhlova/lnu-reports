@@ -43,7 +43,9 @@ namespace SRS.Services.Models.PublicationModels
 
         public string ConferenceName { get; set; }
 
-        public DateTime? ConferenceDate { get; set; }
+        public string ConferenceDate { get; set; }
+
+        public string ConferencePlace { get; set; }
 
         public string ConferenceCountry { get; set; }
 

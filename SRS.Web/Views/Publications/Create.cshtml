@@ -45,7 +45,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor))">
             <label class="control-label col-md-2">Перший автор <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control", placeholder = "Петренко І. І." } })
                 @Html.ValidationMessageFor(model => model.MainAuthor, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -53,7 +53,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Усі автори <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control", placeholder = "І. І. Петренко, Т. Т. Тарасенко" } })
                 @Html.ValidationMessageFor(model => model.AuthorsOrder, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -115,8 +115,26 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate))">
             <label class="control-label col-md-2">Дата проведення</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
+                @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control", placeholder= "11–12 груд. 2015 р." } })
                 @Html.ValidationMessageFor(model => model.ConferenceDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace))">
+            <label class="control-label col-md-2">Місто проведення</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ConferencePlace, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ConferencePlace, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
+            <label class="control-label col-md-2">Країна проведення</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ConferenceCountry, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ConferenceCountry, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -153,15 +171,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
-            <label class="control-label col-md-2">Країна</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ConferenceCountry, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ConferenceCountry, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -205,7 +214,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome))">
             <label class="control-label col-md-2">Том</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", placeholder="Т. 1 або Vol. 1" } })
                 @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -214,7 +223,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue))">
             <label class="control-label col-md-2">Номер, випуск</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control", placeholder = "Вип. 1 або №. 1 або No. 1" } })
                 @Html.ValidationMessageFor(model => model.Issue, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -250,7 +259,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN))">
             <label class="control-label col-md-2">ISBN</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control", placeholder="XXX-XXX-XXX-X" } })
                 @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -268,7 +277,7 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link))">
             <label class="control-label col-md-2">Посилання на публікацію в Інтернеті</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", placeholder="https://example.com" } })
                 @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -282,7 +291,7 @@
 }
 
 <div>
-    @Html.ActionLink("Повернутись до списку", "Index")
+    <a href="/Publications@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
 </div>
 
 @section Styles {

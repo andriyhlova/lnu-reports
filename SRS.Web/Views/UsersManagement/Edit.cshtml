@@ -194,7 +194,7 @@
 }
 
 <div>
-    @Html.ActionLink("Повернутись до списку", "Index")
+    <a href="/UsersManagement@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
 </div>
 
 @section Styles {

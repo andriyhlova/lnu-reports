@@ -210,7 +210,17 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI))">
             <label class="col-md-2">DOI</label>
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.DOI)
+                @if (!string.IsNullOrEmpty(Model.DOI))
+                {
+                    if (Model.DOI.StartsWith("http") || Model.DOI.StartsWith("www"))
+                    {
+                        <a href="@Model.DOI">@Model.DOI</a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DOI)
+                    }
+                }
             </div>
         </div>
 
@@ -218,7 +228,10 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link))">
             <label class="col-md-2">Посилання на публікацію в Інтернеті</label>
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.Link)
+                @if (!string.IsNullOrEmpty(Model.Link))
+                {
+                    <a href="@Model.Link">@Model.Link</a>
+                }
             </div>
         </div>
     </div>
@@ -228,7 +241,7 @@
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
             <input type="submit" value="Видалити" class="btn btn-danger" /> |
-            @Html.ActionLink("Повернутись до списку", "Index")
+            <a href="/Publications@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
         </div>
     }
 </div>

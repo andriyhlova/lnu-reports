@@ -1,5 +1,6 @@
 ﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Services.Utilities;
 
 namespace SRS.Services.Implementations
 {
@@ -9,22 +10,52 @@ namespace SRS.Services.Implementations
         {
             switch (publication.PublicationType)
             {
+                case PublicationType.Монографія:
+                case PublicationType.Підручник:
+                case PublicationType.Навчальний_Посібник:
+                case PublicationType.Інше_Наукове_Видання:
+                case PublicationType.Розділ_монографії:
+                    return GetBookBibliography(publication);
+                case PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор:
+                case PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних:
+                case PublicationType.Стаття_В_Інших_Закордонних_Виданнях:
+                case PublicationType.Стаття_В_Фахових_Виданнях_України:
+                case PublicationType.Стаття_В_Інших_Виданнях_України:
+                    return GetArticleBibliography(publication);
+                case PublicationType.Тези_Доповіді_На_Міжнародній_Конференції:
+                case PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції:
+                    return GetConferenceBibliography(publication);
                 case PublicationType.Заявка_на_винахід:
                 case PublicationType.Патент:
-                        return GetInventionBibliography(publication);
+                    return GetInventionBibliography(publication);
                 default:
-                        return $"{publication.MainAuthor} " +
-                               $"{publication.Name} / " +
-                               $"{publication.AuthorsOrder} // " +
-                               $"{GetPublicationPart(publication.GetJournalName())} " +
-                               $"{GetPublicationPart(publication.Edition)} " +
-                               $"{GetPublicationPart(publication.Place)} " +
-                               $"– {GetPublicationPart(publication.Date.Year.ToString())} " +
-                               $"– {GetPublicationPart(publication.Tome)} " +
-                               $"{GetPublicationPagePart(publication)} " +
-                               $"{GetPublicationDoiPart(publication)} "
-                               .Trim();
+                    return GetArticleBibliography(publication);
             }
+        }
+
+        private string GetBookBibliography(Publication publication)
+        {
+            return ($"{publication.MainAuthor}" +
+                $"{GetBibliographyPart(" ", publication.Name)}" +
+                $"{GetBibliographyPart(" / ", GetPartWithDot(publication.AuthorsOrder))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Tome))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(GetPagesPart(publication)))}" +
+                $"{GetBibliographyPart(" - ISBN ", GetPartWithDot(publication.ISBN))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Link))}")
+                .Trim();
+        }
+
+        private string GetConferenceBibliography(Publication publication)
+        {
+            return ($"{publication.MainAuthor}" +
+                $"{GetBibliographyPart(" ", publication.Name)}" +
+                $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
+                $"{GetBibliographyPart(" // ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.ConferenceName, publication.ConferencePlace, publication.ConferenceCountry, publication.ConferenceDate))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
+                $"{GetBibliographyPart(" - ", GetPagesPart(publication))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Link))}")
+                .Trim();
         }
 
         private string GetInventionBibliography(Publication publication)
@@ -38,30 +69,42 @@ namespace SRS.Services.Implementations
                 publication.ApplicationOwner);
         }
 
-        private string GetPublicationPagePart(Publication publication)
+        private string GetArticleBibliography(Publication publication)
         {
-            var pageTitle = publication.Language != Language.UA ? "с" : "p";
-            var toReturn = string.Empty;
-            if (publication.PublicationType == PublicationType.Монографія
-                        || publication.PublicationType == PublicationType.Підручник
-                        || publication.PublicationType == PublicationType.Навчальний_Посібник
-                        || publication.PublicationType == PublicationType.Інше_Наукове_Видання)
+            return ($"{publication.MainAuthor}" +
+                $"{GetBibliographyPart(" ", publication.Name)}" +
+                $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
+                $"{GetBibliographyPart(" // ", GetPartWithDot(publication.GetJournalName()))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Date.Year.ToString()))}" +
+                $"{GetBibliographyPart(" - ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue))}" +
+                $"{GetBibliographyPart(" - ", GetPagesPart(publication))}" +
+                $"{GetBibliographyPart(" - DOI: ", GetPartWithDot(publication.DOI))}" +
+                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Link))}")
+                .Trim();
+        }
+
+        private string GetPagesPart(Publication publication)
+        {
+            var pageTitle = publication.Language == Language.UA ? "с." : "p.";
+            if (publication.PublicationType == PublicationType.Монографія ||
+                publication.PublicationType == PublicationType.Підручник ||
+                publication.PublicationType == PublicationType.Навчальний_Посібник ||
+                publication.PublicationType == PublicationType.Інше_Наукове_Видання)
             {
-                return $"{publication.NumberOfPages?.ToString() ?? publication.GetPages()}  {pageTitle}.";
+                return $"{publication.NumberOfPages?.ToString() ?? publication.GetPages()}  {pageTitle}";
             }
 
-            var finishesWithHyphen = !toReturn.Trim().EndsWith("-");
-            return $"{(!finishesWithHyphen ? "–" : string.Empty)} {pageTitle.ToUpper()}. {GetPublicationPart(publication.GetPages())}";
+            return $"{pageTitle.ToUpper()} {GetPartWithDot(publication.GetPages())}";
         }
 
-        private string GetPublicationDoiPart(Publication publication)
+        private string GetBibliographyPart(string prefix, string info)
         {
-            return !string.IsNullOrEmpty(publication.DOI) ? GetPublicationPart("(" + publication.DOI + ")") : string.Empty;
+            return string.IsNullOrWhiteSpace(info) ? string.Empty : prefix + info;
         }
 
-        private string GetPublicationPart(string part)
+        private string GetPartWithDot(string part)
         {
-            if (string.IsNullOrEmpty(part))
+            if (string.IsNullOrWhiteSpace(part))
             {
                 return part;
             }

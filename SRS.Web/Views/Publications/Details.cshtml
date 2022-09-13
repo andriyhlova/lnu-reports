@@ -77,6 +77,14 @@
         </div>
 
         <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace))">
+            <label class="col-md-2">Місто проведення</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ConferencePlace)
+            </div>
+        </div>
+
+        <div class="row field"
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber))">
             <label class="col-md-2">Номер заявки</label>
             <div class="col-md-10">
@@ -207,7 +215,17 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI))">
             <label class="col-md-2">DOI</label>
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.DOI)
+                @if (!string.IsNullOrEmpty(Model.DOI))
+                {
+                    if (Model.DOI.StartsWith("http") || Model.DOI.StartsWith("www"))
+                    {
+                        <a href="@Model.DOI">@Model.DOI</a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DOI)
+                    }
+                }
             </div>
         </div>
 
@@ -215,14 +233,17 @@
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link))">
             <label class="col-md-2">Посилання на публікацію в Інтернеті</label>
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.Link)
+                @if (!string.IsNullOrEmpty(Model.Link))
+                {
+                    <a href="@Model.Link">@Model.Link</a>
+                }
             </div>
         </div>
     </div>
 </div>
 <p>
     @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) <span>|</span>
-    @Html.ActionLink("Повернутись до списку", "Index")
+    <a href="/Publications@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
 </p>
 
 @section Scripts {

@@ -56,9 +56,9 @@ namespace SRS.Web.Models.Publications
 
         public string ConferenceName { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? ConferenceDate { get; set; }
+        public string ConferenceDate { get; set; }
+
+        public string ConferencePlace { get; set; }
 
         public string ConferenceCountry { get; set; }
 
@@ -71,7 +71,6 @@ namespace SRS.Web.Models.Publications
         public DateTime? ApplicationDate { get; set; }
 
         [DataType(DataType.Date)]
-        [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? PublicationDate { get; set; }
 

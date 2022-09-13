@@ -194,5 +194,5 @@
         <span>|</span>
     }
 
-    @Html.ActionLink("Назад до списку", "Index")
+    <a href="/UsersManagement@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
 </p>

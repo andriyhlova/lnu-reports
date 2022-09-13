@@ -72,6 +72,7 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(publication);
         }
 
@@ -84,6 +85,8 @@ namespace SRS.Web.Controllers
                 Users = new List<UserInitialsModel> { currentUser },
                 Year = DateTime.Now.Year
             };
+
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(model);
         }
 
@@ -109,6 +112,7 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(_mapper.Map<PublicationEditViewModel>(publication));
         }
 
@@ -128,6 +132,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return await Details(id);
         }
 

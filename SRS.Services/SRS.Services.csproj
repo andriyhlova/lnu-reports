@@ -240,6 +240,7 @@
     <Compile Include="Specifications\UserSpecifications\CathedraLeadSpecification.cs" />
     <Compile Include="Specifications\UserSpecifications\UserWithInitialsSpecification.cs" />
     <Compile Include="Specifications\UserSpecifications\UserFilterSpecification.cs" />
+    <Compile Include="Utilities\StringUtilities.cs" />
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Utilities\Hash.cs" />
     <Compile Include="Utilities\ServicesDependencyInjection.cs" />

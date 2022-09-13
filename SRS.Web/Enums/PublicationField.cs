@@ -18,6 +18,7 @@
         DOI,
         ConferenceName,
         ConferenceDate,
+        ConferencePlace,
         ConferenceCountry,
         ConferenceIssue,
         ApplicationNumber,

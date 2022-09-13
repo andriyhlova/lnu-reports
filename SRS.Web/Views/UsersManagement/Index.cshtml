@@ -83,12 +83,12 @@
                     <td>
                         @if (item.Email != User.Identity.Name)
                         {
-                            @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Редагувати", "Edit", new { id = item.Id, returnUrl = Request.QueryString.ToString() }, new { @class = "btn btn-info" })
                         }
-                        @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Деталі", "Details", new { id = item.Id, returnUrl = Request.QueryString.ToString() }, new { @class = "btn btn-info" })
                         @if (item.Email != User.Identity.Name && !item.IsActive)
                         {
-                            @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Видалити", "Delete", new { id = item.Id, returnUrl = Request.QueryString.ToString() }, new { @class = "btn btn-danger" })
                         }
                     </td>
                 </tr>

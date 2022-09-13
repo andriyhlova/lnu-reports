@@ -71,6 +71,7 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(user);
         }
 
@@ -83,6 +84,7 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             await FillAvailableRoles();
             return View(user);
         }
@@ -106,6 +108,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(string id)
         {
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return await Details(id);
         }
 

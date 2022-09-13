@@ -197,7 +197,7 @@
             @Html.AntiForgeryToken()
             <input type="submit" value="Видалити" class="btn btn-danger" />
             <span>|</span>
-            @Html.ActionLink("Назад до списку", "Index")
+            <a href="/UsersManagement@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
         }
     }
 </p>

@@ -110,6 +110,7 @@ namespace SRS.Web.Services
                     };
                 case PublicationField.ConferenceName:
                 case PublicationField.ConferenceDate:
+                case PublicationField.ConferencePlace:
                 case PublicationField.ConferenceCountry:
                 case PublicationField.ConferenceIssue:
                     return new int[]
