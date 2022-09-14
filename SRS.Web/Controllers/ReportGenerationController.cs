@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -16,15 +17,18 @@ namespace SRS.Web.Controllers
         private readonly IReportTemplateService _reportTemplateService;
         private readonly IHtmlReportBuilderService<ReportTemplateModel> _htmlReportBuilderService;
         private readonly ITexReportBuilderService _texReportBuilderService;
+        private readonly IWordReportBuilderService _wordReportBuilderService;
 
         public ReportGenerationController(
             IReportTemplateService reportTemplateService,
             IHtmlReportBuilderService<ReportTemplateModel> htmlReportBuilderService,
-            ITexReportBuilderService texReportBuilderService)
+            ITexReportBuilderService texReportBuilderService,
+            IWordReportBuilderService wordReportBuilderService)
         {
             _reportTemplateService = reportTemplateService;
             _htmlReportBuilderService = htmlReportBuilderService;
             _texReportBuilderService = texReportBuilderService;
+            _wordReportBuilderService = wordReportBuilderService;
         }
 
         [HttpGet]
@@ -52,6 +56,18 @@ namespace SRS.Web.Controllers
             var htmlReport = _htmlReportBuilderService.Build(ReportTemplates.IndividualReport, model);
             var texReport = _texReportBuilderService.Build(htmlReport);
             return File(Encoding.GetEncoding(866).GetBytes(texReport), "application/x-latex", "report.tex");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetWord(int reportId)
+        {
+            var model = await _reportTemplateService.BuildAsync(reportId);
+            var htmlReport = _htmlReportBuilderService.Build(ReportTemplates.IndividualReport, model);
+            var wordReport = _wordReportBuilderService.Build(htmlReport);
+            return File(
+                    fileContents: wordReport,
+                    contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    fileDownloadName: $"report.docx");
         }
     }
 }

@@ -119,6 +119,7 @@
                         <div>
                             @Html.ActionLink("PDF", "PreviewPdf", "ReportGeneration", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
                             @Html.ActionLink("LaTex", "GetLatex", "ReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                            @Html.ActionLink("Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
                         </div>
                     </td>
                 </tr>

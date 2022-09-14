@@ -327,26 +327,27 @@
             <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
-        <div style="padding-top: 50px;
+    <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-            @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+        @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+        {
+            using (Html.BeginForm("Sign", "ReportList"))
             {
-                using (Html.BeginForm("Sign", "ReportList"))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("reportId", Model.Id)
-                    <button type="submit" class="btn btn-primary" id="signButton">Підписати</button>
-                }
+                @Html.AntiForgeryToken()
+                @Html.Hidden("reportId", Model.Id)
+                <button type="submit" class="btn btn-primary" id="signButton">Підписати</button>
             }
-            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-            @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-            <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
-               target="_blank"
-               class="btn btn-default">
-                Переглянути
-            </a>
-        </div>
+        }
+        @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+        @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+        <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
+           target="_blank"
+           class="btn btn-default">
+            Переглянути
+        </a>
+    </div>
     </section>
 </div>
 

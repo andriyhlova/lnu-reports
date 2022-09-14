@@ -582,6 +582,7 @@
         }
         @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
         @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
         <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id })"
            target="_blank"
            class="btn btn-default">

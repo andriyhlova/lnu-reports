@@ -16,15 +16,18 @@ namespace SRS.Web.Controllers
         private readonly ICathedraReportTemplateService _cathedraReportTemplateService;
         private readonly IHtmlReportBuilderService<CathedraReportTemplateModel> _htmlCathedraReportBuilderService;
         private readonly ITexReportBuilderService _texReportBuilderService;
+        private readonly IWordReportBuilderService _wordCathedraReportBuilderService;
 
         public CathedraReportGenerationController(
             ICathedraReportTemplateService cathedraReportTemplateService,
             IHtmlReportBuilderService<CathedraReportTemplateModel> htmlCathedraReportBuilderService,
-            ITexReportBuilderService texReportBuilderService)
+            ITexReportBuilderService texReportBuilderService,
+            IWordReportBuilderService wordCathedraReportBuilderService)
         {
             _cathedraReportTemplateService = cathedraReportTemplateService;
             _htmlCathedraReportBuilderService = htmlCathedraReportBuilderService;
             _texReportBuilderService = texReportBuilderService;
+            _wordCathedraReportBuilderService = wordCathedraReportBuilderService;
         }
 
         [HttpGet]
@@ -52,6 +55,18 @@ namespace SRS.Web.Controllers
             var htmlReport = _htmlCathedraReportBuilderService.Build(ReportTemplates.CathedraReport, model);
             var texReport = _texReportBuilderService.Build(htmlReport);
             return File(Encoding.GetEncoding(866).GetBytes(texReport), "application/x-latex", "report.tex");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetWord(int reportId)
+        {
+            var model = await _cathedraReportTemplateService.BuildAsync(reportId);
+            var htmlReport = _htmlCathedraReportBuilderService.Build(ReportTemplates.CathedraReport, model);
+            var wordReport = _wordCathedraReportBuilderService.Build(htmlReport);
+            return File(
+                    fileContents: wordReport,
+                    contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    fileDownloadName: $"report.docx");
         }
     }
 }

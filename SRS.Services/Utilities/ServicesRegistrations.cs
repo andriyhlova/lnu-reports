@@ -58,6 +58,7 @@ namespace SRS.Services.Utilities
             Bind<IHtmlReportBuilderService<ReportTemplateModel>>().To<HtmlReportBuilderService<ReportTemplateModel>>();
             Bind<IHtmlReportBuilderService<CathedraReportTemplateModel>>().To<HtmlReportBuilderService<CathedraReportTemplateModel>>();
             Bind<ITexReportBuilderService>().To<TexReportBuilderService>();
+            Bind<IWordReportBuilderService>().To<WordReportBuilderService>();
             Bind<IBibliographyService>().To<BibliographyService>();
         }
     }

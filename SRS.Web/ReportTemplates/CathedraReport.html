@@ -42,6 +42,10 @@
         .pre-line {
             white-space: pre-line;
         }
+
+        .bold {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -391,10 +395,8 @@
 
         {{#if Monographs.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Монографії
-                </b>
+            <p class="header bold">
+                Монографії
             </p>
             <p>
                 Видано {{Monographs.Count}} монографії загальним обсягом {{MonographsSize}}.
@@ -414,10 +416,8 @@
 
         {{#if Books.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Підручники
-                </b>
+            <p class="header bold">
+                Підручники
             </p>
             <p>
                 Видано {{Books.Count}} підручники загальним обсягом {{BooksSize}}.
@@ -437,10 +437,8 @@
 
         {{#if TrainingBooks.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Навчальні посібники
-                </b>
+            <p class="header bold">
+                Навчальні посібники
             </p>
             <p>
                 Видано {{TrainingBooks.Count}} навчальні посібники загальним обсягом {{TrainingBooksSize}}.
@@ -460,10 +458,8 @@
 
         {{#if OtherWritings.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Інші наукові видання
-                </b>
+            <p class="header bold">
+                Інші наукові видання
             </p>
             <p>
                 Видано {{OtherWritings.Count}} інші наукові видання загальним обсягом {{OtherWritingsSize}}.
@@ -483,10 +479,8 @@
 
         {{#if AllArticlesCount}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Статті
-                </b>
+            <p class="header bold">
+                Статті
             </p>
         </div>
 
@@ -573,10 +567,8 @@
 
         {{#if AllConferencesCount}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Тези доповідей на конференціях
-                </b>
+            <p class="header bold">
+                Тези доповідей на конференціях
             </p>
         </div>
 

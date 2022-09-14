@@ -42,6 +42,14 @@
         .pre-line {
             white-space: pre-line;
         }
+
+        .italic{
+            font-style:italic;
+        }
+
+        .bold{
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -53,18 +61,16 @@
             </h2>
             {{/with}}
             {{#with UserInfo}}
-            <p>
-                <i>
-                    {{Position}} кафедри {{Cathedra}} {{UserFullName}}
-                </i>
+            <p class="italic">
+                {{Position}} кафедри {{Cathedra}} {{UserFullName}}
             </p>
             {{/with}}
         </div>
 
         {{#with UserInfo}}
         <div>
-            <p>
-                <b>Відомості про вченого:</b>
+            <p class="bold">
+                Відомості про вченого:
             </p>
             <p>
                 Рік народження: {{BirthYear}}
@@ -107,10 +113,8 @@
         <div class="top-ident">
             <p>1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
             {{#each ThemeOfScientificWorks}}
-            <p>
-                <i>
-                    Тема {{this.Financial}} - {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
-                </i>
+            <p class="italic">
+                Тема {{this.Financial}} - {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
             </p>
             {{/each}}
             <p class="top-ident pre-line">{{ThemeOfScientificWorkDescription}}</p>
@@ -122,10 +126,8 @@
                 2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
             </p>
             {{#each Grants}}
-            <p>
-                <i>
-                    {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
-                </i>
+            <p class="italic">
+                {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
             </p>
             {{/each}}
             <p class="pre-line">{{ParticipationInGrands}}</p>

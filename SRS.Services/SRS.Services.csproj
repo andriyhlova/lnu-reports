@@ -39,6 +39,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.18.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.18.0\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -50,6 +53,9 @@
     </Reference>
     <Reference Include="HandlebarsDotNet.Helpers.Core, Version=2.3.5.0, Culture=neutral, PublicKeyToken=00d131fae0c250bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Handlebars.Net.Helpers.Core.2.3.5\lib\net452\HandlebarsDotNet.Helpers.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlToOpenXml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6ad79d83e2b60e63, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlToOpenXml.dll.2.0.3\lib\net40\HtmlToOpenXml.dll</HintPath>
     </Reference>
     <Reference Include="MailKit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.3.2.0\lib\net452\MailKit.dll</HintPath>
@@ -93,6 +99,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\RequiredFieldAttribute.cs" />
@@ -102,6 +109,7 @@
     <Compile Include="Implementations\BibliographyService.cs" />
     <Compile Include="Implementations\AcademicStatusService.cs" />
     <Compile Include="Implementations\ReportGeneration\CathedraReportTemplateService.cs" />
+    <Compile Include="Implementations\ReportGeneration\WordReportBuilderService.cs" />
     <Compile Include="Implementations\ReportGeneration\TexReportBuilderService.cs" />
     <Compile Include="Implementations\ReportGeneration\HtmlReportBuilderService.cs" />
     <Compile Include="Implementations\JournalService.cs" />
@@ -125,6 +133,7 @@
     <Compile Include="Interfaces\IAcademicStatusService.cs" />
     <Compile Include="Interfaces\ReportGeneration\IHtmlCompiler.cs" />
     <Compile Include="Interfaces\ReportGeneration\ICathedraReportTemplateService.cs" />
+    <Compile Include="Interfaces\ReportGeneration\IWordReportBuilderService.cs" />
     <Compile Include="Interfaces\ReportGeneration\ITexReportBuilderService.cs" />
     <Compile Include="Interfaces\IJournalService.cs" />
     <Compile Include="Interfaces\IConfigurationProvider.cs" />
