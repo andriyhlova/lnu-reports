@@ -25,7 +25,7 @@ namespace SRS.Services.Models.UserModels
         [Display(Name = "Рік захисту кандидатської дисертації/дисертації доктора філософії")]
         public DateTime? DegreeDefenseYear { get; set; }
 
-        [Display(Name = "Рік початку перебування в докторатурі")]
+        [Display(Name = "Рік початку перебування в докторантурі")]
         public DateTime? DoctorStartYear { get; set; }
 
         [Display(Name = "Рік закінчення перебування в докторантурі")]

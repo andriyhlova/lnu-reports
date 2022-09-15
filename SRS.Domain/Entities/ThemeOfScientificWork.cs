@@ -19,6 +19,8 @@ namespace SRS.Domain.Entities
 
         public Financial Financial { get; set; }
 
+        public string OtherProjectType { get; set; }
+
         public ScientificWorkSubCategory? SubCategory { get; set; }
 
         [InverseProperty("ThemeOfScientificWorks")]

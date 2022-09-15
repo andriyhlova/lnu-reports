@@ -135,8 +135,10 @@
         <div class="col-md-10" id="degree-related-entity">
             <button class="btn btn-info add-related-entity" type="button">Додати</button>
             <div class="selected-items">
-                @for (var i = 0; i < Model.Degrees.Count; i++)
+                @if (Model.Degrees != null)
                 {
+                    for (var i = 0; i < Model.Degrees.Count; i++)
+                    {
                     <div>
                         <div class="selected-item">
                             <div>
@@ -150,6 +152,7 @@
                             <input type="hidden" name="Degrees[@i].AwardYear" class="awardYear" value="@Model.Degrees[i].AwardYear" />
                         </div>
                     </div>
+                    }
                 }
             </div>
             <div class="new-related-entity">
@@ -161,8 +164,10 @@
         <div class="col-md-10" id="academic-status-related-entity">
             <button class="btn btn-info add-related-entity" type="button">Додати</button>
             <div class="selected-items">
-                @for (var i = 0; i < Model.AcademicStatuses.Count; i++)
+                @if (Model.AcademicStatuses != null)
                 {
+                    for (var i = 0; i < Model.AcademicStatuses.Count; i++)
+                    {
                     <div>
                         <div class="selected-item">
                             <div>
@@ -176,6 +181,7 @@
                             <input type="hidden" name="AcademicStatuses[@i].AwardYear" class="awardYear" value="@Model.AcademicStatuses[i].AwardYear" />
                         </div>
                     </div>
+                    }
                 }
             </div>
             <div class="new-related-entity">
@@ -187,8 +193,10 @@
         <div class="col-md-10" id="honorary-title-related-entity">
             <button class="btn btn-info add-related-entity" type="button">Додати</button>
             <div class="selected-items">
-                @for (var i = 0; i < Model.HonoraryTitles.Count; i++)
+                @if (Model.HonoraryTitles != null)
                 {
+                    for (var i = 0; i < Model.HonoraryTitles.Count; i++)
+                    {
                     <div>
                         <div class="selected-item">
                             <div>
@@ -199,6 +207,7 @@
                             <input type="hidden" name="HonoraryTitles[@i].Value" class="value" value="@Model.HonoraryTitles[i].Value" />
                         </div>
                     </div>
+                    }
                 }
             </div>
             <div class="new-related-entity">

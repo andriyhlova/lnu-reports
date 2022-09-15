@@ -23,6 +23,12 @@
         @foreach (var i in Model.I18nUserInitials)
         {
             <dt>
+                Прізвище (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.LastName
+            </dd>
+            <dt>
                 Ім'я (@i.Language.ToString())
             </dt>
             <dd>
@@ -34,13 +40,6 @@
             </dt>
             <dd>
                 @i.FathersName
-            </dd>
-
-            <dt>
-                Прізвище (@i.Language.ToString())
-            </dt>
-            <dd>
-                @i.LastName
             </dd>
         }
 

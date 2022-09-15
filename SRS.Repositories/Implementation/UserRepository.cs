@@ -96,6 +96,18 @@ namespace SRS.Repositories.Implementations
 
         protected void UpdateRelatedEntities(ApplicationUser existingEntity, ApplicationUser newEntity)
         {
+            var toAddRoles = newEntity.Roles.Where(x => !existingEntity.Roles.Any(y => y.RoleId == x.RoleId)).ToList();
+            foreach (var role in toAddRoles)
+            {
+                existingEntity.Roles.Add(role);
+            }
+
+            var toDeleteRoles = existingEntity.Roles.Where(x => !newEntity.Roles.Any(y => y.RoleId == x.RoleId)).ToList();
+            foreach (var role in toDeleteRoles)
+            {
+                existingEntity.Roles.Remove(role);
+            }
+
             var toDeleteDegrees = existingEntity.Degrees.Where(x => !newEntity.Degrees.Any(y => y.Id == x.Id)).ToList();
             foreach (var degree in toDeleteDegrees)
             {

@@ -20,7 +20,7 @@
         ConferenceDate,
         ConferencePlace,
         ConferenceCountry,
-        ConferenceIssue,
+        ConferenceEdition,
         ApplicationNumber,
         ApplicationDate,
         PublicationDate,

@@ -106,13 +106,14 @@ namespace SRS.Web.Services
                         (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних,
                         (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор,
                         (int)PublicationType.Стаття_В_Фахових_Виданнях_України,
-                        (int)PublicationType.Стаття_В_Інших_Виданнях_України
+                        (int)PublicationType.Стаття_В_Інших_Виданнях_України,
+                        (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях,
                     };
                 case PublicationField.ConferenceName:
                 case PublicationField.ConferenceDate:
                 case PublicationField.ConferencePlace:
                 case PublicationField.ConferenceCountry:
-                case PublicationField.ConferenceIssue:
+                case PublicationField.ConferenceEdition:
                     return new int[]
                     {
                         (int)PublicationType.Тези_Доповіді_На_Міжнародній_Конференції,

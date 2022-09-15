@@ -90,10 +90,10 @@
             {{/if}}
             <p>
                 Науковий ступінь, рік захисту:
-                {{#each ScientificDegrees}}
+                {{#each Degrees}}
                 {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
                 {{/each}}
-                {{#unless ScientificDegrees.Count}}
+                {{#unless Degrees.Count}}
                 без ступеня
                 {{/unless}}
             </p>
@@ -438,13 +438,11 @@
         {{/if}}
 
         {{#if ApplicationsForInvention.Count}}
-        {{#if PatentsForInvention.Count}}
         <div class="top-ident">
             <p>
                 7. Патентно-ліцензійна діяльність:
             </p>
         </div>
-        {{#if ApplicationsForInvention.Count}}
         <div class="top-ident">
             <p>
                 7.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) -
@@ -458,6 +456,13 @@
         </div>
         {{/if}}
         {{#if PatentsForInvention.Count}}
+        {{#unless ApplicationsForInvention.Count}}
+        <div class="top-ident">
+            <p>
+                7. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+        {{/unless}}
         <div class="top-ident">
             <p>
                 7.2 Патенти на винахід (корисну модель) - автори, назва, № патенту, дата видачі, заявник(и):
@@ -468,8 +473,6 @@
                 {{/each}}
             </div>
         </div>
-        {{/if}}
-        {{/if}}
         {{/if}}
         {{/with}}
 

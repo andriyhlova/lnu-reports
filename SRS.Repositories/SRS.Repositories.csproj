@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Implementation\CathedraReportRepository.cs" />
+    <Compile Include="Implementation\JournalRepository.cs" />
     <Compile Include="Implementation\ThemeOfScientificWorkRepository.cs" />
     <Compile Include="Implementation\ReportRepository.cs" />
     <Compile Include="Implementation\PublicationRepository.cs" />
@@ -142,6 +143,10 @@
     <Compile Include="Migrations\202209132145445_ChangedConferencePublicationFields.designer.cs">
       <DependentUpon>202209132145445_ChangedConferencePublicationFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202209150837499_NewEntitiesChanges.cs" />
+    <Compile Include="Migrations\202209150837499_NewEntitiesChanges.designer.cs">
+      <DependentUpon>202209150837499_NewEntitiesChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -195,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202209132145445_ChangedConferencePublicationFields.resx">
       <DependentUpon>202209132145445_ChangedConferencePublicationFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209150837499_NewEntitiesChanges.resx">
+      <DependentUpon>202209150837499_NewEntitiesChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

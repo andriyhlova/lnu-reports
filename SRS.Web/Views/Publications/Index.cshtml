@@ -45,6 +45,10 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.PublicationType, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
+                    @Html.ActionLink("Журнал", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.Journal, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.Journal, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
                     @Html.ActionLink("Автори", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.AuthorsOrder, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.AuthorsOrder, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
@@ -63,6 +67,9 @@
                     </td>
                     <td>
                         @item.PublicationType.GetDisplayName()
+                    </td>
+                    <td>
+                        @item.JournalName
                     </td>
                     <td>
                         @if (!string.IsNullOrEmpty(item.AuthorsOrder))

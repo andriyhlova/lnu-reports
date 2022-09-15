@@ -1,4 +1,5 @@
-﻿using SRS.Domain.Entities;
+﻿using System.Linq;
+using SRS.Domain.Entities;
 using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Models.FilterModels;
 
@@ -17,6 +18,7 @@ namespace SRS.Domain.Specifications
                         || x.ElectronicIssn.Contains(filterModel.Search),
                   true)
         {
+            AddInclude(journal => journal.JournalTypes);
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 

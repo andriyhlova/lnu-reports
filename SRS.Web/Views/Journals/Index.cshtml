@@ -31,6 +31,9 @@
                 @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ShortName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th>
+                Тип журналу
+            </th>
+            <th>
                 @Html.ActionLink("Друкований ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.PrintIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
                 @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.PrintIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
@@ -54,6 +57,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ShortName)
+                </td>
+                <td>
+                    @foreach(var journalType in item.JournalTypes.OrderBy(x => x.Value))
+                    {
+                        <div>@journalType.Value</div>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PrintIssn)

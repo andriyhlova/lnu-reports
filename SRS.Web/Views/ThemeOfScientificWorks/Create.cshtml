@@ -19,7 +19,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <label class="control-label col-md-2">Номер державної реєстрації <span class="text-danger">*</span></label>
+            <label class="control-label col-md-2">Номер державної реєстрації</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ThemeNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ThemeNumber, "", new { @class = "text-danger" })
@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Науковий керівник</label>
+            <label class="control-label col-md-2">Науковий керівник  <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ScientificHead, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ScientificHead, "", new { @class = "text-danger" })
@@ -49,17 +49,28 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Адміністратор <span class="text-danger">*</span></label>
+            <label class="control-label col-md-2">Відповідальний виконавець <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 <select id="user-selector" class="form-control chosen-select" name="UserId" data-selected="@Model.UserId">
                     <option value="">Виберіть користувача</option>
                 </select>
+                <div>
+                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Тип проєкту <span class="text-danger">*</span></label>
             @Html.EnumDropDownListFor(model => model.Financial, new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+        </div>
+
+        <div class="form-group other-project-type-container">
+            <label class="control-label col-md-2">Інший тип</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OtherProjectType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OtherProjectType, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group subcategory-container">
@@ -72,16 +83,19 @@
             <div class="col-md-10" id="financial-related-entity">
                 <button class="btn btn-info add-related-entity" type="button">Додати</button>
                 <div class="selected-items">
-                    @for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
+                    @if (Model.ThemeOfScientificWorkFinancials != null)
                     {
-                        <div>
-                            <div class="selected-item">
-                                <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн <i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
-                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Id" class="id" value="@Model.ThemeOfScientificWorkFinancials[i].Id" />
-                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Year" class="year" value="@Model.ThemeOfScientificWorkFinancials[i].Year" />
-                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Amount" class="amount" value="@Model.ThemeOfScientificWorkFinancials[i].Amount" />
+                        for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
+                        {
+                            <div>
+                                <div class="selected-item">
+                                    <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн <i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
+                                    <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Id" class="id" value="@Model.ThemeOfScientificWorkFinancials[i].Id" />
+                                    <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Year" class="year" value="@Model.ThemeOfScientificWorkFinancials[i].Year" />
+                                    <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Amount" class="amount" value="@Model.ThemeOfScientificWorkFinancials[i].Amount" />
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
                 <div class="new-related-entity">

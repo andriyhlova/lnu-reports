@@ -5,7 +5,7 @@
     $(function () {
         getUsers();
         getSelectedFinancials();
-        toggleSubCategories();
+        financialChange();
         const financialEntityComponent = new RelatedEntityComponent(getSettings());
         financialEntityComponent.load();
     });
@@ -53,16 +53,25 @@
         $("#user-selector").trigger("chosen:updated");
     }
 
-    function toggleSubCategories() {
+    function financialChange() {
         $('#Financial').change((e) => {
             let financial = $(e.target).val();
-            if (financial == 3) {
-                $('.subcategory-container').show();
-                $('.subcategory-container select').prop('disabled', false);
+            //if (financial == 0) {
+            //    $('.subcategory-container').show();
+            //    $('.subcategory-container select').prop('disabled', false);
+            //}
+            //else {
+            //    $('.subcategory-container').hide();
+            //    $('.subcategory-container select').prop('disabled', true);
+            //}
+
+            if (financial == 9) {
+                $('.other-project-type-container').show();
+                $('.other-project-type-container input').prop('disabled', false);
             }
             else {
-                $('.subcategory-container').hide();
-                $('.subcategory-container select').prop('disabled', true);
+                $('.other-project-type-container').hide();
+                $('.other-project-type-container input').prop('disabled', true);
             }
         });
         $('#Financial').change();

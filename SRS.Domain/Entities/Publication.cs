@@ -63,6 +63,8 @@ namespace SRS.Domain.Entities
 
         public string ConferenceCountry { get; set; }
 
+        public string ConferenceEdition { get; set; }
+
         public string Issue { get; set; }
 
         public string ApplicationNumber { get; set; }
@@ -104,9 +106,9 @@ namespace SRS.Domain.Entities
             return string.Join("-", pages.Where(x => x.HasValue && x != 0));
         }
 
-        public string GetJournalName()
+        public string GetJournalName(bool useShortName = false)
         {
-            return Journal?.Name ?? OtherJournal;
+            return (useShortName ? Journal?.ShortName : Journal?.Name) ?? OtherJournal;
         }
 
         public bool IsArticle()

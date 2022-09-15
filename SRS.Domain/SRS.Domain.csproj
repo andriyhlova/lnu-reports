@@ -77,6 +77,7 @@
     <Compile Include="Entities\HonoraryTitle.cs" />
     <Compile Include="Entities\ApplicationUserAcademicStatus.cs" />
     <Compile Include="Entities\ApplicationUserDegree.cs" />
+    <Compile Include="Entities\JournalType.cs" />
     <Compile Include="Entities\Journal.cs" />
     <Compile Include="Entities\Degree.cs" />
     <Compile Include="Entities\BaseValueEntity.cs" />

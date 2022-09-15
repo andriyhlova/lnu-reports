@@ -21,6 +21,8 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                             x.Place.Contains(filterModel.Search) ||
                             x.Tome.Contains(filterModel.Search) ||
                             x.Edition.Contains(filterModel.Search) ||
+                            x.Journal.Name.Contains(filterModel.Search) ||
+                            x.OtherJournal.Contains(filterModel.Search) ||
                             x.DOI.Contains(filterModel.Search)) &&
                             (filterModel.From == null || x.Date >= filterModel.From) &&
                             (filterModel.To == null || x.Date <= filterModel.To) &&
@@ -30,6 +32,7 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                   true)
         {
             AddInclude(x => x.User.Select(u => u.Cathedra));
+            AddInclude(x => x.Journal);
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 
@@ -45,6 +48,8 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                 case PublicationOrderType.PublicationType when desc: ApplyOrderByDescending(x => x.PublicationType); break;
                 case PublicationOrderType.AuthorsOrder when !desc: ApplyOrderBy(x => x.AuthorsOrder); break;
                 case PublicationOrderType.AuthorsOrder when desc: ApplyOrderByDescending(x => x.AuthorsOrder); break;
+                case PublicationOrderType.Journal when !desc: ApplyOrderBy(x => x.Journal.Name ?? x.OtherJournal); break;
+                case PublicationOrderType.Journal when desc: ApplyOrderByDescending(x => x.Journal.Name ?? x.OtherJournal); break;
                 default: ApplyOrderByDescending(x => x.Date); break;
             }
         }

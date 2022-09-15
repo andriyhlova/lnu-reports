@@ -8,11 +8,11 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
     public class BaseThemeOfScientificWorkModel : BaseValueModel
     {
-        [RequiredField]
         public string ThemeNumber { get; set; }
 
         public string Code { get; set; }
 
+        [RequiredField]
         public string ScientificHead { get; set; }
 
         [RequiredField]

@@ -38,6 +38,14 @@
         </div>
 
         <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
+            <label class="col-md-2">Журнал</label>
+            <div class="col-md-10">
+                @(Model.JournalName ?? Model.OtherJournal)
+            </div>
+        </div>
+
+        <div class="row field"
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor))">
             <label class="col-md-2">Перший автор</label>
             <div class="col-md-10">
@@ -49,14 +57,6 @@
             <label class="col-md-2">Усі автори</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.AuthorsOrder)
-            </div>
-        </div>
-
-        <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
-            <label class="col-md-2">Журнал</label>
-            <div class="col-md-10">
-                @(Model.JournalName ?? Model.OtherJournal)
             </div>
         </div>
 
@@ -81,6 +81,22 @@
             <label class="col-md-2">Місто проведення</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ConferencePlace)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
+            <label class="col-md-2">Країна проведення</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ConferenceCountry)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition))">
+            <label class="col-md-2">Видання</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ConferenceEdition)
             </div>
         </div>
 
@@ -113,14 +129,6 @@
             <label class="col-md-2">Місто</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Place)
-            </div>
-        </div>
-
-        <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
-            <label class="col-md-2">Країна</label>
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.ConferenceCountry)
             </div>
         </div>
 

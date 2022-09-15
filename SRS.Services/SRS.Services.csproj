@@ -151,6 +151,7 @@
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IBaseCrudService.cs" />
     <Compile Include="Mapping\Profiles\HonoraryTitleProfile.cs" />
+    <Compile Include="Mapping\Profiles\JournalTypeProfile.cs" />
     <Compile Include="Mapping\Profiles\JournalProfile.cs" />
     <Compile Include="Mapping\Profiles\PositionProfile.cs" />
     <Compile Include="Mapping\Profiles\CathedraReportProfile.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\Constants\ReportTemplates.cs" />
     <Compile Include="Models\FilterModels\CathedraReportPublicationFilterModel.cs" />
     <Compile Include="Models\FilterModels\ReportPublicationFilterModel.cs" />
+    <Compile Include="Models\JournalTypeModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationsModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationCountersModel.cs" />

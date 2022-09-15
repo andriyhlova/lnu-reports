@@ -62,6 +62,8 @@ namespace SRS.Web.Models.Publications
 
         public string ConferenceCountry { get; set; }
 
+        public string ConferenceEdition { get; set; }
+
         public string Issue { get; set; }
 
         public string ApplicationNumber { get; set; }

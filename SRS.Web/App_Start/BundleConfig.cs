@@ -77,6 +77,9 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/manage/update").Include(
                         "~/Scripts/Manage/update.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/journals/edit").Include(
+                        "~/Scripts/Journals/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)

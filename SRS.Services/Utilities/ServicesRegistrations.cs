@@ -33,6 +33,7 @@ namespace SRS.Services.Utilities
             Bind<IBaseCrudService<I18nUserInitialsModel>>().To<BaseCrudService<I18nUserInitials, I18nUserInitialsModel>>();
             Bind<IBaseCrudService<PublicationModel>>().To<BaseCrudService<Publication, PublicationModel>>();
             Bind<IBaseCrudService<JournalModel>>().To<BaseCrudService<Journal, JournalModel>>();
+            Bind<IBaseCrudService<JournalTypeModel>>().To<BaseCrudService<JournalType, JournalTypeModel>>();
         }
 
         private void AddCustomServices()

@@ -35,8 +35,6 @@ namespace SRS.Services.Models.PublicationModels
 
         public IList<UserInitialsModel> Users { get; set; }
 
-        public string JournalName { get; set; }
-
         public int? NumberOfPages { get; set; }
 
         public string ISBN { get; set; }
@@ -48,6 +46,8 @@ namespace SRS.Services.Models.PublicationModels
         public string ConferencePlace { get; set; }
 
         public string ConferenceCountry { get; set; }
+
+        public string ConferenceEdition { get; set; }
 
         public string Issue { get; set; }
 

@@ -181,7 +181,7 @@
 
             const awardYear = $('#academic-status-related-entity .new-related-entity-form input[name=awardYear]').val();
             if (!validateYear(awardYear)) {
-                alert('Введіть коректний рік присвоєння');
+                alert('Введіть коректний рік присудження');
                 return;
             }
 
@@ -199,7 +199,7 @@
                         <div><select id="academic-status-selector" class="form-control chosen-select"></select></div>
                     </div>
                     <div>
-                        <label class="control-label">Рік присвоєння<span class="text-danger">*</span></label>
+                        <label class="control-label">Рік присудження<span class="text-danger">*</span></label>
                         <input class="form-control" type="number" name="awardYear" value="" min="${minYear} max="${maxYear}"/>
                     </div>`;
         }

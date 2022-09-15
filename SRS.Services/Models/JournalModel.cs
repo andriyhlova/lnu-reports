@@ -1,4 +1,5 @@
-﻿using SRS.Domain.Enums;
+﻿using System.Collections.Generic;
+using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models.BaseModels;
 
@@ -16,5 +17,7 @@ namespace SRS.Services.Models
         public string ElectronicIssn { get; set; }
 
         public Quartile BestQuartile { get; set; }
+
+        public IList<JournalTypeModel> JournalTypes { get; set; }
     }
 }

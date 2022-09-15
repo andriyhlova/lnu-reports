@@ -63,7 +63,7 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Рік захисту кандидатської дисертації/дисертації доктора філософії")]
         public int? DegreeDefenseYear { get; set; }
 
-        [Display(Name = "Рік початку перебування в докторатурі")]
+        [Display(Name = "Рік початку перебування в докторантурі")]
         public int? DoctorStartYear { get; set; }
 
         [Display(Name = "Рік закінчення перебування в докторантурі")]

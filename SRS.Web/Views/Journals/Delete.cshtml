@@ -26,6 +26,15 @@
             @Html.DisplayFor(model => model.ShortName)
         </dd>
         <dt>
+            Тип журналу
+        </dt>
+        <dd>
+            @foreach (var journalType in Model.JournalTypes.OrderBy(x => x.Value))
+            {
+                <div>@journalType.Value</div>
+            }
+        </dd>
+        <dt>
             Друкований ISSN
         </dt>
         <dd>

@@ -16,6 +16,7 @@ namespace SRS.Domain.Specifications
                   expression.AndAlso(
                       x => string.IsNullOrEmpty(filterModel.Search) ||
                                 x.ThemeNumber.Contains(filterModel.Search) ||
+                                x.OtherProjectType.Contains(filterModel.Search) ||
                                 x.Code.Contains(filterModel.Search) ||
                                 x.Value.Contains(filterModel.Search) ||
                                 x.ScientificHead.Contains(filterModel.Search)),

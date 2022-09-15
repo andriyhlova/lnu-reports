@@ -51,7 +51,7 @@ namespace SRS.Services.Implementations
             return ($"{publication.MainAuthor}" +
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
-                $"{GetBibliographyPart(" // ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.ConferenceName, publication.ConferencePlace, publication.ConferenceCountry, publication.ConferenceDate))}" +
+                $"{GetBibliographyPart(" // ", StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.ConferenceName, publication.ConferenceEdition), publication.ConferencePlace, publication.ConferenceCountry, publication.ConferenceDate))}" +
                 $"{GetBibliographyPart(" - ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
                 $"{GetBibliographyPart(" - ", GetPagesPart(publication))}" +
                 $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Link))}")
@@ -74,7 +74,7 @@ namespace SRS.Services.Implementations
             return ($"{publication.MainAuthor}" +
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
-                $"{GetBibliographyPart(" // ", GetPartWithDot(publication.GetJournalName()))}" +
+                $"{GetBibliographyPart(" // ", GetPartWithDot(publication.GetJournalName(true)))}" +
                 $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Date.Year.ToString()))}" +
                 $"{GetBibliographyPart(" - ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue))}" +
                 $"{GetBibliographyPart(" - ", GetPagesPart(publication))}" +

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using PagedList;
@@ -56,7 +57,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View(new JournalModel() { JournalTypes = new List<JournalTypeModel>() });
         }
 
         [HttpPost]

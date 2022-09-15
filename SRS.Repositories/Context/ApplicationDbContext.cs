@@ -33,6 +33,8 @@ namespace SRS.Repositories.Context
 
         public DbSet<Journal> Journals { get; set; }
 
+        public DbSet<JournalType> JournalTypes { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

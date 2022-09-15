@@ -6,6 +6,7 @@
         Name,
         Date,
         PublicationType,
-        AuthorsOrder
+        AuthorsOrder,
+        Journal
     }
 }

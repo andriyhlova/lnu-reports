@@ -239,6 +239,7 @@
     <Compile Include="Areas\Api\Controllers\HonoraryTitlesController.cs" />
     <Compile Include="Areas\Api\Controllers\AcademicStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\DegreesApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\JournalTypesController.cs" />
     <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
@@ -380,6 +381,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\composer.json" />
+    <Content Include="Scripts\Journals\edit.js" />
     <Content Include="Scripts\jquery.steps.js" />
     <Content Include="Scripts\jquery.steps.min.js" />
     <Content Include="Scripts\CathedraReports\edit.js" />
