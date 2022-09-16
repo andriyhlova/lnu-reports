@@ -39,7 +39,8 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Active, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    Ролі
+                    @Html.ActionLink("Ролі", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Roles, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Roles, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th></th>
             </tr>
@@ -75,7 +76,7 @@
                         @Html.DisplayFor(modelItem => item.IsActive)
                     </td>
                     <td>
-                        @foreach (var roleId in item.RoleIds)
+                        @foreach (var roleId in item.RoleIds.OrderBy(r => r))
                         {
                             <div>@RolesProvider.AllRoles[roleId]</div>
                         }

@@ -147,6 +147,10 @@
     <Compile Include="Migrations\202209150837499_NewEntitiesChanges.designer.cs">
       <DependentUpon>202209150837499_NewEntitiesChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202209160909320_UpdatedUserRoles.cs" />
+    <Compile Include="Migrations\202209160909320_UpdatedUserRoles.designer.cs">
+      <DependentUpon>202209160909320_UpdatedUserRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -203,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202209150837499_NewEntitiesChanges.resx">
       <DependentUpon>202209150837499_NewEntitiesChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209160909320_UpdatedUserRoles.resx">
+      <DependentUpon>202209160909320_UpdatedUserRoles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

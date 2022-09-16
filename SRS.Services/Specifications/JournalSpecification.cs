@@ -36,6 +36,8 @@ namespace SRS.Domain.Specifications
                 case JournalOrderType.ElectronicIssn when desc: ApplyOrderByDescending(x => x.ElectronicIssn); break;
                 case JournalOrderType.Quartile when !desc: ApplyOrderBy(x => x.BestQuartile); break;
                 case JournalOrderType.Quartile when desc: ApplyOrderByDescending(x => x.BestQuartile); break;
+                case JournalOrderType.JournalType when !desc: ApplyOrderBy(x => x.JournalTypes.OrderBy(r => r.Value).Select(r => r.Value).FirstOrDefault()); break;
+                case JournalOrderType.JournalType when desc: ApplyOrderByDescending(x => x.JournalTypes.OrderBy(r => r.Value).Select(r => r.Value).FirstOrDefault()); break;
                 default: ApplyOrderBy(x => x.Name); break;
             }
         }

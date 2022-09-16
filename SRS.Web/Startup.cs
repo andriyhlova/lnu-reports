@@ -48,6 +48,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "1",
                     Name = RoleNames.Superadmin
                 };
                 roleManager.Create(role);
@@ -75,6 +76,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "2",
                     Name = RoleNames.RectorateAdmin
                 };
                 roleManager.Create(role);
@@ -87,6 +89,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "3",
                     Name = RoleNames.DeaneryAdmin
                 };
                 roleManager.Create(role);
@@ -99,6 +102,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "4",
                     Name = RoleNames.CathedraAdmin
                 };
                 roleManager.Create(role);
@@ -111,6 +115,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "5",
                     Name = RoleNames.Worker
                 };
                 roleManager.Create(role);

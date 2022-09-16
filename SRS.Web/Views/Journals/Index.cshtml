@@ -19,69 +19,72 @@
 <p>
     @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Name, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.Name, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Скорочена назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ShortName, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ShortName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                Тип журналу
-            </th>
-            <th>
-                @Html.ActionLink("Друкований ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.PrintIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.PrintIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Електронний ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ElectronicIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ElectronicIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th>
-                @Html.ActionLink("Квартиль", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Quartile, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.Quartile, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items)
-        {
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShortName)
-                </td>
-                <td>
-                    @foreach(var journalType in item.JournalTypes.OrderBy(x => x.Value))
-                    {
-                        <div>@journalType.Value</div>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrintIssn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ElectronicIssn)
-                </td>
-                <td>
-                    @item.BestQuartile.GetDisplayName()
-                </td>
-                <td>
-                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                </td>
+                <th>
+                    @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Name, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.Name, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Скорочена назва", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ShortName, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ShortName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Тип журналу", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.JournalType, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.JournalType, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Друкований ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.PrintIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.PrintIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Електронний ISSN", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.ElectronicIssn, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.ElectronicIssn, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Квартиль", "Index", new BaseFilterViewModel { Page = 1, OrderBy = (int)JournalOrderType.Quartile, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)JournalOrderType.Quartile, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShortName)
+                    </td>
+                    <td>
+                        @foreach(var journalType in item.JournalTypes.OrderBy(x => x.Value))
+                        {
+                            <div>@journalType.Value</div>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrintIssn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ElectronicIssn)
+                    </td>
+                    <td>
+                        @item.BestQuartile.GetDisplayName()
+                    </td>
+                    <td>
+                        @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
 @Html.PagedListPager(Model.Items, page => Url.Action("Index", new BaseFilterViewModel { Page = page, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))
