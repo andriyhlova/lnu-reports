@@ -6,6 +6,7 @@ using SRS.Services.Implementations.ReportGeneration;
 using SRS.Services.Interfaces;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models;
+using SRS.Services.Models.JournalModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
 using SRS.Services.Models.ReportGenerationModels.Report;

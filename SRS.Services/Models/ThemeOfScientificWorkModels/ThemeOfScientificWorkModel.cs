@@ -10,7 +10,6 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 
         public ScientificWorkSubCategory? SubCategory { get; set; }
 
-        [RequiredField]
         public string UserId { get; set; }
 
         public IList<ThemeOfScientificWorkFinancialModel> ThemeOfScientificWorkFinancials { get; set; }

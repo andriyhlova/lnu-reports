@@ -165,6 +165,7 @@
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
+    <Compile Include="Models\FilterModels\ThemeOfScientificWorkFilterModel.cs" />
     <Compile Include="Models\HonoraryTitleModel.cs" />
     <Compile Include="Models\CathedraReportModels\BaseCathedraReportModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportBudgetThemeModel.cs" />
@@ -177,7 +178,8 @@
     <Compile Include="Models\Constants\ReportTemplates.cs" />
     <Compile Include="Models\FilterModels\CathedraReportPublicationFilterModel.cs" />
     <Compile Include="Models\FilterModels\ReportPublicationFilterModel.cs" />
-    <Compile Include="Models\JournalTypeModel.cs" />
+    <Compile Include="Models\JournalModels\JournalModel.cs" />
+    <Compile Include="Models\JournalModels\JournalTypeModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationsModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationCountersModel.cs" />
@@ -200,7 +202,6 @@
     <Compile Include="Models\Constants\PublicationValues.cs" />
     <Compile Include="Models\FilterModels\CathedraReportFilterModel.cs" />
     <Compile Include="Models\FilterModels\ReportFilterModel.cs" />
-    <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PublicationModels\PublicationModel.cs" />
     <Compile Include="Models\ReportModels\ReportOtherInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
+using SRS.Services.Models.JournalModels;
 
 namespace SRS.Web.Areas.Api.Controllers
 {

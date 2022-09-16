@@ -8,6 +8,7 @@ using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.Shared;
+using SRS.Web.Models.ThemeOfScientificWorks;
 
 namespace SRS.Web.Controllers
 {
@@ -29,13 +30,13 @@ namespace SRS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(DepartmentFilterViewModel filterViewModel)
+        public async Task<ActionResult> Index(ThemeOfScientificWorkFilterViewModel filterViewModel)
         {
-            var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
+            var filterModel = _mapper.Map<ThemeOfScientificWorkFilterModel>(filterViewModel);
             var scientifthemes = await _themeOfScientificWorkService.GetAsync(filterModel);
             var total = await _themeOfScientificWorkService.CountAsync(filterModel);
 
-            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, BaseThemeOfScientificWorkModel>
+            var viewModel = new ItemsViewModel<ThemeOfScientificWorkFilterViewModel, BaseThemeOfScientificWorkModel>
             {
                 FilterModel = filterViewModel,
                 Items = new StaticPagedList<BaseThemeOfScientificWorkModel>(scientifthemes, filterViewModel.Page.Value, PaginationValues.PageSize, total)

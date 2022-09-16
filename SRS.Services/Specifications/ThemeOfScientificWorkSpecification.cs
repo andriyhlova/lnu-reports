@@ -9,17 +9,18 @@ namespace SRS.Domain.Specifications
 {
     public class ThemeOfScientificWorkSpecification : BaseFilterSpecification<ThemeOfScientificWork>
     {
-        public ThemeOfScientificWorkSpecification(DepartmentFilterModel filterModel, Expression<Func<ThemeOfScientificWork, bool>> expression)
+        public ThemeOfScientificWorkSpecification(ThemeOfScientificWorkFilterModel filterModel, Expression<Func<ThemeOfScientificWork, bool>> expression)
             : base(
                   filterModel.Skip,
                   filterModel.Take,
                   expression.AndAlso(
-                      x => string.IsNullOrEmpty(filterModel.Search) ||
+                      x => (filterModel.Financial == null || x.Financial == filterModel.Financial) &&
+                                (string.IsNullOrEmpty(filterModel.Search) ||
                                 x.ThemeNumber.Contains(filterModel.Search) ||
                                 x.OtherProjectType.Contains(filterModel.Search) ||
                                 x.Code.Contains(filterModel.Search) ||
                                 x.Value.Contains(filterModel.Search) ||
-                                x.ScientificHead.Contains(filterModel.Search)),
+                                x.ScientificHead.Contains(filterModel.Search))),
                   true)
         {
             AddOrder(filterModel.OrderBy, filterModel.Desc);

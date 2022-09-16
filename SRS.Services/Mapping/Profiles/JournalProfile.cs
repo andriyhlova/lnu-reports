@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Services.Models;
 using SRS.Services.Models.BaseModels;
+using SRS.Services.Models.JournalModels;
 
 namespace SRS.Services.Mapping.Profiles
 {

@@ -8,11 +8,11 @@ namespace SRS.Services.Interfaces
 {
     public interface IThemeOfScientificWorkService
     {
-        Task<IList<BaseThemeOfScientificWorkModel>> GetAsync(DepartmentFilterModel filterModel);
+        Task<IList<BaseThemeOfScientificWorkModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel);
 
-        Task<int> CountAsync(DepartmentFilterModel filterModel);
+        Task<int> CountAsync(ThemeOfScientificWorkFilterModel filterModel);
 
-        Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(DepartmentFilterModel filterModel, params Financial[] financials);
+        Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials);
 
         Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial);
     }

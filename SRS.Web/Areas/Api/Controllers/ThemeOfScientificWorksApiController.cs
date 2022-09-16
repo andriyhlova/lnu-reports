@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
@@ -21,7 +19,7 @@ namespace SRS.Web.Areas.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> Search(string search, Financial[] financials)
         {
-            var users = await _themeOfScientificWorkService.GetActiveAsync(new DepartmentFilterModel { Search = search }, financials);
+            var users = await _themeOfScientificWorkService.GetActiveAsync(new ThemeOfScientificWorkFilterModel { Search = search }, financials);
             return Json(users, JsonRequestBehavior.AllowGet);
         }
     }

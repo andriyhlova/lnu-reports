@@ -20,23 +20,24 @@ namespace SRS.Services.Implementations
         {
         }
 
-        public async Task<IList<BaseThemeOfScientificWorkModel>> GetAsync(DepartmentFilterModel filterModel)
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel)
         {
             var scientificThemes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, null));
             return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(scientificThemes);
         }
 
-        public async Task<int> CountAsync(DepartmentFilterModel filterModel)
+        public async Task<int> CountAsync(ThemeOfScientificWorkFilterModel filterModel)
         {
-            var countFilterModel = new DepartmentFilterModel
+            var countFilterModel = new ThemeOfScientificWorkFilterModel
             {
-                Search = filterModel.Search
+                Search = filterModel.Search,
+                Financial = filterModel.Financial
             };
 
             return await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null));
         }
 
-        public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(DepartmentFilterModel filterModel, params Financial[] financials)
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials)
         {
             var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
             var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear && financials.Contains(x.Financial)));
