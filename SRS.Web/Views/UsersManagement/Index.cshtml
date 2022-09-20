@@ -4,7 +4,8 @@
 @using SRS.Services.Providers
 @using SRS.Services.Models.UserModels
 @using SRS.Web.Models.Shared
-@model ItemsViewModel<DepartmentFilterViewModel, BaseUserInfoModel>
+@using SRS.Web.Models.UsersManagement
+@model ItemsViewModel<UserFilterViewModel, BaseUserInfoModel>
 @{
     ViewBag.Title = "Користувачі";
 }
@@ -13,6 +14,18 @@
 <form>
     @{ViewBag.SearchPlaceholder = "Пошук за прізвищем або поштою";}
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+    <div class="form-group">
+        <div>
+            <select id="role-selector" class="form-control chosen-select" name="RoleId">
+                <option value="">Виберіть роль</option>
+                @foreach (var role in RolesProvider.AllRoles)
+                {
+                    <option value="@role.Key" selected="@(role.Key == Model.FilterModel.RoleId)">@role.Value</option>
+                }
+            </select>
+        </div>
+    </div>
+    @{Html.RenderPartial("Filters/ActiveFilter", Model.FilterModel.IsActive != null ? Model.FilterModel.IsActive.ToString() : string.Empty);}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     <div class="form-group">
         <input type="submit" class="btn btn-info" value="Фільтрувати" />
@@ -23,23 +36,23 @@
         <thead>
             <tr>
                 <th>
-                    @Html.ActionLink("Електронна пошта", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Email, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Електронна пошта", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Email, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Email, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Ім'я", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Ім'я", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.FirstName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Прізвище", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.LastName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Прізвище", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.LastName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.LastName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Активний", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Active, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Активний", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Active, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Active, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Ролі", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Roles, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Ролі", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Roles, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Roles, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th></th>
@@ -99,7 +112,7 @@
 </div>
 
 @{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
-@Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search }))
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new UserFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId }))
 
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")

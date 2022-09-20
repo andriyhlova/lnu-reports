@@ -134,7 +134,7 @@
 }
 
 <div>
-    @Html.ActionLink("Повернутись до списку", "Index")
+    @Html.ActionLink("Повернутись до списку", "Index", new { IsActive = true })
 </div>
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")

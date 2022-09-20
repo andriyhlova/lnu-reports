@@ -19,7 +19,7 @@ namespace SRS.Web.Areas.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> Search(string search, Financial[] financials)
         {
-            var users = await _themeOfScientificWorkService.GetActiveAsync(new ThemeOfScientificWorkFilterModel { Search = search }, financials);
+            var users = await _themeOfScientificWorkService.GetActiveAsync(new ThemeOfScientificWorkFilterModel { Search = search, IsActive = true }, financials);
             return Json(users, JsonRequestBehavior.AllowGet);
         }
     }

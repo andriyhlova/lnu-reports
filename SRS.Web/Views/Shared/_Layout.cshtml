@@ -63,9 +63,6 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
-                                    @if (User.IsInRole(RoleNames.Superadmin))
-                                    {
-                                    }
                                     @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
                                     {
                                         if (User.IsInRole(RoleNames.Superadmin))
@@ -73,7 +70,7 @@
                                             <li>@Html.ActionLink("Наукові ступені", "Index", "Degrees")</li>
                                         }
                                         <li>@Html.ActionLink("Журнали", "Index", "Journals")</li>
-                                        <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
+                                        <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks", new { IsActive = true }, null)</li>
                                     }
                                 </ul>
                             </li>

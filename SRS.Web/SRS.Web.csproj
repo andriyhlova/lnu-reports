@@ -299,6 +299,7 @@
     <Compile Include="Models\Shared\DepartmentFilterViewModel.cs" />
     <Compile Include="Models\Shared\CheckboxListItem.cs" />
     <Compile Include="Models\ThemeOfScientificWorks\ThemeOfScientificWorkFilterViewModel.cs" />
+    <Compile Include="Models\UsersManagement\UserFilterViewModel.cs" />
     <Compile Include="Models\UsersManagement\UpdateUserViewModel.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -474,6 +475,7 @@
     <Content Include="Views\Journals\Edit.cshtml" />
     <Content Include="Views\Journals\Index.cshtml" />
     <Content Include="Views\Shared\Common\RequiredFieldsInfo.cshtml" />
+    <Content Include="Views\Shared\Filters\ActiveFilter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

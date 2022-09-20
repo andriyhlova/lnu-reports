@@ -15,5 +15,7 @@ namespace SRS.Services.Interfaces
         Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials);
 
         Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial);
+
+        Task<bool> DeleteAsync(int id);
     }
 }

@@ -10,12 +10,12 @@ namespace SRS.Services.Interfaces
     {
         Task<TUserModel> GetByIdAsync(string id);
 
-        Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, UserFilterModel filterModel);
 
         Task<TUserModel> UpdateAsync(TUserModel user, string approvedById = null);
 
         Task<bool> DeleteAsync(string id);
 
-        Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<int> CountForUserAsync(UserAccountModel user, UserFilterModel filterModel);
     }
 }

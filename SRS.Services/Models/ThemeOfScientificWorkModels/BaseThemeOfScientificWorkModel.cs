@@ -27,5 +27,7 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 
         [RequiredField]
         public Financial Financial { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

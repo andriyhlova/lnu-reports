@@ -14,7 +14,8 @@ namespace SRS.Domain.Specifications
                   filterModel.Skip,
                   filterModel.Take,
                   expression.AndAlso(
-                      x => (filterModel.Financial == null || x.Financial == filterModel.Financial) &&
+                      x => (filterModel.IsActive == null || x.IsActive == filterModel.IsActive) &&
+                                (filterModel.Financial == null || x.Financial == filterModel.Financial) &&
                                 (string.IsNullOrEmpty(filterModel.Search) ||
                                 x.ThemeNumber.Contains(filterModel.Search) ||
                                 x.OtherProjectType.Contains(filterModel.Search) ||

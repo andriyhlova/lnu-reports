@@ -67,7 +67,7 @@ namespace SRS.Web.Controllers
             return File(
                     fileContents: wordReport,
                     contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    fileDownloadName: $"report.docx");
+                    fileDownloadName: "report.docx");
         }
     }
 }

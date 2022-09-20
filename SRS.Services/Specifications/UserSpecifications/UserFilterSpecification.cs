@@ -11,14 +11,16 @@ namespace SRS.Domain.Specifications.UserSpecifications
 {
     public class UserFilterSpecification : BaseSpecification<ApplicationUser>
     {
-        public UserFilterSpecification(DepartmentFilterModel filterModel, Expression<Func<ApplicationUser, bool>> expression)
+        public UserFilterSpecification(UserFilterModel filterModel, Expression<Func<ApplicationUser, bool>> expression)
             : base(
                   expression.AndAlso(
                       x => (string.IsNullOrEmpty(filterModel.Search) ||
                                 x.I18nUserInitials.Any(n => n.LastName.Contains(filterModel.Search)) ||
                                 x.Email.Contains(filterModel.Search)) &&
+                            (filterModel.IsActive == null || x.IsActive == filterModel.IsActive) &&
                             (filterModel.CathedraId == null || x.CathedraId == filterModel.CathedraId) &&
-                            (filterModel.FacultyId == null || x.Cathedra.FacultyId == filterModel.FacultyId)),
+                            (filterModel.FacultyId == null || x.Cathedra.FacultyId == filterModel.FacultyId) &&
+                            (filterModel.RoleId == null || x.Roles.Any(r => r.RoleId == filterModel.RoleId))),
                   true)
         {
             AddIncludes(x => x.Cathedra, x => x.Roles, x => x.I18nUserInitials);

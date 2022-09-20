@@ -28,7 +28,7 @@ namespace SRS.Web.Areas.Api.Controllers
         public async Task<ActionResult> GetByFacultyAndCathedra(int? facultyId, int? cathedraId)
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
-            var users = await _userInitialsService.GetForUserAsync(user, new DepartmentFilterModel { FacultyId = facultyId, CathedraId = cathedraId, OrderBy = (int)UserOrderType.LastName });
+            var users = await _userInitialsService.GetForUserAsync(user, new UserFilterModel { FacultyId = facultyId, CathedraId = cathedraId, OrderBy = (int)UserOrderType.LastName, IsActive = true });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
@@ -40,7 +40,7 @@ namespace SRS.Web.Areas.Api.Controllers
                 {
                     RoleIds = new List<string> { RolesProvider.AllRoles.FirstOrDefault(x => x.Value == RoleNames.Superadmin).Key }
                 },
-                new DepartmentFilterModel { Search = search, OrderBy = (int)UserOrderType.LastName });
+                new UserFilterModel { Search = search, OrderBy = (int)UserOrderType.LastName });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
     }

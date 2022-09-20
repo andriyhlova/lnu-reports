@@ -45,16 +45,16 @@ namespace SRS.Web.Controllers
             _mapper = mapper;
         }
 
-        public async Task<ActionResult> Index(DepartmentFilterViewModel filterViewModel)
+        public async Task<ActionResult> Index(UserFilterViewModel filterViewModel)
         {
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
-            var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
+            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
             var users = await _baseUserInfoService.GetForUserAsync(currentUser, filterModel);
             var total = await _baseUserInfoService.CountForUserAsync(currentUser, filterModel);
 
             await FillAvailableDepartments(currentUser.FacultyId);
 
-            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, BaseUserInfoModel>
+            var viewModel = new ItemsViewModel<UserFilterViewModel, BaseUserInfoModel>
             {
                 FilterModel = filterViewModel,
                 Items = new StaticPagedList<BaseUserInfoModel>(users, filterViewModel.Page.Value, PaginationValues.PageSize, total)

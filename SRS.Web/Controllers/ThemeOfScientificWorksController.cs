@@ -105,7 +105,7 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            await _themeOfScientificWorkCrudService.DeleteAsync(id);
+            await _themeOfScientificWorkService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

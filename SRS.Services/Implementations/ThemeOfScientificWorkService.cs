@@ -31,7 +31,8 @@ namespace SRS.Services.Implementations
             var countFilterModel = new ThemeOfScientificWorkFilterModel
             {
                 Search = filterModel.Search,
-                Financial = filterModel.Financial
+                Financial = filterModel.Financial,
+                IsActive = filterModel.IsActive
             };
 
             return await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null));
@@ -49,6 +50,14 @@ namespace SRS.Services.Implementations
             var themes = await _repo.GetAsync(x => x.Financial == financial
                                                    && x.Reports.Any(y => y.User.CathedraId == cathedraId && y.State == ReportState.Confirmed));
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
+        }
+
+        public virtual async Task<bool> DeleteAsync(int id)
+        {
+            var entity = await _repo.GetAsync(id);
+            entity.IsActive = false;
+            await _repo.UpdateAsync(entity);
+            return true;
         }
     }
 }

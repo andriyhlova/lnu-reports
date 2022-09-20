@@ -42,7 +42,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<TUserModel>(user);
         }
 
-        public async Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
+        public async Task<IList<TUserModel>> GetForUserAsync(UserAccountModel user, UserFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<ApplicationUser>>>>
             {
@@ -56,13 +56,15 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<TUserModel>>(users ?? new List<ApplicationUser>());
         }
 
-        public async Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
+        public async Task<int> CountForUserAsync(UserAccountModel user, UserFilterModel filterModel)
         {
-            var countFilterModel = new DepartmentFilterModel
+            var countFilterModel = new UserFilterModel
             {
                 Search = filterModel.Search,
                 CathedraId = filterModel.CathedraId,
-                FacultyId = filterModel.FacultyId
+                FacultyId = filterModel.FacultyId,
+                IsActive = filterModel.IsActive,
+                RoleId = filterModel.RoleId
             };
 
             var actions = new Dictionary<string, Func<Task<int>>>

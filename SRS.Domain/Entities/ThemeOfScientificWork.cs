@@ -21,6 +21,8 @@ namespace SRS.Domain.Entities
 
         public string OtherProjectType { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         public ScientificWorkSubCategory? SubCategory { get; set; }
 
         [InverseProperty("ThemeOfScientificWorks")]
