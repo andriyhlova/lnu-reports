@@ -32,7 +32,12 @@ namespace SRS.Services.Implementations
             {
                 Search = filterModel.Search,
                 Financial = filterModel.Financial,
-                IsActive = filterModel.IsActive
+                SubCategory = filterModel.SubCategory,
+                IsActive = filterModel.IsActive,
+                PeriodFromFrom = filterModel.PeriodFromFrom,
+                PeriodFromTo = filterModel.PeriodFromTo,
+                PeriodToFrom = filterModel.PeriodToFrom,
+                PeriodToTo = filterModel.PeriodToTo
             };
 
             return await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null));

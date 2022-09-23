@@ -48,7 +48,9 @@ namespace SRS.Services.Implementations
                 FacultyId = filterModel.FacultyId,
                 UserId = filterModel.UserId,
                 From = filterModel.From,
-                To = filterModel.To
+                To = filterModel.To,
+                PublicationType = filterModel.PublicationType,
+                EditionCategory = filterModel.EditionCategory
             };
 
             var actions = new Dictionary<string, Func<Task<int>>>

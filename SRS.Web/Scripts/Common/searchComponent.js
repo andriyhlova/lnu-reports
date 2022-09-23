@@ -22,7 +22,7 @@ class SearchComponent {
     addKeyUpEvent() {
         $(`${this._searchContainerId}.search-container input`).keyup((e)=>{
             clearTimeout(this._searchTimeOut);
-            if (e.target.value && e.target.value.length < 3) {
+            if (!e.target.value || e.target.value.length < 2) {
                 return;
             }
 

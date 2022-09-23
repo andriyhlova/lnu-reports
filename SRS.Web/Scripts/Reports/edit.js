@@ -27,7 +27,7 @@ function changeStepPageAndSubmit(index, newIndex) {
             collection: selectedScientificWorks,
             selectedItemsSelector: '.selected-scientific-works',
             fieldName: 'ThemeOfScientificWorkIds',
-            searchUrl: '/api/themeOfScientificWorksApi/search?financials[]=0&financials=1&financials=2&financials=3&financials=4&financials=5&financials=6'
+            searchUrl: '/api/themeOfScientificWorksApi/search?financials=0&financials=1&financials=2&financials=3&financials=4&financials=5&financials=6&financials=8&financials=9'
         };
         const searchComponent = new SearchComponent('#scientific-work-search', scientificWorksSettings.searchUrl, getScientificWorkSearchResultText, (element) => appendScientificWorkSearchResultItem(element, scientificWorksSettings));
         searchComponent.load();

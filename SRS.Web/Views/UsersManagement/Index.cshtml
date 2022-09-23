@@ -111,7 +111,7 @@
     </table>
 </div>
 
-@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
 @Html.PagedListPager(Model.Items, page => Url.Action("Index", new UserFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId }))
 
 @section Styles {

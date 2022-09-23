@@ -12,5 +12,7 @@ namespace SRS.Web.Models.Shared
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? To { get; set; }
+
+        public string Prefix { get; set; }
     }
 }

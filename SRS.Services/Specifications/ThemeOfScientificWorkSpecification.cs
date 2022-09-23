@@ -16,6 +16,11 @@ namespace SRS.Domain.Specifications
                   expression.AndAlso(
                       x => (filterModel.IsActive == null || x.IsActive == filterModel.IsActive) &&
                                 (filterModel.Financial == null || x.Financial == filterModel.Financial) &&
+                                (filterModel.SubCategory == null || x.SubCategory == filterModel.SubCategory) &&
+                                (filterModel.PeriodFromFrom == null || x.PeriodFrom >= filterModel.PeriodFromFrom) &&
+                                (filterModel.PeriodFromTo == null || x.PeriodFrom <= filterModel.PeriodFromTo) &&
+                                (filterModel.PeriodToFrom == null || x.PeriodTo >= filterModel.PeriodToFrom) &&
+                                (filterModel.PeriodToTo == null || x.PeriodTo <= filterModel.PeriodToTo) &&
                                 (string.IsNullOrEmpty(filterModel.Search) ||
                                 x.ThemeNumber.Contains(filterModel.Search) ||
                                 x.OtherProjectType.Contains(filterModel.Search) ||
@@ -45,6 +50,8 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.Financial when desc: ApplyOrderByDescending(x => x.Financial); break;
                 case ThemeOfScientificWorkOrderType.CathedraName when !desc: ApplyOrderBy(x => x.Cathedra.Name); break;
                 case ThemeOfScientificWorkOrderType.CathedraName when desc: ApplyOrderByDescending(x => x.Cathedra.Name); break;
+                case ThemeOfScientificWorkOrderType.SubCategory when !desc: ApplyOrderBy(x => x.SubCategory); break;
+                case ThemeOfScientificWorkOrderType.SubCategory when desc: ApplyOrderByDescending(x => x.SubCategory); break;
                 default: ApplyOrderByDescending(x => x.PeriodTo); break;
             }
         }

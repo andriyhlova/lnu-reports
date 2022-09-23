@@ -155,6 +155,10 @@
     <Compile Include="Migrations\202209202120550_AddedIsActiveToTheme.designer.cs">
       <DependentUpon>202209202120550_AddedIsActiveToTheme.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.cs" />
+    <Compile Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.designer.cs">
+      <DependentUpon>202209231344433_AddedEditionCategoryAndChangedPubTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -217,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202209202120550_AddedIsActiveToTheme.resx">
       <DependentUpon>202209202120550_AddedIsActiveToTheme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.resx">
+      <DependentUpon>202209231344433_AddedEditionCategoryAndChangedPubTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

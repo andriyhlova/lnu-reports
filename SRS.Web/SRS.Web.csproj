@@ -387,6 +387,7 @@
     <Content Include="Scripts\jquery.steps.js" />
     <Content Include="Scripts\jquery.steps.min.js" />
     <Content Include="Scripts\CathedraReports\edit.js" />
+    <Content Include="Scripts\Publications\index.js" />
     <Content Include="Scripts\Publications\view.js" />
     <Content Include="Scripts\ThemeOfScientificWorks\edit.js" />
     <Content Include="Scripts\Reports\edit.js" />

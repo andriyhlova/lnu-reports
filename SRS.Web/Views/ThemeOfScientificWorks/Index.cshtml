@@ -10,13 +10,31 @@
 }
 
 <h2>Наукові роботи</h2>
-<form>
+<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
+<form id="filter-container" class="collapse-target">
     <div class="form-group">
         <div>
             @Html.EnumDropDownListFor(model => model.FilterModel.Financial, "Виберіть тип проєкту", new { @class = "form-control chosen-select", Name = "Financial" })
         </div>
     </div>
+    <div class="form-group">
+        <div>
+            @Html.EnumDropDownListFor(model => model.FilterModel.SubCategory, "Виберіть підкатегорію", new { @class = "form-control chosen-select", Name = "SubCategory" })
+        </div>
+    </div>
     @{Html.RenderPartial("Filters/ActiveFilter", Model.FilterModel.IsActive != null ? Model.FilterModel.IsActive.ToString() : string.Empty);}
+    <div>
+        <label class="control-label">
+            Дата початку
+        </label>
+    </div>
+    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodFromFrom, To = Model.FilterModel.PeriodFromTo, Prefix = "PeriodFrom" });}
+    <div>
+        <label class="control-label">
+            Дата завершення
+        </label>
+    </div>
+    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodToFrom, To = Model.FilterModel.PeriodToTo, Prefix = "PeriodTo" });}
     @{ViewBag.SearchPlaceholder = "Пошук за назвою, номером, шифром";}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     <div class="form-group">
@@ -31,28 +49,32 @@
         <thead>
             <tr>
                 <th>
-                    @Html.ActionLink("Номер державної реєстрації", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ThemeNumber, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive })
+                    @Html.ActionLink("Номер державної реєстрації", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ThemeNumber, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ThemeNumber, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Внутрішній шифр", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Code, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive })
+                    @Html.ActionLink("Внутрішній шифр", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Code, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Code, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Назва", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Value, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive })
+                    @Html.ActionLink("Назва", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Value, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Науковий керівник", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ScientificHead, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive })
+                    @Html.ActionLink("Науковий керівник", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.ScientificHead, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ScientificHead, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Період виконання", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.PeriodTo, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive })
+                    @Html.ActionLink("Період виконання", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.PeriodTo, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.PeriodTo, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Тип проєкту", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Financial, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive })
+                    @Html.ActionLink("Тип проєкту", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Financial, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Financial, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Підкатегорія", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.SubCategory, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.SubCategory, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th></th>
             </tr>
@@ -81,11 +103,14 @@
                         @item.Financial.GetDisplayName()
                     </td>
                     <td>
+                        @(item.SubCategory != null ? item.SubCategory.GetDisplayName() : string.Empty)
+                    </td>
+                    <td>
                         @if (item.IsActive)
                         {
                             @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
                         }
-                        else 
+                        else
                         {
                             <div class="text-danger">Неактивна</div>
                         }
@@ -100,8 +125,8 @@
         </tbody>
     </table>
 </div>
-@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
-@Html.PagedListPager(Model.Items, page => Url.Action("Index", new ThemeOfScientificWorkFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive }))
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new ThemeOfScientificWorkFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo }))
 
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")
@@ -109,4 +134,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/collapsible")
 }

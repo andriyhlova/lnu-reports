@@ -1,4 +1,5 @@
 ﻿using System;
+using SRS.Domain.Enums;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Publications
@@ -10,5 +11,9 @@ namespace SRS.Web.Models.Publications
         public DateTime? To { get; set; }
 
         public string UserId { get; set; }
+
+        public PublicationType? PublicationType { get; set; }
+
+        public EditionCategory? EditionCategory { get; set; }
     }
 }

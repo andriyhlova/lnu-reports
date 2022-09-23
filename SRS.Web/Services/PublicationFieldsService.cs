@@ -26,6 +26,12 @@ namespace SRS.Web.Services
                         (int)PublicationType.Тези_Доповіді_На_Міжнародній_Конференції,
                         (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції
                     };
+                case PublicationField.EditionCategory:
+                    return new int[]
+                    {
+                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Розділ_монографії
+                    };
                 case PublicationField.Place:
                 case PublicationField.Edition:
                     return new int[]

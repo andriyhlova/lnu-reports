@@ -178,6 +178,14 @@
         </div>
 
         <div class="form-group field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.EditionCategory))">
+            <label class="control-label col-md-2">Тип видання</label>
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.EditionCategory, "Виберіть тип видання", new { @class = "form-control chosen-select" })
+            </div>
+        </div>
+
+        <div class="form-group field"
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place))">
             <label class="control-label col-md-2">Місто</label>
             <div class="col-md-10">

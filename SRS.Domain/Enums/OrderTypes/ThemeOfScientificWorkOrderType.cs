@@ -9,6 +9,7 @@
         ScientificHead,
         PeriodTo,
         Financial,
-        CathedraName
+        CathedraName,
+        SubCategory
     }
 }

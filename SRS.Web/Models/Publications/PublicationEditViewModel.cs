@@ -26,6 +26,8 @@ namespace SRS.Web.Models.Publications
         [RequiredField]
         public string AuthorsOrder { get; set; }
 
+        public EditionCategory? EditionCategory { get; set; }
+
         public string Place { get; set; }
 
         public string Edition { get; set; }

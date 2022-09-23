@@ -181,3 +181,9 @@ td form {
     top: 4px;
     right: 4px;
 }
+
+.date-range{
+    display: flex;
+    justify-content: space-between;
+    max-width: 280px;
+}

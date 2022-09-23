@@ -60,6 +60,9 @@ namespace SRS.Web
             bundles.Add(new ScriptBundle("~/bundles/stepper").Include(
                         "~/Scripts/Common/stepper.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/publications/index").Include(
+                        "~/Scripts/Publications/index.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/publications/edit").Include(
                         "~/Scripts/Publications/edit.js"));
 

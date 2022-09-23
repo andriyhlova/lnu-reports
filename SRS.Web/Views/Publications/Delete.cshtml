@@ -128,6 +128,14 @@
         </div>
 
         <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.EditionCategory))">
+            <label class="control-label col-md-2">Тип видання</label>
+            <div class="col-md-10">
+                @(Model.EditionCategory != null ? Model.EditionCategory.GetDisplayName() : string.Empty)
+            </div>
+        </div>
+
+        <div class="row field"
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place))">
             <label class="col-md-2">Місто</label>
             <div class="col-md-10">

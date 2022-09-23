@@ -31,6 +31,8 @@ namespace SRS.Domain.Entities
 
         public Language Language { get; set; }
 
+        public EditionCategory? EditionCategory { get; set; }
+
         public string Link { get; set; }
 
         public string Edition { get; set; }
