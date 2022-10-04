@@ -1,4 +1,5 @@
 ﻿using SRS.Domain.Enums;
+using SRS.Services.Attributes;
 using SRS.Services.Models.BaseModels;
 
 namespace SRS.Services.Models.UserModels
@@ -8,10 +9,13 @@ namespace SRS.Services.Models.UserModels
     {
         public Language Language { get; set; }
 
+        [RequiredField]
         public string FirstName { get; set; } = string.Empty;
 
+        [RequiredField]
         public string LastName { get; set; } = string.Empty;
 
+        [RequiredField]
         public string FathersName { get; set; } = string.Empty;
 
         public string UserId { get; set; }

@@ -9,5 +9,10 @@ namespace SRS.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult InDevelopment()
+        {
+            return View();
+        }
     }
 }

@@ -159,6 +159,22 @@
     <Compile Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.designer.cs">
       <DependentUpon>202209231344433_AddedEditionCategoryAndChangedPubTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210041900090_RemovedField.cs" />
+    <Compile Include="Migrations\202210041900090_RemovedField.designer.cs">
+      <DependentUpon>202210041900090_RemovedField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210042044331_AddedNewFields.cs" />
+    <Compile Include="Migrations\202210042044331_AddedNewFields.designer.cs">
+      <DependentUpon>202210042044331_AddedNewFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210042133324_AddedASSortOrder.cs" />
+    <Compile Include="Migrations\202210042133324_AddedASSortOrder.designer.cs">
+      <DependentUpon>202210042133324_AddedASSortOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210042221174_AddedPSortOrder.cs" />
+    <Compile Include="Migrations\202210042221174_AddedPSortOrder.designer.cs">
+      <DependentUpon>202210042221174_AddedPSortOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -224,6 +240,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.resx">
       <DependentUpon>202209231344433_AddedEditionCategoryAndChangedPubTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210041900090_RemovedField.resx">
+      <DependentUpon>202210041900090_RemovedField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210042044331_AddedNewFields.resx">
+      <DependentUpon>202210042044331_AddedNewFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210042133324_AddedASSortOrder.resx">
+      <DependentUpon>202210042133324_AddedASSortOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210042221174_AddedPSortOrder.resx">
+      <DependentUpon>202210042221174_AddedPSortOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

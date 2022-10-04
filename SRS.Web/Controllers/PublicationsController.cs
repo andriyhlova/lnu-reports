@@ -97,9 +97,10 @@ namespace SRS.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
-                return RedirectToAction(nameof(Index));
+                return RedirectToIndex();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(model);
         }
 
@@ -123,9 +124,10 @@ namespace SRS.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
-                return RedirectToAction(nameof(Index));
+                return RedirectToIndex();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(model);
         }
 
@@ -142,7 +144,7 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             await _publicationCrudService.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToIndex();
         }
 
         private async Task FillAvailableDepartments(int? facultyId)
@@ -156,6 +158,12 @@ namespace SRS.Web.Controllers
             {
                 ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
             }
+        }
+
+        private RedirectResult RedirectToIndex()
+        {
+            var returnUrl = Request.QueryString["returnUrl"];
+            return Redirect(Url.Action(nameof(Index)) + (!string.IsNullOrWhiteSpace(returnUrl) ? "?" + returnUrl : string.Empty));
         }
     }
 }

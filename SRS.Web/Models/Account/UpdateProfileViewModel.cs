@@ -31,7 +31,7 @@ namespace SRS.Web.Models.Account
         public int TrainingBookCounterBeforeRegistration { get; set; }
 
         [RequiredField]
-        [Display(Name = "Кількість інших наукових видань, що внесено до звітів за попередні роки")]
+        [Display(Name = "Кількість інших наукових публікацій, що внесено до звітів за попередні роки")]
         public int OtherWritingCounterBeforeRegistration { get; set; }
 
         [RequiredField]
@@ -51,13 +51,10 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Рік закінчення ЗВО")]
         public int? GraduationDate { get; set; }
 
-        [Display(Name = "Рік присвоєння вченого звання")]
-        public int? AwardingDate { get; set; }
-
-        [Display(Name = "Рік початку перебування в аспірантурі")]
+        [Display(Name = "Рік початку навчання в аспірантурі")]
         public int? AspirantStartYear { get; set; }
 
-        [Display(Name = "Рік закінчення перебування в аспірантурі")]
+        [Display(Name = "Рік закінчення навчання в аспірантурі")]
         public int? AspirantFinishYear { get; set; }
 
         [Display(Name = "Рік захисту кандидатської дисертації/дисертації доктора філософії")]
@@ -75,6 +72,27 @@ namespace SRS.Web.Models.Account
         [RequiredField]
         [Display(Name = "Посада")]
         public int? PositionId { get; set; }
+
+        [Display(Name = "ResearcherID")]
+        public string ResearcherId { get; set; }
+
+        [Display(Name = "ORCID")]
+        public string Orcid { get; set; }
+
+        [Display(Name = "Scopus Author ID")]
+        public string ScopusAuthorId { get; set; }
+
+        [Display(Name = "Google Scholar link")]
+        public string GoogleScholarLink { get; set; }
+
+        [Display(Name = "h-індекс (Scopus)")]
+        public int? ScopusHIndex { get; set; }
+
+        [Display(Name = "h-індекс (Web of Science)")]
+        public int? WebOfScienceHIndex { get; set; }
+
+        [Display(Name = "h-індекс (Google Scholar)")]
+        public int? GoogleScholarHIndex { get; set; }
 
         public IList<UserDegreeViewModel> Degrees { get; set; }
 

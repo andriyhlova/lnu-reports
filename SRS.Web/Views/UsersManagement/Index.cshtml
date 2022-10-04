@@ -7,10 +7,10 @@
 @using SRS.Web.Models.UsersManagement
 @model ItemsViewModel<UserFilterViewModel, BaseUserInfoModel>
 @{
-    ViewBag.Title = "Користувачі";
+    ViewBag.Title = "Працівники";
 }
 
-<h2>Користувачі</h2>
+<h2>Працівники</h2>
 <form>
     @{ViewBag.SearchPlaceholder = "Пошук за прізвищем або поштою";}
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}

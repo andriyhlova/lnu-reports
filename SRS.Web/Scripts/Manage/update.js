@@ -160,7 +160,7 @@
                 return;
             }
 
-            let str = "<option value=''>Виберіть вчене звання</option>";
+            let str = '';
             for (var i = 0; i < allAcademicStatuses.length; i++) {
                 let academicStatus = allAcademicStatuses[i];
                 str += `<option value='${academicStatus.Id}'>${academicStatus.Value}</option>`;

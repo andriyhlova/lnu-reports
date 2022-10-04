@@ -39,7 +39,7 @@
 </form>
 
 <p>
-    @Html.ActionLink("Створити", "Create", new { language = "UA", returnUrl = Request.QueryString.ToString() }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Створити", "Create", new { returnUrl = Request.QueryString.ToString() }, new { @class = "btn btn-success" })
 </p>
 <div class="table-responsive">
     <table class="table">

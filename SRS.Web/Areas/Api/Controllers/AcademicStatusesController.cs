@@ -18,8 +18,8 @@ namespace SRS.Web.Areas.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            var degrees = await _academicStatusesService.GetAllAsync(new BaseFilterModel());
-            return Json(degrees, JsonRequestBehavior.AllowGet);
+            var academicStatuses = await _academicStatusesService.GetAllAsync(new BaseFilterModel());
+            return Json(academicStatuses, JsonRequestBehavior.AllowGet);
         }
     }
 }

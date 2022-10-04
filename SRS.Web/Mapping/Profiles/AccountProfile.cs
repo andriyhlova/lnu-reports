@@ -16,7 +16,6 @@ namespace SRS.Services.Models
 
             CreateMap<ProfileInfoModel, UpdateProfileViewModel>()
                 .ForMember(dest => dest.GraduationDate, opts => opts.MapFrom(src => src.GraduationDate.HasValue ? src.GraduationDate.Value.Year : (int?)null))
-                .ForMember(dest => dest.AwardingDate, opts => opts.MapFrom(src => src.AwardingDate.HasValue ? src.AwardingDate.Value.Year : (int?)null))
                 .ForMember(dest => dest.AspirantStartYear, opts => opts.MapFrom(src => src.AspirantStartYear.HasValue ? src.AspirantStartYear.Value.Year : (int?)null))
                 .ForMember(dest => dest.AspirantFinishYear, opts => opts.MapFrom(src => src.AspirantFinishYear.HasValue ? src.AspirantFinishYear.Value.Year : (int?)null))
                 .ForMember(dest => dest.DegreeDefenseYear, opts => opts.MapFrom(src => src.DegreeDefenseYear.HasValue ? src.DegreeDefenseYear.Value.Year : (int?)null))
@@ -26,7 +25,6 @@ namespace SRS.Services.Models
 
             CreateMap<UpdateProfileViewModel, ProfileInfoModel>()
                 .ForMember(dest => dest.GraduationDate, opts => opts.MapFrom(src => src.GraduationDate.HasValue ? new DateTime(src.GraduationDate.Value, 1, 1) : (DateTime?)null))
-                .ForMember(dest => dest.AwardingDate, opts => opts.MapFrom(src => src.AwardingDate.HasValue ? new DateTime(src.AwardingDate.Value, 1, 1) : (DateTime?)null))
                 .ForMember(dest => dest.AspirantStartYear, opts => opts.MapFrom(src => src.AspirantStartYear.HasValue ? new DateTime(src.AspirantStartYear.Value, 1, 1) : (DateTime?)null))
                 .ForMember(dest => dest.AspirantFinishYear, opts => opts.MapFrom(src => src.AspirantFinishYear.HasValue ? new DateTime(src.AspirantFinishYear.Value, 1, 1) : (DateTime?)null))
                 .ForMember(dest => dest.DegreeDefenseYear, opts => opts.MapFrom(src => src.DegreeDefenseYear.HasValue ? new DateTime(src.DegreeDefenseYear.Value, 1, 1) : (DateTime?)null))

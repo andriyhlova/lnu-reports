@@ -10,7 +10,7 @@
 
 <h2>Створити</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(new { returnUrl = ViewBag.ReturnUrl }))
 {
     @Html.AntiForgeryToken()
 

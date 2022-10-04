@@ -4,9 +4,9 @@ using SRS.Services.Models.FilterModels;
 
 namespace SRS.Domain.Specifications
 {
-    public class AcademicStatusSpecification : BaseFilterSpecification<AcademicStatus>
+    public class PositionSpecification : BaseFilterSpecification<Position>
     {
-        public AcademicStatusSpecification(BaseFilterModel filterModel)
+        public PositionSpecification(BaseFilterModel filterModel)
             : base(
                   filterModel.Skip,
                   filterModel.Take,

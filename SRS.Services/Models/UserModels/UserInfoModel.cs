@@ -13,13 +13,10 @@ namespace SRS.Services.Models.UserModels
         [Display(Name = "Рік закінчення ЗВО")]
         public DateTime? GraduationDate { get; set; }
 
-        [Display(Name = "Рік присвоєння вченого звання")]
-        public DateTime? AwardingDate { get; set; }
-
-        [Display(Name = "Рік початку перебування в аспірантурі")]
+        [Display(Name = "Рік початку навчання в аспірантурі")]
         public DateTime? AspirantStartYear { get; set; }
 
-        [Display(Name = "Рік закінчення перебування в аспірантурі")]
+        [Display(Name = "Рік закінчення навчання в аспірантурі")]
         public DateTime? AspirantFinishYear { get; set; }
 
         [Display(Name = "Рік захисту кандидатської дисертації/дисертації доктора філософії")]
@@ -48,6 +45,27 @@ namespace SRS.Services.Models.UserModels
 
         [Display(Name = "Посада")]
         public string PositionName { get; set; }
+
+        [Display(Name = "ResearcherID")]
+        public string ResearcherId { get; set; }
+
+        [Display(Name = "ORCID")]
+        public string Orcid { get; set; }
+
+        [Display(Name = "Scopus Author ID")]
+        public string ScopusAuthorId { get; set; }
+
+        [Display(Name = "Google Scholar link")]
+        public string GoogleScholarLink { get; set; }
+
+        [Display(Name = "h-індекс (Scopus)")]
+        public int? ScopusHIndex { get; set; }
+
+        [Display(Name = "h-індекс (Web of Science)")]
+        public int? WebOfScienceHIndex { get; set; }
+
+        [Display(Name = "h-індекс (Google Scholar)")]
+        public int? GoogleScholarHIndex { get; set; }
 
         [Display(Name = "Наукові ступені")]
         public IList<UserDegreeModel> Degrees { get; set; }

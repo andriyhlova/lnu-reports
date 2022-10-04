@@ -11,7 +11,7 @@
 <h2>Редагувати</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(new { returnUrl = ViewBag.ReturnUrl }))
 {
     @Html.AntiForgeryToken()
 

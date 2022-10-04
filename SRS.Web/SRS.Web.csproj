@@ -462,7 +462,6 @@
     <Content Include="Views\Degrees\Edit.cshtml" />
     <Content Include="Views\Degrees\Index.cshtml" />
     <Content Include="Views\UsersManagement\Delete.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\I18nUserInitials.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitialsModel.cshtml" />
     <Content Include="Views\Shared\Ordering\OrderDirection.cshtml" />
     <Content Include="Views\Shared\Filters\BaseFilter.cshtml" />
@@ -477,6 +476,7 @@
     <Content Include="Views\Journals\Index.cshtml" />
     <Content Include="Views\Shared\Common\RequiredFieldsInfo.cshtml" />
     <Content Include="Views\Shared\Filters\ActiveFilter.cshtml" />
+    <Content Include="Views\Home\InDevelopment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

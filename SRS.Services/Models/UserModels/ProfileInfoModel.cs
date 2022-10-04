@@ -25,8 +25,6 @@ namespace SRS.Services.Models.UserModels
 
         public DateTime? GraduationDate { get; set; }
 
-        public DateTime? AwardingDate { get; set; }
-
         public DateTime? AspirantStartYear { get; set; }
 
         public DateTime? AspirantFinishYear { get; set; }
@@ -38,6 +36,20 @@ namespace SRS.Services.Models.UserModels
         public DateTime? DoctorFinishYear { get; set; }
 
         public DateTime? AcademicStatusDefenseYear { get; set; }
+
+        public string ResearcherId { get; set; }
+
+        public string Orcid { get; set; }
+
+        public string ScopusAuthorId { get; set; }
+
+        public string GoogleScholarLink { get; set; }
+
+        public int? ScopusHIndex { get; set; }
+
+        public int? WebOfScienceHIndex { get; set; }
+
+        public int? GoogleScholarHIndex { get; set; }
 
         public int? PositionId { get; set; }
 

@@ -260,7 +260,7 @@
         </div>
     </div>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(new { returnUrl = ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">

@@ -14,183 +14,220 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        <hr />
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.Id)
+<div class="form-horizontal">
+    <hr />
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@Model.Email</label>
-            </div>
-        </div>
-
-        @Html.EditorFor(x => x.I18nUserInitials)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@Model.BirthDate.Year</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GraduationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.GraduationDate.HasValue ? Model.GraduationDate.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AspirantStartYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.AspirantStartYear.HasValue ? Model.AspirantStartYear.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AspirantFinishYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.AspirantFinishYear.HasValue ? Model.AspirantFinishYear.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.DegreeDefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.DegreeDefenseYear.HasValue ? Model.DegreeDefenseYear.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DoctorStartYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.DoctorStartYear.HasValue ? Model.DoctorStartYear.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DoctorFinishYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.DoctorFinishYear.HasValue ? Model.DoctorFinishYear.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AcademicStatusDefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.AcademicStatusDefenseYear.HasValue ? Model.AcademicStatusDefenseYear.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AwardingDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="display-label">@(Model.AwardingDate.HasValue ? Model.AwardingDate.Value.Year : (int?)null)</label>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @if (User.Identity.Name != Model.Email
-                    && (User.IsInRole(RoleNames.Superadmin)
-                    || User.IsInRole(RoleNames.RectorateAdmin)
-                    || User.IsInRole(RoleNames.DeaneryAdmin)
-                    || User.IsInRole(RoleNames.CathedraAdmin)))
-                {
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.IsActive)
-                    </div>
-                }
-                else
-                {
-                    <label class="display-label">@(Model.IsActive ? "Так" : "Ні")</label>
-                    @Html.HiddenFor(model => model.IsActive)
-                }
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Ролі</label>
-            <div class="col-md-10 existing-roles">
-                @foreach (var role in Model.RoleIds)
-                {
-                    <div class="display-label" data-id="@role">
-                        <span>@RolesProvider.AllRoles[role]</span>
-                        @if (User.Identity.Name != Model.Email && availableRoles.Any(x => x.Id == role))
-                        {
-                            <span class="text-danger action-btn remove">Видалити</span>
-                        }
-                        <input type="hidden" name="RoleIds[]" value="@role" />
-                    </div>
-                }
-            </div>
-        </div>
-        @if (User.Identity.Name != Model.Email)
-        {
-            <div class="form-group">
-                <label class="control-label col-md-2">Доступні ролі</label>
-                <div class="col-md-10 available-roles">
-                    @foreach (var role in availableRoles)
-                    {
-                        if (!Model.RoleIds.Any(x => x == role.Id))
-                        {
-                            <div class="display-label" data-id="@role.Id">
-                                <span>@RolesProvider.AllRoles[role.Id]</span>
-                                <span class="text-success action-btn add">Додати</span>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-        }
-        <div class="form-group">
-            <label class="control-label col-md-2">Кафедра</label>
-            <div class="col-md-10">
-                <label class="display-label">@Model.CathedraName</label>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Посада</label>
-            <div class="col-md-10">
-                <label class="display-label">@Model.PositionName</label>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Наукові ступені</label>
-            <div class="col-md-10">
-                @foreach (var item in Model.Degrees)
-                {
-                    <div><label class="display-label">@item.DegreeName</label></div>
-                    <div><label class="display-label">Рік присвоєння: @item.AwardDate.Year</label></div>
-                }
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Вчені звання</label>
-            <div class="col-md-10">
-                @foreach (var item in Model.AcademicStatuses)
-                {
-                    <div><label class="display-label">@item.AcademicStatusName</label></div>
-                    <div><label class="display-label">Рік присудження: @item.AwardDate.Year</label></div>
-                }
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Почесні звання</label>
-            <div class="col-md-10">
-                @foreach (var item in Model.HonoraryTitles)
-                {
-                    <div><label class="display-label">@item.Value</label></div>
-                }
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Зберегти" class="btn btn-info" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.Email</label>
         </div>
     </div>
+
+    @Html.EditorFor(x => x.I18nUserInitials)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.BirthDate.Year</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GraduationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.GraduationDate.HasValue ? Model.GraduationDate.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AspirantStartYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.AspirantStartYear.HasValue ? Model.AspirantStartYear.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AspirantFinishYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.AspirantFinishYear.HasValue ? Model.AspirantFinishYear.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DegreeDefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.DegreeDefenseYear.HasValue ? Model.DegreeDefenseYear.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DoctorStartYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.DoctorStartYear.HasValue ? Model.DoctorStartYear.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DoctorFinishYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.DoctorFinishYear.HasValue ? Model.DoctorFinishYear.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AcademicStatusDefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@(Model.AcademicStatusDefenseYear.HasValue ? Model.AcademicStatusDefenseYear.Value.Year : (int?)null)</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (User.Identity.Name != Model.Email
+                && (User.IsInRole(RoleNames.Superadmin)
+                || User.IsInRole(RoleNames.RectorateAdmin)
+                || User.IsInRole(RoleNames.DeaneryAdmin)
+                || User.IsInRole(RoleNames.CathedraAdmin)))
+            {
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsActive)
+                </div>
+            }
+            else
+            {
+                <label class="display-label">@(Model.IsActive ? "Так" : "Ні")</label>
+                @Html.HiddenFor(model => model.IsActive)
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Ролі</label>
+        <div class="col-md-10 existing-roles">
+            @foreach (var role in Model.RoleIds)
+            {
+                <div class="display-label" data-id="@role">
+                    <span>@RolesProvider.AllRoles[role]</span>
+                    @if (User.Identity.Name != Model.Email && availableRoles.Any(x => x.Id == role))
+                    {
+                        <span class="text-danger action-btn remove">Видалити</span>
+                    }
+                    <input type="hidden" name="RoleIds[]" value="@role" />
+                </div>
+            }
+        </div>
+    </div>
+    @if (User.Identity.Name != Model.Email)
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">Доступні ролі</label>
+            <div class="col-md-10 available-roles">
+                @foreach (var role in availableRoles)
+                {
+                    if (!Model.RoleIds.Any(x => x == role.Id))
+                    {
+                        <div class="display-label" data-id="@role.Id">
+                            <span>@RolesProvider.AllRoles[role.Id]</span>
+                            <span class="text-success action-btn add">Додати</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <label class="control-label col-md-2">Кафедра</label>
+        <div class="col-md-10">
+            <label class="display-label">@Model.CathedraName</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Посада</label>
+        <div class="col-md-10">
+            <label class="display-label">@Model.PositionName</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Наукові ступені</label>
+        <div class="col-md-10">
+            @foreach (var item in Model.Degrees)
+            {
+                <div><label class="display-label">@item.DegreeName</label></div>
+                <div><label class="display-label">Рік присвоєння: @item.AwardDate.Year</label></div>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Вчені звання</label>
+        <div class="col-md-10">
+            @foreach (var item in Model.AcademicStatuses)
+            {
+                <div><label class="display-label">@item.AcademicStatusName</label></div>
+                <div><label class="display-label">Рік присудження: @item.AwardDate.Year</label></div>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Почесні звання</label>
+        <div class="col-md-10">
+            @foreach (var item in Model.HonoraryTitles)
+            {
+                <div><label class="display-label">@item.Value</label></div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ResearcherId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.ResearcherId</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Orcid, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.Orcid</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ScopusAuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.ScopusAuthorId</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.GoogleScholarLink, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.GoogleScholarLink</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ScopusHIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.ScopusHIndex</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.WebOfScienceHIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.WebOfScienceHIndex</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.GoogleScholarHIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="display-label">@Model.GoogleScholarHIndex</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Зберегти" class="btn btn-info" />
+        </div>
+    </div>
+</div>
 }
 
 <div>

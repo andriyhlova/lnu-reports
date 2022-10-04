@@ -96,18 +96,54 @@ namespace SRS.Repositories.Implementations
 
         protected void UpdateRelatedEntities(ApplicationUser existingEntity, ApplicationUser newEntity)
         {
-            var toAddRoles = newEntity.Roles.Where(x => !existingEntity.Roles.Any(y => y.RoleId == x.RoleId)).ToList();
-            foreach (var role in toAddRoles)
+            UpdateInitials(existingEntity, newEntity);
+            UpdateRoles(existingEntity, newEntity);
+            UpdateDegrees(existingEntity, newEntity);
+            UpdateAcademicStatuses(existingEntity, newEntity);
+            UpdateHonoraryTitles(existingEntity, newEntity);
+        }
+
+        private void UpdateInitials(ApplicationUser existingEntity, ApplicationUser newEntity)
+        {
+            var toDeleteInitials = existingEntity.I18nUserInitials.Where(x => !newEntity.I18nUserInitials.Any(y => y.Id == x.Id)).ToList();
+            foreach (var initial in toDeleteInitials)
             {
-                existingEntity.Roles.Add(role);
+                existingEntity.I18nUserInitials.Remove(initial);
             }
 
+            var toAddInitials = newEntity.I18nUserInitials.Where(x => !existingEntity.I18nUserInitials.Any(y => y.Id == x.Id)).ToList();
+            foreach (var initial in toAddInitials)
+            {
+                existingEntity.I18nUserInitials.Add(initial);
+            }
+
+            var toUpdateInitials = existingEntity.I18nUserInitials.Where(x => newEntity.I18nUserInitials.Any(y => y.Id == x.Id)).ToList();
+            foreach (var initial in toUpdateInitials)
+            {
+                var newInitial = newEntity.I18nUserInitials.FirstOrDefault(y => y.Id == initial.Id);
+                initial.FirstName = newInitial.FirstName;
+                initial.LastName = newInitial.LastName;
+                initial.FathersName = newInitial.FathersName;
+            }
+        }
+
+        private void UpdateRoles(ApplicationUser existingEntity, ApplicationUser newEntity)
+        {
             var toDeleteRoles = existingEntity.Roles.Where(x => !newEntity.Roles.Any(y => y.RoleId == x.RoleId)).ToList();
             foreach (var role in toDeleteRoles)
             {
                 existingEntity.Roles.Remove(role);
             }
 
+            var toAddRoles = newEntity.Roles.Where(x => !existingEntity.Roles.Any(y => y.RoleId == x.RoleId)).ToList();
+            foreach (var role in toAddRoles)
+            {
+                existingEntity.Roles.Add(role);
+            }
+        }
+
+        private void UpdateDegrees(ApplicationUser existingEntity, ApplicationUser newEntity)
+        {
             var toDeleteDegrees = existingEntity.Degrees.Where(x => !newEntity.Degrees.Any(y => y.Id == x.Id)).ToList();
             foreach (var degree in toDeleteDegrees)
             {
@@ -119,7 +155,10 @@ namespace SRS.Repositories.Implementations
             {
                 existingEntity.Degrees.Add(degree);
             }
+        }
 
+        private void UpdateAcademicStatuses(ApplicationUser existingEntity, ApplicationUser newEntity)
+        {
             var toDeleteAcademicStatuses = existingEntity.AcademicStatuses.Where(x => !newEntity.AcademicStatuses.Any(y => y.Id == x.Id)).ToList();
             foreach (var academicStatus in toDeleteAcademicStatuses)
             {
@@ -131,7 +170,10 @@ namespace SRS.Repositories.Implementations
             {
                 existingEntity.AcademicStatuses.Add(academicStatus);
             }
+        }
 
+        private void UpdateHonoraryTitles(ApplicationUser existingEntity, ApplicationUser newEntity)
+        {
             var toDeleteHonoraryTitle = existingEntity.HonoraryTitles.Where(x => !newEntity.HonoraryTitles.Any(y => y.Id == x.Id)).ToList();
             foreach (var honoraryTitle in toDeleteHonoraryTitle)
             {

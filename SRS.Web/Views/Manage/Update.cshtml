@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="OtherWritingCounterBeforeRegistration" class="control-label col-md-2">Кількість інших наукових видань, що внесено до звітів за попередні роки <span class="text-danger">*</span></label>
+        <label for="OtherWritingCounterBeforeRegistration" class="control-label col-md-2">Кількість інших наукових публікацій, що внесено до звітів за попередні роки <span class="text-danger">*</span></label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.OtherWritingCounterBeforeRegistration, new { @class = "form-control", Type = "number", Min = 0 })
             @Html.ValidationMessageFor(model => model.OtherWritingCounterBeforeRegistration, "", new { @class = "text-danger" })
@@ -118,16 +118,10 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.AwardingDate, new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year })
-            @Html.ValidationMessageFor(model => model.AwardingDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Посада</label>
+        <label class="control-label col-md-2">Посада <span class="text-danger">*</span></label>
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), new { @class = "form-control chosen-select" })
+            @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -139,19 +133,19 @@
                 {
                     for (var i = 0; i < Model.Degrees.Count; i++)
                     {
-                    <div>
-                        <div class="selected-item">
-                            <div>
-                                <div>@Model.Degrees[i].DegreeName</div>
-                                <div>Рік присвоєння: @Model.Degrees[i].AwardYear </div>
-                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                        <div>
+                            <div class="selected-item">
+                                <div>
+                                    <div>@Model.Degrees[i].DegreeName</div>
+                                    <div>Рік присвоєння: @Model.Degrees[i].AwardYear </div>
+                                    <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                </div>
+                                <input type="hidden" name="Degrees[@i].Id" class="id" value="@Model.Degrees[i].Id" />
+                                <input type="hidden" name="Degrees[@i].DegreeId" class="degreeId" value="@Model.Degrees[i].DegreeId" />
+                                <input type="hidden" name="Degrees[@i].DegreeName" class="degreeName" value="@Model.Degrees[i].DegreeName" />
+                                <input type="hidden" name="Degrees[@i].AwardYear" class="awardYear" value="@Model.Degrees[i].AwardYear" />
                             </div>
-                            <input type="hidden" name="Degrees[@i].Id" class="id" value="@Model.Degrees[i].Id" />
-                            <input type="hidden" name="Degrees[@i].DegreeId" class="degreeId" value="@Model.Degrees[i].DegreeId" />
-                            <input type="hidden" name="Degrees[@i].DegreeName" class="degreeName" value="@Model.Degrees[i].DegreeName" />
-                            <input type="hidden" name="Degrees[@i].AwardYear" class="awardYear" value="@Model.Degrees[i].AwardYear" />
                         </div>
-                    </div>
                     }
                 }
             </div>
@@ -168,19 +162,19 @@
                 {
                     for (var i = 0; i < Model.AcademicStatuses.Count; i++)
                     {
-                    <div>
-                        <div class="selected-item">
-                            <div>
-                                <div>@Model.AcademicStatuses[i].AcademicStatusName</div>
-                                <div>Рік присудження: @Model.AcademicStatuses[i].AwardYear </div>
-                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                        <div>
+                            <div class="selected-item">
+                                <div>
+                                    <div>@Model.AcademicStatuses[i].AcademicStatusName</div>
+                                    <div>Рік присудження: @Model.AcademicStatuses[i].AwardYear </div>
+                                    <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                </div>
+                                <input type="hidden" name="AcademicStatuses[@i].Id" class="id" value="@Model.AcademicStatuses[i].Id" />
+                                <input type="hidden" name="AcademicStatuses[@i].AcademicStatusId" class="academicStatusId" value="@Model.AcademicStatuses[i].AcademicStatusId" />
+                                <input type="hidden" name="AcademicStatuses[@i].AcademicStatusName" class="academicStatusName" value="@Model.AcademicStatuses[i].AcademicStatusName" />
+                                <input type="hidden" name="AcademicStatuses[@i].AwardYear" class="awardYear" value="@Model.AcademicStatuses[i].AwardYear" />
                             </div>
-                            <input type="hidden" name="AcademicStatuses[@i].Id" class="id" value="@Model.AcademicStatuses[i].Id" />
-                            <input type="hidden" name="AcademicStatuses[@i].AcademicStatusId" class="academicStatusId" value="@Model.AcademicStatuses[i].AcademicStatusId" />
-                            <input type="hidden" name="AcademicStatuses[@i].AcademicStatusName" class="academicStatusName" value="@Model.AcademicStatuses[i].AcademicStatusName" />
-                            <input type="hidden" name="AcademicStatuses[@i].AwardYear" class="awardYear" value="@Model.AcademicStatuses[i].AwardYear" />
                         </div>
-                    </div>
                     }
                 }
             </div>
@@ -197,16 +191,16 @@
                 {
                     for (var i = 0; i < Model.HonoraryTitles.Count; i++)
                     {
-                    <div>
-                        <div class="selected-item">
-                            <div>
-                                @Model.HonoraryTitles[i].Value
-                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                        <div>
+                            <div class="selected-item">
+                                <div>
+                                    @Model.HonoraryTitles[i].Value
+                                    <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                </div>
+                                <input type="hidden" name="HonoraryTitles[@i].Id" class="id" value="@Model.HonoraryTitles[i].Id" />
+                                <input type="hidden" name="HonoraryTitles[@i].Value" class="value" value="@Model.HonoraryTitles[i].Value" />
                             </div>
-                            <input type="hidden" name="HonoraryTitles[@i].Id" class="id" value="@Model.HonoraryTitles[i].Id" />
-                            <input type="hidden" name="HonoraryTitles[@i].Value" class="value" value="@Model.HonoraryTitles[i].Value" />
                         </div>
-                    </div>
                     }
                 }
             </div>
@@ -214,6 +208,57 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ResearcherId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ResearcherId, new { @class = "form-control", placeholder = "X-0000-0000" })
+            @Html.ValidationMessageFor(model => model.ResearcherId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Orcid, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Orcid, new { @class = "form-control", placeholder = "0000-0000-0000-000X" })
+            @Html.ValidationMessageFor(model => model.Orcid, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ScopusAuthorId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ScopusAuthorId, new { @class = "form-control", placeholder = "0000000000" })
+            @Html.ValidationMessageFor(model => model.ScopusAuthorId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GoogleScholarLink, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.GoogleScholarLink, new { @class = "form-control", placeholder = "https://scholar.google.com.ua/citations?user=XXXXXXXXXXXX" })
+            @Html.ValidationMessageFor(model => model.GoogleScholarLink, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ScopusHIndex, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ScopusHIndex, new { @class = "form-control", Min = 0, Type = "number" })
+            @Html.ValidationMessageFor(model => model.ScopusHIndex, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.WebOfScienceHIndex, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.WebOfScienceHIndex, new { @class = "form-control", Min = 0, Type = "number" })
+            @Html.ValidationMessageFor(model => model.WebOfScienceHIndex, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GoogleScholarHIndex, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.GoogleScholarHIndex, new { @class = "form-control", Min = 0, Type = "number" })
+            @Html.ValidationMessageFor(model => model.GoogleScholarHIndex, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     @Html.HiddenFor(model => model.Id)
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

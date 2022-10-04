@@ -9,7 +9,7 @@
 <h2>Деталі</h2>
 
 <div>
-    <h4>Користувач</h4>
+    <h4>Працівник</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -107,14 +107,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AwardingDate)
-        </dt>
-
-        <dd>
-            @(Model.AwardingDate.HasValue ? Model.AwardingDate.Value.Year : (int?)null)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.IsActive)
         </dt>
 
@@ -173,6 +165,49 @@
             {
                 <div>@Model.HonoraryTitles[i].Value</div>
             }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResearcherId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResearcherId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Orcid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Orcid)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ScopusAuthorId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScopusAuthorId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GoogleScholarLink)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GoogleScholarLink)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ScopusHIndex)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScopusHIndex)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WebOfScienceHIndex)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WebOfScienceHIndex)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GoogleScholarHIndex)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GoogleScholarHIndex)
         </dd>
 
         <dt>

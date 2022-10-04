@@ -58,7 +58,6 @@ namespace SRS.Web
                     UserName = "superadmin@lnu.edu.ua",
                     Email = "superadmin@lnu.edu.ua",
                     BirthDate = DateTime.Now,
-                    AwardingDate = DateTime.Now,
                     GraduationDate = DateTime.Now,
                     IsActive = true
                 };
