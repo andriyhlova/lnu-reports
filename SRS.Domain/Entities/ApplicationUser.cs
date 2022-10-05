@@ -18,6 +18,8 @@ namespace SRS.Domain.Entities
 
         public int PublicationCounterBeforeRegistration { get; set; }
 
+        public int InternationalMetricPublicationCounterBeforeRegistration { get; set; }
+
         public int MonographCounterBeforeRegistration { get; set; }
 
         public int BookCounterBeforeRegistration { get; set; }
@@ -82,7 +84,7 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<Publication> Publication { get; set; }
 
-        public virtual ICollection<HonoraryTitle> HonoraryTitles { get; set; }
+        public virtual ICollection<ApplicationUserHonoraryTitle> HonoraryTitles { get; set; }
 
         public virtual ICollection<I18nUserInitials> I18nUserInitials { get; set; }
 

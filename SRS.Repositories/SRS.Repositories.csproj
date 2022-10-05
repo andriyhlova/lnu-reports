@@ -175,6 +175,22 @@
     <Compile Include="Migrations\202210042221174_AddedPSortOrder.designer.cs">
       <DependentUpon>202210042221174_AddedPSortOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210052111546_AddedField1.cs" />
+    <Compile Include="Migrations\202210052111546_AddedField1.designer.cs">
+      <DependentUpon>202210052111546_AddedField1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210052135014_AddedManyToMny.cs" />
+    <Compile Include="Migrations\202210052135014_AddedManyToMny.designer.cs">
+      <DependentUpon>202210052135014_AddedManyToMny.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210052218178_AddedSortOrder1.cs" />
+    <Compile Include="Migrations\202210052218178_AddedSortOrder1.designer.cs">
+      <DependentUpon>202210052218178_AddedSortOrder1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210052251059_Added1.cs" />
+    <Compile Include="Migrations\202210052251059_Added1.designer.cs">
+      <DependentUpon>202210052251059_Added1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -252,6 +268,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210042221174_AddedPSortOrder.resx">
       <DependentUpon>202210042221174_AddedPSortOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210052111546_AddedField1.resx">
+      <DependentUpon>202210052111546_AddedField1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210052135014_AddedManyToMny.resx">
+      <DependentUpon>202210052135014_AddedManyToMny.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210052218178_AddedSortOrder1.resx">
+      <DependentUpon>202210052218178_AddedSortOrder1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210052251059_Added1.resx">
+      <DependentUpon>202210052251059_Added1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

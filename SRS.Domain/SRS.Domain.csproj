@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ApplicationUserHonoraryTitle.cs" />
     <Compile Include="Entities\HonoraryTitle.cs" />
     <Compile Include="Entities\ApplicationUserAcademicStatus.cs" />
     <Compile Include="Entities\ApplicationUserDegree.cs" />

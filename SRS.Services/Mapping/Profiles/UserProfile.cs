@@ -27,6 +27,11 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<UserAcademicStatusModel, ApplicationUserAcademicStatus>();
 
+            CreateMap<ApplicationUserHonoraryTitle, UserHonoraryTitleModel>()
+                .ForMember(dest => dest.HonoraryTitleName, opts => opts.MapFrom(src => src.HonoraryTitle.Value));
+
+            CreateMap<UserHonoraryTitleModel, ApplicationUserHonoraryTitle>();
+
             CreateMap<ApplicationUser, BaseUserInfoModel>()
                 .ForMember(dest => dest.RoleIds, opts => opts.MapFrom(src => src.Roles.Select(x => x.RoleId)));
 

@@ -74,6 +74,6 @@ namespace SRS.Services.Models.UserModels
         public IList<UserAcademicStatusModel> AcademicStatuses { get; set; }
 
         [Display(Name = "Почесні звання")]
-        public IList<HonoraryTitleModel> HonoraryTitles { get; set; }
+        public IList<UserHonoraryTitleModel> HonoraryTitles { get; set; }
     }
 }

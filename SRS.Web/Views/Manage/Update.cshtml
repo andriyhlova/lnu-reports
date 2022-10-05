@@ -41,6 +41,13 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="PublicationCounterBeforeRegistration" class="control-label col-md-2">у тому числі статей у виданнях, включених до наукометричних баз даних Scopus / Web of Science <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.InternationalMetricPublicationCounterBeforeRegistration, new { @class = "form-control", Type = "number", Min = 0 })
+            @Html.ValidationMessageFor(model => model.InternationalMetricPublicationCounterBeforeRegistration, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
         <label for="OtherWritingCounterBeforeRegistration" class="control-label col-md-2">Кількість інших наукових публікацій, що внесено до звітів за попередні роки <span class="text-danger">*</span></label>
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.OtherWritingCounterBeforeRegistration, new { @class = "form-control", Type = "number", Min = 0 })
@@ -194,11 +201,14 @@
                         <div>
                             <div class="selected-item">
                                 <div>
-                                    @Model.HonoraryTitles[i].Value
+                                    <div>@Model.HonoraryTitles[i].HonoraryTitleName</div>
+                                    <div>Рік присудження: @Model.HonoraryTitles[i].AwardYear</div>
                                     <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
                                 </div>
                                 <input type="hidden" name="HonoraryTitles[@i].Id" class="id" value="@Model.HonoraryTitles[i].Id" />
-                                <input type="hidden" name="HonoraryTitles[@i].Value" class="value" value="@Model.HonoraryTitles[i].Value" />
+                                <input type="hidden" name="HonoraryTitles[@i].HonoraryTitleId" class="honoraryTitleId" value="@Model.HonoraryTitles[i].HonoraryTitleId" />
+                                <input type="hidden" name="HonoraryTitles[@i].HonoraryTitleName" class="honoraryTitleName" value="@Model.HonoraryTitles[i].HonoraryTitleName" />
+                                <input type="hidden" name="HonoraryTitles[@i].AwardYear" class="awardYear" value="@Model.HonoraryTitles[i].AwardYear" />
                             </div>
                         </div>
                     }

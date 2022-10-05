@@ -43,6 +43,12 @@ namespace SRS.Services.Models
 
             CreateMap<UserAcademicStatusViewModel, UserAcademicStatusModel>()
                 .ForMember(dest => dest.AwardDate, opts => opts.MapFrom(src => new DateTime(src.AwardYear, 1, 1)));
+
+            CreateMap<UserHonoraryTitleModel, UserHonoraryTitleViewModel>()
+                .ForMember(dest => dest.AwardYear, opts => opts.MapFrom(src => src.AwardDate.Year));
+
+            CreateMap<UserHonoraryTitleViewModel, UserHonoraryTitleModel>()
+                .ForMember(dest => dest.AwardDate, opts => opts.MapFrom(src => new DateTime(src.AwardYear, 1, 1)));
         }
     }
 }

@@ -170,11 +170,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Почесні звання</label>
+        <label class="control-label col-md-2">Вчені звання</label>
         <div class="col-md-10">
             @foreach (var item in Model.HonoraryTitles)
             {
-                <div><label class="display-label">@item.Value</label></div>
+                <div><label class="display-label">@item.HonoraryTitleName</label></div>
+                <div><label class="display-label">Рік присудження: @item.AwardDate.Year</label></div>
             }
         </div>
     </div>

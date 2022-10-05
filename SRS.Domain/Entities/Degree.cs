@@ -2,5 +2,6 @@
 {
     public class Degree : BaseValueEntity
     {
+        public int SortOrder { get; set; }
     }
 }

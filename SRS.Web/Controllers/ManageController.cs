@@ -16,21 +16,15 @@ namespace SRS.Web.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private readonly IBaseCrudService<DegreeModel> _degreeService;
-        private readonly IAcademicStatusService _academicStatusService;
         private readonly IPositionService _positionService;
         private readonly IUserService<ProfileInfoModel> _userService;
         private readonly IMapper _mapper;
 
         public ManageController(
-            IBaseCrudService<DegreeModel> degreeService,
-            IAcademicStatusService academicStatusService,
             IPositionService positionService,
             IUserService<ProfileInfoModel> userService,
             IMapper mapper)
         {
-            _degreeService = degreeService;
-            _academicStatusService = academicStatusService;
             _positionService = positionService;
             _userService = userService;
             _mapper = mapper;
@@ -106,8 +100,6 @@ namespace SRS.Web.Controllers
 
         private async Task FillRelatedInfo()
         {
-            ViewBag.AllAcademicStatuses = await _academicStatusService.GetAllAsync(new BaseFilterModel());
-            ViewBag.AllDegrees = await _degreeService.GetAllAsync();
             ViewBag.AllPositions = await _positionService.GetAllAsync(new BaseFilterModel());
         }
     }

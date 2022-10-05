@@ -19,6 +19,10 @@ namespace SRS.Web.Models.Account
         public int PublicationCounterBeforeRegistration { get; set; }
 
         [RequiredField]
+        [Display(Name = "у тому числі статей у виданнях, включених до наукометричних баз даних Scopus / Web of Science")]
+        public int InternationalMetricPublicationCounterBeforeRegistration { get; set; }
+
+        [RequiredField]
         [Display(Name = "Кількість монографій, що внесено до звітів за попередні роки")]
         public int MonographCounterBeforeRegistration { get; set; }
 
@@ -98,6 +102,6 @@ namespace SRS.Web.Models.Account
 
         public IList<UserAcademicStatusViewModel> AcademicStatuses { get; set; }
 
-        public IList<HonoraryTitleModel> HonoraryTitles { get; set; }
+        public IList<UserHonoraryTitleViewModel> HonoraryTitles { get; set; }
     }
 }

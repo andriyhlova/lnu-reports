@@ -4,5 +4,6 @@ namespace SRS.Services.Models
 {
     public class DegreeModel : BaseValueModel
     {
+        public int SortOrder { get; set; }
     }
 }

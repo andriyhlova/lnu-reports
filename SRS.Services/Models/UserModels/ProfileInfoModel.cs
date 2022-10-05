@@ -9,6 +9,8 @@ namespace SRS.Services.Models.UserModels
 
         public int PublicationCounterBeforeRegistration { get; set; }
 
+        public int InternationalMetricPublicationCounterBeforeRegistration { get; set; }
+
         public int MonographCounterBeforeRegistration { get; set; }
 
         public int BookCounterBeforeRegistration { get; set; }
@@ -57,6 +59,6 @@ namespace SRS.Services.Models.UserModels
 
         public IList<UserAcademicStatusModel> AcademicStatuses { get; set; }
 
-        public IList<HonoraryTitleModel> HonoraryTitles { get; set; }
+        public IList<UserHonoraryTitleModel> HonoraryTitles { get; set; }
     }
 }

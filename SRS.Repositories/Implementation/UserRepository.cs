@@ -183,7 +183,6 @@ namespace SRS.Repositories.Implementations
             var toAddHonoraryTitles = newEntity.HonoraryTitles.Where(x => !existingEntity.HonoraryTitles.Any(y => y.Id == x.Id)).ToList();
             foreach (var honoraryTitle in toAddHonoraryTitles)
             {
-                _context.Entry(honoraryTitle).State = EntityState.Unchanged;
                 existingEntity.HonoraryTitles.Add(honoraryTitle);
             }
         }

@@ -49,7 +49,7 @@
                 return;
             }
 
-            let str = "<option value=''>Виберіть науковий ступінь</option>";
+            let str = '';
             for (var i = 0; i < allDegrees.length; i++) {
                 let degree = allDegrees[i];
                 str += `<option value='${degree.Id}'>${degree.Value}</option>`;
@@ -256,7 +256,9 @@
                 const element = $(honoraryTitles[i]);
                 const honoraryTitle = {
                     Id: element.find('.id').val(),
-                    Value: element.find('.value').val()
+                    HonoraryTitleId: element.find('.honoraryTitleId').val(),
+                    HonoraryTitleName: element.find('.honoraryTitleName').val(),
+                    AwardYear: element.find('.awardYear').val(),
                 }
 
                 selectedHonoraryTitles.push(honoraryTitle);
@@ -269,7 +271,7 @@
                 return;
             }
 
-            let str = "<option value=''>Виберіть почесне звання</option>";
+            let str = '';
             for (var i = 0; i < allHonoraryTitles.length; i++) {
                 let honoraryTitle = allHonoraryTitles[i];
                 str += `<option value='${honoraryTitle.Id}'>${honoraryTitle.Value}</option>`;
@@ -286,11 +288,19 @@
                 return;
             }
 
-            const honoraryTitleValue = $('#honorary-title-related-entity .new-related-entity-form select :selected').text();
+            const honoraryTitleName = $('#honorary-title-related-entity .new-related-entity-form select :selected').text();
+
+            const awardYear = $('#honorary-title-related-entity .new-related-entity-form input[name=awardYear]').val();
+            if (!validateYear(awardYear)) {
+                alert('Введіть коректний рік присудження');
+                return;
+            }
 
             return {
-                Id: honoraryTitleId,
-                Value: honoraryTitleValue
+                Id: 0,
+                AwardYear: awardYear,
+                HonoraryTitleId: honoraryTitleId,
+                HonoraryTitleName: honoraryTitleName
             };
         }
 
@@ -298,6 +308,10 @@
             return `<div>
                         <label class="control-label">Почесне звання <span class="text-danger">*</span></label>
                         <div><select id="honorary-title-selector" class="form-control chosen-select"></select></div>
+                    </div>
+                    <div>
+                        <label class="control-label">Рік присудження<span class="text-danger">*</span></label>
+                        <input class="form-control" type="number" name="awardYear" value="" min="${minYear} max="${maxYear}"/>
                     </div>`;
         }
 
@@ -305,11 +319,14 @@
             return `<div>
                     <div class="selected-item">
                             <div>
-                                ${honoraryTitle.Value}
+                                <div>${honoraryTitle.HonoraryTitleName}</div>
+                                <div>Рік присудження: ${honoraryTitle.AwardYear}</div>
                                 <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
                             </div>
                             <input type="hidden" name="HonoraryTitles[${index}].Id" class="id" value="${honoraryTitle.Id}" />
-                            <input type="hidden" name="HonoraryTitles[${index}].Value" class="value" value="${honoraryTitle.Value}" />
+                            <input type="hidden" name="HonoraryTitles[${index}].HonoraryTitleId" class="honoraryTitleId" value="${honoraryTitle.HonoraryTitleId}" />
+                            <input type="hidden" name="HonoraryTitles[${index}].HonoraryTitleName" class="honoraryTitleName" value="${honoraryTitle.HonoraryTitleName}" />
+                            <input type="hidden" name="HonoraryTitles[${index}].AwardYear" class="awardYear" value="${honoraryTitle.AwardYear}" />
                     </div>
                 </div>`;
         }

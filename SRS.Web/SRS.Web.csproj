@@ -276,6 +276,7 @@
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Account\ResetPasswordViewModel.cs" />
+    <Compile Include="Models\Account\UserHonoraryTitleViewModel.cs" />
     <Compile Include="Models\Account\UserAcademicStatusViewModel.cs" />
     <Compile Include="Models\Account\UserDegreeViewModel.cs" />
     <Compile Include="Models\Account\UpdateProfileViewModel.cs" />
