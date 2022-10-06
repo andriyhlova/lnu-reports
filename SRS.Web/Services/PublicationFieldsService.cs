@@ -13,7 +13,8 @@ namespace SRS.Web.Services
                 case PublicationField.Link:
                     return new int[]
                     {
-                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Монографія_У_Закордонному_Видавництві,
+                        (int)PublicationType.Монографія_У_Вітчизняному_Видавництві,
                         (int)PublicationType.Підручник,
                         (int)PublicationType.Навчальний_Посібник,
                         (int)PublicationType.Інше_Наукове_Видання,
@@ -26,17 +27,12 @@ namespace SRS.Web.Services
                         (int)PublicationType.Тези_Доповіді_На_Міжнародній_Конференції,
                         (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції
                     };
-                case PublicationField.EditionCategory:
-                    return new int[]
-                    {
-                        (int)PublicationType.Монографія,
-                        (int)PublicationType.Розділ_монографії
-                    };
                 case PublicationField.Place:
                 case PublicationField.Edition:
                     return new int[]
                     {
-                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Монографія_У_Закордонному_Видавництві,
+                        (int)PublicationType.Монографія_У_Вітчизняному_Видавництві,
                         (int)PublicationType.Підручник,
                         (int)PublicationType.Навчальний_Посібник,
                         (int)PublicationType.Інше_Наукове_Видання,
@@ -47,7 +43,8 @@ namespace SRS.Web.Services
                 case PublicationField.Date:
                     return new int[]
                     {
-                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Монографія_У_Закордонному_Видавництві,
+                        (int)PublicationType.Монографія_У_Вітчизняному_Видавництві,
                         (int)PublicationType.Підручник,
                         (int)PublicationType.Навчальний_Посібник,
                         (int)PublicationType.Інше_Наукове_Видання,
@@ -63,7 +60,8 @@ namespace SRS.Web.Services
                 case PublicationField.Tome:
                     return new int[]
                     {
-                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Монографія_У_Закордонному_Видавництві,
+                        (int)PublicationType.Монографія_У_Вітчизняному_Видавництві,
                         (int)PublicationType.Підручник,
                         (int)PublicationType.Навчальний_Посібник,
                         (int)PublicationType.Інше_Наукове_Видання,
@@ -77,7 +75,8 @@ namespace SRS.Web.Services
                 case PublicationField.NumberOfPages:
                     return new int[]
                     {
-                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Монографія_У_Закордонному_Видавництві,
+                        (int)PublicationType.Монографія_У_Вітчизняному_Видавництві,
                         (int)PublicationType.Підручник,
                         (int)PublicationType.Навчальний_Посібник,
                         (int)PublicationType.Інше_Наукове_Видання
@@ -85,7 +84,8 @@ namespace SRS.Web.Services
                 case PublicationField.ISBN:
                     return new int[]
                     {
-                        (int)PublicationType.Монографія,
+                        (int)PublicationType.Монографія_У_Закордонному_Видавництві,
+                        (int)PublicationType.Монографія_У_Вітчизняному_Видавництві,
                         (int)PublicationType.Підручник,
                         (int)PublicationType.Навчальний_Посібник,
                         (int)PublicationType.Інше_Наукове_Видання,
@@ -96,6 +96,17 @@ namespace SRS.Web.Services
                     return new int[]
                     {
                         (int)PublicationType.Розділ_монографії,
+                        (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних,
+                        (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях,
+                        (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор,
+                        (int)PublicationType.Стаття_В_Фахових_Виданнях_України,
+                        (int)PublicationType.Стаття_В_Інших_Виданнях_України,
+                        (int)PublicationType.Тези_Доповіді_На_Міжнародній_Конференції,
+                        (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції
+                    };
+                case PublicationField.PublicationIdentifier:
+                    return new int[]
+                    {
                         (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних,
                         (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях,
                         (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор,

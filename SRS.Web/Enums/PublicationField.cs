@@ -12,6 +12,7 @@
         Link,
         PageFrom,
         PageTo,
+        PublicationIdentifier,
         Journal,
         OtherJournal,
         Issue,
@@ -25,7 +26,6 @@
         ApplicationDate,
         PublicationDate,
         BulletinNumber,
-        ApplicationOwner,
-        EditionCategory
+        ApplicationOwner
     }
 }

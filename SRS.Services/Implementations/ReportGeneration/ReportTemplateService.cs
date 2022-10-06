@@ -137,8 +137,8 @@ namespace SRS.Services.Implementations.ReportGeneration
         {
             var reportPrintedPublications = dbReport.PrintedPublication.ToList();
             var publicationCounters = new ReportPublicationCountersModel();
-            publicationCounters.MonographsAllCount = dbReport.User.MonographCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Монографія);
-            publicationCounters.MonographsPeriodCount = reportPrintedPublications.Count(x => x.PublicationType == PublicationType.Монографія);
+            publicationCounters.MonographsAllCount = dbReport.User.MonographCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві);
+            publicationCounters.MonographsPeriodCount = reportPrintedPublications.Count(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві);
             publicationCounters.BooksAllCount = dbReport.User.BookCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Підручник);
             publicationCounters.BooksPeriodCount = reportPrintedPublications.Count(x => x.PublicationType == PublicationType.Підручник);
             publicationCounters.TrainingBooksAllCount = dbReport.User.TrainingBookCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Навчальний_Посібник);
@@ -162,7 +162,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var reportApplicationsForInvention = dbReport.ApplicationsForInvention.ToList();
             var reportPatentsForInvention = dbReport.PatentsForInvention.ToList();
             var publications = new ReportPublicationsModel();
-            publications.Monographs = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія));
+            publications.Monographs = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві));
             publications.Books = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.TrainingBooks = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.OtherWritings = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));
@@ -173,11 +173,12 @@ namespace SRS.Services.Implementations.ReportGeneration
             publications.OtherNationalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));
             publications.InternationalConferences = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції));
             publications.NationalConferences = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції));
-            publications.RecommendedPublications = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType != PublicationType.Монографія
+            publications.RecommendedPublications = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType != PublicationType.Монографія_У_Закордонному_Видавництві
+                && x.PublicationType != PublicationType.Монографія_У_Вітчизняному_Видавництві
                 && x.PublicationType != PublicationType.Підручник
                 && x.PublicationType != PublicationType.Навчальний_Посібник
                 && x.PublicationType != PublicationType.Інше_Наукове_Видання));
-            publications.RecommendedMonographs = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Монографія));
+            publications.RecommendedMonographs = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві));
             publications.RecommendedBooks = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.RecommendedTrainingBooks = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.RecommendedOtherWritings = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));

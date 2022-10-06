@@ -26,8 +26,6 @@ namespace SRS.Web.Models.Publications
         [RequiredField]
         public string AuthorsOrder { get; set; }
 
-        public EditionCategory? EditionCategory { get; set; }
-
         public string Place { get; set; }
 
         public string Edition { get; set; }
@@ -49,6 +47,9 @@ namespace SRS.Web.Models.Publications
 
         [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний номер сторінки")]
         public int? PageTo { get; set; }
+
+        [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний ідентифікатор")]
+        public int? PublicationIdentifier { get; set; }
 
         public IList<UserInitialsModel> Users { get; set; }
 

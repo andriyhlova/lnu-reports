@@ -10,7 +10,8 @@ namespace SRS.Services.Implementations
         {
             switch (publication.PublicationType)
             {
-                case PublicationType.Монографія:
+                case PublicationType.Монографія_У_Закордонному_Видавництві:
+                case PublicationType.Монографія_У_Вітчизняному_Видавництві:
                 case PublicationType.Підручник:
                 case PublicationType.Навчальний_Посібник:
                 case PublicationType.Інше_Наукове_Видання:
@@ -35,7 +36,7 @@ namespace SRS.Services.Implementations
 
         private string GetBookBibliography(Publication publication)
         {
-            return ($"{publication.MainAuthor}" +
+            return GetPartWithDot($"{publication.MainAuthor}" +
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", GetPartWithDot(publication.AuthorsOrder))}" +
                 $"{GetBibliographyPart(" - ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
@@ -48,7 +49,7 @@ namespace SRS.Services.Implementations
 
         private string GetConferenceBibliography(Publication publication)
         {
-            return ($"{publication.MainAuthor}" +
+            return GetPartWithDot($"{publication.MainAuthor}" +
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.ConferenceName, publication.ConferenceEdition), publication.ConferencePlace, publication.ConferenceCountry, publication.ConferenceDate))}" +
@@ -71,7 +72,7 @@ namespace SRS.Services.Implementations
 
         private string GetArticleBibliography(Publication publication)
         {
-            return ($"{publication.MainAuthor}" +
+            return GetPartWithDot($"{publication.MainAuthor}" +
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", GetPartWithDot(publication.GetJournalName(true)))}" +
@@ -86,7 +87,8 @@ namespace SRS.Services.Implementations
         private string GetPagesPart(Publication publication)
         {
             var pageTitle = publication.Language == Language.UA ? "с." : "p.";
-            if (publication.PublicationType == PublicationType.Монографія ||
+            if (publication.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві ||
+                publication.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві ||
                 publication.PublicationType == PublicationType.Підручник ||
                 publication.PublicationType == PublicationType.Навчальний_Посібник ||
                 publication.PublicationType == PublicationType.Інше_Наукове_Видання)
@@ -94,7 +96,8 @@ namespace SRS.Services.Implementations
                 return $"{publication.NumberOfPages?.ToString() ?? publication.GetPages()}  {pageTitle}";
             }
 
-            return $"{pageTitle.ToUpper()} {GetPartWithDot(publication.GetPages())}";
+            var pages = publication.GetPages();
+            return !string.IsNullOrWhiteSpace(pages) ? $"{pageTitle.ToUpper()} {GetPartWithDot(pages)}" : publication.PublicationIdentifier.ToString();
         }
 
         private string GetBibliographyPart(string prefix, string info)

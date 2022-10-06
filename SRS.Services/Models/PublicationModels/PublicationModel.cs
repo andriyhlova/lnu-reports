@@ -15,11 +15,11 @@ namespace SRS.Services.Models.PublicationModels
         [RequiredField]
         public string MainAuthor { get; set; }
 
-        public EditionCategory? EditionCategory { get; set; }
-
         public int? PageFrom { get; set; }
 
         public int? PageTo { get; set; }
+
+        public int? PublicationIdentifier { get; set; }
 
         public string Link { get; set; }
 

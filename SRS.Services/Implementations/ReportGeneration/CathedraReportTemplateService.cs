@@ -132,7 +132,7 @@ namespace SRS.Services.Implementations.ReportGeneration
                 .ToList();
 
             var publications = new CathedraReportPublicationsModel();
-            publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія));
+            publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві));
             publications.Books = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.TrainingBooks = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.OtherWritings = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));

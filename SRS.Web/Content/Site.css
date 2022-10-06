@@ -187,3 +187,13 @@ td form {
     justify-content: space-between;
     max-width: 280px;
 }
+
+input[type=number].simplified::-webkit-outer-spin-button,
+input[type=number].simplified::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number].simplified {
+    -moz-appearance: textfield;
+}

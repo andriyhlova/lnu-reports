@@ -30,18 +30,18 @@
             </div>
         </div>
 
-        <div class="row">
-            <label class="col-md-2">Назва</label>
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.Name)
-            </div>
-        </div>
-
         <div class="row field"
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
             <label class="col-md-2">Журнал</label>
             <div class="col-md-10">
                 @(Model.JournalName ?? Model.OtherJournal)
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2">Назва</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Name)
             </div>
         </div>
 
@@ -125,14 +125,6 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.EditionCategory))">
-            <label class="control-label col-md-2">Тип видання</label>
-            <div class="col-md-10">
-                @(Model.EditionCategory != null ? Model.EditionCategory.GetDisplayName() : string.Empty)
-            </div>
-        </div>
-
-        <div class="row field"
              data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place))">
             <label class="col-md-2">Місто</label>
             <div class="col-md-10">
@@ -209,6 +201,14 @@
             <label class="col-md-2">Сторінки до</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.PageTo)
+            </div>
+        </div>
+
+        <div class="row field"
+             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier))">
+            <label class="col-md-2">Ідентифікатор (номер) статті/тези</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.PublicationIdentifier)
             </div>
         </div>
 

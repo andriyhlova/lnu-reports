@@ -12,7 +12,5 @@ namespace SRS.Services.Models.FilterModels
         public string UserId { get; set; }
 
         public PublicationType? PublicationType { get; set; }
-
-        public EditionCategory? EditionCategory { get; set; }
     }
 }

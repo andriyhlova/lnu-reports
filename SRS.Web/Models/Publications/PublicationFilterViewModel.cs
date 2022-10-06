@@ -13,7 +13,5 @@ namespace SRS.Web.Models.Publications
         public string UserId { get; set; }
 
         public PublicationType? PublicationType { get; set; }
-
-        public EditionCategory? EditionCategory { get; set; }
     }
 }
