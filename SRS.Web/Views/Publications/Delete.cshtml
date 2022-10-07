@@ -34,22 +34,23 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
             <label class="col-md-2">Журнал</label>
             <div class="col-md-10">
                 @(Model.JournalName ?? Model.OtherJournal)
             </div>
         </div>
 
-        <div class="row">
-            <label class="col-md-2">Назва</label>
+        <div class="row field" 
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Name)))">
+            <label class="col-md-2"><span class="field-label">Назва</span></label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Name)
             </div>
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor)))">
             <label class="col-md-2">Перший автор</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.MainAuthor)
@@ -64,7 +65,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName)))">
             <label class="col-md-2">Назва конференції</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ConferenceName)
@@ -72,7 +73,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate)))">
             <label class="col-md-2">Дата проведення</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ConferenceDate)
@@ -80,7 +81,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace)))">
             <label class="col-md-2">Місто проведення</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ConferencePlace)
@@ -88,7 +89,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry)))">
             <label class="col-md-2">Країна проведення</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ConferenceCountry)
@@ -96,7 +97,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition)))">
             <label class="col-md-2">Видання</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ConferenceEdition)
@@ -104,7 +105,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber)))">
             <label class="col-md-2">Номер заявки</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ApplicationNumber)
@@ -112,7 +113,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate)))">
             <label class="col-md-2">Дата заявки</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ApplicationDate)
@@ -120,7 +121,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate)))">
             <label class="col-md-2">Дата публікації</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Date)
@@ -128,7 +129,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place)))">
             <label class="col-md-2">Місто</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Place)
@@ -136,7 +137,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Edition))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Edition)))">
             <label class="col-md-2">Видавництво</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Edition)
@@ -144,15 +145,15 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Date))">
-            <label class="col-md-2">Рік публікації</label>
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Date)))">
+            <label class="col-md-2"><span class="field-label">Рік публікації</span></label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Date)
             </div>
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.BulletinNumber))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.BulletinNumber)))">
             <label class="col-md-2">Бюлетень №</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.BulletinNumber)
@@ -160,7 +161,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationOwner))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationOwner)))">
             <label class="col-md-2">Заявник і власник</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ApplicationOwner)
@@ -168,7 +169,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome)))">
             <label class="col-md-2">Том</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Tome)
@@ -176,7 +177,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue)))">
             <label class="col-md-2">Номер, випуск</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Issue)
@@ -184,7 +185,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages)))">
             <label class="col-md-2">Кількість сторінок</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.NumberOfPages)
@@ -192,7 +193,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom)))">
             <label class="col-md-2">Сторінки від</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.PageFrom)
@@ -200,7 +201,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo)))">
             <label class="col-md-2">Сторінки до</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.PageTo)
@@ -208,8 +209,8 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier))">
-            <label class="col-md-2">Ідентифікатор (номер) статті/тези</label>
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier)))">
+            <label class="col-md-2"><span class="field-label">Ідентифікатор (номер) статті</span></label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.PublicationIdentifier)
             </div>
@@ -223,7 +224,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN)))">
             <label class="col-md-2">ISBN</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ISBN)
@@ -231,7 +232,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI)))">
             <label class="col-md-2">DOI</label>
             <div class="col-md-10">
                 @if (!string.IsNullOrEmpty(Model.DOI))
@@ -249,7 +250,7 @@
         </div>
 
         <div class="row field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link)))">
             <label class="col-md-2">Посилання на публікацію в Інтернеті</label>
             <div class="col-md-10">
                 @if (!string.IsNullOrEmpty(Model.Link))

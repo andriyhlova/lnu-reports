@@ -26,6 +26,7 @@
         ApplicationDate,
         PublicationDate,
         BulletinNumber,
-        ApplicationOwner
+        ApplicationOwner,
+        Name
     }
 }

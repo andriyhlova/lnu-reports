@@ -4,7 +4,7 @@ using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Shared;
 using SRS.Web.Models.UsersManagement;
 
-namespace SRS.Services.Mapping.Profiles
+namespace SRS.Web.Mapping.Profiles
 {
     public class UserProfile : Profile
     {

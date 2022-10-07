@@ -57,10 +57,10 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
         }
 
-        public virtual async Task<bool> DeleteAsync(int id)
+        public async Task<bool> ToggleActivationAsync(int id)
         {
             var entity = await _repo.GetAsync(id);
-            entity.IsActive = false;
+            entity.IsActive = !entity.IsActive;
             await _repo.UpdateAsync(entity);
             return true;
         }

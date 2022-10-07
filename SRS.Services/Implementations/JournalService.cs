@@ -17,15 +17,15 @@ namespace SRS.Services.Implementations
         {
         }
 
-        public async Task<IList<JournalModel>> GetAllAsync(BaseFilterModel filterModel)
+        public async Task<IList<JournalModel>> GetAllAsync(JournalFilterModel filterModel)
         {
             var journals = await _repo.GetAsync(new JournalSpecification(filterModel));
             return _mapper.Map<IList<JournalModel>>(journals);
         }
 
-        public async Task<int> CountAsync(BaseFilterModel filterModel)
+        public async Task<int> CountAsync(JournalFilterModel filterModel)
         {
-            var countFilterModel = new BaseFilterModel
+            var countFilterModel = new JournalFilterModel
             {
                 Search = filterModel.Search
             };

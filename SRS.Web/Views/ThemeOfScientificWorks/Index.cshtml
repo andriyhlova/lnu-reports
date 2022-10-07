@@ -115,10 +115,7 @@
                             <div class="text-danger">Неактивна</div>
                         }
                         @Html.ActionLink("Деталі", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                        @if (item.IsActive)
-                        {
-                            @Html.ActionLink("Деактивувати", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                        }
+                        @Html.ActionLink(item.IsActive ? "Деактивувати" : "Активувати", "ToggleActivation", new { id = item.Id }, new { @class = "btn " + (item.IsActive ? "btn-danger" : "btn-success") })
                     </td>
                 </tr>
             }

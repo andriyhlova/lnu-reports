@@ -1,12 +1,11 @@
 ﻿using System;
 using AutoMapper;
-using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Web.Models.Publications;
 using SRS.Web.Models.Shared;
 
-namespace SRS.Services.Mapping.Profiles
+namespace SRS.Web.Mapping.Profiles
 {
     public class PublicationProfile : Profile
     {

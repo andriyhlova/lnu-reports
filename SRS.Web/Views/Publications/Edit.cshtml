@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
             <label class="control-label col-md-2">Журнал</label>
             <div class="col-md-10">
                 <select id="journal-selector" class="form-control chosen-select" name="JournalId" data-selected="@Model.JournalId">
@@ -47,7 +47,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
             <label class="control-label col-md-2">Інший журнал</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OtherJournal, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
@@ -55,8 +55,9 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Назва <span class="text-danger">*</span></label>
+        <div class="form-group field"
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Name)))">
+            <label class="control-label col-md-2"><span class="field-label">Назва</span> <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -64,7 +65,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor)))">
             <label class="control-label col-md-2">Перший автор <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control", placeholder = "Петренко І. І.", autocomplete = "off" } })
@@ -106,7 +107,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName)))">
             <label class="control-label col-md-2">Назва конференції</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ConferenceName, new { htmlAttributes = new { @class = "form-control" } })
@@ -115,7 +116,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate)))">
             <label class="control-label col-md-2">Дата проведення</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "11–12 груд. 2015 р." } })
@@ -124,7 +125,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace)))">
             <label class="control-label col-md-2">Місто проведення</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ConferencePlace, new { htmlAttributes = new { @class = "form-control" } })
@@ -133,7 +134,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry)))">
             <label class="control-label col-md-2">Країна проведення</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ConferenceCountry, new { htmlAttributes = new { @class = "form-control" } })
@@ -142,7 +143,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition)))">
             <label class="control-label col-md-2">Видання</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ConferenceEdition, new { htmlAttributes = new { @class = "form-control", placeholder = "Збірник тез доповідей" } })
@@ -151,7 +152,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber)))">
             <label class="control-label col-md-2">Номер заявки</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ApplicationNumber, new { htmlAttributes = new { @class = "form-control" } })
@@ -160,7 +161,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate)))">
             <label class="control-label col-md-2">Дата заявки</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ApplicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
@@ -169,7 +170,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate)))">
             <label class="control-label col-md-2">Дата публікації</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PublicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
@@ -178,7 +179,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place)))">
             <label class="control-label col-md-2">Місто</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
@@ -187,7 +188,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Edition))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Edition)))">
             <label class="control-label col-md-2">Видавництво</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control" } })
@@ -196,8 +197,8 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Date))">
-            <label class="control-label col-md-2">Рік публікації <span class="text-danger">*</span></label>
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Date)))">
+            <label class="control-label col-md-2"><span class="field-label">Рік публікації</span> <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.EditorFor(m => m.Year, new { htmlAttributes = new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year } })
                 @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
@@ -205,7 +206,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.BulletinNumber))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.BulletinNumber)))">
             <label class="control-label col-md-2">Бюлетень №</label>
             <div class="col-md-10">
                 @Html.EditorFor(m => m.BulletinNumber, new { htmlAttributes = new { @class = "form-control" } })
@@ -214,7 +215,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationOwner))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationOwner)))">
             <label class="control-label col-md-2">Заявник і власник</label>
             <div class="col-md-10">
                 @Html.EditorFor(m => m.ApplicationOwner, new { htmlAttributes = new { @class = "form-control" } })
@@ -223,7 +224,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome)))">
             <label class="control-label col-md-2">Том</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", placeholder = "Т. 1 або Vol. 1" } })
@@ -232,7 +233,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue)))">
             <label class="control-label col-md-2">Номер, випуск</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control", placeholder = "Вип. 1 або №. 1 або No. 1" } })
@@ -241,7 +242,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages)))">
             <label class="control-label col-md-2">Кількість сторінок</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NumberOfPages, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber } })
@@ -250,7 +251,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom)))">
             <label class="control-label col-md-2">Сторінки від</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
@@ -259,7 +260,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo)))">
             <label class="control-label col-md-2">Сторінки до</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PageTo, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
@@ -268,8 +269,8 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier))">
-            <label class="control-label col-md-2">Ідентифікатор (номер) статті/тези</label>
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier)))">
+            <label class="control-label col-md-2"><span class="field-label">Ідентифікатор (номер) статті</span></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PublicationIdentifier, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
                 @Html.ValidationMessageFor(model => model.PublicationIdentifier, "", new { @class = "text-danger" })
@@ -277,7 +278,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN)))">
             <label class="control-label col-md-2">ISBN</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control", placeholder = "XXX-XXX-XXX-X" } })
@@ -286,7 +287,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI)))">
             <label class="control-label col-md-2">DOI</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control" } })
@@ -295,7 +296,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@string.Join(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link)))">
             <label class="control-label col-md-2">Посилання на публікацію в Інтернеті</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", placeholder = "https://example.com" } })

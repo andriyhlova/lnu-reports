@@ -3,12 +3,12 @@
 @model ThemeOfScientificWorkModel
 
 @{
-    ViewBag.Title = "Деактивувати";
+    ViewBag.Title = Model.IsActive ? "Деактивувати" : "Активувати";
 }
 
-<h2>Деактивувати</h2>
+<h2>@(Model.IsActive ? "Деактивувати" : "Активувати")</h2>
 
-<h3>Ви впевнені, що хочете деактивувати це?</h3>
+<h3>Ви впевнені, що хочете @(Model.IsActive ? "деактивувати" : "активувати") це?</h3>
 <div>
     <h4>Тематичний план</h4>
     <hr />
@@ -88,7 +88,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Деактивувати" class="btn btn-danger" /> |
+            <input type="submit" value="@(Model.IsActive ? "Деактивувати" : "Активувати")" class="btn @(Model.IsActive ? "btn-danger" : "btn-success")" /> |
             @Html.ActionLink("Повернутись до списку", "Index", new { IsActive = true })
         </div>
     }

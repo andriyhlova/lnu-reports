@@ -4,7 +4,7 @@ using SRS.Domain.Entities;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Account;
 
-namespace SRS.Services.Models
+namespace SRS.Web.Mapping.Profiles
 {
     public class AccountProfile : Profile
     {

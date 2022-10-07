@@ -7,15 +7,16 @@ namespace SRS.Domain.Specifications
 {
     public class JournalSpecification : BaseFilterSpecification<Journal>
     {
-        public JournalSpecification(BaseFilterModel filterModel)
+        public JournalSpecification(JournalFilterModel filterModel)
             : base(
                   filterModel.Skip,
                   filterModel.Take,
-                  x => string.IsNullOrEmpty(filterModel.Search)
-                        || x.Name.Contains(filterModel.Search)
-                        || x.ShortName.Contains(filterModel.Search)
-                        || x.PrintIssn.Contains(filterModel.Search)
-                        || x.ElectronicIssn.Contains(filterModel.Search),
+                  x => (filterModel.PublicationType == null || x.JournalTypes.Any(y => y.PublicationType == filterModel.PublicationType)) &&
+                          (string.IsNullOrEmpty(filterModel.Search)
+                                || x.Name.Contains(filterModel.Search)
+                                || x.ShortName.Contains(filterModel.Search)
+                                || x.PrintIssn.Contains(filterModel.Search)
+                                || x.ElectronicIssn.Contains(filterModel.Search)),
                   true)
         {
             AddInclude(journal => journal.JournalTypes);

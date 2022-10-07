@@ -3,7 +3,7 @@ using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Web.Models.Shared;
 
-namespace SRS.Services.Mapping.Profiles
+namespace SRS.Web.Mapping.Profiles
 {
     public class SharedProfile : Profile
     {

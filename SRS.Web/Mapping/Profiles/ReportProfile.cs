@@ -6,7 +6,7 @@ using SRS.Services.Models.ReportModels;
 using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
 
-namespace SRS.Services.Mapping.Profiles
+namespace SRS.Web.Mapping.Profiles
 {
     public class ReportProfile : Profile
     {

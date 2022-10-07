@@ -5,11 +5,18 @@
         searchComponent.load();
         getSelectedUsers();
         $('.selected-users').on('click', '.bi-file-x-fill', removeUser);
-        fillJournals();
+        publicationTypeChanged();
 
         const availableFieldsComponent = new AvailableFieldsComponent('select[name=PublicationType]', 'types', separator);
         availableFieldsComponent.load();
     });
+
+    function publicationTypeChanged() {
+        $('select[name=PublicationType]').change((e) => {
+            fillJournals(e.target.value);
+        });
+        $('select[name=PublicationType]').change();
+    }
 
     function getSelectedUsers() {
         const users = $('.initial-user');
@@ -73,9 +80,9 @@
                         </div>`;
     };
 
-    function fillJournals() {
+    function fillJournals(publicationType) {
         let selectedJournal = $('#journal-selector').val() || $('#journal-selector')[0].dataset.selected;
-        $.ajax('/api/journalsapi/getall')
+        $.ajax(`/api/journalsapi/getByPublicationType?publicationType=${publicationType}`)
             .done(function (journals) {
                 let str = "<option value=''>Виберіть журнал</option>";
                 for (var i = 0; i < journals.length; i++) {

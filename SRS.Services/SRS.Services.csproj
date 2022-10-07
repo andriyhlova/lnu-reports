@@ -167,6 +167,7 @@
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
+    <Compile Include="Models\FilterModels\JournalFilterModel.cs" />
     <Compile Include="Models\FilterModels\UserFilterModel.cs" />
     <Compile Include="Models\FilterModels\ThemeOfScientificWorkFilterModel.cs" />
     <Compile Include="Models\HonoraryTitleModel.cs" />

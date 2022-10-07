@@ -69,7 +69,7 @@ namespace SRS.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _themeOfScientificWorkCrudService.AddAsync(themeOfScientificWork);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { IsActive = true });
             }
 
             return View(themeOfScientificWork);
@@ -88,25 +88,25 @@ namespace SRS.Web.Controllers
             if (ModelState.IsValid)
             {
                 await _themeOfScientificWorkCrudService.UpdateAsync(themeOfScientificWork);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { IsActive = true });
             }
 
             return View(themeOfScientificWork);
         }
 
         [HttpGet]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> ToggleActivation(int id)
         {
             return await Details(id);
         }
 
         [HttpPost]
-        [ActionName("Delete")]
+        [ActionName("ToggleActivation")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> ToggleActivationConfirmed(int id)
         {
-            await _themeOfScientificWorkService.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            await _themeOfScientificWorkService.ToggleActivationAsync(id);
+            return RedirectToAction(nameof(Index), new { IsActive = true });
         }
     }
 }

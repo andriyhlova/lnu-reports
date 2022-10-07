@@ -6,7 +6,7 @@ using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.Shared;
 using SRS.Web.Models.ThemeOfScientificWorks;
 
-namespace SRS.Services.Mapping.Profiles
+namespace SRS.Web.Mapping.Profiles
 {
     public class ThemeOfScientificWorkProfile : Profile
     {

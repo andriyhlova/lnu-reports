@@ -16,6 +16,6 @@ namespace SRS.Services.Interfaces
 
         Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial);
 
-        Task<bool> DeleteAsync(int id);
+        Task<bool> ToggleActivationAsync(int id);
     }
 }

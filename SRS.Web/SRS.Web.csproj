@@ -267,6 +267,7 @@
     <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Mapping\Profiles\CathedraReportProfile.cs" />
+    <Compile Include="Mapping\Profiles\JournalProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\ReportProfile.cs" />
     <Compile Include="Mapping\Profiles\SharedProfile.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Models\CathedraReports\CathedraReportHospDohovirThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
+    <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
@@ -304,6 +306,7 @@
     <Compile Include="Models\UsersManagement\UpdateUserViewModel.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FieldInfo.cs" />
     <Compile Include="Services\PublicationFieldsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\DependencyInjection.cs" />
@@ -449,7 +452,7 @@
     <Content Include="Views\Publications\Index.cshtml" />
     <Content Include="Views\Manage\Update.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Create.cshtml" />
-    <Content Include="Views\ThemeOfScientificWorks\Delete.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\ToggleActivation.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Details.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Edit.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Index.cshtml" />

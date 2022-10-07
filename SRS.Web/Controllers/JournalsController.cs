@@ -7,6 +7,7 @@ using SRS.Services.Interfaces;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.JournalModels;
+using SRS.Web.Models.Journals;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Controllers
@@ -29,12 +30,12 @@ namespace SRS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(BaseFilterViewModel filterViewModel)
+        public async Task<ActionResult> Index(JournalFilterViewModel filterViewModel)
         {
-            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+            var filterModel = _mapper.Map<JournalFilterModel>(filterViewModel);
             var journals = await _journalService.GetAllAsync(filterModel);
             var total = await _journalService.CountAsync(filterModel);
-            var viewModel = new ItemsViewModel<BaseFilterViewModel, JournalModel>
+            var viewModel = new ItemsViewModel<JournalFilterViewModel, JournalModel>
             {
                 FilterModel = filterViewModel,
                 Items = new StaticPagedList<JournalModel>(journals, filterViewModel.Page.Value, PaginationValues.PageSize, total)
