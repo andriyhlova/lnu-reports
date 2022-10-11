@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums.OrderTypes;
@@ -52,6 +53,8 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.CathedraName when desc: ApplyOrderByDescending(x => x.Cathedra.Name); break;
                 case ThemeOfScientificWorkOrderType.SubCategory when !desc: ApplyOrderBy(x => x.SubCategory); break;
                 case ThemeOfScientificWorkOrderType.SubCategory when desc: ApplyOrderByDescending(x => x.SubCategory); break;
+                case ThemeOfScientificWorkOrderType.FinancialAmount when !desc: ApplyOrderBy(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;
+                case ThemeOfScientificWorkOrderType.FinancialAmount when desc: ApplyOrderByDescending(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;
                 default: ApplyOrderByDescending(x => x.PeriodTo); break;
             }
         }

@@ -8,7 +8,7 @@ namespace SRS.Services.Interfaces
 {
     public interface IThemeOfScientificWorkService
     {
-        Task<IList<BaseThemeOfScientificWorkModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel);
+        Task<IList<BaseThemeOfScientificWorkWithFinancialsModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel);
 
         Task<int> CountAsync(ThemeOfScientificWorkFilterModel filterModel);
 

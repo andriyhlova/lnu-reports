@@ -4,7 +4,7 @@
 @using SRS.Services.Models.ThemeOfScientificWorkModels
 @using SRS.Web.Models.Shared
 @using SRS.Web.Models.ThemeOfScientificWorks
-@model ItemsViewModel<ThemeOfScientificWorkFilterViewModel, BaseThemeOfScientificWorkModel>
+@model ItemsViewModel<ThemeOfScientificWorkFilterViewModel, BaseThemeOfScientificWorkWithFinancialsModel>
 @{
     ViewBag.Title = "Тематичні плани";
 }
@@ -76,6 +76,10 @@
                     @Html.ActionLink("Підкатегорія", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.SubCategory, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.SubCategory, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
+                <th>
+                    @Html.ActionLink("Фінансування", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.FinancialAmount, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.FinancialAmount, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -104,6 +108,12 @@
                     </td>
                     <td>
                         @(item.SubCategory != null ? item.SubCategory.GetDisplayName() : string.Empty)
+                    </td>
+                    <td>
+                        @for (var i = 0; i < item.ThemeOfScientificWorkFinancials.Count; i++)
+                        {
+                            <div>@item.ThemeOfScientificWorkFinancials[i].Year р. - @item.ThemeOfScientificWorkFinancials[i].Amount грн </div>
+                        }
                     </td>
                     <td>
                         @if (item.IsActive)

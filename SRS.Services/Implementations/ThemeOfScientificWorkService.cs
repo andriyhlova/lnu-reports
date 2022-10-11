@@ -20,10 +20,10 @@ namespace SRS.Services.Implementations
         {
         }
 
-        public async Task<IList<BaseThemeOfScientificWorkModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel)
+        public async Task<IList<BaseThemeOfScientificWorkWithFinancialsModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel)
         {
-            var scientificThemes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, null));
-            return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(scientificThemes);
+            var scientificThemes = await _repo.GetAsync(new ThemeOfScientificWorkWithFinancialsSpecification(filterModel, null));
+            return _mapper.Map<IList<BaseThemeOfScientificWorkWithFinancialsModel>>(scientificThemes);
         }
 
         public async Task<int> CountAsync(ThemeOfScientificWorkFilterModel filterModel)
@@ -40,7 +40,7 @@ namespace SRS.Services.Implementations
                 PeriodToTo = filterModel.PeriodToTo
             };
 
-            return await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null));
+            return await _repo.CountAsync(new ThemeOfScientificWorkWithFinancialsSpecification(countFilterModel, null));
         }
 
         public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials)

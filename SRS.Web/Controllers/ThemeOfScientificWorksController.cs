@@ -33,13 +33,13 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Index(ThemeOfScientificWorkFilterViewModel filterViewModel)
         {
             var filterModel = _mapper.Map<ThemeOfScientificWorkFilterModel>(filterViewModel);
-            var scientifthemes = await _themeOfScientificWorkService.GetAsync(filterModel);
+            var scientificThemes = await _themeOfScientificWorkService.GetAsync(filterModel);
             var total = await _themeOfScientificWorkService.CountAsync(filterModel);
 
-            var viewModel = new ItemsViewModel<ThemeOfScientificWorkFilterViewModel, BaseThemeOfScientificWorkModel>
+            var viewModel = new ItemsViewModel<ThemeOfScientificWorkFilterViewModel, BaseThemeOfScientificWorkWithFinancialsModel>
             {
                 FilterModel = filterViewModel,
-                Items = new StaticPagedList<BaseThemeOfScientificWorkModel>(scientifthemes, filterViewModel.Page.Value, PaginationValues.PageSize, total)
+                Items = new StaticPagedList<BaseThemeOfScientificWorkWithFinancialsModel>(scientificThemes, filterViewModel.Page.Value, PaginationValues.PageSize, total)
             };
             return View(viewModel);
         }

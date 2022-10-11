@@ -10,6 +10,7 @@
         PeriodTo,
         Financial,
         CathedraName,
-        SubCategory
+        SubCategory,
+        FinancialAmount
     }
 }

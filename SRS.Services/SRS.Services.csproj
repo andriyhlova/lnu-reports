@@ -210,6 +210,7 @@
     <Compile Include="Models\ReportModels\ReportOtherInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkWithFinancialsModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\UserModels\UserHonoraryTitleModel.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Specifications\PublicationSpecifications\CathedraReportPublicationSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\ReportPublicationSpecification.cs" />
     <Compile Include="Specifications\ReportSpecification.cs" />
+    <Compile Include="Specifications\ThemeOfScientificWorkWithFinancialsSpecification.cs" />
     <Compile Include="Specifications\ThemeOfScientificWorkSpecification.cs" />
     <Compile Include="Specifications\UserSpecifications\FacultyLeadSpecification.cs" />
     <Compile Include="Specifications\UserSpecifications\CathedraLeadSpecification.cs" />
