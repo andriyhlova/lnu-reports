@@ -163,6 +163,10 @@
     <Compile Include="Migrations\202210072332436_AddNewUserAndPublicationChanges.designer.cs">
       <DependentUpon>202210072332436_AddNewUserAndPublicationChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210112256345_AddedStudentPublications.cs" />
+    <Compile Include="Migrations\202210112256345_AddedStudentPublications.designer.cs">
+      <DependentUpon>202210112256345_AddedStudentPublications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -231,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210072332436_AddNewUserAndPublicationChanges.resx">
       <DependentUpon>202210072332436_AddNewUserAndPublicationChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210112256345_AddedStudentPublications.resx">
+      <DependentUpon>202210112256345_AddedStudentPublications.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

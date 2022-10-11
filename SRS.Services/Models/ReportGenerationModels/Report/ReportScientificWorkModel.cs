@@ -19,5 +19,7 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
         public string ScientificControlDoctorsWork { get; set; }
 
         public string ScientificControlStudentsWork { get; set; }
+
+        public List<string> StudentPublications { get; set; }
     }
 }

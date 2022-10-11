@@ -81,6 +81,8 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<ApplicationUser> User { get; set; }
 
+        public virtual ICollection<Report> StudentPublicationReport { get; set; }
+
         public virtual ICollection<Report> PrintedPublicationReport { get; set; }
 
         public virtual ICollection<Report> RecomendedPublicationReport { get; set; }

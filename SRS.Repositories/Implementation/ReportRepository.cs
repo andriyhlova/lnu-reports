@@ -22,6 +22,7 @@ namespace SRS.Repositories.Implementations
 
         protected override void UpdateRelatedEntities(Report existingEntity, Report newEntity)
         {
+            UpdateCollection(existingEntity.StudentPublication, newEntity.StudentPublication);
             UpdateCollection(existingEntity.PrintedPublication, newEntity.PrintedPublication);
             UpdateCollection(existingEntity.RecomendedPublication, newEntity.RecomendedPublication);
             UpdateCollection(existingEntity.AcceptedToPrintPublication, newEntity.AcceptedToPrintPublication);

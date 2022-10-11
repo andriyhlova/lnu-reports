@@ -20,6 +20,7 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.PatentsForInvention, opts => opts.MapFrom(src => src.PatentsForInventionIds.Select(x => new Publication { Id = x })));
 
             CreateMap<ReportScientificWorkModel, Report>()
+                .ForMember(dest => dest.StudentPublication, opts => opts.MapFrom(src => src.StudentPublicationIds.Select(x => new Publication { Id = x })))
                 .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => (src.ThemeOfScientificWorkIds ?? new int[0] { }).Union(src.GrantIds ?? new int[0] { }).Select(x => new ThemeOfScientificWork { Id = x })));
 
             CreateMap<ReportOtherInfoModel, Report>();
@@ -28,6 +29,7 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<Report, ReportModel>()
                 .IncludeBase<Report, BaseReportModel>()
+                .ForMember(dest => dest.StudentPublicationIds, opts => opts.MapFrom(src => src.StudentPublication.Select(x => x.Id)))
                 .ForMember(dest => dest.PrintedPublicationIds, opts => opts.MapFrom(src => src.PrintedPublication.Select(x => x.Id)))
                 .ForMember(dest => dest.RecomendedPublicationIds, opts => opts.MapFrom(src => src.RecomendedPublication.Select(x => x.Id)))
                 .ForMember(dest => dest.AcceptedToPrintPublicationIds, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Select(x => x.Id)))

@@ -291,6 +291,7 @@
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsFilterViewModel.cs" />
+    <Compile Include="Models\Reports\ReportScientificWorkViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsViewModel.cs" />
     <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportViewModel.cs" />

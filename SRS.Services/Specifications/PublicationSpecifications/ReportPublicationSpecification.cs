@@ -10,6 +10,7 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
         public ReportPublicationSpecification(ReportPublicationFilterModel filterModel)
             : base(
                   x => x.User.Any(y => y.Id == filterModel.UserId)
+                        && !x.StudentPublicationReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))
                         && !x.PrintedPublicationReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))
                         && !x.ApplicationsForInventionReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))
                         && !x.PatentsForInventionReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))

@@ -135,7 +135,16 @@
                     гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
                     тощо:
                 </label>
-                <div>
+                @if (Model.StudentPublication.Count > 0)
+                {
+                    <div class="publication-block">
+                        <p class="publication-header">
+                            Публікації зі студентами:
+                        </p>
+                        @Html.EditorFor(model => model.StudentPublication)
+                    </div>
+                }
+                <div class="publication-block">
                     @Html.TextAreaFor(model => model.ScientificControlStudentsWork, 6, 70, new
                     {
                         @class = "form-control",

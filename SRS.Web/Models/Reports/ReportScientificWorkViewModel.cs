@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using SRS.Services.Models.BaseModels;
+using SRS.Web.Models.Shared;
 
-namespace SRS.Services.Models.ReportModels
+namespace SRS.Web.Models.Reports
 {
-    public class ReportScientificWorkModel : BaseModel
+    public class ReportScientificWorkViewModel
     {
+        public int Id { get; set; }
+
         public string ThemeOfScientificWorkDescription { get; set; }
 
         public IList<int> ThemeOfScientificWorkIds { get; set; }
@@ -19,6 +21,6 @@ namespace SRS.Services.Models.ReportModels
 
         public string ScientificControlStudentsWork { get; set; }
 
-        public IList<int> StudentPublicationIds { get; set; }
+        public IList<CheckboxListItem> StudentPublication { get; set; } = new List<CheckboxListItem>();
     }
 }

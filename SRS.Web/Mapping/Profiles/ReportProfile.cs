@@ -22,6 +22,9 @@ namespace SRS.Web.Mapping.Profiles
                 .ForMember(dest => dest.ApplicationsForInventionIds, opts => opts.MapFrom(src => src.ApplicationsForInvention.Where(x => x.Checked).Select(x => x.Id)))
                 .ForMember(dest => dest.PatentsForInventionIds, opts => opts.MapFrom(src => src.PatentsForInvention.Where(x => x.Checked).Select(x => x.Id)));
 
+            CreateMap<ReportScientificWorkViewModel, ReportScientificWorkModel>()
+                .ForMember(dest => dest.StudentPublicationIds, opts => opts.MapFrom(src => src.StudentPublication.Where(x => x.Checked).Select(x => x.Id)));
+
             CreateMap<ReportModel, ReportViewModel>()
                 .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.Financial != Financial.InternationalGrant)))
                 .ForMember(dest => dest.Grants, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.Financial == Financial.InternationalGrant)));

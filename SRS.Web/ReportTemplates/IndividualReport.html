@@ -161,6 +161,16 @@
                 гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
                 тощо.
             </p>
+            {{#if StudentPublications.Count}}
+            <div>
+                Публікації зі студентами:
+            </div>
+            <div>
+                {{#each StudentPublications}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
+            {{/if}}
             <p class="pre-line">{{ScientificControlStudentsWork}}</p>
         </div>
         {{/if}}

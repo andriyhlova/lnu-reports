@@ -43,6 +43,9 @@ namespace SRS.Domain.Entities
 
         public virtual ApplicationUser User { get; set; }
 
+        [InverseProperty("StudentPublicationReport")]
+        public virtual ICollection<Publication> StudentPublication { get; set; }// Пункт 6.1
+
         [InverseProperty("PrintedPublicationReport")]
         public virtual ICollection<Publication> PrintedPublication { get; set; }// Пункт 6.1
 

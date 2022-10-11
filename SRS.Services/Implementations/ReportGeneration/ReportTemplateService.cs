@@ -93,6 +93,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             scientificWorkInfo.ScientificTrainings = dbReport.ScientificTrainings;
             scientificWorkInfo.ScientificControlDoctorsWork = dbReport.ScientificControlDoctorsWork;
             scientificWorkInfo.ScientificControlStudentsWork = dbReport.ScientificControlStudentsWork;
+            scientificWorkInfo.StudentPublications = GetPublicationsBibliography(dbReport.StudentPublication.ToList());
             return scientificWorkInfo;
         }
 

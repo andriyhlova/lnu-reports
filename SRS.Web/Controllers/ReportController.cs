@@ -49,9 +49,9 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateScientificWork(ReportScientificWorkModel reportScientificWorkModel, int? stepIndex)
+        public async Task<ActionResult> UpdateScientificWork(ReportScientificWorkViewModel reportScientificWorkViewModel, int? stepIndex)
         {
-            var reportId = await _reportService.UpsertAsync(reportScientificWorkModel, User.Identity.GetUserId());
+            var reportId = await _reportService.UpsertAsync(_mapper.Map<ReportScientificWorkModel>(reportScientificWorkViewModel), User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
@@ -88,6 +88,15 @@ namespace SRS.Web.Controllers
             };
             var publications = await _publicationService.GetAvailableReportPublicationsAsync(filterModel);
             var availablePublications = publications.Where(x => x.PublicationType != PublicationType.Заявка_на_винахід || x.PublicationType != PublicationType.Патент);
+
+            viewModel.StudentPublication = availablePublications
+                .Select(x => new CheckboxListItem()
+                {
+                    Checked = report.StudentPublicationIds.Any(y => y == x.Id),
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+
             viewModel.RecomendedPublication = availablePublications
                 .Select(x => new CheckboxListItem()
                 {
