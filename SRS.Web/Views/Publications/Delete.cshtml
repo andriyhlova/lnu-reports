@@ -21,7 +21,7 @@
         <div class="row">
             <label class="col-md-2">Мова публікації</label>
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.Language)
+                @Model.Language.GetDisplayName()
             </div>
         </div>
 

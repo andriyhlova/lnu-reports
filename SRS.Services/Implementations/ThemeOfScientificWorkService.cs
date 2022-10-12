@@ -45,8 +45,8 @@ namespace SRS.Services.Implementations
 
         public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials)
         {
-            var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
-            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear && financials.Contains(x.Financial)));
+            var currentYear = DateTime.Now.Year;
+            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom.Year <= currentYear && x.PeriodTo.Year >= currentYear && financials.Contains(x.Financial)));
             return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes);
         }
 

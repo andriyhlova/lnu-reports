@@ -112,7 +112,11 @@
                     <td>
                         @for (var i = 0; i < item.ThemeOfScientificWorkFinancials.Count; i++)
                         {
-                            <div>@item.ThemeOfScientificWorkFinancials[i].Year р. - @item.ThemeOfScientificWorkFinancials[i].Amount грн </div>
+                            <div>@item.ThemeOfScientificWorkFinancials[i].Year р. - <i>@item.ThemeOfScientificWorkFinancials[i].Amount грн </i></div>
+                        }
+                        @if (item.ThemeOfScientificWorkFinancials != null && item.ThemeOfScientificWorkFinancials.Count > 0)
+                        {
+                            <div><b>Сума</b> - <i>@item.ThemeOfScientificWorkFinancials.Sum(x => x.Amount) грн </i></div>
                         }
                     </td>
                     <td>
