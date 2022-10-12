@@ -29,7 +29,8 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Підручник },
                         new FieldInfo { Type = (int)PublicationType.Навчальний_Посібник },
                         new FieldInfo { Type = (int)PublicationType.Інше_Наукове_Видання },
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор },
@@ -47,7 +48,8 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Підручник },
                         new FieldInfo { Type = (int)PublicationType.Навчальний_Посібник },
                         new FieldInfo { Type = (int)PublicationType.Інше_Наукове_Видання },
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві },
                         new FieldInfo { Type = (int)PublicationType.Тези_Доповіді_На_Міжнародній_Конференції },
                         new FieldInfo { Type = (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції }
                     };
@@ -59,7 +61,8 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Підручник, Name = "Рік видання" },
                         new FieldInfo { Type = (int)PublicationType.Навчальний_Посібник, Name = "Рік видання" },
                         new FieldInfo { Type = (int)PublicationType.Інше_Наукове_Видання, Name = "Рік видання" },
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії, Name = "Рік видання" },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві, Name = "Рік видання" },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві, Name = "Рік видання" },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор },
@@ -76,7 +79,8 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Підручник },
                         new FieldInfo { Type = (int)PublicationType.Навчальний_Посібник },
                         new FieldInfo { Type = (int)PublicationType.Інше_Наукове_Видання },
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор },
@@ -100,13 +104,15 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Підручник },
                         new FieldInfo { Type = (int)PublicationType.Навчальний_Посібник },
                         new FieldInfo { Type = (int)PublicationType.Інше_Наукове_Видання },
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії }
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві }
                     };
                 case PublicationField.PageFrom:
                 case PublicationField.PageTo:
                     return new FieldInfo[]
                     {
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор },

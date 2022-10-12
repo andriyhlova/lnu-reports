@@ -12,6 +12,8 @@ namespace SRS.Services.Models.PublicationModels
         [RequiredField]
         public Language Language { get; set; }
 
+        public string OtherLanguage { get; set; }
+
         [RequiredField]
         public string MainAuthor { get; set; }
 

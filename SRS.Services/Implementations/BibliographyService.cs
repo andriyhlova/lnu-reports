@@ -15,7 +15,8 @@ namespace SRS.Services.Implementations
                 case PublicationType.Підручник:
                 case PublicationType.Навчальний_Посібник:
                 case PublicationType.Інше_Наукове_Видання:
-                case PublicationType.Розділ_монографії:
+                case PublicationType.Розділ_монографії_У_Закордонному_Видавництві:
+                case PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві:
                     return GetBookBibliography(publication);
                 case PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор:
                 case PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних:
@@ -97,7 +98,11 @@ namespace SRS.Services.Implementations
             }
 
             var pages = publication.GetPages();
-            return !string.IsNullOrWhiteSpace(pages) ? $"{pageTitle.ToUpper()} {GetPartWithDot(pages)}" : publication.PublicationIdentifier.ToString();
+            var pagesPart = !string.IsNullOrWhiteSpace(pages) ? $"{pageTitle.ToUpper()} {pages}" : string.Empty;
+            var identifierPagesPart = !string.IsNullOrWhiteSpace(pages) ? $" ({pagesPart})" : string.Empty;
+            return publication.PublicationIdentifier > 0
+                ? publication.PublicationIdentifier.ToString() + identifierPagesPart
+                : GetPartWithDot(pagesPart);
         }
 
         private string GetBibliographyPart(string prefix, string info)

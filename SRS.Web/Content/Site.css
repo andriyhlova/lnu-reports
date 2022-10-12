@@ -197,3 +197,13 @@ input[type=number].simplified::-webkit-inner-spin-button {
 input[type=number].simplified {
     -moz-appearance: textfield;
 }
+
+.checkbox-label{
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.checkbox-label input{
+    cursor: pointer;
+    margin-right: 8px;
+}

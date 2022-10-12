@@ -6,7 +6,7 @@
         getSelectedUsers();
         $('.selected-users').on('click', '.bi-file-x-fill', removeUser);
         publicationTypeChanged();
-
+        languageChanged();
         const availableFieldsComponent = new AvailableFieldsComponent('select[name=PublicationType]', 'types', separator);
         availableFieldsComponent.load();
     });
@@ -16,6 +16,20 @@
             fillJournals(e.target.value);
         });
         $('select[name=PublicationType]').change();
+    }
+
+    function languageChanged() {
+        $('select[name=Language]').change((e) => {
+            if (e.target.value == otherLaguageType) {
+                $('.other-language-field').show();
+                $('input[name=OtherLanguage]').prop('disabled', false);
+            }
+            else {
+                $('.other-language-field').hide();
+                $('input[name=OtherLanguage]').prop('disabled', true);
+            }
+        });
+        $('select[name=Language]').change();
     }
 
     function getSelectedUsers() {

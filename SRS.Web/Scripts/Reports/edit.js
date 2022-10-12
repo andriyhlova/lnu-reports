@@ -46,6 +46,7 @@ function changeStepPageAndSubmit(index, newIndex) {
         getSelectedScientificWorks('.initial-grant', grantsSettings);
         $('.selected-grants').on('click', '.bi-file-x-fill', (element) => removeScientificWork(element, grantsSettings));
         events();
+        publicationCheckboxChanged();
     });
 
     function events() {
@@ -56,6 +57,22 @@ function changeStepPageAndSubmit(index, newIndex) {
             return confirm;
         });
     };
+
+    function publicationCheckboxChanged() {
+        $('#updatePublicationForm div[data-field-id] input').change((e) => {
+            const field = $(e.target).parent().parent();
+            if ($(e.target).is(":checked")) {
+                const fieldsToHide = $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`);
+                for (let i = 0; i < fieldsToHide.length; i++) {
+                    if (fieldsToHide[i] != field[0]) {
+                        $(fieldsToHide[i]).hide();
+                    }
+                }
+            } else {
+                $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`).show();
+            }
+        });
+    }
 
     function getSelectedScientificWorks(selector, settings) {
         const scientificWorks = $(selector);

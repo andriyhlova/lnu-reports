@@ -1,4 +1,5 @@
-﻿@using SRS.Services.Models.Constants
+﻿@using SRS.Domain.Enums
+@using SRS.Services.Models.Constants
 @using SRS.Web.Enums
 @using SRS.Web.Models.Publications
 @using SRS.Web.Services
@@ -26,6 +27,12 @@
             <label class="control-label col-md-2">Мова публікації <span class="text-danger">*</span></label>
             <div class="col-md-10">
                 @Html.EnumDropDownListFor(model => model.Language, new { @class = "form-control chosen-select" })
+            </div>
+        </div>
+        <div class="form-group other-language-field">
+            <label class="control-label col-md-2">Інша мова</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OtherLanguage, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
         <div class="form-group">
@@ -87,7 +94,7 @@
                 <div id="user-search" class="search-container">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
-                        <input class="form-control" placeholder="Пошук за прізвищем або поштою" autocomplete = "off" />
+                        <input class="form-control" placeholder="Пошук за прізвищем або поштою" autocomplete="off" />
                     </div>
                     <div class="search-results">
                     </div>
@@ -251,6 +258,15 @@
         </div>
 
         <div class="form-group field"
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier)))">
+            <label class="control-label col-md-2"><span class="field-label">Ідентифікатор (номер) статті</span></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PublicationIdentifier, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
+                @Html.ValidationMessageFor(model => model.PublicationIdentifier, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom)))">
             <label class="control-label col-md-2">Сторінки від</label>
             <div class="col-md-10">
@@ -265,15 +281,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PageTo, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
                 @Html.ValidationMessageFor(model => model.PageTo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group field"
-             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier)))">
-            <label class="control-label col-md-2"><span class="field-label">Ідентифікатор (номер) статті</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PublicationIdentifier, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
-                @Html.ValidationMessageFor(model => model.PublicationIdentifier, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -321,7 +328,10 @@
     @Styles.Render("~/Content/search/bundle")
 }
 @section Scripts {
-    <script>var separator = '@publicationTypeSeparator';</script>
+    <script>
+        var separator = '@publicationTypeSeparator';
+        var otherLaguageType = '@((int)Language.Other)';
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/searchComponent")

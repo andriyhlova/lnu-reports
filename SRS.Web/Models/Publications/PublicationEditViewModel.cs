@@ -15,6 +15,8 @@ namespace SRS.Web.Models.Publications
         [RequiredField]
         public Language Language { get; set; }
 
+        public string OtherLanguage { get; set; }
+
         [RequiredField]
         public PublicationType PublicationType { get; set; }
 

@@ -1,4 +1,5 @@
-﻿@using SRS.Services.Extensions
+﻿@using SRS.Domain.Enums
+@using SRS.Services.Extensions
 @using SRS.Services.Models.PublicationModels
 @using SRS.Web.Enums
 @using SRS.Web.Services
@@ -21,7 +22,7 @@
         <div class="row">
             <label class="col-md-2">Мова публікації</label>
             <div class="col-md-10">
-                @Model.Language.GetDisplayName()
+                @(Model.Language != Language.Other || string.IsNullOrWhiteSpace(Model.OtherLanguage) ? Model.Language.GetDisplayName() : Model.OtherLanguage)
             </div>
         </div>
 
@@ -41,7 +42,7 @@
             </div>
         </div>
 
-        <div class="row field" 
+        <div class="row field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Name)))">
             <label class="col-md-2"><span class="field-label">Назва</span></label>
             <div class="col-md-10">
