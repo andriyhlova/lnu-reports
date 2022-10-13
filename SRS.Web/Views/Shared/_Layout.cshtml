@@ -41,7 +41,7 @@
                                 }
                                 @if (User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "CathedraReport", new { Financial = Financial.Budget }, null)</li>
+                                    <li>@Html.ActionLink("Звіт кафедри", "InDevelopment", "Home")</li>
                                 }
                                 @if (User.IsInRole(RoleNames.DeaneryAdmin))
                                 {
@@ -57,7 +57,7 @@
                                     || User.IsInRole(RoleNames.DeaneryAdmin)
                                     || User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Кафедральні звіти", "Index", "CathedraReportList")</li>
+                                    <li>@Html.ActionLink("Кафедральні звіти", "InDevelopment", "Home")</li>
                                 }
                                 @if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin)

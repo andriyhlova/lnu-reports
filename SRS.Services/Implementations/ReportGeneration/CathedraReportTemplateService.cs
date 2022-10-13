@@ -5,6 +5,7 @@ using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
+using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
 
@@ -14,12 +15,12 @@ namespace SRS.Services.Implementations.ReportGeneration
     {
         private readonly IBaseRepository<CathedraReport> _repo;
         private readonly IUserRepository _userRepo;
-        private readonly IBibliographyService _bibliographyService;
+        private readonly IBibliographyService<Publication> _bibliographyService;
 
         public CathedraReportTemplateService(
             IBaseRepository<CathedraReport> repo,
             IUserRepository userRepo,
-            IBibliographyService bibliographyService)
+            IBibliographyService<Publication> bibliographyService)
         {
             _repo = repo;
             _userRepo = userRepo;

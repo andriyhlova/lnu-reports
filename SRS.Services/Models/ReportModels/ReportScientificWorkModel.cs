@@ -5,13 +5,9 @@ namespace SRS.Services.Models.ReportModels
 {
     public class ReportScientificWorkModel : BaseModel
     {
-        public string ThemeOfScientificWorkDescription { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
-        public IList<int> ThemeOfScientificWorkIds { get; set; }
-
-        public IList<int> GrantIds { get; set; }
-
-        public string ParticipationInGrands { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> Grants { get; set; }
 
         public string ScientificTrainings { get; set; }
 

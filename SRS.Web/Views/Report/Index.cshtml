@@ -30,28 +30,17 @@
                         for (var i = 0; i < Model.ThemeOfScientificWorks.Count; i++)
                         {
                             <input type="hidden" class="initial-scientific-work"
-                                   data-id="@Model.ThemeOfScientificWorks[i].Id"
-                                   data-themenumber="@Model.ThemeOfScientificWorks[i].ThemeNumber"
-                                   data-code="@Model.ThemeOfScientificWorks[i].Code"
-                                   data-scientifichead="@Model.ThemeOfScientificWorks[i].ScientificHead"
-                                   data-value="@Model.ThemeOfScientificWorks[i].Value" />
+                                   data-id="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWorkId"
+                                   data-themeid="@Model.ThemeOfScientificWorks[i].Id"
+                                   data-themenumber="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeNumber"
+                                   data-code="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Code"
+                                   data-scientifichead="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ScientificHead"
+                                   data-value="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Value"
+                                   data-description="@Model.ThemeOfScientificWorks[i].Description"/>
                         }
                     }
                     <div class="selected-items selected-scientific-works">
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">
-                    Опис виконаної роботи:
-                </label>
-                <div>
-                    @Html.TextAreaFor(model => model.ThemeOfScientificWorkDescription, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.ThemeOfScientificWorkDescription,
-                    })
                 </div>
             </div>
 
@@ -73,29 +62,17 @@
                         for (var i = 0; i < Model.Grants.Count; i++)
                         {
                             <input type="hidden" class="initial-grant"
-                                   data-id="@Model.Grants[i].Id"
-                                   data-themenumber="@Model.Grants[i].ThemeNumber"
-                                   data-code="@Model.Grants[i].Code"
-                                   data-scientifichead="@Model.Grants[i].ScientificHead"
-                                   data-value="@Model.Grants[i].Value" />
+                                   data-id="@Model.Grants[i].ThemeOfScientificWorkId"
+                                   data-themeid="@Model.Grants[i].Id"
+                                   data-themenumber="@Model.Grants[i].ThemeOfScientificWork.ThemeNumber"
+                                   data-code="@Model.Grants[i].ThemeOfScientificWork.Code"
+                                   data-scientifichead="@Model.Grants[i].ThemeOfScientificWork.ScientificHead"
+                                   data-value="@Model.Grants[i].ThemeOfScientificWork.Value"
+                                   data-description="@Model.Grants[i].Description"/>
                         }
                     }
                     <div class="selected-items selected-grants">
                     </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">
-                    Опис:
-                </label>
-                <div>
-                    @Html.TextAreaFor(model => model.ParticipationInGrands, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.ParticipationInGrands,
-                    })
                 </div>
             </div>
 

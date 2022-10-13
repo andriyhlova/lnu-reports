@@ -26,8 +26,8 @@ namespace SRS.Web.Mapping.Profiles
                 .ForMember(dest => dest.StudentPublicationIds, opts => opts.MapFrom(src => src.StudentPublication.Where(x => x.Checked).Select(x => x.Id)));
 
             CreateMap<ReportModel, ReportViewModel>()
-                .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.Financial != Financial.InternationalGrant)))
-                .ForMember(dest => dest.Grants, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.Financial == Financial.InternationalGrant)));
+                .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.ThemeOfScientificWork.Financial != Financial.InternationalGrant)))
+                .ForMember(dest => dest.Grants, opts => opts.MapFrom(src => src.ThemeOfScientificWorks.Where(x => x.ThemeOfScientificWork.Financial == Financial.InternationalGrant)));
         }
     }
 }

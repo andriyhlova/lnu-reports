@@ -29,3 +29,7 @@
 span.theme-name{
     font-style: italic;
 }
+
+.selected-item{
+    width: 100%;
+}

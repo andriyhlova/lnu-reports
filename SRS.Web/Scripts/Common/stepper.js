@@ -8,8 +8,7 @@ function handlePreviousStep() {
 };
 
 function onChangeStep(event, currentIndex, newIndex) {
-    changeStepPageAndSubmit(currentIndex, newIndex);
-    return true;
+    return changeStepPageAndSubmit(currentIndex, newIndex);
 };
 
 function updateSteps() {
@@ -25,7 +24,9 @@ function updateSteps() {
         previous: 'Назад',
         startIndex: stepIndex,
         stepsOrientation: 'vertical',
-        onStepChanging: function (event, currentIndex, newIndex) { return onChangeStep(event, currentIndex, newIndex); },
+        onStepChanging: function (event, currentIndex, newIndex) {
+            return onChangeStep(event, currentIndex, newIndex);
+        },
         transitionEffect: $.fn.steps.transitionEffect.none,
         transitionEffectSpeed: 0,
         enableAllSteps: true,

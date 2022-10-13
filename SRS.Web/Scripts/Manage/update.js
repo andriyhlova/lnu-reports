@@ -70,7 +70,7 @@
 
             const awardYear = $('#degree-related-entity .new-related-entity-form input[name=awardYear]').val();
             if (!validateYear(awardYear)) {
-                alert('Введіть коректний рік присвоєння');
+                alert('Введіть коректний рік присудження');
                 return;
             }
 
@@ -88,7 +88,7 @@
                         <div><select id="degree-selector" class="form-control chosen-select"></select></div>
                     </div>
                     <div>
-                        <label class="control-label">Рік присвоєння<span class="text-danger">*</span></label>
+                        <label class="control-label">Рік присудження<span class="text-danger">*</span></label>
                         <input class="form-control" type="number" name="awardYear" value="" min="${minYear}" max="${maxYear}"/>
                     </div>`;
         }
@@ -98,7 +98,7 @@
                     <div class="selected-item">
                             <div>
                                 <div>${degree.DegreeName}</div>
-                                <div>Рік присвоєння: ${degree.AwardYear}</div>
+                                <div>Рік присудження: ${degree.AwardYear}</div>
                                 <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
                             </div>
                             <input type="hidden" name="Degrees[${index}].Id" class="id" value="${degree.Id}" />
@@ -181,7 +181,7 @@
 
             const awardYear = $('#academic-status-related-entity .new-related-entity-form input[name=awardYear]').val();
             if (!validateYear(awardYear)) {
-                alert('Введіть коректний рік присудження');
+                alert('Введіть коректний рік присвоєння');
                 return;
             }
 
@@ -199,7 +199,7 @@
                         <div><select id="academic-status-selector" class="form-control chosen-select"></select></div>
                     </div>
                     <div>
-                        <label class="control-label">Рік присудження<span class="text-danger">*</span></label>
+                        <label class="control-label">Рік присвоєння<span class="text-danger">*</span></label>
                         <input class="form-control" type="number" name="awardYear" value="" min="${minYear} max="${maxYear}"/>
                     </div>`;
         }
@@ -292,7 +292,7 @@
 
             const awardYear = $('#honorary-title-related-entity .new-related-entity-form input[name=awardYear]').val();
             if (!validateYear(awardYear)) {
-                alert('Введіть коректний рік присудження');
+                alert('Введіть коректний рік присвоєння');
                 return;
             }
 
@@ -310,7 +310,7 @@
                         <div><select id="honorary-title-selector" class="form-control chosen-select"></select></div>
                     </div>
                     <div>
-                        <label class="control-label">Рік присудження<span class="text-danger">*</span></label>
+                        <label class="control-label">Рік присвоєння<span class="text-danger">*</span></label>
                         <input class="form-control" type="number" name="awardYear" value="" min="${minYear} max="${maxYear}"/>
                     </div>`;
         }
@@ -320,7 +320,7 @@
                     <div class="selected-item">
                             <div>
                                 <div>${honoraryTitle.HonoraryTitleName}</div>
-                                <div>Рік присудження: ${honoraryTitle.AwardYear}</div>
+                                <div>Рік присвоєння: ${honoraryTitle.AwardYear}</div>
                                 <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
                             </div>
                             <input type="hidden" name="HonoraryTitles[${index}].Id" class="id" value="${honoraryTitle.Id}" />

@@ -105,9 +105,11 @@
     <Compile Include="Attributes\RequiredFieldAttribute.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Implementations\Bibliography\BaseBibliographyService.cs" />
     <Compile Include="Implementations\PositionService.cs" />
     <Compile Include="Implementations\HonoraryTitleService.cs" />
-    <Compile Include="Implementations\BibliographyService.cs" />
+    <Compile Include="Implementations\Bibliography\ThemeOfScientificWorkBibliographyService.cs" />
+    <Compile Include="Implementations\Bibliography\PublicationBibliographyService.cs" />
     <Compile Include="Implementations\AcademicStatusService.cs" />
     <Compile Include="Implementations\ReportGeneration\CathedraReportTemplateService.cs" />
     <Compile Include="Implementations\ReportGeneration\WordReportBuilderService.cs" />
@@ -131,7 +133,7 @@
     <Compile Include="Implementations\EmailService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />
     <Compile Include="Interfaces\IHonoraryTitleService.cs" />
-    <Compile Include="Interfaces\IBibliographyService.cs" />
+    <Compile Include="Interfaces\Bibliography\IBibliographyService.cs" />
     <Compile Include="Interfaces\IAcademicStatusService.cs" />
     <Compile Include="Interfaces\ReportGeneration\IHtmlCompiler.cs" />
     <Compile Include="Interfaces\ReportGeneration\ICathedraReportTemplateService.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Models\PublicationModels\PublicationModel.cs" />
     <Compile Include="Models\ReportModels\ReportOtherInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
+    <Compile Include="Models\ReportModels\ReportThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkWithFinancialsModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />

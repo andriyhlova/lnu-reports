@@ -148,6 +148,9 @@ namespace SRS.Repositories.Implementations
             foreach (var degree in toDeleteDegrees)
             {
                 existingEntity.Degrees.Remove(degree);
+#pragma warning disable S1481 // Unused local variables should be removed
+                var a = _context.Entry(degree).State;
+#pragma warning restore S1481 // Unused local variables should be removed
             }
 
             var toAddDegrees = newEntity.Degrees.Where(x => !existingEntity.Degrees.Any(y => y.Id == x.Id)).ToList();

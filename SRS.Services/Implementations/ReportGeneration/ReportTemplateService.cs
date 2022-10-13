@@ -7,6 +7,7 @@ using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Extensions;
+using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.ReportGenerationModels.Report;
 
@@ -17,18 +18,21 @@ namespace SRS.Services.Implementations.ReportGeneration
         private readonly IBaseRepository<Report> _repo;
         private readonly IBaseRepository<Publication> _publicationRepository;
         private readonly IUserRepository _userRepo;
-        private readonly IBibliographyService _bibliographyService;
+        private readonly IBibliographyService<Publication> _publicationBibliographyService;
+        private readonly IBibliographyService<ThemeOfScientificWork> _themeBibliographyService;
 
         public ReportTemplateService(
             IBaseRepository<Report> repo,
             IBaseRepository<Publication> publicationRepository,
             IUserRepository userRepo,
-            IBibliographyService bibliographyService)
+            IBibliographyService<Publication> publicationBibliographyService,
+            IBibliographyService<ThemeOfScientificWork> themeBibliographyService)
         {
             _repo = repo;
             _publicationRepository = publicationRepository;
             _userRepo = userRepo;
-            _bibliographyService = bibliographyService;
+            _publicationBibliographyService = publicationBibliographyService;
+            _themeBibliographyService = themeBibliographyService;
         }
 
         public async Task<ReportTemplateModel> BuildAsync(int reportId)
@@ -87,9 +91,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         {
             var scientificWorkInfo = new ReportScientificWorkModel();
             scientificWorkInfo.ThemeOfScientificWorks = GetThemeOfScientificWorks(dbReport);
-            scientificWorkInfo.ThemeOfScientificWorkDescription = dbReport.ThemeOfScientificWorkDescription;
             scientificWorkInfo.Grants = GetGrants(dbReport);
-            scientificWorkInfo.ParticipationInGrands = dbReport.ParticipationInGrands;
             scientificWorkInfo.ScientificTrainings = dbReport.ScientificTrainings;
             scientificWorkInfo.ScientificControlDoctorsWork = dbReport.ScientificControlDoctorsWork;
             scientificWorkInfo.ScientificControlStudentsWork = dbReport.ScientificControlStudentsWork;
@@ -100,7 +102,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         private List<ReportThemeOfScientificWorkModel> GetThemeOfScientificWorks(Report dbReport)
         {
             var result = new List<ReportThemeOfScientificWorkModel>();
-            var themes = dbReport.ThemeOfScientificWorks.Where(x => x.Financial != Financial.InternationalGrant);
+            var themes = dbReport.ThemeOfScientificWorks.Where(x => x.ThemeOfScientificWork.Financial != Financial.InternationalGrant);
             foreach (var theme in themes)
             {
                 result.Add(ConvertToReportTheme(theme));
@@ -112,7 +114,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         private List<ReportThemeOfScientificWorkModel> GetGrants(Report dbReport)
         {
             var result = new List<ReportThemeOfScientificWorkModel>();
-            var grants = dbReport.ThemeOfScientificWorks.Where(x => x.Financial == Financial.InternationalGrant);
+            var grants = dbReport.ThemeOfScientificWorks.Where(x => x.ThemeOfScientificWork.Financial == Financial.InternationalGrant);
             foreach (var grant in grants)
             {
                 result.Add(ConvertToReportTheme(grant));
@@ -121,16 +123,11 @@ namespace SRS.Services.Implementations.ReportGeneration
             return result;
         }
 
-        private ReportThemeOfScientificWorkModel ConvertToReportTheme(ThemeOfScientificWork theme)
+        private ReportThemeOfScientificWorkModel ConvertToReportTheme(ReportThemeOfScientificWork theme)
         {
             var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
-            themeOfScientificWork.Title = theme.Value;
-            themeOfScientificWork.Number = theme.ThemeNumber;
-            themeOfScientificWork.Code = theme.Code;
-            themeOfScientificWork.PeriodFrom = theme.PeriodFrom.Year.ToString();
-            themeOfScientificWork.PeriodTo = theme.PeriodTo.Year.ToString();
-            themeOfScientificWork.Head = theme.ScientificHead;
-            themeOfScientificWork.Financial = theme.Financial.GetDisplayName().ToLower();
+            themeOfScientificWork.Theme = _themeBibliographyService.Get(theme.ThemeOfScientificWork);
+            themeOfScientificWork.Description = theme.Description;
             return themeOfScientificWork;
         }
 
@@ -196,13 +193,12 @@ namespace SRS.Services.Implementations.ReportGeneration
             signature.Protocol = dbReport.Protocol;
             signature.Date = dbReport.Date?.ToString("dd.MM.yyyy");
             signature.CathedraLead = cathedraLead?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
-            signature.CathedraLeadStatuses = cathedraLead?.AcademicStatuses.Select(academicStatus => academicStatus.AcademicStatus.Value).ToList();
             return signature;
         }
 
         private List<string> GetPublicationsBibliography(IEnumerable<Publication> publications)
         {
-            return publications.Select(x => _bibliographyService.Get(x)).ToList();
+            return publications.Select(x => _publicationBibliographyService.Get(x)).ToList();
         }
     }
 }

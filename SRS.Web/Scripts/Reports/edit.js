@@ -3,7 +3,7 @@ function changeStepPageAndSubmit(index, newIndex) {
         $(this).val(newIndex);
     });
     if (index == 0) {
-        $('#updateThemeForm').submit();
+        return submitThemeForm();
     }
     if (index == 1) {
         $('#updatePublicationForm').submit();
@@ -17,7 +17,26 @@ function changeStepPageAndSubmit(index, newIndex) {
     if (index == 4) {
         $('#finalizeForm').submit();
     }
+
+    return true;
 };
+
+function submitThemeForm() {
+    let themes = $('textarea[name^=ThemeOfScientificWorks]');
+    if (!themes || !themes.length) {
+        alert('Виберіть тему наукової роботи');
+        return false;
+    }
+    for (let i = 0; i < themes.length; i++) {
+        if (!themes[i].value || !themes[i].value.trim()) {
+            alert('Введіть опис теми');
+            return false;
+        }
+    }
+
+    $('#updateThemeForm').submit();
+    return true;
+}
 
 (function () {
     const selectedScientificWorks = [];
@@ -26,18 +45,19 @@ function changeStepPageAndSubmit(index, newIndex) {
         const scientificWorksSettings = {
             collection: selectedScientificWorks,
             selectedItemsSelector: '.selected-scientific-works',
-            fieldName: 'ThemeOfScientificWorkIds',
+            fieldName: 'ThemeOfScientificWorks',
             searchUrl: '/api/themeOfScientificWorksApi/search?financials=0&financials=1&financials=2&financials=3&financials=4&financials=5&financials=6&financials=8&financials=9'
         };
         const searchComponent = new SearchComponent('#scientific-work-search', scientificWorksSettings.searchUrl, getScientificWorkSearchResultText, (element) => appendScientificWorkSearchResultItem(element, scientificWorksSettings));
         searchComponent.load();
         getSelectedScientificWorks('.initial-scientific-work', scientificWorksSettings);
         $('.selected-scientific-works').on('click', '.bi-file-x-fill', (element) => removeScientificWork(element, scientificWorksSettings));
+        $('.selected-scientific-works').on('blur', 'textarea', (element) => saveScientificWork(element, scientificWorksSettings));
 
         const grantsSettings = {
             collection: selectedGrants,
             selectedItemsSelector: '.selected-grants',
-            fieldName: 'GrantIds',
+            fieldName: 'Grants',
             disableCheck: true,
             searchUrl: '/api/themeOfScientificWorksApi/search?financials=7'
         };
@@ -45,6 +65,7 @@ function changeStepPageAndSubmit(index, newIndex) {
         grantSearchComponent.load();
         getSelectedScientificWorks('.initial-grant', grantsSettings);
         $('.selected-grants').on('click', '.bi-file-x-fill', (element) => removeScientificWork(element, grantsSettings));
+        $('.selected-grants').on('blur', 'textarea', (element) => saveScientificWork(element, scientificWorksSettings));
         events();
         publicationCheckboxChanged();
     });
@@ -79,10 +100,12 @@ function changeStepPageAndSubmit(index, newIndex) {
         for (let i = 0; i < scientificWorks.length; i++) {
             const scientificWork = {
                 Id: $(scientificWorks[i])[0].dataset.id,
+                ReportThemeId: $(scientificWorks[i])[0].dataset.themeid,
                 ThemeNumber: $(scientificWorks[i])[0].dataset.themenumber,
                 Code: $(scientificWorks[i])[0].dataset.code,
                 ScientificHead: $(scientificWorks[i])[0].dataset.scientifichead,
-                Value: $(scientificWorks[i])[0].dataset.value
+                Value: $(scientificWorks[i])[0].dataset.value,
+                Description: $(scientificWorks[i])[0].dataset.description
             }
 
             settings.collection.push(scientificWork);
@@ -103,13 +126,8 @@ function changeStepPageAndSubmit(index, newIndex) {
     };
 
     function removeScientificWork(element, settings) {
-        if (!settings.disableCheck && settings.collection.length == 1) {
-            alert('Звіт повинен мати хоча б одну тему наукової роботи');
-            return;
-        }
-
         const container = $(element.currentTarget).closest('.scientific-work');
-        const id = container.find('.id').val();
+        const id = container.find('.themeid').val();
         const index = settings.collection.findIndex(x => x.Id == id);
         if (index != -1) {
             container.remove();
@@ -117,6 +135,15 @@ function changeStepPageAndSubmit(index, newIndex) {
             renderScientificWorkList(settings);
         }
     };
+
+    function saveScientificWork(element, settings) {
+        const container = $(element.target).closest('.scientific-work');
+        const id = container.find('.themeid').val();
+        const theme = settings.collection.find(x => x.Id == id);
+        if (theme) {
+            theme.Description = $(element.target).val();
+        }
+    }
 
     function renderScientificWorkList(settings) {
         const selectedScientificWorks = $(settings.selectedItemsSelector);
@@ -128,9 +155,18 @@ function changeStepPageAndSubmit(index, newIndex) {
 
     function getScientificWorkHtml(index, scientificWork, fieldName) {
         return `<div class="selected-item scientific-work">
-                                <div class="fullname">${getScientificWorkSearchResultText(scientificWork)}<i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
-                                <input type="hidden" name="${fieldName}[${index}]" class="id" value="${scientificWork.Id}" />
-                                 <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
+                                <div class="form-group fullname">${getScientificWorkSearchResultText(scientificWork)}<i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
+<div class="form-group">
+<label class="control-label">
+                    Опис виконаної роботи <span class="text-danger">*</span>
+                </label>
+<div>
+<textarea class="form-control" name="${fieldName}[${index}].Description" style="max-width:100%" rows="6" data-value="${scientificWork.Description}">${scientificWork.Description || ''}</textarea>
+</div>
+</div>
+                                <input type="hidden" name="${fieldName}[${index}].Id" class="id" value="${scientificWork.ReportThemeId || 0}" />
+                                <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
+                                <input type="hidden" name="${fieldName}[${index}].ThemeOfScientificWorkId" class="themeid" value="${scientificWork.Id}" />
                                  <input type="hidden" class="code" value="${scientificWork.Code}" />
                                  <input type="hidden" class="scientifichead" value="${scientificWork.ScientificHead}" />
                                  <input type="hidden" class="value" value="${scientificWork.Value}" />

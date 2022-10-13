@@ -23,12 +23,20 @@
             margin-left: 34px;
         }
 
-        .header {
+        .header, .header p, .header div {
             text-align: center;
+        }
+
+        p, div{
+            text-align: justify;
         }
 
         .top-ident {
             margin-top: 25px;
+        }
+
+        .bottom-ident {
+            margin-bottom: 25px;
         }
 
         .table-report {
@@ -56,13 +64,16 @@
     <div class="body">
         <div class="header">
             {{#with GeneralInfo}}
-            <h2>
-                Індивідуальний звіт про наукову роботу в {{Year}} році
-            </h2>
+            <p class="bold">
+                Індивідуальний звіт про наукову роботу в {{#if Year}}{{Year}}{{/if}} році
+            </p>
             {{/with}}
             {{#with UserInfo}}
-            <p class="italic">
-                {{Position}} кафедри {{Cathedra}} {{UserFullName}}
+            <p class="bold">
+                {{Position}} кафедри {{Cathedra}}
+            </p>
+            <p class="bold">
+                {{UserFullName}}
             </p>
             {{/with}}
         </div>
@@ -89,7 +100,7 @@
             </p>
             {{/if}}
             <p>
-                Науковий ступінь, рік захисту:
+                Науковий ступінь, рік присудження:
                 {{#each Degrees}}
                 {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
                 {{/each}}
@@ -113,24 +124,24 @@
         <div class="top-ident">
             <p>1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
             {{#each ThemeOfScientificWorks}}
-            <p class="italic">
-                Тема {{this.Financial}} - {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
+            <p class="bottom-ident">
+                Тема {{this.Theme}}
             </p>
+            <p class="bottom-ident pre-line">{{this.Description}}</p>
             {{/each}}
-            <p class="top-ident pre-line">{{ThemeOfScientificWorkDescription}}</p>
         </div>
 
-        {{#if HasGrants}}
+        {{#if Grants.Count}}
         <div class="top-ident">
             <p>
                 2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
             </p>
             {{#each Grants}}
-            <p class="italic">
-                {{this.Title}}. {{this.Number}}{{#if this.Code}} {{this.Code}}{{/if}}; {{this.Head}} {{this.PeriodFrom}} - {{this.PeriodTo}}
+            <p class="bottom-ident">
+                {{this.Theme}}
             </p>
+            <p class="bottom-ident pre-line">{{this.Description}}</p>
             {{/each}}
-            <p class="pre-line">{{ParticipationInGrands}}</p>
         </div>
         {{/if}}
 
@@ -517,12 +528,9 @@
 
         <div class="top-ident"><p>Підпис_______________</p></div>
         <div class="top-ident">
-            <p>Звіт заслухано і затверджено на засіданні кафедри (підрозділу)</p>
+            <p>Звіт заслухано і затверджено на засіданні кафедри (підрозділу) {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}</p>
             <p class="footer-text-ident">
-                {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}
-            </p>
-            <p class="footer-text-ident">
-                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}}{{#each CathedraLeadStatuses}}{{this}}{{#if @last}}{{else}},{{/if}}{{/each}} {{CathedraLead}}{{/with}}
+                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}} {{CathedraLead}}{{/with}}
             </p>
         </div>
     </div>

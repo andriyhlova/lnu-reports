@@ -2,8 +2,10 @@
 using Ninject.Modules;
 using SRS.Domain.Entities;
 using SRS.Services.Implementations;
+using SRS.Services.Implementations.Bibliography;
 using SRS.Services.Implementations.ReportGeneration;
 using SRS.Services.Interfaces;
+using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models;
 using SRS.Services.Models.JournalModels;
@@ -62,7 +64,8 @@ namespace SRS.Services.Utilities
             Bind<IHtmlReportBuilderService<CathedraReportTemplateModel>>().To<HtmlReportBuilderService<CathedraReportTemplateModel>>();
             Bind<ITexReportBuilderService>().To<TexReportBuilderService>();
             Bind<IWordReportBuilderService>().To<WordReportBuilderService>();
-            Bind<IBibliographyService>().To<BibliographyService>();
+            Bind<IBibliographyService<Publication>>().To<PublicationBibliographyService>();
+            Bind<IBibliographyService<ThemeOfScientificWork>>().To<ThemeOfScientificWorkBibliographyService>();
         }
     }
 }

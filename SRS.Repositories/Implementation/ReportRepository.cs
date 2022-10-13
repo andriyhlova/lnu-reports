@@ -1,4 +1,6 @@
-﻿using SRS.Domain.Entities;
+﻿using System.Data.Entity;
+using System.Linq;
+using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 
 namespace SRS.Repositories.Implementations
@@ -17,7 +19,6 @@ namespace SRS.Repositories.Implementations
             AddCollection(entity.AcceptedToPrintPublication);
             AddCollection(entity.ApplicationsForInvention);
             AddCollection(entity.PatentsForInvention);
-            AddCollection(entity.ThemeOfScientificWorks);
         }
 
         protected override void UpdateRelatedEntities(Report existingEntity, Report newEntity)
@@ -28,7 +29,29 @@ namespace SRS.Repositories.Implementations
             UpdateCollection(existingEntity.AcceptedToPrintPublication, newEntity.AcceptedToPrintPublication);
             UpdateCollection(existingEntity.ApplicationsForInvention, newEntity.ApplicationsForInvention);
             UpdateCollection(existingEntity.PatentsForInvention, newEntity.PatentsForInvention);
-            UpdateCollection(existingEntity.ThemeOfScientificWorks, newEntity.ThemeOfScientificWorks);
+            UpdateThemes(existingEntity, newEntity);
+        }
+
+        private void UpdateThemes(Report existingEntity, Report newEntity)
+        {
+            var toDeleteThemes = existingEntity.ThemeOfScientificWorks.Where(x => !newEntity.ThemeOfScientificWorks.Any(y => y.Id == x.Id)).ToList();
+            foreach (var theme in toDeleteThemes)
+            {
+                _context.Entry(theme).State = EntityState.Deleted;
+            }
+
+            var toUpdateThemes = existingEntity.ThemeOfScientificWorks.Where(x => newEntity.ThemeOfScientificWorks.Any(y => y.Id == x.Id)).ToList();
+            foreach (var theme in toUpdateThemes)
+            {
+                var newInitial = newEntity.ThemeOfScientificWorks.FirstOrDefault(y => y.Id == theme.Id);
+                theme.Description = newInitial.Description;
+            }
+
+            var toAddThemes = newEntity.ThemeOfScientificWorks.Where(x => !existingEntity.ThemeOfScientificWorks.Any(y => y.Id == x.Id)).ToList();
+            foreach (var theme in toAddThemes)
+            {
+                existingEntity.ThemeOfScientificWorks.Add(theme);
+            }
         }
     }
 }

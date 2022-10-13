@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SRS.Services.Models.ReportModels;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
@@ -7,13 +8,9 @@ namespace SRS.Web.Models.Reports
     {
         public int Id { get; set; }
 
-        public string ThemeOfScientificWorkDescription { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
-        public IList<int> ThemeOfScientificWorkIds { get; set; }
-
-        public IList<int> GrantIds { get; set; }
-
-        public string ParticipationInGrands { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> Grants { get; set; }
 
         public string ScientificTrainings { get; set; }
 

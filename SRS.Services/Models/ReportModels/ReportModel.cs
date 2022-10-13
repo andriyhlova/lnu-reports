@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using SRS.Services.Models.ThemeOfScientificWorkModels;
 
 namespace SRS.Services.Models.ReportModels
 {
     public class ReportModel : BaseReportModel
     {
-        public string ParticipationInGrands { get; set; } // Пункт 2
-
         public string ScientificTrainings { get; set; } // Пункт 3
 
         public string ScientificControlDoctorsWork { get; set; } // Пункт 4
@@ -23,9 +20,7 @@ namespace SRS.Services.Models.ReportModels
 
         public string Other { get; set; }// Пункт 10
 
-        public string ThemeOfScientificWorkDescription { get; set; }// Пункт 1
-
-        public IList<BaseThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
         public IList<int> StudentPublicationIds { get; set; }// Пункт 6.1
 

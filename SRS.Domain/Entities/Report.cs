@@ -8,8 +8,6 @@ namespace SRS.Domain.Entities
 {
     public class Report : BaseEntity
     {
-        public string ParticipationInGrands { get; set; } // Пункт 2
-
         public string ScientificTrainings { get; set; } // Пункт 3
 
         public string ScientificControlDoctorsWork { get; set; } // Пункт 4
@@ -26,8 +24,6 @@ namespace SRS.Domain.Entities
 
         public string Other { get; set; }// Пункт 10
 
-        public string ThemeOfScientificWorkDescription { get; set; }// Пункт 1
-
         public string Protocol { get; set; }
 
         [DataType(DataType.Date)]
@@ -39,7 +35,7 @@ namespace SRS.Domain.Entities
         [Column("User_Id")]
         public string UserId { get; set; }
 
-        public virtual ICollection<ThemeOfScientificWork> ThemeOfScientificWorks { get; set; }// Пункт 1
+        public virtual ICollection<ReportThemeOfScientificWork> ThemeOfScientificWorks { get; set; }// Пункт 1
 
         public virtual ApplicationUser User { get; set; }
 

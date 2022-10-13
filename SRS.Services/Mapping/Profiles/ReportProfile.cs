@@ -19,9 +19,11 @@ namespace SRS.Services.Mapping.Profiles
             .ForMember(dest => dest.ApplicationsForInvention, opts => opts.MapFrom(src => src.ApplicationsForInventionIds.Select(x => new Publication { Id = x })))
                 .ForMember(dest => dest.PatentsForInvention, opts => opts.MapFrom(src => src.PatentsForInventionIds.Select(x => new Publication { Id = x })));
 
+            CreateMap<ReportThemeOfScientificWorkModel, ReportThemeOfScientificWork>().ReverseMap();
+
             CreateMap<ReportScientificWorkModel, Report>()
                 .ForMember(dest => dest.StudentPublication, opts => opts.MapFrom(src => src.StudentPublicationIds.Select(x => new Publication { Id = x })))
-                .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => (src.ThemeOfScientificWorkIds ?? new int[0] { }).Union(src.GrantIds ?? new int[0] { }).Select(x => new ThemeOfScientificWork { Id = x })));
+                .ForMember(dest => dest.ThemeOfScientificWorks, opts => opts.MapFrom(src => (src.ThemeOfScientificWorks ?? new ReportThemeOfScientificWorkModel[0] { }).Union(src.Grants ?? new ReportThemeOfScientificWorkModel[0] { })));
 
             CreateMap<ReportOtherInfoModel, Report>();
 

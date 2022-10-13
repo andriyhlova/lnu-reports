@@ -9,7 +9,7 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
     {
         public CathedraReportPublicationSpecification(CathedraReportPublicationFilterModel filterModel)
             : base(
-                  x => x.PrintedPublicationReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.ThemeOfScientificWorks.Any(z => z.Financial == filterModel.Financial) && y.State == ReportState.Confirmed),
+                  x => x.PrintedPublicationReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.ThemeOfScientificWorks.Any(z => z.ThemeOfScientificWork.Financial == filterModel.Financial) && y.State == ReportState.Confirmed),
                   true)
         {
             AddIncludes(x => x.PrintedPublicationReport.Select(y => y.User), x => x.PrintedPublicationReport.Select(y => y.ThemeOfScientificWorks));

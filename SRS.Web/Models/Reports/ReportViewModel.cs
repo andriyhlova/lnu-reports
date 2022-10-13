@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Services.Models.ThemeOfScientificWorkModels;
+using SRS.Services.Models.ReportModels;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
@@ -9,8 +9,6 @@ namespace SRS.Web.Models.Reports
     public class ReportViewModel
     {
         public int Id { get; set; }
-
-        public string ParticipationInGrands { get; set; }
 
         public string ScientificTrainings { get; set; }
 
@@ -28,8 +26,6 @@ namespace SRS.Web.Models.Reports
 
         public string Other { get; set; }
 
-        public string ThemeOfScientificWorkDescription { get; set; }
-
         public bool IsSigned { get; set; }
 
         public bool IsConfirmed { get; set; }
@@ -40,9 +36,9 @@ namespace SRS.Web.Models.Reports
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public List<BaseThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
+        public List<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
-        public List<BaseThemeOfScientificWorkModel> Grants { get; set; }
+        public List<ReportThemeOfScientificWorkModel> Grants { get; set; }
 
         public List<CheckboxListItem> StudentPublication { get; set; }
 

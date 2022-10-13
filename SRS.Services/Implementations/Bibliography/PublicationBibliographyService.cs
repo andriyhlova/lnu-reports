@@ -1,10 +1,11 @@
 ﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Utilities;
 
-namespace SRS.Services.Implementations
+namespace SRS.Services.Implementations.Bibliography
 {
-    public class BibliographyService : IBibliographyService
+    public class PublicationBibliographyService : BaseBibliographyService, IBibliographyService<Publication>
     {
         public string Get(Publication publication)
         {
@@ -103,21 +104,6 @@ namespace SRS.Services.Implementations
             return publication.PublicationIdentifier > 0
                 ? publication.PublicationIdentifier.ToString() + identifierPagesPart
                 : GetPartWithDot(pagesPart);
-        }
-
-        private string GetBibliographyPart(string prefix, string info)
-        {
-            return string.IsNullOrWhiteSpace(info) ? string.Empty : prefix + info;
-        }
-
-        private string GetPartWithDot(string part)
-        {
-            if (string.IsNullOrWhiteSpace(part))
-            {
-                return part;
-            }
-
-            return part + (!part.EndsWith(".") ? "." : string.Empty);
         }
     }
 }
