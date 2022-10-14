@@ -91,12 +91,12 @@
             </p>
             {{#if AspStart}}
             <p>
-                Перебування в аспірантурі ({{AspStart}} - {{AspFinish}})
+                Перебування в аспірантурі: {{AspStart}} - {{AspFinish}}
             </p>
             {{/if}}
             {{#if DocStart}}
             <p>
-                Перебування в докторантурі ({{DocStart}} - {{DocFinish}})
+                Перебування в докторантурі: {{DocStart}} - {{DocFinish}}
             </p>
             {{/if}}
             <p>
@@ -117,6 +117,33 @@
                 без звання
                 {{/unless}}
             </p>
+            <p>
+                Почесне звання, рік присвоєння:
+                {{#each HonoraryTitles}}
+                {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{/each}}
+                {{#unless HonoraryTitles.Count}}
+                без звання
+                {{/unless}}
+            </p>
+            {{#if ScopusHIndex}}
+            <p>
+                h-індекс (Scopus):
+                {{ScopusHIndex}}
+            </p>
+            {{/if}}
+            {{#if WebOfScienceHIndex}}
+            <p>
+                h-індекс (Web of Science):
+                {{WebOfScienceHIndex}}
+            </p>
+            {{/if}}
+            {{#if GoogleScholarHIndex}}
+            <p>
+                h-індекс (Google Scholar):
+                {{GoogleScholarHIndex}}
+            </p>
+            {{/if}}
         </div>
         {{/with}}
 

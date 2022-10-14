@@ -51,6 +51,11 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.Success = TempData["Success"];
             return View();
@@ -87,6 +92,11 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             await AddDepartments();
             return View();
         }
@@ -119,6 +129,11 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -157,6 +172,11 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return code == null ? View("Error") : View();
         }
 

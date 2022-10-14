@@ -14,7 +14,7 @@
                 return part;
             }
 
-            return part + (!part.EndsWith(".") ? "." : string.Empty);
+            return part + (!part.Trim().EndsWith(".") ? "." : string.Empty);
         }
     }
 }

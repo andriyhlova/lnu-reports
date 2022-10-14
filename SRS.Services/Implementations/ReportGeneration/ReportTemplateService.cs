@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SRS.Domain.Entities;
@@ -74,16 +75,31 @@ namespace SRS.Services.Implementations.ReportGeneration
             userInfo.AspFinish = dbReport.User.AspirantFinishYear?.Year;
             userInfo.DocStart = dbReport.User.DoctorStartYear?.Year;
             userInfo.DocFinish = dbReport.User.DoctorFinishYear?.Year;
-            userInfo.Degrees = dbReport.User.Degrees.Select(degree => new ReportUserTitleModel
-            {
-                Title = degree.Degree.Value,
-                Year = degree.AwardDate.Year
-            }).ToList();
-            userInfo.AcademicStatuses = dbReport.User.AcademicStatuses.Select(academiStatus => new ReportUserTitleModel
-            {
-                Title = academiStatus.AcademicStatus.Value,
-                Year = academiStatus.AwardDate.Year
-            }).ToList();
+            userInfo.ScopusHIndex = dbReport.User.ScopusHIndex;
+            userInfo.WebOfScienceHIndex = dbReport.User.WebOfScienceHIndex;
+            userInfo.GoogleScholarHIndex = dbReport.User.GoogleScholarHIndex;
+            var currentYear = dbReport.Date?.Year ?? DateTime.Now.Year;
+            userInfo.Degrees = dbReport.User.Degrees
+                .Where(x => x.AwardDate.Year <= currentYear)
+                .Select(degree => new ReportUserTitleModel
+                {
+                    Title = degree.Degree.Value,
+                    Year = degree.AwardDate.Year
+                }).ToList();
+            userInfo.AcademicStatuses = dbReport.User.AcademicStatuses
+                .Where(x => x.AwardDate.Year <= currentYear)
+                .Select(academiStatus => new ReportUserTitleModel
+                {
+                    Title = academiStatus.AcademicStatus.Value,
+                    Year = academiStatus.AwardDate.Year
+                }).ToList();
+            userInfo.HonoraryTitles = dbReport.User.HonoraryTitles
+                .Where(x => x.AwardDate.Year <= currentYear)
+                .Select(academiStatus => new ReportUserTitleModel
+                {
+                    Title = academiStatus.HonoraryTitle.Value,
+                    Year = academiStatus.AwardDate.Year
+                }).ToList();
             return userInfo;
         }
 

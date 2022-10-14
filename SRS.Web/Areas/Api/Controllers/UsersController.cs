@@ -12,7 +12,7 @@ using SRS.Services.Providers;
 
 namespace SRS.Web.Areas.Api.Controllers
 {
-    [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService<UserAccountModel> _userService;
@@ -24,6 +24,7 @@ namespace SRS.Web.Areas.Api.Controllers
             _userInitialsService = userInitialsService;
         }
 
+        [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
         [HttpGet]
         public async Task<ActionResult> GetByFacultyAndCathedra(int? facultyId, int? cathedraId)
         {

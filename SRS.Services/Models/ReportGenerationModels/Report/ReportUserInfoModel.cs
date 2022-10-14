@@ -25,5 +25,13 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
         public List<ReportUserTitleModel> Degrees { get; set; }
 
         public List<ReportUserTitleModel> AcademicStatuses { get; set; }
+
+        public List<ReportUserTitleModel> HonoraryTitles { get; set; }
+
+        public int? ScopusHIndex { get; set; }
+
+        public int? WebOfScienceHIndex { get; set; }
+
+        public int? GoogleScholarHIndex { get; set; }
     }
 }

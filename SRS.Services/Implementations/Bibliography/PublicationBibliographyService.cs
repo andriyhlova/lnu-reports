@@ -100,7 +100,7 @@ namespace SRS.Services.Implementations.Bibliography
 
             var pages = publication.GetPages();
             var pagesPart = !string.IsNullOrWhiteSpace(pages) ? $"{pageTitle.ToUpper()} {pages}" : string.Empty;
-            var identifierPagesPart = !string.IsNullOrWhiteSpace(pages) ? $" ({pagesPart})" : string.Empty;
+            var identifierPagesPart = !string.IsNullOrWhiteSpace(pages) ? $" ({pages})" : string.Empty;
             return publication.PublicationIdentifier > 0
                 ? publication.PublicationIdentifier.ToString() + identifierPagesPart
                 : GetPartWithDot(pagesPart);

@@ -20,7 +20,9 @@ class SearchComponent {
     }
 
     addKeyUpEvent() {
-        $(`${this._searchContainerId}.search-container input`).keyup((e)=>{
+        $(`${this._searchContainerId}.search-container input`).keyup((e) => {
+            e.stopPropagation();
+            e.preventDefault();
             clearTimeout(this._searchTimeOut);
             if (!e.target.value || e.target.value.length < 2) {
                 return;
@@ -34,7 +36,13 @@ class SearchComponent {
                         this.updateSearchResults(results);
                         this.toggleResults();
                     });
-            }, 2000);
+            }, 750);
+        });
+
+        $(`${this._searchContainerId}.search-container input`).keydown((e) => {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                e.preventDefault();
+            }
         });
     }
 
