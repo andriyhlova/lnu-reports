@@ -67,7 +67,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         {
             var userInfo = new ReportUserInfoModel();
             userInfo.Position = dbReport.User.Position?.Value.Replace("кафедри", string.Empty);
-            userInfo.Cathedra = dbReport.User.Cathedra?.Name.Replace("Кафедра ", string.Empty);
+            userInfo.Cathedra = dbReport.User.Cathedra?.Name.Replace("Кафедра ", string.Empty).Replace("кафедра ", string.Empty);
             userInfo.UserFullName = dbReport.User.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
             userInfo.BirthYear = dbReport.User.BirthDate.Year;
             userInfo.GraduationYear = dbReport.User.GraduationDate?.Year ?? 0;
