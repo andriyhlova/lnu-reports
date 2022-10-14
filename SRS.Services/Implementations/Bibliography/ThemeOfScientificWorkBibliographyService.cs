@@ -22,12 +22,7 @@ namespace SRS.Services.Implementations.Bibliography
         private string GetFinancialPart(ThemeOfScientificWork theme)
         {
             var financialText = theme.Financial != Financial.Other || string.IsNullOrWhiteSpace(theme.OtherProjectType) ? theme.Financial.GetDisplayName() : theme.OtherProjectType;
-            if (financialText?.Length > 0)
-            {
-                return char.ToLower(financialText[0]) + (financialText.Length > 1 ? financialText.Substring(1) : string.Empty);
-            }
-
-            return string.Empty;
+            return financialText?.TransformFirstLetter(char.ToLower) ?? string.Empty;
         }
 
         private string GetDatePart(ThemeOfScientificWork theme)

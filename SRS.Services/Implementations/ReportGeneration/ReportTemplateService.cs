@@ -83,21 +83,21 @@ namespace SRS.Services.Implementations.ReportGeneration
                 .Where(x => x.AwardDate.Year <= currentYear)
                 .Select(degree => new ReportUserTitleModel
                 {
-                    Title = degree.Degree.Value,
+                    Title = degree.Degree.Value.TransformFirstLetter(char.ToLower),
                     Year = degree.AwardDate.Year
                 }).ToList();
             userInfo.AcademicStatuses = dbReport.User.AcademicStatuses
                 .Where(x => x.AwardDate.Year <= currentYear)
                 .Select(academiStatus => new ReportUserTitleModel
                 {
-                    Title = academiStatus.AcademicStatus.Value,
+                    Title = academiStatus.AcademicStatus.Value.TransformFirstLetter(char.ToLower),
                     Year = academiStatus.AwardDate.Year
                 }).ToList();
             userInfo.HonoraryTitles = dbReport.User.HonoraryTitles
                 .Where(x => x.AwardDate.Year <= currentYear)
                 .Select(academiStatus => new ReportUserTitleModel
                 {
-                    Title = academiStatus.HonoraryTitle.Value,
+                    Title = academiStatus.HonoraryTitle.Value.TransformFirstLetter(char.ToLower),
                     Year = academiStatus.AwardDate.Year
                 }).ToList();
             return userInfo;
