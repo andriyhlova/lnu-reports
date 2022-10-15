@@ -25,8 +25,8 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                             x.OtherJournal.Contains(filterModel.Search) ||
                             x.DOI.Contains(filterModel.Search)) &&
                             (filterModel.PublicationType == null || x.PublicationType == filterModel.PublicationType) &&
-                            (filterModel.From == null || x.Date >= filterModel.From) &&
-                            (filterModel.To == null || x.Date <= filterModel.To) &&
+                            (filterModel.From == null || x.Date.Year >= filterModel.From.Value.Year) &&
+                            (filterModel.To == null || x.Date.Year <= filterModel.To.Value.Year) &&
                             (filterModel.UserId == null || x.User.Any(u => u.Id == filterModel.UserId)) &&
                             (filterModel.CathedraId == null || x.User.Any(u => u.CathedraId == filterModel.CathedraId)) &&
                             (filterModel.FacultyId == null || x.User.Any(u => u.Cathedra.FacultyId == filterModel.FacultyId))),

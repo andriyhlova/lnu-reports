@@ -14,8 +14,8 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                         && !x.PrintedPublicationReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))
                         && !x.ApplicationsForInventionReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))
                         && !x.PatentsForInventionReport.Any(y => y.UserId == filterModel.UserId && (y.State == ReportState.Signed || y.State == ReportState.Confirmed))
-                        && (filterModel.From == null || x.Date >= filterModel.From)
-                        && (filterModel.To == null || x.Date <= filterModel.To),
+                        && (filterModel.From == null || x.Date.Year >= filterModel.From.Value.Year)
+                        && (filterModel.To == null || x.Date.Year <= filterModel.To.Value.Year),
                   true)
         {
             AddIncludes(x => x.User, x => x.PrintedPublicationReport);

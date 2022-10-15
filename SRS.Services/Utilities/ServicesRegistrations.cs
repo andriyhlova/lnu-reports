@@ -34,7 +34,7 @@ namespace SRS.Services.Utilities
             Bind<IBaseCrudService<ThemeOfScientificWorkModel>>().To<BaseCrudService<ThemeOfScientificWork, ThemeOfScientificWorkModel>>();
             Bind<IBaseCrudService<FacultyModel>>().To<BaseCrudService<Faculty, FacultyModel>>();
             Bind<IBaseCrudService<I18nUserInitialsModel>>().To<BaseCrudService<I18nUserInitials, I18nUserInitialsModel>>();
-            Bind<IBaseCrudService<PublicationModel>>().To<BaseCrudService<Publication, PublicationModel>>();
+            Bind<IBaseCrudService<PublicationModel>>().To<PublicationCrudService>();
             Bind<IBaseCrudService<JournalModel>>().To<BaseCrudService<Journal, JournalModel>>();
             Bind<IBaseCrudService<JournalTypeModel>>().To<BaseCrudService<JournalType, JournalTypeModel>>();
         }

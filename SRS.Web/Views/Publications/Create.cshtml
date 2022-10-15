@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-group field"
-             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal))))">
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
             <label class="control-label col-md-2">Журнал</label>
             <div class="col-md-10">
                 <select id="journal-selector" class="form-control chosen-select" name="JournalId" data-selected="@Model.JournalId">

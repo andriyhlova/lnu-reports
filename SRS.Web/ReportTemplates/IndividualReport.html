@@ -70,7 +70,7 @@
             {{/with}}
             {{#with UserInfo}}
             <p class="bold">
-                {{Position}} кафедри {{Cathedra}}
+                {{Position}} {{Cathedra}}
             </p>
             <p class="bold">
                 {{UserFullName}}
@@ -555,9 +555,9 @@
 
         <div class="top-ident"><p>Підпис_______________</p></div>
         <div class="top-ident">
-            <p>Звіт заслухано і затверджено на засіданні кафедри (підрозділу) {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}</p>
+            <p>Звіт заслухано і затверджено на засіданні {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}</p>
             <p class="footer-text-ident">
-                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}} {{CathedraLead}}{{/with}}
+                Завідувач {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}} {{CathedraLead}}{{/with}}
             </p>
         </div>
     </div>

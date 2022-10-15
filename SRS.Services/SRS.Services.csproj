@@ -112,6 +112,7 @@
     <Compile Include="Implementations\Bibliography\ThemeOfScientificWorkBibliographyService.cs" />
     <Compile Include="Implementations\Bibliography\PublicationBibliographyService.cs" />
     <Compile Include="Implementations\AcademicStatusService.cs" />
+    <Compile Include="Implementations\PublicationCrudService.cs" />
     <Compile Include="Implementations\ReportGeneration\CathedraReportTemplateService.cs" />
     <Compile Include="Implementations\ReportGeneration\WordReportBuilderService.cs" />
     <Compile Include="Implementations\ReportGeneration\TexReportBuilderService.cs" />

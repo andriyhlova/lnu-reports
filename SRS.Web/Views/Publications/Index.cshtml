@@ -18,7 +18,7 @@
 <h2>Публікації</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
 <form id="filter-container" class="collapse-target">
-    @{ViewBag.SearchPlaceholder = "Пошук";}
+    @{ViewBag.SearchPlaceholder = "Пошук за назвою, авторами, журналом";}
     @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
     @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
     <div class="form-group">

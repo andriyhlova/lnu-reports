@@ -96,8 +96,15 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
-                return RedirectToIndex();
+                var id = await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
+                if (id > 0)
+                {
+                    return RedirectToIndex();
+                }
+
+                ModelState.AddModelError(string.Empty, "Така публікація вже існує");
+                ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+                return View(model);
             }
 
             ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
@@ -123,8 +130,15 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
-                return RedirectToIndex();
+                var entity = await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
+                if (entity != null)
+                {
+                    return RedirectToIndex();
+                }
+
+                ModelState.AddModelError(string.Empty, "Така публікація вже існує");
+                ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+                return View(model);
             }
 
             ViewBag.ReturnUrl = Request.QueryString["returnUrl"];

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace SRS.Services.Extensions
 {
@@ -12,6 +13,18 @@ namespace SRS.Services.Extensions
             }
 
             return text;
+        }
+
+        public static string NormalizeText(this string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            var result = text.Trim().ToUpper();
+            var spaceRegex = new Regex(@"\s{2,}");
+            return spaceRegex.Replace(result, " ");
         }
     }
 }

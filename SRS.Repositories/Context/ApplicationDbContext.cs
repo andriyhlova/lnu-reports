@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Diagnostics;
 using Microsoft.AspNet.Identity.EntityFramework;
 using SRS.Domain.Entities;
 
@@ -9,6 +10,7 @@ namespace SRS.Repositories.Context
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.Log = s => Debug.WriteLine(s);
         }
 
         public DbSet<Degree> Degree { get; set; }
