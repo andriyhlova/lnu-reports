@@ -4,8 +4,8 @@ namespace SRS.Web.Models.Account
 {
     public class RegisterViewModel
     {
+        [Required(ErrorMessage = "Введіть електронну пошту")]
         [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Некоректна електронна пошта. Повинна бути: ...@lnu.edu.ua")]
-        [EmailAddress(ErrorMessage = "Некоректна електронна пошта")]
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
