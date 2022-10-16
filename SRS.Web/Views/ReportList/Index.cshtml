@@ -5,7 +5,6 @@
 @using SRS.Services.Extensions
 @using SRS.Services.Models.Constants
 @using SRS.Services.Models.ReportModels
-@using SRS.Web.Extensions
 @using SRS.Web.Models.Reports
 @using SRS.Web.Models.Shared
 
@@ -85,7 +84,7 @@
                             {
                                 @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
                             }
-                            @if (item.State == ReportState.Draft && item.Date.HasValue && !string.IsNullOrEmpty(item.Protocol))
+                            @if (item.State == ReportState.Draft && item.Date.HasValue && !string.IsNullOrWhiteSpace(item.Protocol))
                             {
                                 using (Html.BeginForm("Sign", "ReportList", Model.FilterModel))
                                 {
@@ -93,6 +92,18 @@
                                     @Html.Hidden("reportId", item.Id)
                                     <button type="submit" class="btn btn-primary">Підписати</button>
                                 }
+                            }
+                            else if (item.State == ReportState.Draft && item.Date.HasValue)
+                            {
+                                <div class="text-danger">Для підпису необхідно протокол</div>
+                            }
+                            else if (item.State == ReportState.Draft && !string.IsNullOrWhiteSpace(item.Protocol))
+                            {
+                                <div class="text-danger">Для підпису необхідно дату</div>
+                            }
+                            else if (item.State == ReportState.Draft)
+                            {
+                                <div class="text-danger">Для підпису необхідно протокол і дату</div>
                             }
                             @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
                             {
