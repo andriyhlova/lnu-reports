@@ -156,6 +156,9 @@
             </p>
             <p class="bottom-ident pre-line">{{this.Description}}</p>
             {{/each}}
+            {{#if OtherThemeOfScientificWorkDescription}}
+            <p class="bottom-ident pre-line">{{OtherThemeOfScientificWorkDescription}}</p>
+            {{/if}}
         </div>
 
         {{#if Grants.Count}}
@@ -192,23 +195,34 @@
         </div>
         {{/if}}
 
-        {{#if ScientificControlStudentsWork}}
+        {{#if StudentPublications.Count}}
         <div class="top-ident">
             <p>
                 5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
                 гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
                 тощо.
             </p>
-            {{#if StudentPublications.Count}}
-            <div>
-                Публікації зі студентами:
-            </div>
-            <div>
-                {{#each StudentPublications}}
-                {{inc @index}}. {{this}}<br />
-                {{/each}}
-            </div>
-            {{/if}}
+        </div>
+        <div>
+            Публікації зі студентами:
+        </div>
+        <div class="bottom-ident">
+            {{#each StudentPublications}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+        {{#if ScientificControlStudentsWork}}
+        {{#unless StudentPublications.Count}}
+        <div class="top-ident">
+            <p>
+                5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
+                гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
+                тощо.
+            </p>
+        </div>
+        {{/unless}}
+        <div>
             <p class="pre-line">{{ScientificControlStudentsWork}}</p>
         </div>
         {{/if}}

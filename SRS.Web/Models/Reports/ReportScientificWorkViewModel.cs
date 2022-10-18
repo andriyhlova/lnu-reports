@@ -10,6 +10,8 @@ namespace SRS.Web.Models.Reports
 
         public IList<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
         public IList<ReportThemeOfScientificWorkModel> Grants { get; set; }
 
         public string ScientificTrainings { get; set; }

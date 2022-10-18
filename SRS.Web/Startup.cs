@@ -39,7 +39,7 @@ namespace SRS.Web
             CreateCathedraAdmin(roleManager);
             CreateWorker(roleManager);
 
-            RolesProvider.AllRoles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
+            RolesProvider.AllRoles = context.Roles.OrderBy(x => x.Id).ToDictionary(x => x.Id, x => x.Name);
         }
 
         private void CreateSuperadmin(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)

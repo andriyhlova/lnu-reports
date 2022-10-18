@@ -23,8 +23,9 @@ function changeStepPageAndSubmit(index, newIndex) {
 
 function submitThemeForm() {
     let themes = $('textarea[name^=ThemeOfScientificWorks]');
-    if (!themes || !themes.length) {
-        alert('Виберіть тему наукової роботи');
+    let otherTheme = $('textarea[name=OtherThemeOfScientificWorkDescription]').val().trim();
+    if ((!themes || !themes.length) && !otherTheme) {
+        alert('Виберіть тему наукової роботи або введіть опис іншої наукової роботи');
         return false;
     }
     for (let i = 0; i < themes.length; i++) {
@@ -80,19 +81,31 @@ function submitThemeForm() {
     };
 
     function publicationCheckboxChanged() {
-        $('#updatePublicationForm div[data-field-id] input').change((e) => {
-            const field = $(e.target).parent().parent();
-            if ($(e.target).is(":checked")) {
-                const fieldsToHide = $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`);
-                for (let i = 0; i < fieldsToHide.length; i++) {
-                    if (fieldsToHide[i] != field[0]) {
-                        $(fieldsToHide[i]).hide();
-                    }
-                }
-            } else {
-                $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`).show();
-            }
+        const elements = $('#updatePublicationForm div[data-field-id] input[type=checkbox]');
+        elements.change((e) => {
+            onCheckboxChanged(e.target);
         });
+
+        for (let i = 0; i < elements.length; i++) {
+            onCheckboxChanged(elements[i]);
+        }
+    }
+
+    function onCheckboxChanged(element) {
+        if (!$(element).is(":visible")) {
+            return;
+        }
+        const field = $(element).parent().parent();
+        if ($(element).is(":checked")) {
+            const fieldsToHide = $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`);
+            for (let i = 0; i < fieldsToHide.length; i++) {
+                if (fieldsToHide[i] != field[0]) {
+                    $(fieldsToHide[i]).hide();
+                }
+            }
+        } else {
+            $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`).show();
+        }
     }
 
     function getSelectedScientificWorks(selector, settings) {

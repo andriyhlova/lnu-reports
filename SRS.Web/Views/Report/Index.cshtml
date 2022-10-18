@@ -36,11 +36,24 @@
                                    data-code="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Code"
                                    data-scientifichead="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ScientificHead"
                                    data-value="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Value"
-                                   data-description="@Model.ThemeOfScientificWorks[i].Description"/>
+                                   data-description="@Model.ThemeOfScientificWorks[i].Description" />
                         }
                     }
                     <div class="selected-items selected-scientific-works">
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    Опис іншої наукової роботи:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.OtherThemeOfScientificWorkDescription, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.OtherThemeOfScientificWorkDescription,
+                    })
                 </div>
             </div>
 
@@ -68,7 +81,7 @@
                                    data-code="@Model.Grants[i].ThemeOfScientificWork.Code"
                                    data-scientifichead="@Model.Grants[i].ThemeOfScientificWork.ScientificHead"
                                    data-value="@Model.Grants[i].ThemeOfScientificWork.Value"
-                                   data-description="@Model.Grants[i].Description"/>
+                                   data-description="@Model.Grants[i].Description" />
                         }
                     }
                     <div class="selected-items selected-grants">

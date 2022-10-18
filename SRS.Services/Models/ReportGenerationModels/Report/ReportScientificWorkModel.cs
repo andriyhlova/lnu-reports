@@ -6,6 +6,8 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
     {
         public List<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
         public List<ReportThemeOfScientificWorkModel> Grants { get; set; }
 
         public string ScientificTrainings { get; set; }

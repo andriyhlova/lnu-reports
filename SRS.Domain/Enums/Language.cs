@@ -16,8 +16,6 @@ namespace SRS.Domain.Enums
         PL,
         [Display(Name = "Італіська")]
         IT,
-        [Display(Name = "Російська")]
-        RU,
         [Display(Name = "Інша")]
         Other
     }

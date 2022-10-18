@@ -183,6 +183,10 @@
     <Compile Include="Migrations\202210161849486_ChangedJournalAndPublicationTypes.designer.cs">
       <DependentUpon>202210161849486_ChangedJournalAndPublicationTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210180030177_AddedOtherThemeField.cs" />
+    <Compile Include="Migrations\202210180030177_AddedOtherThemeField.designer.cs">
+      <DependentUpon>202210180030177_AddedOtherThemeField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -266,6 +270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210161849486_ChangedJournalAndPublicationTypes.resx">
       <DependentUpon>202210161849486_ChangedJournalAndPublicationTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210180030177_AddedOtherThemeField.resx">
+      <DependentUpon>202210180030177_AddedOtherThemeField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

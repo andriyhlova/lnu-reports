@@ -87,7 +87,7 @@ namespace SRS.Web.Controllers
                 UserId = report.UserId
             };
             var publications = await _publicationService.GetAvailableReportPublicationsAsync(filterModel);
-            var availablePublications = publications.Where(x => x.PublicationType != PublicationType.Заявка_на_винахід || x.PublicationType != PublicationType.Патент);
+            var availablePublications = publications.Where(x => x.PublicationType != PublicationType.Заявка_на_винахід && x.PublicationType != PublicationType.Патент);
 
             viewModel.StudentPublication = availablePublications
                 .Select(x => new CheckboxListItem()

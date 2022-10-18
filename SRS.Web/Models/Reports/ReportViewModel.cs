@@ -10,6 +10,8 @@ namespace SRS.Web.Models.Reports
     {
         public int Id { get; set; }
 
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
         public string ScientificTrainings { get; set; }
 
         public string ScientificControlDoctorsWork { get; set; }
