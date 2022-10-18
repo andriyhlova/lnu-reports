@@ -254,6 +254,7 @@
     <Compile Include="Specifications\JournalSpecification.cs" />
     <Compile Include="Specifications\DegreeSpecification.cs" />
     <Compile Include="Specifications\CathedraReportSpecification.cs" />
+    <Compile Include="Specifications\PublicationSpecifications\UserPatentSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\UserPrintedPublicationSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\PublicationSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\CathedraReportPublicationSpecification.cs" />

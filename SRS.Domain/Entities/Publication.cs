@@ -114,7 +114,7 @@ namespace SRS.Domain.Entities
 
         public string GetJournalName(bool useShortName = false)
         {
-            return (useShortName ? Journal?.ShortName : Journal?.Name) ?? OtherJournal;
+            return (useShortName && !string.IsNullOrWhiteSpace(Journal?.ShortName) ? Journal?.ShortName : Journal?.Name) ?? OtherJournal;
         }
 
         public bool IsArticle()

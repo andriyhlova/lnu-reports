@@ -8,9 +8,6 @@ namespace SRS.Web.Models.UsersManagement
     {
         public string Id { get; set; }
 
-        [Required]
-        public List<I18nUserInitialsModel> I18nUserInitials { get; set; }
-
         public bool IsActive { get; set; }
 
         [Display(Name = "Ролі")]

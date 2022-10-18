@@ -25,8 +25,27 @@
             <label class="display-label">@Model.Email</label>
         </div>
     </div>
-
-    @Html.EditorFor(x => x.I18nUserInitials)
+    @foreach (var i in Model.I18nUserInitials)
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">Прізвище</label>
+            <div class="col-md-10">
+                <label class="display-label">@i.LastName</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Ім'я</label>
+            <div class="col-md-10">
+                <label class="display-label">@i.FirstName</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">По батькові</label>
+            <div class="col-md-10">
+                <label class="display-label">@i.FathersName</label>
+            </div>
+        </div>
+    }
 
     <div class="form-group">
         @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })

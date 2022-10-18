@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -42,7 +41,7 @@ namespace SRS.Web.Controllers
         public ActionResult PreviewPdf(int reportId)
         {
             var cookies = Request.Cookies.AllKeys.ToDictionary(k => k, k => Request.Cookies[k].Value);
-            return new ActionAsPdf(nameof(Preview), new { reportId })
+            return new UrlAsPdf($"/ReportGeneration/{nameof(Preview)}?reportId={reportId}")
             {
                 FormsAuthenticationCookieName = FormsAuthentication.FormsCookieName,
                 Cookies = cookies

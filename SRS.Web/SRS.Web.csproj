@@ -346,6 +346,7 @@
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Rotativa\wkhtmltoimage.exe" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Rotativa\wkhtmltox.dll" />
     <Content Include="Scripts\chosen-sprite%402x.png" />
     <Content Include="Scripts\chosen-sprite.png" />
     <Content Include="Scripts\chosen.css" />
@@ -400,6 +401,7 @@
     <Content Include="Scripts\Steps\jquery.steps.min.js" />
     <Content Include="Scripts\LICENSE.md" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Rotativa\libwkhtmltox.a" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
