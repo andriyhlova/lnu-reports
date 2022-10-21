@@ -160,7 +160,7 @@
 
         <div class="form-group field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber)))">
-            <label class="control-label col-md-2">Номер заявки</label>
+            <label class="control-label col-md-2"><span class="field-label">Номер заявки</span></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ApplicationNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ApplicationNumber, "", new { @class = "text-danger" })
@@ -169,7 +169,7 @@
 
         <div class="form-group field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate)))">
-            <label class="control-label col-md-2">Дата заявки</label>
+            <label class="control-label col-md-2">Дата подання заявки</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ApplicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
                 @Html.ValidationMessageFor(model => model.ApplicationDate, "", new { @class = "text-danger" })

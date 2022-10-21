@@ -119,7 +119,8 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Фахових_Виданнях_України },
                         new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_України },
                         new FieldInfo { Type = (int)PublicationType.Тези_Доповіді_На_Міжнародній_Конференції },
-                        new FieldInfo { Type = (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції }
+                        new FieldInfo { Type = (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції },
+                        new FieldInfo { Type = (int)PublicationType.Інше_Наукове_Видання }
                     };
                 case PublicationField.PublicationIdentifier:
                     return new FieldInfo[]
@@ -159,8 +160,13 @@ namespace SRS.Web.Services
                     {
                         new FieldInfo { Type = (int)PublicationType.Патент }
                     };
-                case PublicationField.ApplicationDate:
                 case PublicationField.ApplicationNumber:
+                    return new FieldInfo[]
+                    {
+                        new FieldInfo { Type = (int)PublicationType.Заявка_на_винахід },
+                        new FieldInfo { Type = (int)PublicationType.Патент, Name = "Номер патенту" }
+                    };
+                case PublicationField.ApplicationDate:
                 case PublicationField.ApplicationOwner:
                     return new FieldInfo[]
                     {

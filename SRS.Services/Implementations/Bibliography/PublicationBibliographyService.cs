@@ -81,8 +81,7 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Date.Year.ToString()))}" +
                 $"{GetBibliographyPart(" - ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue))}" +
                 $"{GetBibliographyPart(" - ", GetPagesPart(publication))}" +
-                $"{GetBibliographyPart(" - DOI: ", GetPartWithDot(publication.DOI))}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Link))}")
+                $"{GetBibliographyPart(" - ", GetReferencePart(publication))}")
                 .Trim();
         }
 
@@ -104,6 +103,16 @@ namespace SRS.Services.Implementations.Bibliography
             return publication.PublicationIdentifier > 0
                 ? publication.PublicationIdentifier.ToString() + identifierPagesPart
                 : GetPartWithDot(pagesPart);
+        }
+
+        private string GetReferencePart(Publication publication)
+        {
+            if (!string.IsNullOrWhiteSpace(publication.DOI))
+            {
+                return "DOI: " + GetPartWithDot(publication.DOI);
+            }
+
+            return GetPartWithDot(publication.Link);
         }
     }
 }

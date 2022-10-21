@@ -30,6 +30,7 @@ namespace SRS.Web.Controllers
             _wordReportBuilderService = wordReportBuilderService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> Preview(int reportId)
         {
@@ -40,12 +41,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult PreviewPdf(int reportId)
         {
-            var cookies = Request.Cookies.AllKeys.ToDictionary(k => k, k => Request.Cookies[k].Value);
-            return new UrlAsPdf($"/ReportGeneration/{nameof(Preview)}?reportId={reportId}")
-            {
-                FormsAuthenticationCookieName = FormsAuthentication.FormsCookieName,
-                Cookies = cookies
-            };
+            return new UrlAsPdf($"/ReportGeneration/{nameof(Preview)}?reportId={reportId}");
         }
 
         [HttpGet]

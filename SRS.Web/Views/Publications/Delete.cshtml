@@ -107,7 +107,7 @@
 
         <div class="row field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber)))">
-            <label class="col-md-2">Номер заявки</label>
+            <label class="col-md-2"><span class="field-label">Номер заявки</span></label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ApplicationNumber)
             </div>
@@ -115,7 +115,7 @@
 
         <div class="row field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate)))">
-            <label class="col-md-2">Дата заявки</label>
+            <label class="col-md-2">Дата подання заявки</label>
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.ApplicationDate)
             </div>

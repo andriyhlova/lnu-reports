@@ -223,7 +223,8 @@ namespace SRS.Web.Controllers
 
         private async Task AddUserInitials(string userId)
         {
-            foreach (var name in Enum.GetNames(typeof(Language)))
+            var availableLanguages = Enum.GetNames(typeof(Language)).Where(x => x == Language.UA.ToString() || x == Language.EN.ToString());
+            foreach (var name in availableLanguages)
             {
                 await _i18nUserInitialsService.AddAsync(new I18nUserInitialsModel()
                 {
