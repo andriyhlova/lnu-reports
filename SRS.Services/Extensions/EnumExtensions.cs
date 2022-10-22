@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +15,11 @@ namespace SRS.Services.Extensions
                             .First()
                             .GetCustomAttribute<DisplayAttribute>();
             return attribute?.GetName() ?? enumValue.ToString();
+        }
+
+        public static IEnumerable<TEnum> GetValues<TEnum>()
+        {
+            return Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
         }
     }
 }

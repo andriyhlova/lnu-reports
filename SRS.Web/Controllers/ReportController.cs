@@ -78,6 +78,30 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
+        {
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+            var report = await _reportService.GetUserReportAsync(User.Identity.GetUserId(), id);
+            if (report == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+            return View(report);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            await _reportService.DeleteAsync(id, User.Identity.GetUserId());
+            var returnUrl = Request.QueryString["returnUrl"];
+            return Redirect(Url.Action(nameof(Index), "ReportList") + (!string.IsNullOrWhiteSpace(returnUrl) ? "?" + returnUrl : string.Empty));
+        }
+
         private async Task FillPublications(ReportViewModel viewModel, ReportModel report, ReportPublicationsFilterViewModel publicationDateFilter)
         {
             var filterModel = new ReportPublicationFilterModel

@@ -286,6 +286,7 @@
     <Compile Include="Models\CathedraReports\CathedraReportHospDohovirThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
+    <Compile Include="Models\Constants\CookieNames.cs" />
     <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
@@ -484,6 +485,7 @@
     <Content Include="Views\Shared\Common\RequiredFieldsInfo.cshtml" />
     <Content Include="Views\Shared\Filters\ActiveFilter.cshtml" />
     <Content Include="Views\Home\InDevelopment.cshtml" />
+    <Content Include="Views\Report\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

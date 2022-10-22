@@ -7,6 +7,7 @@ using Owin;
 using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 using SRS.Web.Identity;
+using SRS.Web.Models.Constants;
 
 namespace SRS.Web
 {
@@ -30,7 +31,8 @@ namespace SRS.Web
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
+                },
+                CookieName = CookieNames.AuthCookieName
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

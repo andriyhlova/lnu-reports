@@ -1,0 +1,55 @@
+﻿@using SRS.Domain.Enums
+@using SRS.Services.Models.Constants
+@using SRS.Services.Models.ReportModels
+
+@model BaseReportModel
+
+@{
+    ViewBag.Title = "Видалити";
+}
+
+<h2>Видалити</h2>
+
+<h3>Ви впевнені, що хочете це видалити?</h3>
+<div>
+    <h4>Звіт</h4>
+    <hr />
+    <div>
+        <div class="row">
+            <label class="col-md-2">Працівник</label>
+            <div class="col-md-10">
+                @{ var name = Model.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA);}
+                @if (name != null)
+                {
+                    <span>@string.Join(" ", name.LastName, name.FirstName, name.FathersName)</span>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2">Дата</label>
+            <div class="col-md-10">
+                @(Model.Date.HasValue ? Model.Date.Value.ToString(Dates.UaDatePattern) : string.Empty)
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2">Протокол</label>
+            <div class="col-md-10">
+                @Model.Protocol
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm(new { returnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            <a href="/ReportList@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+}

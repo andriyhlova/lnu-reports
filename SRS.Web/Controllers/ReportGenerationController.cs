@@ -1,12 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Security;
 using Rotativa;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.ReportGenerationModels.Report;
+using SRS.Web.Models.Constants;
 
 namespace SRS.Web.Controllers
 {
@@ -30,7 +30,6 @@ namespace SRS.Web.Controllers
             _wordReportBuilderService = wordReportBuilderService;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> Preview(int reportId)
         {
@@ -41,7 +40,13 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult PreviewPdf(int reportId)
         {
-            return new UrlAsPdf($"/ReportGeneration/{nameof(Preview)}?reportId={reportId}");
+            return new UrlAsPdf(Url.Action(nameof(Preview), new { reportId }))
+            {
+                Cookies = new Dictionary<string, string>
+                {
+                    [CookieNames.AuthCookieName] = Request.Cookies[CookieNames.AuthCookieName].Value
+                }
+            };
         }
 
         [HttpGet]

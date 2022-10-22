@@ -1,4 +1,6 @@
-﻿@using SRS.Domain.Enums
+﻿@using System.Linq
+@using SRS.Domain.Enums
+@using SRS.Services.Extensions
 @using SRS.Services.Models.Constants
 @using SRS.Web.Enums
 @using SRS.Web.Models.Publications
@@ -35,7 +37,9 @@
         <div class="form-group">
             <label class="control-label col-md-2">Тип публікації <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.PublicationType, new { @class = "form-control chosen-select" })
+                @Html.DropDownListFor(model => model.PublicationType,
+                        new SelectList(EnumExtensions.GetValues<PublicationType>().OrderBy(x => (int)x).Select(x => new { Id = (int)x, Value = x.GetDisplayName() }), "Id", "Value"),
+                        new { @class = "form-control chosen-select" })
                 @Html.ValidationMessageFor(model => model.PublicationType, "", new { @class = "text-danger" })
             </div>
         </div>

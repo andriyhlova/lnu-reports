@@ -14,6 +14,7 @@ namespace SRS.Repositories.Implementations
 
         protected override void AddRelatedEntities(Report entity)
         {
+            AddCollection(entity.StudentPublication);
             AddCollection(entity.PrintedPublication);
             AddCollection(entity.RecomendedPublication);
             AddCollection(entity.AcceptedToPrintPublication);

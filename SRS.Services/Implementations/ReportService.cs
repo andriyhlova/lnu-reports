@@ -108,5 +108,16 @@ namespace SRS.Services.Implementations
             _mapper.Map(model, report);
             return await _repo.AddAsync(report);
         }
+
+        public async Task<bool> DeleteAsync(int id, string currentUserId)
+        {
+            var report = await _repo.GetAsync(id, new BaseSpecification<Report>(asNoTracking: true));
+            if (report.State == ReportState.Draft && report.UserId == currentUserId)
+            {
+                return await _repo.DeleteAsync(id);
+            }
+
+            return false;
+        }
     }
 }

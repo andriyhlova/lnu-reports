@@ -20,5 +20,7 @@ namespace SRS.Services.Interfaces
 
         Task<int> UpsertAsync<TModel>(TModel model, string currentUserId)
             where TModel : BaseModel;
+
+        Task<bool> DeleteAsync(int id, string currentUserId);
     }
 }

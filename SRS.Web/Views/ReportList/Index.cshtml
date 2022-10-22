@@ -82,7 +82,14 @@
                             </a>
                             @if (item.State == ReportState.Draft && item.UserId == userId)
                             {
-                                @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
+                                <a href="@Url.Action("Index", "Report", new { reportId = item.Id })"
+                                   class="btn btn-info">
+                                    Редагувати
+                                </a>
+                                <a href="@Url.Action("Delete", "Report", new { id = item.Id, returnUrl = Request.QueryString.ToString() })"
+                                   class="btn btn-danger">
+                                    Видалити
+                                </a>
                             }
                             @if (item.State == ReportState.Draft && item.Date.HasValue && !string.IsNullOrWhiteSpace(item.Protocol))
                             {
