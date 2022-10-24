@@ -46,7 +46,7 @@ namespace SRS.Domain.Specifications.UserSpecifications
                 case UserOrderType.Active when desc: ApplyOrderByDescending(x => x.IsActive); break;
                 case UserOrderType.Roles when !desc: ApplyOrderBy(x => x.Roles.OrderBy(r => r.RoleId).Select(r => r.RoleId).FirstOrDefault()); break;
                 case UserOrderType.Roles when desc: ApplyOrderByDescending(x => x.Roles.OrderBy(r => r.RoleId).Select(r => r.RoleId).FirstOrDefault()); break;
-                default: ApplyOrderBy(x => x.IsActive); break;
+                default: ApplyOrderBy(x => x.IsActive); ApplyThenBy(x => x.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).LastName); ApplyThenBy(x => x.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).FirstName); break;
             }
         }
     }

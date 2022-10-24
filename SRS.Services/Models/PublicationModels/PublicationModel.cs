@@ -63,6 +63,8 @@ namespace SRS.Services.Models.PublicationModels
 
         public string BulletinNumber { get; set; }
 
+        public string ChapterMonographyName { get; set; }
+
         public double GetSizeOfPages()
         {
             var difference = NumberOfPages ?? (PageTo.GetValueOrDefault() - PageFrom.GetValueOrDefault() + 1);

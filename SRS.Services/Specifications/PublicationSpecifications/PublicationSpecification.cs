@@ -51,7 +51,7 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                 case PublicationOrderType.AuthorsOrder when desc: ApplyOrderByDescending(x => x.AuthorsOrder); break;
                 case PublicationOrderType.Journal when !desc: ApplyOrderBy(x => x.Journal.Name ?? x.OtherJournal); break;
                 case PublicationOrderType.Journal when desc: ApplyOrderByDescending(x => x.Journal.Name ?? x.OtherJournal); break;
-                default: ApplyOrderByDescending(x => x.Date); break;
+                default: ApplyOrderByDescending(x => x.Date); ApplyThenBy(x => x.Name); break;
             }
         }
     }

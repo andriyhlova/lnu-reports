@@ -19,6 +19,10 @@ namespace SRS.Web.Services
                     fieldInfos[(int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях].Name = articleName;
                     fieldInfos[(int)PublicationType.Стаття_В_Фахових_Виданнях_України].Name = articleName;
                     fieldInfos[(int)PublicationType.Стаття_В_Інших_Виданнях_України].Name = articleName;
+
+                    var chapterName = "Назва розділу";
+                    fieldInfos[(int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві].Name = chapterName;
+                    fieldInfos[(int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві].Name = chapterName;
                     return fieldInfos.Values.ToArray();
                 case PublicationField.MainAuthor:
                 case PublicationField.Link:
@@ -173,7 +177,12 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Заявка_на_винахід },
                         new FieldInfo { Type = (int)PublicationType.Патент }
                     };
-
+                case PublicationField.ChapterMonographyName:
+                    return new FieldInfo[]
+                    {
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві }
+                    };
                 default: return new FieldInfo[0];
             }
         }

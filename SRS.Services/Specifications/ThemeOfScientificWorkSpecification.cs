@@ -55,7 +55,7 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.SubCategory when desc: ApplyOrderByDescending(x => x.SubCategory); break;
                 case ThemeOfScientificWorkOrderType.FinancialAmount when !desc: ApplyOrderBy(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;
                 case ThemeOfScientificWorkOrderType.FinancialAmount when desc: ApplyOrderByDescending(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;
-                default: ApplyOrderByDescending(x => x.PeriodTo); break;
+                default: ApplyOrderByDescending(x => x.PeriodTo); ApplyThenBy(x => x.Value); break;
             }
         }
     }

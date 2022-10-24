@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SRS.Services.Attributes;
-using SRS.Services.Models;
 using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Models.Account

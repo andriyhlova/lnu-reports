@@ -15,9 +15,9 @@ namespace SRS.Domain.Specifications
 
         List<string> IncludeStrings { get; }
 
-        IOrderer<T> OrderBy { get; }
+        IOrderer<T> OrderByOrderer { get; }
 
-        IOrderer<T> OrderByDescending { get; }
+        ICollection<IThenByOrderer<T>> ThenByOrderers { get; }
 
         Expression<Func<T, object>> GroupBy { get; }
 

@@ -40,12 +40,12 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.Email, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Ім'я", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
-                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.FirstName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
-                </th>
-                <th>
                     @Html.ActionLink("Прізвище", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.LastName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.LastName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Ім'я", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.FirstName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)UserOrderType.FirstName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
                     @Html.ActionLink("Активний", "Index", new UserFilterViewModel { Page = 1, OrderBy = (int)UserOrderType.Active, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, RoleId = Model.FilterModel.RoleId })
@@ -70,17 +70,17 @@
                         {
                             if (i.Language == Language.UA)
                             {
-                                @Html.DisplayFor(modelItem => i.FirstName)
+                                @Html.DisplayFor(modelItem => i.LastName)
                                 break;
                             }
                         }
                     </td>
-                    <td>
+                     <td>
                         @foreach (var i in item.I18nUserInitials)
                         {
                             if (i.Language == Language.UA)
                             {
-                                @Html.DisplayFor(modelItem => i.LastName)
+                                @Html.DisplayFor(modelItem => i.FirstName)
                                 break;
                             }
                         }

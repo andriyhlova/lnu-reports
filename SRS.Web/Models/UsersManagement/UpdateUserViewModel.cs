@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Services.Models.UserModels;
+using SRS.Services.Attributes;
 
 namespace SRS.Web.Models.UsersManagement
 {
@@ -13,8 +13,10 @@ namespace SRS.Web.Models.UsersManagement
         [Display(Name = "Ролі")]
         public List<string> RoleIds { get; set; }
 
-        public string CathedraName { get; set; }
+        [RequiredField]
+        public int CathedraId { get; set; }
 
-        public string FacultyName { get; set; }
+        [RequiredField]
+        public int FacultyId { get; set; }
     }
 }

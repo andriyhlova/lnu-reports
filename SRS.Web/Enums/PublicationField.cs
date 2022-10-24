@@ -27,6 +27,7 @@
         PublicationDate,
         BulletinNumber,
         ApplicationOwner,
-        Name
+        Name,
+        ChapterMonographyName
     }
 }

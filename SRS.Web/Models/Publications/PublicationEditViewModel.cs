@@ -84,5 +84,7 @@ namespace SRS.Web.Models.Publications
         public string ApplicationOwner { get; set; }
 
         public string BulletinNumber { get; set; }
+
+        public string ChapterMonographyName { get; set; }
     }
 }

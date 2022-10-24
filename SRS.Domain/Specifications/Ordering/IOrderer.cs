@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 
 namespace SRS.Domain.Specifications.Ordering
 {
     public interface IOrderer<TEntity>
     {
-        IQueryable<TEntity> GetOrdereredQueryable(IQueryable<TEntity> query);
+        IOrderedQueryable<TEntity> GetOrdereredQueryable(IQueryable<TEntity> query);
     }
 }

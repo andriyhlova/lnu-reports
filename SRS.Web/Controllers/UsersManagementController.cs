@@ -85,7 +85,7 @@ namespace SRS.Web.Controllers
             }
 
             ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
-            await FillAvailableRoles();
+            await FillRelatedEntities();
             return View(user);
         }
 
@@ -101,7 +101,7 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            await FillAvailableRoles();
+            await FillRelatedEntities();
             return View(existingUser);
         }
 
@@ -121,9 +121,15 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task FillAvailableRoles()
+        private async Task FillRelatedEntities()
         {
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
+            await FillAvailableRoles(currentUser);
+            await FillAvailableDepartments(currentUser.FacultyId);
+        }
+
+        private async Task FillAvailableRoles(UserAccountModel currentUser)
+        {
             ViewBag.AvailableRoles = await _roleService.GetAvailableRolesAsync(currentUser);
         }
 

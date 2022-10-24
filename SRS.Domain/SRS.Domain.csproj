@@ -113,8 +113,10 @@
     <Compile Include="Enums\PublicationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specifications\BaseFilterSpecification.cs" />
-    <Compile Include="Specifications\Ordering\OrdererDesc.cs" />
-    <Compile Include="Specifications\Ordering\OrdererAsc.cs" />
+    <Compile Include="Specifications\Ordering\IThenByOrderer.cs" />
+    <Compile Include="Specifications\Ordering\BaseOrderer.cs" />
+    <Compile Include="Specifications\Ordering\ThenByOrderer.cs" />
+    <Compile Include="Specifications\Ordering\Orderer.cs" />
     <Compile Include="Specifications\Ordering\IOrderer.cs" />
     <Compile Include="Specifications\BaseSpecification.cs" />
     <Compile Include="Specifications\ISpecification.cs" />

@@ -39,7 +39,7 @@ namespace SRS.Domain.Specifications
                 case ReportOrderType.State when desc: ApplyOrderByDescending(x => x.State); break;
                 case ReportOrderType.User when !desc: ApplyOrderBy(x => x.User.I18nUserInitials.FirstOrDefault(u => u.Language == Language.UA).LastName); break;
                 case ReportOrderType.User when desc: ApplyOrderByDescending(x => x.User.I18nUserInitials.FirstOrDefault(u => u.Language == Language.UA).LastName); break;
-                default: ApplyOrderByDescending(x => x.Date); break;
+                default: ApplyOrderByDescending(x => x.Date); ApplyThenBy(x => x.User.I18nUserInitials.FirstOrDefault(u => u.Language == Language.UA).LastName); break;
             }
         }
     }

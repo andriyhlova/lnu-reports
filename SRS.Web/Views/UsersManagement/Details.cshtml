@@ -41,7 +41,36 @@
                 @i.FathersName
             </dd>
         }
+        <dt>
+            @Html.DisplayNameFor(model => model.FacultyName)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.FacultyName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CathedraName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CathedraName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleIds)
+        </dt>
+        <dd>
+            @foreach (var role in Model.RoleIds)
+            {
+                <div>@RolesProvider.AllRoles[role]</div>
+            }
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.MonographCounterBeforeRegistration)
         </dt>
@@ -156,28 +185,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CathedraName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CathedraName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FacultyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FacultyName)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.PositionName)
         </dt>
         <dd>
@@ -258,16 +265,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.GoogleScholarHIndex)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RoleIds)
-        </dt>
-        <dd>
-            @foreach (var role in Model.RoleIds)
-            {
-                <div>@RolesProvider.AllRoles[role]</div>
-            }
         </dd>
     </dl>
 </div>

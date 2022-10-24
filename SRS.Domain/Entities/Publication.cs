@@ -79,6 +79,8 @@ namespace SRS.Domain.Entities
 
         public string BulletinNumber { get; set; }
 
+        public string ChapterMonographyName { get; set; }
+
         public virtual Journal Journal { get; set; }
 
         public virtual ICollection<ApplicationUser> User { get; set; }
