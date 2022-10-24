@@ -181,7 +181,7 @@ namespace SRS.Web.Services
                     return new FieldInfo[]
                     {
                         new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },
-                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві }
+                        new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві }
                     };
                 default: return new FieldInfo[0];
             }
