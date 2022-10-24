@@ -99,33 +99,30 @@
                 Перебування в докторантурі: {{DocStart}}-{{DocFinish}}
             </p>
             {{/if}}
+            {{#if Degrees.Count}}
             <p>
                 Науковий ступінь, рік присудження:
                 {{#each Degrees}}
                 {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
                 {{/each}}
-                {{#unless Degrees.Count}}
-                без ступеня
-                {{/unless}}
             </p>
+            {{/if}}
+            {{#if AcademicStatuses.Count}}
             <p>
                 Вчене звання, рік присвоєння:
                 {{#each AcademicStatuses}}
                 {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
                 {{/each}}
-                {{#unless AcademicStatuses.Count}}
-                без звання
-                {{/unless}}
             </p>
+            {{/if}}
+            {{#if HonoraryTitles.Count}}
             <p>
                 Почесне звання, рік присвоєння:
                 {{#each HonoraryTitles}}
                 {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
                 {{/each}}
-                {{#unless HonoraryTitles.Count}}
-                без звання
-                {{/unless}}
             </p>
+            {{/if}}
             {{#if ScopusHIndex}}
             <p>
                 h-індекс (Scopus):

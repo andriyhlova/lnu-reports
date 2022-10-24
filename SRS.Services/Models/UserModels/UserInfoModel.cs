@@ -70,7 +70,7 @@ namespace SRS.Services.Models.UserModels
         [Display(Name = "Посада")]
         public string PositionName { get; set; }
 
-        [Display(Name = "ResearcherID")]
+        [Display(Name = "Web of Science ResearcherID")]
         public string ResearcherId { get; set; }
 
         [Display(Name = "ORCID")]

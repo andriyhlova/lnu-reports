@@ -77,7 +77,7 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Посада")]
         public int? PositionId { get; set; }
 
-        [Display(Name = "ResearcherID")]
+        [Display(Name = "Web of Science ResearcherID")]
         public string ResearcherId { get; set; }
 
         [Display(Name = "ORCID")]
