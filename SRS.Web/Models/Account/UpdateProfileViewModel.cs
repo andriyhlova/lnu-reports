@@ -72,9 +72,8 @@ namespace SRS.Web.Models.Account
         [Display(Name = "Рік захисту докторської дисертації")]
         public int? AcademicStatusDefenseYear { get; set; }
 
-        [RequiredField]
         [Display(Name = "Посада")]
-        public int? PositionId { get; set; }
+        public string PositionValue { get; set; }
 
         [Display(Name = "Web of Science ResearcherID")]
         public string ResearcherId { get; set; }

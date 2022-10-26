@@ -23,6 +23,7 @@ namespace SRS.Web.Controllers
         private readonly IUserService<UserInfoModel> _userInfoService;
         private readonly IUserService<UserAccountModel> _userAccountService;
         private readonly IRoleService _roleService;
+        private readonly IPositionService _positionService;
         private readonly IMapper _mapper;
 
         public UsersManagementController(
@@ -33,6 +34,7 @@ namespace SRS.Web.Controllers
             IUserService<UserInfoModel> userInfoService,
             IUserService<UserAccountModel> userAccountService,
             IRoleService roleService,
+            IPositionService positionService,
             IMapper mapper)
         {
             _cathedraCrudService = cathedraCrudService;
@@ -42,6 +44,7 @@ namespace SRS.Web.Controllers
             _userInfoService = userInfoService;
             _userAccountService = userAccountService;
             _roleService = roleService;
+            _positionService = positionService;
             _mapper = mapper;
         }
 
@@ -126,6 +129,7 @@ namespace SRS.Web.Controllers
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
             await FillAvailableRoles(currentUser);
             await FillAvailableDepartments(currentUser.FacultyId);
+            await FillAvailablePositions();
         }
 
         private async Task FillAvailableRoles(UserAccountModel currentUser)
@@ -144,6 +148,11 @@ namespace SRS.Web.Controllers
             {
                 ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
             }
+        }
+
+        private async Task FillAvailablePositions()
+        {
+            ViewBag.AllPositions = await _positionService.GetAllAsync(new BaseFilterModel());
         }
     }
 }

@@ -104,15 +104,16 @@ function submitThemeForm() {
             return;
         }
         const field = $(element).parent().parent();
+        const fieldsToProcess = $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`);
         if ($(element).is(":checked")) {
-            const fieldsToHide = $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`);
-            for (let i = 0; i < fieldsToHide.length; i++) {
-                if (fieldsToHide[i] != field[0]) {
-                    $(fieldsToHide[i]).hide();
+            for (let i = 0; i < fieldsToProcess.length; i++) {
+                if (fieldsToProcess[i] != field[0]) {
+                    $(fieldsToProcess[i]).hide();
+                    $(fieldsToProcess[i]).find('input[type=checkbox]').prop('checked', false);
                 }
             }
         } else {
-            $(`#updatePublicationForm div[data-field-id=${field[0].dataset.fieldId}]`).show();
+            fieldsToProcess.show();
         }
     }
 

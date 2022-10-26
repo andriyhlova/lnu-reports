@@ -18,5 +18,8 @@ namespace SRS.Web.Models.UsersManagement
 
         [RequiredField]
         public int FacultyId { get; set; }
+
+        [RequiredField]
+        public int PositionId { get; set; }
     }
 }
