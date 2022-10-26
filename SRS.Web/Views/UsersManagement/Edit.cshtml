@@ -259,8 +259,10 @@
              <div class="form-group">
                 <label class="control-label col-md-2">Посада <span class="text-danger">*</span></label>
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), new { @class = "form-control chosen-select" })
-                    @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), string.Empty, new { @class = "form-control chosen-select" })
+                    <div>
+                        @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         }
