@@ -7,6 +7,8 @@ namespace SRS.Services.Implementations.Bibliography
 {
     public class PublicationBibliographyService : BaseBibliographyService, IBibliographyService<Publication>
     {
+        private const string _dash = "\u2013";
+
         public string Get(Publication publication)
         {
             switch (publication.PublicationType)
@@ -42,11 +44,11 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", publication.ChapterMonographyName)}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Tome))}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(GetPagesPart(publication)))}" +
-                $"{GetBibliographyPart(" - ISBN ", GetPartWithDot(publication.ISBN))}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Link))}")
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Tome))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(GetPagesPart(publication)))}" +
+                $"{GetBibliographyPart($" {_dash} ISBN ", GetPartWithDot(publication.ISBN))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Link))}")
                 .Trim();
         }
 
@@ -56,8 +58,8 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.ConferenceName, publication.ConferenceEdition), publication.ConferencePlace, publication.ConferenceCountry, publication.ConferenceDate))}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
-                $"{GetBibliographyPart(" - ", GetPagesPart(publication))}")
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPagesPart(publication))}")
                 .Trim();
         }
 
@@ -78,10 +80,10 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", GetPartWithDot(publication.GetJournalName(true)))}" +
-                $"{GetBibliographyPart(" - ", GetPartWithDot(publication.Date.Year.ToString()))}" +
-                $"{GetBibliographyPart(" - ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue))}" +
-                $"{GetBibliographyPart(" - ", GetPagesPart(publication))}" +
-                $"{GetBibliographyPart(" - ", GetReferencePart(publication))}")
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Date.Year.ToString()))}" +
+                $"{GetBibliographyPart($" {_dash} ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPagesPart(publication))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetReferencePart(publication))}")
                 .Trim();
         }
 
@@ -100,8 +102,8 @@ namespace SRS.Services.Implementations.Bibliography
             var pages = publication.GetPages();
             var pagesPart = !string.IsNullOrWhiteSpace(pages) ? $"{pageTitle.ToUpper()} {pages}" : string.Empty;
             var identifierPagesPart = !string.IsNullOrWhiteSpace(pages) ? $" ({pages})" : string.Empty;
-            return publication.PublicationIdentifier > 0
-                ? publication.PublicationIdentifier.ToString() + identifierPagesPart
+            return !string.IsNullOrWhiteSpace(publication.PublicationIdentifier)
+                ? publication.PublicationIdentifier + identifierPagesPart
                 : GetPartWithDot(pagesPart);
         }
 

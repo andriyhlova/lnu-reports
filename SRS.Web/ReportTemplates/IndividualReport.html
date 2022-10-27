@@ -163,13 +163,23 @@
             <p>
                 2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
             </p>
+        </div>
             {{#each Grants}}
             <p class="bottom-ident">
                 {{this.Theme}}
             </p>
             <p class="bottom-ident pre-line">{{this.Description}}</p>
             {{/each}}
+        {{/if}}
+        {{#if OtherGrantDescription}}
+        {{#unless Grants.Count}}
+        <div class="top-ident">
+            <p>
+                2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
+            </p>
         </div>
+        {{/unless}}
+            <p class="bottom-ident pre-line">{{OtherGrantDescription}}</p>
         {{/if}}
 
         {{#if ScientificTrainings}}

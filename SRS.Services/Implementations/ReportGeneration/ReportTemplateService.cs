@@ -109,6 +109,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var scientificWorkInfo = new ReportScientificWorkModel();
             scientificWorkInfo.ThemeOfScientificWorks = GetThemeOfScientificWorks(dbReport);
             scientificWorkInfo.OtherThemeOfScientificWorkDescription = dbReport.OtherThemeOfScientificWorkDescription;
+            scientificWorkInfo.OtherGrantDescription = dbReport.OtherGrantDescription;
             scientificWorkInfo.Grants = GetGrants(dbReport);
             scientificWorkInfo.ScientificTrainings = dbReport.ScientificTrainings;
             scientificWorkInfo.ScientificControlDoctorsWork = dbReport.ScientificControlDoctorsWork;

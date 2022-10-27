@@ -45,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">
-                    Опис іншої наукової роботи:
+                    Опис наукової роботи:
                 </label>
                 <div>
                     @Html.TextAreaFor(model => model.OtherThemeOfScientificWorkDescription, 6, 70, new
@@ -86,6 +86,19 @@
                     }
                     <div class="selected-items selected-grants">
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    Опис грантів:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.OtherGrantDescription, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.OtherGrantDescription,
+                    })
                 </div>
             </div>
 
@@ -326,26 +339,29 @@
             <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
-    <div style="padding-top: 50px;
-                        display: flex;
-                        justify-content: space-evenly;">
+    <div style="padding-top: 50px;">
+        <div style="display: flex; justify-content: space-evenly;">
+            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+            @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+            <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
+               target="_blank"
+               class="btn btn-default">
+                Переглянути
+            </a>
+        </div>
         @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
         {
-            using (Html.BeginForm("Sign", "ReportList"))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("reportId", Model.Id)
-                <button type="submit" class="btn btn-primary" id="signButton">Підписати</button>
-            }
+        <div style="display: flex; justify-content: center; padding-top: 16px">
+                @using (Html.BeginForm("Sign", "ReportList"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("reportId", Model.Id)
+                    <button type="submit" class="btn btn-primary" id="signButton">Зберегти і завершити</button>
+                }
+        </div>
+        <div style="display: flex; justify-content: center; padding-top: 8px" class="text-danger"><span>*</span>Після цієї дії звіт стане доступним для адміністратора кафедри</div>
         }
-        @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-        @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-        @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-        <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
-           target="_blank"
-           class="btn btn-default">
-            Переглянути
-        </a>
     </div>
     </section>
 </div>

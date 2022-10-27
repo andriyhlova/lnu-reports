@@ -10,6 +10,8 @@ namespace SRS.Domain.Entities
     {
         public string OtherThemeOfScientificWorkDescription { get; set; }
 
+        public string OtherGrantDescription { get; set; }
+
         public string ScientificTrainings { get; set; } // Пункт 3
 
         public string ScientificControlDoctorsWork { get; set; } // Пункт 4

@@ -85,6 +85,33 @@
         {
             <input type="hidden" name="CathedraId" value="@Model.CathedraId"/>
         }
+
+        @if (User.Identity.Name != Model.Email && 
+            (User.IsInRole(RoleNames.Superadmin) ||
+            User.IsInRole(RoleNames.RectorateAdmin) ||
+            User.IsInRole(RoleNames.DeaneryAdmin) ||
+            User.IsInRole(RoleNames.CathedraAdmin)))
+        {
+             <div class="form-group">
+                <label class="control-label col-md-2">Посада <span class="text-danger">*</span></label>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), string.Empty, new { @class = "form-control chosen-select" })
+                    <div>
+                        @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label class="control-label col-md-2">Посада</label>
+                <div class="col-md-10">
+                    <label class="display-label">@Model.PositionName</label>
+                </div>
+            </div>
+        }
+
         <div class="form-group">
             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -250,31 +277,7 @@
                 <label class="display-label">@(Model.AcademicStatusDefenseYear.HasValue ? Model.AcademicStatusDefenseYear.Value.Year : (int?)null)</label>
             </div>
         </div>
-        @if (User.Identity.Name != Model.Email && 
-            (User.IsInRole(RoleNames.Superadmin) ||
-            User.IsInRole(RoleNames.RectorateAdmin) ||
-            User.IsInRole(RoleNames.DeaneryAdmin) ||
-            User.IsInRole(RoleNames.CathedraAdmin)))
-        {
-             <div class="form-group">
-                <label class="control-label col-md-2">Посада <span class="text-danger">*</span></label>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), string.Empty, new { @class = "form-control chosen-select" })
-                    <div>
-                        @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                <label class="control-label col-md-2">Посада</label>
-                <div class="col-md-10">
-                    <label class="display-label">@Model.PositionName</label>
-                </div>
-            </div>
-        }
+        
         <div class="form-group">
             <label class="control-label col-md-2">Наукові ступені</label>
             <div class="col-md-10">

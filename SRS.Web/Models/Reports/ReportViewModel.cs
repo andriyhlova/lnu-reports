@@ -12,6 +12,8 @@ namespace SRS.Web.Models.Reports
 
         public string OtherThemeOfScientificWorkDescription { get; set; }
 
+        public string OtherGrantDescription { get; set; }
+
         public string ScientificTrainings { get; set; }
 
         public string ScientificControlDoctorsWork { get; set; }

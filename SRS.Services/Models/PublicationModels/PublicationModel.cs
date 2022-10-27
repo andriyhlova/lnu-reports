@@ -21,7 +21,7 @@ namespace SRS.Services.Models.PublicationModels
 
         public int? PageTo { get; set; }
 
-        public int? PublicationIdentifier { get; set; }
+        public string PublicationIdentifier { get; set; }
 
         public string Link { get; set; }
 

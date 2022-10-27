@@ -19,7 +19,7 @@ function updateSteps() {
         transitionEffect: "slideLeft",
         autoFocus: true,
         titleTemplate: "#title#",
-        next: 'Далі',
+        next: 'Зберегти і перейти далі',
         finish: 'Завершити',
         previous: 'Назад',
         startIndex: stepIndex,
@@ -37,7 +37,7 @@ function updateSteps() {
         preloadContent: true,
         labels: {
             finish: "Завершити",
-            next: "Далі",
+            next: "Зберегти і перейти далі",
             previous: "Назад"
         }
     };

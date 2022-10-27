@@ -97,20 +97,20 @@
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("reportId", item.Id)
-                                    <button type="submit" class="btn btn-primary">Підписати</button>
+                                    <button type="submit" class="btn btn-primary">Завершити</button>
                                 }
                             }
                             else if (item.State == ReportState.Draft && item.Date.HasValue)
                             {
-                                <div class="text-danger">Для підпису необхідно протокол</div>
+                                <div class="text-danger">Для завершення необхідно протокол</div>
                             }
                             else if (item.State == ReportState.Draft && !string.IsNullOrWhiteSpace(item.Protocol))
                             {
-                                <div class="text-danger">Для підпису необхідно дату</div>
+                                <div class="text-danger">Для завершення необхідно дату</div>
                             }
                             else if (item.State == ReportState.Draft)
                             {
-                                <div class="text-danger">Для підпису необхідно протокол і дату</div>
+                                <div class="text-danger">Для завершення необхідно протокол і дату</div>
                             }
                             @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin) || User.IsInRole(RoleNames.CathedraAdmin))
                             {

@@ -50,8 +50,7 @@ namespace SRS.Web.Models.Publications
         [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний номер сторінки")]
         public int? PageTo { get; set; }
 
-        [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний ідентифікатор")]
-        public int? PublicationIdentifier { get; set; }
+        public string PublicationIdentifier { get; set; }
 
         public IList<UserInitialsModel> Users { get; set; }
 

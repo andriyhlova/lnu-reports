@@ -25,7 +25,7 @@ namespace SRS.Domain.Entities
 
         public int? PageTo { get; set; }
 
-        public int? PublicationIdentifier { get; set; }
+        public string PublicationIdentifier { get; set; }
 
         public double SizeOfPages { get; set; }
 

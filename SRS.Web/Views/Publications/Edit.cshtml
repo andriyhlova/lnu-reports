@@ -273,7 +273,7 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier)))">
             <label class="control-label col-md-2"><span class="field-label">Ідентифікатор (номер) статті</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PublicationIdentifier, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
+                @Html.EditorFor(model => model.PublicationIdentifier, new { htmlAttributes = new { @class = "form-control simplified" } })
                 @Html.ValidationMessageFor(model => model.PublicationIdentifier, "", new { @class = "text-danger" })
             </div>
         </div>
