@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
@@ -21,9 +22,9 @@ namespace SRS.Domain.Entities
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
 
-        public int? PageFrom { get; set; }
+        public string PageFrom { get; set; }
 
-        public int? PageTo { get; set; }
+        public string PageTo { get; set; }
 
         public string PublicationIdentifier { get; set; }
 
@@ -105,13 +106,16 @@ namespace SRS.Domain.Entities
 
         public string GetPages()
         {
-            if (PageFrom.HasValue && PageTo.HasValue && PageFrom.Value == PageTo.Value)
+            var spaceRegex = new Regex(@"\s{2,}");
+            var pageFromTrimmed = !string.IsNullOrWhiteSpace(PageFrom) ? spaceRegex.Replace(PageFrom.Trim(), " ") : null;
+            var pageToTrimmed = !string.IsNullOrWhiteSpace(PageTo) ? spaceRegex.Replace(PageTo.Trim(), " ") : null;
+            if (!string.IsNullOrWhiteSpace(pageFromTrimmed) && !string.IsNullOrWhiteSpace(pageToTrimmed) && pageFromTrimmed == pageToTrimmed)
             {
-                return PageFrom.Value.ToString();
+                return pageFromTrimmed;
             }
 
-            var pages = new int?[] { PageFrom, PageTo };
-            return string.Join("-", pages.Where(x => x.HasValue && x != 0));
+            var pages = new string[] { pageFromTrimmed, pageToTrimmed };
+            return string.Join("-", pages.Where(x => !string.IsNullOrWhiteSpace(x) && x != "0"));
         }
 
         public string GetJournalName(bool useShortName = false)

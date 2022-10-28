@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models.Constants;
@@ -17,9 +18,9 @@ namespace SRS.Services.Models.PublicationModels
         [RequiredField]
         public string MainAuthor { get; set; }
 
-        public int? PageFrom { get; set; }
+        public string PageFrom { get; set; }
 
-        public int? PageTo { get; set; }
+        public string PageTo { get; set; }
 
         public string PublicationIdentifier { get; set; }
 
@@ -67,7 +68,20 @@ namespace SRS.Services.Models.PublicationModels
 
         public double GetSizeOfPages()
         {
-            var difference = NumberOfPages ?? (PageTo.GetValueOrDefault() - PageFrom.GetValueOrDefault() + 1);
+            var nonDigitRegex = new Regex(@"\D+");
+            var pageFromNumber = 0;
+            if (!string.IsNullOrEmpty(PageFrom))
+            {
+                int.TryParse(nonDigitRegex.Replace(PageFrom, string.Empty), out pageFromNumber);
+            }
+
+            var pageToNumber = 0;
+            if (!string.IsNullOrEmpty(PageTo))
+            {
+                int.TryParse(nonDigitRegex.Replace(PageTo, string.Empty), out pageToNumber);
+            }
+
+            var difference = NumberOfPages ?? (pageToNumber - pageFromNumber + 1);
             return Math.Round(difference / PublicationValues.FontSize, 1);
         }
     }

@@ -44,11 +44,9 @@ namespace SRS.Web.Models.Publications
 
         public string Tome { get; set; }
 
-        [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний номер сторінки")]
-        public int? PageFrom { get; set; }
+        public string PageFrom { get; set; }
 
-        [Range(PublicationValues.MinPageNumber, int.MaxValue, ErrorMessage = "Неправильний номер сторінки")]
-        public int? PageTo { get; set; }
+        public string PageTo { get; set; }
 
         public string PublicationIdentifier { get; set; }
 

@@ -67,7 +67,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         private ReportUserInfoModel GetUserInfo(Report dbReport)
         {
             var userInfo = new ReportUserInfoModel();
-            userInfo.Position = dbReport.User.Position?.Value.Replace("кафедри", string.Empty);
+            userInfo.Position = GetCorrectedPosition(dbReport.User.Position?.Value);
             userInfo.Cathedra = dbReport.User.Cathedra?.GenitiveCase.TransformFirstLetter(char.ToLower);
             userInfo.UserFullName = dbReport.User.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
             userInfo.BirthYear = dbReport.User.BirthDate.Year;
@@ -102,6 +102,15 @@ namespace SRS.Services.Implementations.ReportGeneration
                     Year = academiStatus.AwardDate.Year
                 }).ToList();
             return userInfo;
+        }
+
+        private string GetCorrectedPosition(string position)
+        {
+            return position
+                .Replace("кафедри", string.Empty)
+                .Replace("лабораторії", string.Empty)
+                .Replace("центру", string.Empty)
+                .Replace("гербарію", string.Empty);
         }
 
         private ReportScientificWorkModel GetScientificWorkInfo(Report dbReport)

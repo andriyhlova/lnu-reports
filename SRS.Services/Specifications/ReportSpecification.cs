@@ -18,6 +18,7 @@ namespace SRS.Domain.Specifications
                   expression.AndAlso(
                       x => (filterModel.From == null || x.Date >= filterModel.From) &&
                            (filterModel.To == null || x.Date <= filterModel.To) &&
+                           (filterModel.State == null || x.State == filterModel.State) &&
                            (filterModel.UserId == null || x.User.Id == filterModel.UserId) &&
                            (filterModel.CathedraId == null || x.User.CathedraId == filterModel.CathedraId) &&
                            (filterModel.FacultyId == null || x.User.Cathedra.FacultyId == filterModel.FacultyId)),

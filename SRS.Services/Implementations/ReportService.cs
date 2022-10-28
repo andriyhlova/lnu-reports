@@ -32,7 +32,7 @@ namespace SRS.Services.Implementations
                 [RoleNames.Superadmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, null)),
                 [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id)),
                 [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id))),
-                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.CathedraId == user.CathedraId && (x.State == ReportState.Signed || x.UserId == user.Id))),
+                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.User.CathedraId == user.CathedraId && (x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id))),
                 [RoleNames.Worker] = async () => await _repo.GetAsync(new ReportSpecification(filterModel, x => x.UserId == user.Id))
             };
 
@@ -57,7 +57,7 @@ namespace SRS.Services.Implementations
                 [RoleNames.Superadmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, null)),
                 [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id)),
                 [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id))),
-                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.CathedraId == user.CathedraId && (x.State == ReportState.Signed || x.UserId == user.Id))),
+                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.User.CathedraId == user.CathedraId && (x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id))),
                 [RoleNames.Worker] = async () => await _repo.CountAsync(new ReportSpecification(countFilterModel, x => x.UserId == user.Id))
             };
 

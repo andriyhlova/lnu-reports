@@ -195,6 +195,10 @@
     <Compile Include="Migrations\202210272159261_AddedGrantAndChangedIdentifier.designer.cs">
       <DependentUpon>202210272159261_AddedGrantAndChangedIdentifier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210282217131_ChangedPublicationPagesToString.cs" />
+    <Compile Include="Migrations\202210282217131_ChangedPublicationPagesToString.designer.cs">
+      <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -287,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210272159261_AddedGrantAndChangedIdentifier.resx">
       <DependentUpon>202210272159261_AddedGrantAndChangedIdentifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210282217131_ChangedPublicationPagesToString.resx">
+      <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

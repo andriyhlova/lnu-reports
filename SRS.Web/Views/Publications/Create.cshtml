@@ -278,7 +278,7 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom)))">
             <label class="control-label col-md-2">Сторінки від</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
+                @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control simplified" } })
                 @Html.ValidationMessageFor(model => model.PageFrom, "", new { @class = "text-danger" })
             </div>
         </div>
