@@ -40,12 +40,13 @@ namespace SRS.Services.Implementations.Bibliography
 
         private string GetBookBibliography(Publication publication)
         {
+            var showTomePages = publication.PublicationType == PublicationType.Інше_Наукове_Видання && !string.IsNullOrEmpty(publication.GetPages());
             return GetPartWithDot($"{publication.MainAuthor}" +
                 $"{GetBibliographyPart(" ", publication.Name)}" +
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", publication.ChapterMonographyName)}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
-                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Tome))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, showTomePages ? GetNumberOfPages(publication) : null)))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(GetPagesPart(publication)))}" +
                 $"{GetBibliographyPart($" {_dash} ISBN ", GetPartWithDot(publication.ISBN))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Link))}")
@@ -89,22 +90,48 @@ namespace SRS.Services.Implementations.Bibliography
 
         private string GetPagesPart(Publication publication)
         {
-            var pageTitle = publication.Language == Language.UA ? "с." : "p.";
+            var pageTitle = GetPageTitle(publication.Language);
             if (publication.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві ||
                 publication.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві ||
                 publication.PublicationType == PublicationType.Підручник ||
-                publication.PublicationType == PublicationType.Навчальний_Посібник ||
-                publication.PublicationType == PublicationType.Інше_Наукове_Видання)
+                publication.PublicationType == PublicationType.Навчальний_Посібник)
             {
-                return $"{publication.NumberOfPages?.ToString() ?? publication.GetPages()}  {pageTitle}";
+                var numberOfPages = GetNumberOfPages(publication);
+                return !string.IsNullOrWhiteSpace(numberOfPages) ? numberOfPages : GetPages(publication, pageTitle, false);
             }
 
-            var pages = publication.GetPages();
-            var pagesPart = !string.IsNullOrWhiteSpace(pages) ? $"{pageTitle.ToUpper()} {pages}" : string.Empty;
-            var identifierPagesPart = !string.IsNullOrWhiteSpace(pages) ? $" ({pages})" : string.Empty;
+            var pages = GetPages(publication, pageTitle.ToUpper(), true);
+            if (publication.PublicationType == PublicationType.Інше_Наукове_Видання)
+            {
+                return !string.IsNullOrWhiteSpace(pages) ? pages : GetNumberOfPages(publication);
+            }
+
+            var identifierPagesPart = !string.IsNullOrWhiteSpace(pages) ? $" ({publication.GetPages()})" : string.Empty;
             return !string.IsNullOrWhiteSpace(publication.PublicationIdentifier)
                 ? publication.PublicationIdentifier + identifierPagesPart
-                : GetPartWithDot(pagesPart);
+                : GetPartWithDot(pages);
+        }
+
+        private string GetPageTitle(Language language)
+        {
+            return language == Language.UA ? "с." : "p.";
+        }
+
+        private string GetNumberOfPages(Publication publication)
+        {
+            var pageTitle = GetPageTitle(publication.Language);
+            return publication.NumberOfPages.HasValue ? $"{publication.NumberOfPages.ToString()} {pageTitle}" : string.Empty;
+        }
+
+        private string GetPages(Publication publication, string title, bool atStart)
+        {
+            var pages = publication.GetPages();
+            if (string.IsNullOrEmpty(pages))
+            {
+                return string.Empty;
+            }
+
+            return atStart ? $"{title} {pages}" : $"{pages} {title}";
         }
 
         private string GetReferencePart(Publication publication)
