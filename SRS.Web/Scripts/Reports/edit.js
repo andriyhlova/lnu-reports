@@ -23,9 +23,8 @@ function changeStepPageAndSubmit(index, newIndex) {
 
 function submitThemeForm() {
     let themes = $('textarea[name^=ThemeOfScientificWorks]');
-    let otherTheme = $('textarea[name=OtherThemeOfScientificWorkDescription]').val().trim();
-    if ((!themes || !themes.length) && !otherTheme) {
-        alert('Виберіть тему наукової роботи або введіть опис іншої наукової роботи');
+    if ((!themes || !themes.length)) {
+        alert('Виберіть тему наукової роботи');
         return false;
     }
     for (let i = 0; i < themes.length; i++) {
