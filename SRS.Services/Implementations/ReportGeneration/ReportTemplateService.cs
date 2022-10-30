@@ -106,7 +106,7 @@ namespace SRS.Services.Implementations.ReportGeneration
 
         private string GetCorrectedPosition(string position)
         {
-            return position
+            return position?
                 .Replace("кафедри", string.Empty)
                 .Replace("лабораторії", string.Empty)
                 .Replace("центру", string.Empty)

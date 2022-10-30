@@ -48,6 +48,7 @@ namespace SRS.Services.Implementations
                 CathedraId = filterModel.CathedraId,
                 FacultyId = filterModel.FacultyId,
                 UserId = filterModel.UserId,
+                State = filterModel.State,
                 From = filterModel.From,
                 To = filterModel.To
             };
