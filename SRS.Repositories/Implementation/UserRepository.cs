@@ -70,6 +70,9 @@ namespace SRS.Repositories.Implementations
             }
 
             existingEntity.I18nUserInitials?.Clear();
+            existingEntity.Degrees?.Clear();
+            existingEntity.AcademicStatuses?.Clear();
+            existingEntity.HonoraryTitles?.Clear();
 
             var reports = _context.Reports.Include(x => x.User).Where(x => x.User.Id == id);
             _context.Reports.RemoveRange(reports);
