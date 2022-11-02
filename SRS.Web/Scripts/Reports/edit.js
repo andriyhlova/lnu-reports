@@ -23,10 +23,6 @@ function changeStepPageAndSubmit(index, newIndex) {
 
 function submitThemeForm() {
     let themes = $('textarea[name^=ThemeOfScientificWorks]');
-    if ((!themes || !themes.length)) {
-        alert('Виберіть тему наукової роботи');
-        return false;
-    }
     for (let i = 0; i < themes.length; i++) {
         if (!themes[i].value || !themes[i].value.trim()) {
             alert('Введіть опис теми');
