@@ -211,3 +211,15 @@ input[type=number].simplified {
     cursor: pointer;
     margin-right: 8px;
 }
+
+.info-box {
+    display: inline-block;
+    padding: 5px;
+    font-style: italic;
+    color: darkgray;
+}
+
+.info-box i {
+    color: lightskyblue;
+    margin-right: 8px;
+}

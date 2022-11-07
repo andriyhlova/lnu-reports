@@ -223,6 +223,7 @@
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.ResearcherId, new { @class = "form-control", placeholder = "X-0000-0000" })
             @Html.ValidationMessageFor(model => model.ResearcherId, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: A-0000-2022");}
         </div>
     </div>
     <div class="form-group">
@@ -230,6 +231,7 @@
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Orcid, new { @class = "form-control", placeholder = "0000-0000-0000-000X" })
             @Html.ValidationMessageFor(model => model.Orcid, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: 1234-5678-9123-456A");}
         </div>
     </div>
     <div class="form-group">
@@ -237,13 +239,15 @@
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.ScopusAuthorId, new { @class = "form-control", placeholder = "0000000000" })
             @Html.ValidationMessageFor(model => model.ScopusAuthorId, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: 1234567890");}
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.GoogleScholarLink, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.GoogleScholarLink, new { @class = "form-control", placeholder = "https://scholar.google.com.ua/citations?user=XXXXXXXXXXXX" })
+            @Html.TextBoxFor(m => m.GoogleScholarLink, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.GoogleScholarLink, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: https://scholar.google.com.ua/citations?user=Tvn7YeAAAAAT");}
         </div>
     </div>
     <div class="form-group">

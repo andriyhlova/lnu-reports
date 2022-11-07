@@ -486,6 +486,7 @@
     <Content Include="Views\Shared\Filters\ActiveFilter.cshtml" />
     <Content Include="Views\Home\InDevelopment.cshtml" />
     <Content Include="Views\Report\Delete.cshtml" />
+    <Content Include="Views\Shared\Common\InfoBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

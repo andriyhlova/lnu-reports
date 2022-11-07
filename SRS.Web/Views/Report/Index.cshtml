@@ -314,16 +314,17 @@
                     Дата:
                 </label>
                 <div>
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", max = new DateTime(DateTime.Now.Year, 12, 31).ToString(Dates.DatePattern) } })
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label">
-                    Протокол:
+                    Протокол (лише числове значення):
                 </label>
                 <div>
                     @Html.TextBoxFor(model => model.Protocol, new { @class = "form-control" })
+                    @{Html.RenderPartial("Common/InfoBox", "Приклад: 5 або 5/20");}
                 </div>
             </div>
             @Html.ValidationSummary("", new { @class = "text-danger" })

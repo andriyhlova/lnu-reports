@@ -145,18 +145,29 @@
         {{/with}}
 
         {{#with ScientificWork}}
+
+        {{#if ThemeOfScientificWorks.Count}}
         <div class="top-ident">
-            <p>1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
-            {{#each ThemeOfScientificWorks}}
-            <p class="bottom-ident">
-                Тема {{this.Theme}}
+            <p>
+                1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).
             </p>
-            <p class="bottom-ident pre-line">{{this.Description}}</p>
-            {{/each}}
-            {{#if OtherThemeOfScientificWorkDescription}}
-            <p class="bottom-ident pre-line">{{OtherThemeOfScientificWorkDescription}}</p>
-            {{/if}}
         </div>
+        {{#each ThemeOfScientificWorks}}
+        <p class="bottom-ident">Тема {{this.Theme}}</p>
+        <p class="bottom-ident pre-line">{{this.Description}}</p>
+        {{/each}}
+        {{/if}}
+
+        {{#if OtherThemeOfScientificWorkDescription}}
+        {{#unless ThemeOfScientificWorks.Count}}
+        <div class="top-ident">
+            <p>
+                1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).
+            </p>
+        </div>
+        {{/unless}}
+        <p class="bottom-ident pre-line">{{OtherThemeOfScientificWorkDescription}}</p>
+        {{/if}}
 
         {{#if Grants.Count}}
         <div class="top-ident">
@@ -164,12 +175,12 @@
                 2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
             </p>
         </div>
-            {{#each Grants}}
-            <p class="bottom-ident">
-                {{this.Theme}}
-            </p>
-            <p class="bottom-ident pre-line">{{this.Description}}</p>
-            {{/each}}
+        {{#each Grants}}
+        <p class="bottom-ident">
+            {{this.Theme}}
+        </p>
+        <p class="bottom-ident pre-line">{{this.Description}}</p>
+        {{/each}}
         {{/if}}
         {{#if OtherGrantDescription}}
         {{#unless Grants.Count}}
@@ -179,7 +190,7 @@
             </p>
         </div>
         {{/unless}}
-            <p class="bottom-ident pre-line">{{OtherGrantDescription}}</p>
+        <p class="bottom-ident pre-line">{{OtherGrantDescription}}</p>
         {{/if}}
 
         {{#if ScientificTrainings}}

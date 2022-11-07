@@ -1,3 +1,7 @@
+jQuery.extend(jQuery.validator.messages, {
+    max: jQuery.validator.format("Введіть значенння менше ніж або рівне {0}.")
+});
+
 function changeStepPageAndSubmit(index, newIndex) {
     $('[id^="stepIndex"]').each(function () {
         $(this).val(newIndex);
@@ -12,7 +16,7 @@ function changeStepPageAndSubmit(index, newIndex) {
         $('#updateOtherForm').submit();
     }
     if (index == 3) {
-        $('#updateFinishForm').submit();
+        return submitDateForm();
     }
     if (index == 4) {
         $('#finalizeForm').submit();
@@ -39,6 +43,15 @@ function submitThemeForm() {
     }
 
     $('#updateThemeForm').submit();
+    return true;
+}
+
+function submitDateForm() {
+    if (!$('#updateFinishForm').valid()) {
+        return false;
+    }
+
+    $('#updateFinishForm').submit();
     return true;
 }
 

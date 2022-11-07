@@ -83,16 +83,18 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor)))">
             <label class="control-label col-md-2">Перший автор <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control", placeholder = "Петренко І. І.", autocomplete = "off" } })
+                @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.MainAuthor, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: Петренко І. І.");}
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Усі автори <span class="text-danger">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control", placeholder = "І. І. Петренко, Т. Т. Тарасенко", autocomplete = "off" } })
+                @Html.EditorFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.AuthorsOrder, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: І. І. Петренко, Т. Т. Тарасенко");}
             </div>
         </div>
 
@@ -134,8 +136,9 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate)))">
             <label class="control-label col-md-2">Дата проведення</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control", placeholder = "11–12 груд. 2015 р." } })
+                @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ConferenceDate, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: 11–12 груд. 2015 р.");}
             </div>
         </div>
 
@@ -161,8 +164,9 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition)))">
             <label class="control-label col-md-2">Видання</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ConferenceEdition, new { htmlAttributes = new { @class = "form-control", placeholder = "Збірник тез доповідей" } })
+                @Html.EditorFor(model => model.ConferenceEdition, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ConferenceEdition, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: Збірник тез доповідей");}
             </div>
         </div>
 
@@ -242,8 +246,9 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome)))">
             <label class="control-label col-md-2">Том</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", placeholder = "Т. 1 або Vol. 1" } })
+                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: Т. 1 або Vol. 1");}
             </div>
         </div>
 
@@ -251,8 +256,9 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue)))">
             <label class="control-label col-md-2">Номер, випуск</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control", placeholder = "Вип. 1 або №. 1 або No. 1" } })
+                @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Issue, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: Вип. 1 або №. 1 або No. 1");}
             </div>
         </div>
 
@@ -298,6 +304,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control", placeholder = "XXX-XXX-XXX-X" } })
                 @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: 123-456-789-0");}
             </div>
         </div>
 
@@ -314,8 +321,9 @@
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link)))">
             <label class="control-label col-md-2">Посилання на публікацію в Інтернеті</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", placeholder = "https://example.com" } })
+                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+                @{Html.RenderPartial("Common/InfoBox", "Приклад: https://example.com");}
             </div>
         </div>
 

@@ -33,3 +33,7 @@ span.theme-name{
 .selected-item{
     width: 100%;
 }
+
+.wizard > .content > .body label.error {
+    margin-left: 0;
+}
