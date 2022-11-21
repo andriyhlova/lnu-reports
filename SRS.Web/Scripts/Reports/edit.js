@@ -21,7 +21,7 @@ function changeStepPageAndSubmit(index, newIndex) {
     if (index == 4) {
         $('#finalizeForm').submit();
     }
-
+    console.log("125");
     return true;
 };
 
