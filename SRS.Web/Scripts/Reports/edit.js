@@ -22,6 +22,8 @@ function changeStepPageAndSubmit(index, newIndex) {
         $('#finalizeForm').submit();
     }
 
+    console.log('Log');
+
     return true;
 };
 
