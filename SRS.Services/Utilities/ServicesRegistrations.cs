@@ -66,6 +66,7 @@ namespace SRS.Services.Utilities
             Bind<IWordReportBuilderService>().To<WordReportBuilderService>();
             Bind<IBibliographyService<Publication>>().To<PublicationBibliographyService>();
             Bind<IBibliographyService<ThemeOfScientificWork>>().To<ThemeOfScientificWorkBibliographyService>();
+            Bind<IFacultyService>().To<FacultyService>();
         }
     }
 }
