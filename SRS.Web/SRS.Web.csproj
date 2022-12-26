@@ -487,6 +487,8 @@
     <Content Include="Views\Shared\Common\InfoBox.cshtml" />
     <Content Include="Views\Faculties\Index.cshtml" />
     <Content Include="Views\Faculties\Create.cshtml" />
+    <Content Include="Views\Faculties\Edit.cshtml" />
+    <Content Include="Views\Faculties\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
