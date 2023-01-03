@@ -22,5 +22,14 @@ namespace SRS.Services.Implementations
             var honraryTitles = await _repo.GetAsync(new HonoraryTitleSpecification(filterModel));
             return _mapper.Map<IList<HonoraryTitleModel>>(honraryTitles);
         }
+
+        public async Task<int> CountAsync(BaseFilterModel filterModel)
+        {
+            var countFilterModel = new BaseFilterModel
+            {
+                Search = filterModel.Search
+            };
+            return await _repo.CountAsync(new HonoraryTitleSpecification(countFilterModel));
+        }
     }
 }
