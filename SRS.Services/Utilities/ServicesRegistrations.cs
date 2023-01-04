@@ -28,6 +28,7 @@ namespace SRS.Services.Utilities
         private void AddBaseCrudServices()
         {
             Bind<IBaseCrudService<DegreeModel>>().To<BaseCrudService<Degree, DegreeModel>>();
+            Bind<IBaseCrudService<HonoraryTitleModel>>().To<BaseCrudService<HonoraryTitle, HonoraryTitleModel>>();
             Bind<IBaseCrudService<AcademicStatusModel>>().To<BaseCrudService<AcademicStatus, AcademicStatusModel>>();
             Bind<IBaseCrudService<PositionModel>>().To<BaseCrudService<Position, PositionModel>>();
             Bind<IBaseCrudService<CathedraModel>>().To<BaseCrudService<Cathedra, CathedraModel>>();

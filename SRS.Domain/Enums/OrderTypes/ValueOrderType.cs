@@ -3,6 +3,7 @@
     public enum ValueOrderType
     {
         None,
-        Value
+        Value,
+        SortOrder
     }
 }
