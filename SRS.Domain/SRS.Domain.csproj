@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SRS.Domain</RootNamespace>
     <AssemblyName>SRS.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -98,6 +98,7 @@
     <Compile Include="Entities\AcademicStatus.cs" />
     <Compile Include="Entities\ThemeOfScientificWorkFinancial.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+    <Compile Include="Enums\OrderTypes\PositionOrderType.cs" />
     <Compile Include="Enums\OrderTypes\ValueOrderType.cs" />
     <Compile Include="Enums\ReportState.cs" />
     <Compile Include="Enums\ScientificWorkSubCategory.cs" />

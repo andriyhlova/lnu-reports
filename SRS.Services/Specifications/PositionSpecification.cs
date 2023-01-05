@@ -19,10 +19,12 @@ namespace SRS.Domain.Specifications
 
         private void AddOrder(int? orderBy, bool desc)
         {
-            switch ((ValueOrderType?)orderBy)
+            switch ((PositionOrderType?)orderBy)
             {
-                case ValueOrderType.Value when !desc: ApplyOrderBy(x => x.Value); break;
-                case ValueOrderType.Value when desc: ApplyOrderByDescending(x => x.Value); break;
+                case PositionOrderType.Value when !desc: ApplyOrderBy(x => x.Value); break;
+                case PositionOrderType.Value when desc: ApplyOrderByDescending(x => x.Value); break;
+                case PositionOrderType.SortOrder when !desc: ApplyOrderBy(x => x.SortOrder); break;
+                case PositionOrderType.SortOrder when desc: ApplyOrderByDescending(x => x.SortOrder); break;
                 default: ApplyOrderBy(x => x.SortOrder); break;
             }
         }
