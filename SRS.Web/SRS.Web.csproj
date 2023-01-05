@@ -92,7 +92,6 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
@@ -114,7 +113,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -155,7 +153,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -236,7 +233,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
-    <Compile Include="Areas\Api\Controllers\HonoraryTitlesController.cs" />
+    <Compile Include="Areas\Api\Controllers\HonoraryTitlesApiController.cs" />
     <Compile Include="Areas\Api\Controllers\AcademicStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\DegreesApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalTypesController.cs" />
@@ -247,8 +244,8 @@
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HonoraryTitlesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
     <Compile Include="Controllers\CathedraReportListController.cs" />
     <Compile Include="Controllers\CathedraReportGenerationController.cs" />
@@ -290,7 +287,6 @@
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Constants\CookieNames.cs" />
     <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
-    <Compile Include="Models\Positions\PositionFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
@@ -491,10 +487,13 @@
     <Content Include="Views\Report\Delete.cshtml" />
     <Content Include="Views\Shared\Common\InfoBox.cshtml" />
     <Content Include="Views\Faculties\Index.cshtml" />
-    <Content Include="Views\Positions\Index.cshtml" />
-    <Content Include="Views\Positions\Create.cshtml" />
-    <Content Include="Views\Positions\Delete.cshtml" />
-    <Content Include="Views\Positions\Edit.cshtml" />
+    <Content Include="Views\Faculties\Create.cshtml" />
+    <Content Include="Views\Faculties\Edit.cshtml" />
+    <Content Include="Views\Faculties\Delete.cshtml" />
+    <Content Include="Views\HonoraryTitles\Index.cshtml" />
+    <Content Include="Views\HonoraryTitles\Create.cshtml" />
+    <Content Include="Views\HonoraryTitles\Delete.cshtml" />
+    <Content Include="Views\HonoraryTitles\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

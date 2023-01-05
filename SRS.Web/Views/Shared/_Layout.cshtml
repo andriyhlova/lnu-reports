@@ -85,14 +85,11 @@
                                     <li>@Html.ActionLink("Працівники", "Index", "UsersManagement")</li>
                                     @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
                                     {
-                                        if (User.IsInRole(RoleNames.Superadmin))
-                                        {
-                                            <li>@Html.ActionLink("Наукові ступені", "Index", "Degrees")</li>
-                                            <li>@Html.ActionLink("Факультети", "Index", "Faculties")</li>
-                                        }
                                         <li>@Html.ActionLink("Журнали", "Index", "Journals")</li>
                                         <li>@Html.ActionLink("Тематичні плани", "Index", "ThemeOfScientificWorks", new { IsActive = true }, null)</li>
-                                        <li>@Html.ActionLink("Посади", "Index", "Positions")</li>
+                                        <li>@Html.ActionLink("Наукові ступені", "Index", "Degrees")</li>
+                                        <li>@Html.ActionLink("Факультети", "Index", "Faculties")</li>
+                                        <li>@Html.ActionLink("Почесні звання", "Index", "HonoraryTitles")</li>
                                     }
                                 </ul>
                             </li>

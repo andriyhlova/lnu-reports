@@ -2,12 +2,12 @@
 @using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Models
 @using SRS.Web.Models.Shared
-@model ItemsViewModel<BaseFilterViewModel, FacultyModel>
+@model ItemsViewModel<BaseFilterViewModel, HonoraryTitleModel>
 @{
-    ViewBag.Title = "Факультети";
+    ViewBag.Title = "Почесні звання";
 }
 
-<h2>Факультети</h2>
+<h2>Почесні звання</h2>
 <form>
     @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
@@ -26,7 +26,10 @@
                 @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, OrderBy = (int)ValueOrderType.Value })
                 @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ValueOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
-            <th></th>
+            <th>
+                @Html.ActionLink("Порядок сортування", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, OrderBy = (int)ValueOrderType.SortOrder })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ValueOrderType.SortOrder, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +37,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SortOrder)
                 </td>
                 <td>
                     @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
