@@ -246,6 +246,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HonoraryTitlesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
     <Compile Include="Controllers\CathedraReportListController.cs" />
     <Compile Include="Controllers\CathedraReportGenerationController.cs" />
@@ -494,6 +495,10 @@
     <Content Include="Views\HonoraryTitles\Create.cshtml" />
     <Content Include="Views\HonoraryTitles\Delete.cshtml" />
     <Content Include="Views\HonoraryTitles\Edit.cshtml" />
+    <Content Include="Views\Positions\Create.cshtml" />
+    <Content Include="Views\Positions\Delete.cshtml" />
+    <Content Include="Views\Positions\Edit.cshtml" />
+    <Content Include="Views\Positions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

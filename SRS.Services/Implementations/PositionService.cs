@@ -22,5 +22,14 @@ namespace SRS.Services.Implementations
             var academicStatuses = await _repo.GetAsync(new PositionSpecification(filterModel));
             return _mapper.Map<IList<PositionModel>>(academicStatuses);
         }
+
+        public async Task<int> CountAsync(BaseFilterModel filterModel)
+        {
+            var countFilterModel = new BaseFilterModel
+            {
+                Search = filterModel.Search
+            };
+            return await _repo.CountAsync(new PositionSpecification(countFilterModel));
+        }
     }
 }

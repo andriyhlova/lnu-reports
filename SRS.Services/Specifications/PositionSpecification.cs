@@ -23,6 +23,8 @@ namespace SRS.Domain.Specifications
             {
                 case ValueOrderType.Value when !desc: ApplyOrderBy(x => x.Value); break;
                 case ValueOrderType.Value when desc: ApplyOrderByDescending(x => x.Value); break;
+                case ValueOrderType.SortOrder when !desc: ApplyOrderBy(x => x.SortOrder); break;
+                case ValueOrderType.SortOrder when desc: ApplyOrderByDescending(x => x.SortOrder); break;
                 default: ApplyOrderBy(x => x.SortOrder); break;
             }
         }
