@@ -96,13 +96,13 @@ namespace SRS.Web.Controllers
 
         private async Task<ActionResult> Details(int id)
         {
-            var degrees = await _positionsCrudService.GetAsync(id);
-            if (degrees == null)
+            var positions = await _positionsCrudService.GetAsync(id);
+            if (positions == null)
             {
                 return HttpNotFound();
             }
 
-            return View(degrees);
+            return View(positions);
         }
     }
 }
