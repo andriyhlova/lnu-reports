@@ -288,7 +288,6 @@
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Constants\CookieNames.cs" />
     <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
-    <Compile Include="Models\Positions\PositionFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
