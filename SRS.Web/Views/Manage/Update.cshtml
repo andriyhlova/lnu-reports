@@ -124,12 +124,28 @@
             @Html.ValidationMessageFor(model => model.AcademicStatusDefenseYear, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Посада</label>
-        <div class="col-md-10">
-            <label class="control-label">@Model.PositionValue</label>
+    if (User.IsInRole(RoleNames.Superadmin) ||
+            User.IsInRole(RoleNames.RectorateAdmin) ||
+            User.IsInRole(RoleNames.DeaneryAdmin) ||
+            User.IsInRole(RoleNames.CathedraAdmin))
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">Посада <span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.PositionId, new SelectList(ViewBag.AllPositions, "Id", "Value"), new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">Посада</label>
+            <div class="col-md-10">
+                <label class="control-label">@Model.PositionValue</label>
+            </div>
+        </div>
+    }
     <div class="form-group">
         <label class="control-label col-md-2">Наукові ступені</label>
         <div class="col-md-10" id="degree-related-entity">

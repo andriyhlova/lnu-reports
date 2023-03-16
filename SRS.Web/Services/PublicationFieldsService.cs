@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using SRS.Domain.Enums;
+﻿using SRS.Domain.Enums;
 using SRS.Web.Enums;
+using System;
+using System.Linq;
 
 namespace SRS.Web.Services
 {
@@ -178,6 +178,7 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Патент }
                     };
                 case PublicationField.ChapterMonographyName:
+                case PublicationField.Editors:
                     return new FieldInfo[]
                     {
                         new FieldInfo { Type = (int)PublicationType.Розділ_монографії_У_Закордонному_Видавництві },

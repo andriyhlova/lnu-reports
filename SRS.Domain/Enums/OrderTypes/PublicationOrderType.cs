@@ -7,6 +7,6 @@
         Date,
         PublicationType,
         AuthorsOrder,
-        Journal
+        JournalChapterConferenceName,
     }
 }

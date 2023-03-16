@@ -53,6 +53,8 @@ namespace SRS.Services.Models.UserModels
 
         public int? GoogleScholarHIndex { get; set; }
 
+        public int? PositionId { get; set; }
+
         public string PositionValue { get; set; }
 
         public IList<UserDegreeModel> Degrees { get; set; }

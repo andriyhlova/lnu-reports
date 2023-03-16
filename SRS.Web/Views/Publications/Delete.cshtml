@@ -72,6 +72,14 @@
         </div>
 
         <div class="row field"
+             data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Editors)))">
+            <label class="col-md-2">Редактори монографії</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Editors)
+            </div>
+        </div>
+
+        <div class="row field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName)))">
             <label class="col-md-2">Назва конференції</label>
             <div class="col-md-10">

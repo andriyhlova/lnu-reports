@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using SRS.Domain.Enums;
+﻿using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.UserModels;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SRS.Services.Models.PublicationModels
 {
@@ -44,8 +44,6 @@ namespace SRS.Services.Models.PublicationModels
 
         public string ISBN { get; set; }
 
-        public string ConferenceName { get; set; }
-
         public string ConferenceDate { get; set; }
 
         public string ConferencePlace { get; set; }
@@ -64,7 +62,7 @@ namespace SRS.Services.Models.PublicationModels
 
         public string BulletinNumber { get; set; }
 
-        public string ChapterMonographyName { get; set; }
+        public string Editors { get; set; }
 
         public double GetSizeOfPages()
         {
