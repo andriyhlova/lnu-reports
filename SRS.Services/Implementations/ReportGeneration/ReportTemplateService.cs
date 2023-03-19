@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Domain.Specifications.UserSpecifications;
@@ -11,6 +7,10 @@ using SRS.Services.Extensions;
 using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.ReportGenerationModels.Report;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations.ReportGeneration
 {
@@ -67,19 +67,19 @@ namespace SRS.Services.Implementations.ReportGeneration
         private ReportUserInfoModel GetUserInfo(Report dbReport)
         {
             var userInfo = new ReportUserInfoModel();
-            userInfo.Position = GetCorrectedPosition(dbReport.User.Position?.Value);
-            userInfo.Cathedra = dbReport.User.Cathedra?.GenitiveCase.TransformFirstLetter(char.ToLower);
-            userInfo.UserFullName = dbReport.User.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
+            var currentYear = dbReport.Date?.Year ?? DateTime.Now.Year;
+            userInfo.Position = GetCorrectedPosition(dbReport.State != ReportState.Draft ? dbReport.PositionName : dbReport.User.Position?.Value);
+            userInfo.Cathedra = (dbReport.State != ReportState.Draft ? dbReport.CathedraName : dbReport.User.Cathedra?.GenitiveCase).TransformFirstLetter(char.ToLower);
+            userInfo.UserFullName = dbReport.State != ReportState.Draft ? dbReport.UserFullName : dbReport.User.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
             userInfo.BirthYear = dbReport.User.BirthDate.Year;
             userInfo.GraduationYear = dbReport.User.GraduationDate?.Year ?? 0;
-            userInfo.AspStart = dbReport.User.AspirantStartYear?.Year;
-            userInfo.AspFinish = dbReport.User.AspirantFinishYear?.Year;
-            userInfo.DocStart = dbReport.User.DoctorStartYear?.Year;
-            userInfo.DocFinish = dbReport.User.DoctorFinishYear?.Year;
-            userInfo.ScopusHIndex = dbReport.User.ScopusHIndex;
-            userInfo.WebOfScienceHIndex = dbReport.User.WebOfScienceHIndex;
-            userInfo.GoogleScholarHIndex = dbReport.User.GoogleScholarHIndex;
-            var currentYear = dbReport.Date?.Year ?? DateTime.Now.Year;
+            userInfo.AspStart = dbReport.User.AspirantStartYear?.Year <= currentYear ? dbReport.User.AspirantStartYear?.Year : null;
+            userInfo.AspFinish = dbReport.User.AspirantFinishYear?.Year <= currentYear ? dbReport.User.AspirantFinishYear?.Year : null;
+            userInfo.DocStart = dbReport.User.DoctorStartYear?.Year <= currentYear ? dbReport.User.DoctorStartYear?.Year : null;
+            userInfo.DocFinish = dbReport.User.DoctorFinishYear?.Year <= currentYear ? dbReport.User.DoctorFinishYear?.Year : null;
+            userInfo.ScopusHIndex = dbReport.State != ReportState.Draft ? dbReport.ScopusHIndex : dbReport.User.ScopusHIndex;
+            userInfo.WebOfScienceHIndex = dbReport.State != ReportState.Draft ? dbReport.WebOfScienceHIndex : dbReport.User.WebOfScienceHIndex;
+            userInfo.GoogleScholarHIndex = dbReport.State != ReportState.Draft ? dbReport.GoogleScholarHIndex : dbReport.User.GoogleScholarHIndex;
             userInfo.Degrees = dbReport.User.Degrees
                 .Where(x => x.AwardDate.Year <= currentYear)
                 .Select(degree => new ReportUserTitleModel
@@ -234,7 +234,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var signature = new ReportSignatureModel();
             signature.Protocol = dbReport.Protocol;
             signature.Date = dbReport.Date?.ToString("dd.MM.yyyy");
-            signature.CathedraLead = cathedraLead?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
+            signature.CathedraLead = dbReport.State != ReportState.Draft ? dbReport.CathedraLeadName : cathedraLead?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
             return signature;
         }
 

@@ -203,6 +203,10 @@
     <Compile Include="Migrations\202303162214131_AddedEditorsField.designer.cs">
       <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.cs" />
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.designer.cs">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -301,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303162214131_AddedEditorsField.resx">
       <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303182329139_AddedUserFieldsToReport.resx">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
