@@ -173,6 +173,7 @@
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
+    <Compile Include="Models\FilterModels\FacultyFilterModel.cs" />
     <Compile Include="Models\FilterModels\JournalFilterModel.cs" />
     <Compile Include="Models\FilterModels\UserFilterModel.cs" />
     <Compile Include="Models\FilterModels\ThemeOfScientificWorkFilterModel.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\BaseModels\BaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\RolesProvider.cs" />
+    <Compile Include="Specifications\CathedraSpecification.cs" />
     <Compile Include="Specifications\FacultySpecification.cs" />
     <Compile Include="Specifications\PositionSpecification.cs" />
     <Compile Include="Specifications\HonoraryTitleSpecification.cs" />
