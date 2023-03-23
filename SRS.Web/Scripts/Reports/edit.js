@@ -39,7 +39,7 @@ function submitThemeForm() {
     let grants = $('textarea[name^=Grants]');
     for (let i = 0; i < grants.length; i++) {
         if (!grants[i].value || !grants[i].value.trim()) {
-            alert('Введіть опис гранту');
+            alert('Введіть опис ґранту');
             return false;
         }
     }

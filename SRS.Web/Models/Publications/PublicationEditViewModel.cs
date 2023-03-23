@@ -1,10 +1,9 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using SRS.Services.Attributes;
+using SRS.Services.Models.UserModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Domain.Enums;
-using SRS.Services.Attributes;
-using SRS.Services.Models.Constants;
-using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Models.Publications
 {
@@ -83,5 +82,7 @@ namespace SRS.Web.Models.Publications
         public string BulletinNumber { get; set; }
 
         public string ChapterMonographyName { get; set; }
+
+        public string Editors { get; set; }
     }
 }

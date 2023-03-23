@@ -4,6 +4,7 @@
 @using SRS.Services.Models.Constants
 @using SRS.Services.Models.PublicationModels
 @using SRS.Services.Extensions
+@using SRS.Services.Utilities
 @using SRS.Web.Models.Publications
 @using SRS.Web.Models.Shared
 
@@ -52,8 +53,8 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.PublicationType, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Журнал", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.Journal, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search, PublicationType = Model.FilterModel.PublicationType })
-                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.Journal, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                    @Html.ActionLink("Журнал / Видання / Конференція", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.JournalChapterConferenceName, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search, PublicationType = Model.FilterModel.PublicationType })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)PublicationOrderType.JournalChapterConferenceName, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
                     @Html.ActionLink("Автори", "Index", new PublicationFilterViewModel { Page = 1, OrderBy = (int)PublicationOrderType.AuthorsOrder, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, UserId = Model.FilterModel.UserId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search, PublicationType = Model.FilterModel.PublicationType })
@@ -76,7 +77,7 @@
                         @item.PublicationType.GetDisplayName()
                     </td>
                     <td>
-                        @item.JournalName
+                        @StringUtilities.JoinNotNullOrWhitespace(" / ", item.JournalName, item.ChapterMonographyName, item.ConferenceName)
                     </td>
                     <td>
                         @if (!string.IsNullOrEmpty(item.AuthorsOrder))

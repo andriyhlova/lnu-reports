@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SRS.Services.Attributes;
+using SRS.Services.Models.UserModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Services.Attributes;
-using SRS.Services.Models.UserModels;
 
 namespace SRS.Web.Models.Account
 {
@@ -71,6 +71,10 @@ namespace SRS.Web.Models.Account
 
         [Display(Name = "Рік захисту докторської дисертації")]
         public int? AcademicStatusDefenseYear { get; set; }
+
+        [RequiredField]
+        [Display(Name = "Посада")]
+        public int? PositionId { get; set; }
 
         [Display(Name = "Посада")]
         public string PositionValue { get; set; }

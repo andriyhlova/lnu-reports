@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
@@ -81,6 +81,8 @@ namespace SRS.Domain.Entities
         public string BulletinNumber { get; set; }
 
         public string ChapterMonographyName { get; set; }
+
+        public string Editors { get; set; }
 
         public virtual Journal Journal { get; set; }
 

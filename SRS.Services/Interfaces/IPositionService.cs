@@ -8,5 +8,7 @@ namespace SRS.Services.Interfaces
     public interface IPositionService
     {
         Task<IList<PositionModel>> GetAllAsync(BaseFilterModel filterModel);
+
+        Task<int> CountAsync(BaseFilterModel filterModel);
     }
 }

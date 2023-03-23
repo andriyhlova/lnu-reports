@@ -8,5 +8,7 @@ namespace SRS.Services.Interfaces
     public interface IHonoraryTitleService
     {
         Task<IList<HonoraryTitleModel>> GetAllAsync(BaseFilterModel filterModel);
+
+        Task<int> CountAsync(BaseFilterModel filterModel);
     }
 }

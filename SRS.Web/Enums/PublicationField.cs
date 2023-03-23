@@ -28,6 +28,7 @@
         BulletinNumber,
         ApplicationOwner,
         Name,
-        ChapterMonographyName
+        ChapterMonographyName,
+        Editors
     }
 }

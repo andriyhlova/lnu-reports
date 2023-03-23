@@ -86,8 +86,7 @@
             <input type="hidden" name="CathedraId" value="@Model.CathedraId"/>
         }
 
-        @if (User.Identity.Name != Model.Email && 
-            (User.IsInRole(RoleNames.Superadmin) ||
+        @if ((User.IsInRole(RoleNames.Superadmin) ||
             User.IsInRole(RoleNames.RectorateAdmin) ||
             User.IsInRole(RoleNames.DeaneryAdmin) ||
             User.IsInRole(RoleNames.CathedraAdmin)))
