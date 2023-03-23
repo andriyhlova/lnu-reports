@@ -12,8 +12,8 @@ namespace SRS.Services.Models
 
         public int? FacultyId { get; set; }
 
-        public virtual Faculty Faculty { get; set; }
+        public virtual FacultyModel Faculty { get; set; }
 
-        public IList<ThemeOfScientificWork> ThemeOfScientificWork { get; set; }
+        public IList<ThemeOfScientificWork> ThemeOfScientificWorks { get; set; }
     }
 }
