@@ -240,6 +240,7 @@
     <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -499,6 +500,7 @@
     <Content Include="Views\Positions\Delete.cshtml" />
     <Content Include="Views\Positions\Edit.cshtml" />
     <Content Include="Views\Positions\Index.cshtml" />
+    <Content Include="Views\Analytics\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
