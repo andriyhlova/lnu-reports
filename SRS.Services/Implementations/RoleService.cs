@@ -40,7 +40,8 @@ namespace SRS.Services.Implementations
                 availableRoles = availableRoles
                     .Where(x => x.Name != RoleNames.Superadmin
                                 && x.Name != RoleNames.RectorateAdmin
-                                && x.Name != RoleNames.DeaneryAdmin)
+                                && x.Name != RoleNames.DeaneryAdmin
+                                && x.Name != RoleNames.ThemeOfScientificWorkAdmin)
                     .ToList();
             }
             else if (currentUser.IsInRole(RoleNames.CathedraAdmin))
@@ -49,10 +50,11 @@ namespace SRS.Services.Implementations
                     .Where(x => x.Name != RoleNames.Superadmin
                                 && x.Name != RoleNames.RectorateAdmin
                                 && x.Name != RoleNames.DeaneryAdmin
-                                && x.Name != RoleNames.CathedraAdmin)
+                                && x.Name != RoleNames.CathedraAdmin
+                                && x.Name != RoleNames.ThemeOfScientificWorkAdmin)
                     .ToList();
             }
-            else if (currentUser.IsInRole(RoleNames.Worker))
+            else if (currentUser.IsInRole(RoleNames.Worker) || currentUser.IsInRole(RoleNames.ThemeOfScientificWorkAdmin))
             {
                 availableRoles = new List<IdentityRole>();
             }
