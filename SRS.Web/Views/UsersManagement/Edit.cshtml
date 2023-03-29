@@ -154,16 +154,7 @@
                 <div class="col-md-10 available-roles">
                     @foreach (var role in availableRoles)
                     {
-                        if (!Model.RoleIds.Any(x => x == role.Id) &&
-                            (User.IsInRole(RoleNames.Superadmin) ||
-                            User.IsInRole(RoleNames.RectorateAdmin)))
-                        {
-                            <div class="display-label" data-id="@role.Id">
-                                <span>@RolesProvider.AllRoles[role.Id]</span>
-                                <span class="text-success action-btn add">Додати</span>
-                            </div>
-                        }
-                        else if (!Model.RoleIds.Any(x => x == role.Id) && role.Id != "6")
+                        if (!Model.RoleIds.Any(x => x == role.Id))
                         {
                             <div class="display-label" data-id="@role.Id">
                                 <span>@RolesProvider.AllRoles[role.Id]</span>
