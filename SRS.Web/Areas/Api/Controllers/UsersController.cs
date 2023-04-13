@@ -26,10 +26,10 @@ namespace SRS.Web.Areas.Api.Controllers
 
         [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
         [HttpGet]
-        public async Task<ActionResult> GetByFacultyAndCathedra(int? facultyId, int? cathedraId)
+        public async Task<ActionResult> GetByFacultyAndCathedra(int? facultyId, int? cathedraId, string roleId)
         {
             var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
-            var users = await _userInitialsService.GetForUserAsync(user, new UserFilterModel { FacultyId = facultyId, CathedraId = cathedraId, OrderBy = (int)UserOrderType.LastName, IsActive = true });
+            var users = await _userInitialsService.GetForUserAsync(user, new UserFilterModel { FacultyId = facultyId, CathedraId = cathedraId, RoleId = roleId, OrderBy = (int)UserOrderType.LastName, IsActive = true });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
