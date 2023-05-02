@@ -83,6 +83,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Працівники", "Index", "UsersManagement")</li>
+                                    <li>@Html.ActionLink("Зовнішні сумісники", "Index", "ExternalPartTimeEmployee")</li>
                                     @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
                                     {
                                         <li>@Html.ActionLink("Журнали", "Index", "Journals")</li>

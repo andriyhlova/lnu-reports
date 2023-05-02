@@ -54,7 +54,9 @@ namespace SRS.Services.Implementations
                                 && x.Name != RoleNames.ThemeOfScientificWorkAdmin)
                     .ToList();
             }
-            else if (currentUser.IsInRole(RoleNames.Worker) || currentUser.IsInRole(RoleNames.ThemeOfScientificWorkAdmin))
+            else if (currentUser.IsInRole(RoleNames.Worker) ||
+                     currentUser.IsInRole(RoleNames.ThemeOfScientificWorkAdmin) ||
+                     currentUser.IsInRole(RoleNames.ExternalPartTimeEmployee))
             {
                 availableRoles = new List<IdentityRole>();
             }

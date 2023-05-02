@@ -8,5 +8,6 @@
         public const string CathedraAdmin = "Керівник кафедри";
         public const string Worker = "Працівник";
         public const string ThemeOfScientificWorkAdmin = "Керівник тематичного плану";
+        public const string ExternalPartTimeEmployee = "Зовнішній сумісник";
     }
 }
