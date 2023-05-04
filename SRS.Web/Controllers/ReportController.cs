@@ -33,6 +33,7 @@ namespace SRS.Web.Controllers
         {
             var report = await _reportService.GetUserReportAsync(User.Identity.GetUserId(), reportId);
             var viewModel = _mapper.Map<ReportViewModel>(report);
+            viewModel.IdOfCurrentUser = User.Identity.GetUserId();
             await FillPublications(viewModel, report, publicationDateFilter);
             FillFilters(publicationDateFilter);
             FillStepIndex(stepIndex);

@@ -46,6 +46,7 @@ namespace SRS.Repositories.Implementations
             {
                 var newInitial = newEntity.ThemeOfScientificWorks.FirstOrDefault(y => y.Id == theme.Id);
                 theme.Description = newInitial.Description;
+                theme.Resume = newInitial.Resume;
             }
 
             var toAddThemes = newEntity.ThemeOfScientificWorks.Where(x => !existingEntity.ThemeOfScientificWorks.Any(y => y.Id == x.Id)).ToList();
