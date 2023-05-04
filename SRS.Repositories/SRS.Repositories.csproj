@@ -211,10 +211,6 @@
     <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.designer.cs">
       <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.cs" />
-    <Compile Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.designer.cs">
-      <DependentUpon>202305031238069_UpdateReportThemeOfScientificWork.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -319,9 +315,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304051740443_UpdateThemeOfScientificWork.resx">
       <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.resx">
-      <DependentUpon>202305031238069_UpdateReportThemeOfScientificWork.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

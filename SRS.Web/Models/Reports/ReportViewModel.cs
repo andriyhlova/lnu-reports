@@ -55,7 +55,5 @@ namespace SRS.Web.Models.Reports
         public List<CheckboxListItem> ApplicationsForInvention { get; set; }
 
         public List<CheckboxListItem> PatentsForInvention { get; set; }
-
-        public string IdOfCurrentUser { get; set; }
     }
 }

@@ -10,7 +10,5 @@ namespace SRS.Services.Models.ReportModels
         public ThemeOfScientificWorkModel ThemeOfScientificWork { get; set; }
 
         public string Description { get; set; }
-
-        public string Resume { get; set; }
     }
 }

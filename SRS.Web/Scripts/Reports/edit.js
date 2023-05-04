@@ -137,9 +137,7 @@ function submitDateForm() {
                 Code: $(scientificWorks[i])[0].dataset.code,
                 ScientificHead: $(scientificWorks[i])[0].dataset.scientifichead,
                 Value: $(scientificWorks[i])[0].dataset.value,
-                Description: $(scientificWorks[i])[0].dataset.description,
-                Resume: $(scientificWorks[i])[0].dataset.resume,
-                SupervisorId: $(scientificWorks[i])[0].dataset.supervisorid
+                Description: $(scientificWorks[i])[0].dataset.description
             }
 
             settings.collection.push(scientificWork);
@@ -176,7 +174,6 @@ function submitDateForm() {
         const theme = settings.collection.find(x => x.Id == id);
         if (theme) {
             theme.Description = $(element.target).val();
-            theme.Resume = $(element.target).val();
         }
     }
 
@@ -189,43 +186,22 @@ function submitDateForm() {
     };
 
     function getScientificWorkHtml(index, scientificWork, fieldName) {
-        let resume = ``;
-
-        if (CurrentUserId == scientificWork.SupervisorId)
-        {
-            resume = `<label class="control-label">
-                        Резюме
-                    </label>
-
-                    <div>
-                        <textarea class="form-control" name="${fieldName}[${index}].Resume" style="max-width:100%" rows="6" data-value="${scientificWork.Resume}">${scientificWork.Resume || ''}</textarea>
-                    </div>`;
-        }
-
         return `<div class="selected-item scientific-work">
-
-                <div class="form-group fullname">${getScientificWorkSearchResultText(scientificWork)}<i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Опис виконаної роботи <span class="text-danger">*</span>
-                    </label>
-
-                    <div>
-                        <textarea class="form-control" name="${fieldName}[${index}].Description" style="max-width:100%" rows="6" data-value="${scientificWork.Description}">${scientificWork.Description || ''}</textarea>
-                    </div>
-                </div>
-
-                ${resume}
-
-                <input type="hidden" name="${fieldName}[${index}].Id" class="id" value="${scientificWork.ReportThemeId || 0}" />
-                <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
-                <input type="hidden" name="${fieldName}[${index}].ThemeOfScientificWorkId" class="themeid" value="${scientificWork.Id}" />
-                <input type="hidden" class="code" value="${scientificWork.Code}" />
-                <input type="hidden" class="scientifichead" value="${scientificWork.ScientificHead}" />
-                <input type="hidden" class="value" value="${scientificWork.Value}" />
-            </div>`;
-        
-        
+                                <div class="form-group fullname">${getScientificWorkSearchResultText(scientificWork)}<i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
+<div class="form-group">
+<label class="control-label">
+                    Опис виконаної роботи <span class="text-danger">*</span>
+                </label>
+<div>
+<textarea class="form-control" name="${fieldName}[${index}].Description" style="max-width:100%" rows="6" data-value="${scientificWork.Description}">${scientificWork.Description || ''}</textarea>
+</div>
+</div>
+                                <input type="hidden" name="${fieldName}[${index}].Id" class="id" value="${scientificWork.ReportThemeId || 0}" />
+                                <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
+                                <input type="hidden" name="${fieldName}[${index}].ThemeOfScientificWorkId" class="themeid" value="${scientificWork.Id}" />
+                                 <input type="hidden" class="code" value="${scientificWork.Code}" />
+                                 <input type="hidden" class="scientifichead" value="${scientificWork.ScientificHead}" />
+                                 <input type="hidden" class="value" value="${scientificWork.Value}" />
+                            </div>`;
     };
 }());

@@ -42,9 +42,7 @@
                                    data-code="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Code"
                                    data-scientifichead="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ScientificHead"
                                    data-value="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Value"
-                                   data-description="@Model.ThemeOfScientificWorks[i].Description"
-                                   data-resume="@Model.ThemeOfScientificWorks[i].Resume" 
-                                   data-supervisorid="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.SupervisorId" />
+                                   data-description="@Model.ThemeOfScientificWorks[i].Description" />
                         }
                     }
                     <div class="selected-items selected-scientific-works">
@@ -174,7 +172,7 @@
             <input type="hidden" name="Id" value="@Model.Id" />
         }
     </section>
-
+    
     <h3>Публікації</h3>
     <section class="section-body">
         <form asp-controller="Report" asp-action="Index" id="dateForm">
@@ -246,8 +244,8 @@
                     @Html.EditorFor(model => model.PatentsForInvention)
                 </div>
             }
-            if (Model.PrintedPublication.Count == 0
-                && Model.RecomendedPublication.Count == 0
+            if (Model.PrintedPublication.Count == 0 
+                && Model.RecomendedPublication.Count == 0 
                 && Model.AcceptedToPrintPublication.Count == 0
                 && Model.ApplicationsForInvention.Count == 0
                 && Model.PatentsForInvention.Count == 0)
@@ -354,38 +352,34 @@
             <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
-        <div style="padding-top: 50px;">
-            <div style="display: flex; justify-content: space-evenly;">
-                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
-                @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-                <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
-                   target="_blank"
-                   class="btn btn-default">
-                    Переглянути
-                </a>
-            </div>
-            @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
-            {
-                <div style="display: flex; justify-content: center; padding-top: 16px">
-                    @using (Html.BeginForm("Sign", "ReportList"))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("reportId", Model.Id)
-                        <button type="submit" class="btn btn-primary" id="signButton">Зберегти і завершити</button>
-                    }
-                </div>
-                <div style="display: flex; justify-content: center; padding-top: 8px" class="text-danger"><span>*</span>Після цієї дії звіт стане доступним для адміністратора кафедри</div>
-            }
+    <div style="padding-top: 50px;">
+        <div style="display: flex; justify-content: space-evenly;">
+            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+            @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+            <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
+               target="_blank"
+               class="btn btn-default">
+                Переглянути
+            </a>
         </div>
+        @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+        {
+        <div style="display: flex; justify-content: center; padding-top: 16px">
+                @using (Html.BeginForm("Sign", "ReportList"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("reportId", Model.Id)
+                    <button type="submit" class="btn btn-primary" id="signButton">Зберегти і завершити</button>
+                }
+        </div>
+        <div style="display: flex; justify-content: center; padding-top: 8px" class="text-danger"><span>*</span>Після цієї дії звіт стане доступним для адміністратора кафедри</div>
+        }
+    </div>
     </section>
 </div>
 
-
 @section Styles {
-    <script>
-        var CurrentUserId = "@Model.IdOfCurrentUser";
-    </script>
     @Styles.Render("~/Content/chosen/bundle")
     @Styles.Render("~/Content/search/bundle")
     @Styles.Render("~/Content/steps/bundle")
