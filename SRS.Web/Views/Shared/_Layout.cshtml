@@ -97,6 +97,11 @@
                                 </ul>
                             </li>
                         }
+                        if (User.IsInRole(RoleNames.Superadmin) 
+                            || User.IsInRole(RoleNames.RectorateAdmin))
+                        {
+                            <li>@Html.ActionLink("Аналітика", "Index", "Analytics")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
