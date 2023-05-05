@@ -1,4 +1,5 @@
-﻿@using SRS.Services.Models.Constants
+﻿@using Microsoft.AspNet.Identity
+@using SRS.Services.Models.Constants
 @model SRS.Web.Models.Reports.ReportViewModel
 @{
     ViewBag.Title = "Індивідуальний звіт";
@@ -43,7 +44,7 @@
                                    data-scientifichead="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ScientificHead"
                                    data-value="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Value"
                                    data-description="@Model.ThemeOfScientificWorks[i].Description"
-                                   data-resume="@Model.ThemeOfScientificWorks[i].Resume" 
+                                   data-resume="@Model.ThemeOfScientificWorks[i].Resume"
                                    data-supervisorid="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.SupervisorId" />
                         }
                     }
@@ -384,7 +385,7 @@
 
 @section Styles {
     <script>
-        var CurrentUserId = "@Model.IdOfCurrentUser";
+        var CurrentUserId = "@User.Identity.GetUserId()";
     </script>
     @Styles.Render("~/Content/chosen/bundle")
     @Styles.Render("~/Content/search/bundle")
