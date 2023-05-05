@@ -215,6 +215,14 @@
     <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.designer.cs">
       <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.designer.cs">
+      <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050806543_ResolveMigrationConflict.cs" />
+    <Compile Include="Migrations\202305050806543_ResolveMigrationConflict.designer.cs">
+      <DependentUpon>202305050806543_ResolveMigrationConflict.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -322,6 +330,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305050757385_ResolveMigrationCoflict.resx">
       <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304051740443_UpdateThemeOfScientificWork.resx">
+      <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050806543_ResolveMigrationConflict.resx">
+      <DependentUpon>202305050806543_ResolveMigrationConflict.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

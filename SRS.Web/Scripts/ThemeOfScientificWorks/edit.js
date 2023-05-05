@@ -4,6 +4,7 @@
     const minAmount = 1;
     $(function () {
         getUsers();
+        getScientificHead()
         getSelectedFinancials();
         financialChange();
         const financialEntityComponent = new RelatedEntityComponent(getSettings());
@@ -25,7 +26,15 @@
         $.ajax('/api/users/getByFacultyAndCathedra')
             .done(function (users) {
                 let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
-                updateUserList(users, selectedUser);
+                updateUserList(users, selectedUser, "#user-selector");
+            });
+    }
+
+    function getScientificHead() {
+        $.ajax('/api/users/getByFacultyAndCathedra?roleId=' + themeOfScientificWorkAdmin)
+            .done(function (users) {
+                let selectedUser = $("#scientific-head-selector").val() || $("#scientific-head-selector")[0].dataset.selected;
+                updateUserList(users, selectedUser, "#scientific-head-selector");
             });
     }
 
@@ -42,15 +51,15 @@
         }
     }
 
-    function updateUserList(users, selectedUser) {
+    function updateUserList(users, selectedUser, userSelector) {
         let str = "<option value=''>Виберіть користувача</option>";
         for (var i = 0; i < users.length; i++) {
             let user = users[i];
             str += `<option value='${user.Id}' ${user.Id == selectedUser ? 'selected' : ''}>${[user.LastName, user.FirstName, user.FathersName].join(' ')}</option>`;
         }
 
-        $("#user-selector").html(str);
-        $("#user-selector").trigger("chosen:updated");
+        $(userSelector).html(str);
+        $(userSelector).trigger("chosen:updated");
     }
 
     function financialChange() {

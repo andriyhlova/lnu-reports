@@ -19,5 +19,7 @@ namespace SRS.Web.Models.ThemeOfScientificWorks
         public DateTime? PeriodToFrom { get; set; }
 
         public DateTime? PeriodToTo { get; set; }
+
+        public string UserId { get; set; }
     }
 }

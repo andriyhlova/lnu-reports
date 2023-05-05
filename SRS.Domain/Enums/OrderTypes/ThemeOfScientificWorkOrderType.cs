@@ -11,6 +11,7 @@
         Financial,
         CathedraName,
         SubCategory,
-        FinancialAmount
+        FinancialAmount,
+        Supervisor
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using SRS.Services.Models.Constants
 @using SRS.Services.Models.ThemeOfScientificWorkModels
+@using SRS.Services.Providers
 @model ThemeOfScientificWorkModel
 
 @{
@@ -46,6 +47,18 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ScientificHead, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ScientificHead, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Науковий керівник</label>
+            <div class="col-md-10">
+                <select id="scientific-head-selector" class="form-control chosen-select" name="SupervisorId" data-selected="@Model.SupervisorId">
+                    <option value="">Виберіть користувача</option>
+                </select>
+                <div>
+                    @Html.ValidationMessageFor(model => model.SupervisorId, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -139,6 +152,9 @@
     @Styles.Render("~/Content/relatedEntity/bundle")
 }
 @section Scripts {
+    <script>
+        var themeOfScientificWorkAdmin = @(RolesProvider.AllRoles.FirstOrDefault(x => x.Value == RoleNames.ThemeOfScientificWorkAdmin).Key);
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/relatedEntityComponent")
