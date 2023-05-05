@@ -1,10 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Extensions;
 using SRS.Services.Models.FilterModels;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace SRS.Domain.Specifications
 {
@@ -46,8 +47,8 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.Value when desc: ApplyOrderByDescending(x => x.Value); break;
                 case ThemeOfScientificWorkOrderType.ScientificHead when !desc: ApplyOrderBy(x => x.ScientificHead); break;
                 case ThemeOfScientificWorkOrderType.ScientificHead when desc: ApplyOrderByDescending(x => x.ScientificHead); break;
-                case ThemeOfScientificWorkOrderType.Supervisor when !desc: ApplyOrderBy(x => x.Supervisor); break;
-                case ThemeOfScientificWorkOrderType.Supervisor when desc: ApplyOrderByDescending(x => x.Supervisor); break;
+                case ThemeOfScientificWorkOrderType.Supervisor when !desc: ApplyOrderBy(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).LastName); ApplyThenBy(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).FirstName); break;
+                case ThemeOfScientificWorkOrderType.Supervisor when desc: ApplyOrderByDescending(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).LastName); ApplyThenByDescending(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).FirstName); break;
                 case ThemeOfScientificWorkOrderType.PeriodTo when !desc: ApplyOrderBy(x => x.PeriodTo); break;
                 case ThemeOfScientificWorkOrderType.PeriodTo when desc: ApplyOrderByDescending(x => x.PeriodTo); break;
                 case ThemeOfScientificWorkOrderType.Financial when !desc: ApplyOrderBy(x => x.Financial); break;
