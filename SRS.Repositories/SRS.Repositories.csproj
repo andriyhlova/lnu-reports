@@ -207,6 +207,14 @@
     <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.designer.cs">
       <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303291618220_UpdateJournalType.cs" />
+    <Compile Include="Migrations\202303291618220_UpdateJournalType.designer.cs">
+      <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.cs" />
+    <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.designer.cs">
+      <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.cs" />
     <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.designer.cs">
       <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
@@ -312,6 +320,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303182329139_AddedUserFieldsToReport.resx">
       <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303291618220_UpdateJournalType.resx">
+      <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050757385_ResolveMigrationCoflict.resx">
+      <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304051740443_UpdateThemeOfScientificWork.resx">
       <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
