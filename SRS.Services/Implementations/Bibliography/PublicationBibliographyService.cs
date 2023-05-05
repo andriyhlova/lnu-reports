@@ -82,7 +82,7 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", GetPartWithDot(publication.GetJournalName(true)))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Date.Year.ToString()))}" +
-                $"{GetBibliographyPart($" {_dash} ", StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, publication.Issue)))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPagesPart(publication))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetReferencePart(publication))}")
                 .Trim();
@@ -120,7 +120,7 @@ namespace SRS.Services.Implementations.Bibliography
         private string GetNumberOfPages(Publication publication)
         {
             var pageTitle = GetPageTitle(publication.Language);
-            return publication.NumberOfPages.HasValue ? $"{publication.NumberOfPages.ToString()} {pageTitle}" : string.Empty;
+            return publication.NumberOfPages.HasValue ? $"{publication.NumberOfPages} {pageTitle}" : string.Empty;
         }
 
         private string GetPages(Publication publication, string title, bool atStart)

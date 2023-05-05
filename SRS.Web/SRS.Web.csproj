@@ -240,6 +240,7 @@
     <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\CathedrasController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportViewModel.cs" />
     <Compile Include="Models\Shared\DateRangeViewModel.cs" />
+    <Compile Include="Models\Shared\FacultyFilterViewModel.cs" />
     <Compile Include="Models\Shared\PageInfoViewModel.cs" />
     <Compile Include="Models\Shared\OrderDirectionViewModel.cs" />
     <Compile Include="Models\Shared\BaseFilterViewModel.cs" />
@@ -492,6 +494,11 @@
     <Content Include="Views\Faculties\Create.cshtml" />
     <Content Include="Views\Faculties\Edit.cshtml" />
     <Content Include="Views\Faculties\Delete.cshtml" />
+    <Content Include="Views\Cathedras\Index.cshtml" />
+    <Content Include="Views\Cathedras\Create.cshtml" />
+    <Content Include="Views\Cathedras\Edit.cshtml" />
+    <Content Include="Views\Cathedras\Delete.cshtml" />
+    <Content Include="Views\Shared\Filters\FacultyFilter.cshtml" />
     <Content Include="Views\HonoraryTitles\Index.cshtml" />
     <Content Include="Views\HonoraryTitles\Create.cshtml" />
     <Content Include="Views\HonoraryTitles\Delete.cshtml" />

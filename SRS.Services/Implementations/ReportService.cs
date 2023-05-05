@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
+using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.BaseModels;
@@ -12,17 +10,23 @@ using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
     public class ReportService : BaseService<Report>, IReportService
     {
         private readonly IRoleActionService _roleActionService;
+        private readonly IUserRepository _userRepository;
 
-        public ReportService(IBaseRepository<Report> repo, IMapper mapper, IRoleActionService roleActionService)
+        public ReportService(IBaseRepository<Report> repo, IMapper mapper, IRoleActionService roleActionService, IUserRepository userRepository)
             : base(repo, mapper)
         {
             _roleActionService = roleActionService;
+            _userRepository = userRepository;
         }
 
         public async Task<IList<BaseReportModel>> GetForUserAsync(UserAccountModel user, ReportFilterModel filterModel)
@@ -71,6 +75,7 @@ namespace SRS.Services.Implementations
             if (report.Date.HasValue && !string.IsNullOrEmpty(report.Protocol))
             {
                 report.State = state;
+                await UpdateUserSnapshotAsync(report);
                 await _repo.UpdateAsync(report);
                 return true;
             }
@@ -119,6 +124,19 @@ namespace SRS.Services.Implementations
             }
 
             return false;
+        }
+
+        private async Task UpdateUserSnapshotAsync(Report report)
+        {
+            var user = report.User;
+            var cathedraLeads = await _userRepository.GetAsync(new CathedraLeadSpecification(user.CathedraId));
+            report.UserFullName = user.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
+            report.PositionName = user.Position.Value;
+            report.CathedraName = user.Cathedra.GenitiveCase;
+            report.CathedraLeadName = cathedraLeads.FirstOrDefault()?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
+            report.GoogleScholarHIndex = user.GoogleScholarHIndex;
+            report.ScopusHIndex = user.ScopusHIndex;
+            report.WebOfScienceHIndex = user.WebOfScienceHIndex;
         }
     }
 }

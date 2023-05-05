@@ -199,6 +199,14 @@
     <Compile Include="Migrations\202210282217131_ChangedPublicationPagesToString.designer.cs">
       <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303162214131_AddedEditorsField.cs" />
+    <Compile Include="Migrations\202303162214131_AddedEditorsField.designer.cs">
+      <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.cs" />
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.designer.cs">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202303291618220_UpdateJournalType.cs" />
     <Compile Include="Migrations\202303291618220_UpdateJournalType.designer.cs">
       <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
@@ -298,6 +306,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210282217131_ChangedPublicationPagesToString.resx">
       <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303162214131_AddedEditorsField.resx">
+      <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303182329139_AddedUserFieldsToReport.resx">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303291618220_UpdateJournalType.resx">
       <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>

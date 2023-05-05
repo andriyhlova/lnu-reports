@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
@@ -35,6 +35,20 @@ namespace SRS.Domain.Entities
         public DateTime? Date { get; set; }
 
         public ReportState State { get; set; }
+
+        public string UserFullName { get; set; }
+
+        public string PositionName { get; set; }
+
+        public string CathedraName { get; set; }
+
+        public string CathedraLeadName { get; set; }
+
+        public int? ScopusHIndex { get; set; }
+
+        public int? WebOfScienceHIndex { get; set; }
+
+        public int? GoogleScholarHIndex { get; set; }
 
         [Column("User_Id")]
         public string UserId { get; set; }

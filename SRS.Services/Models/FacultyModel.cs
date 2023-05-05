@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using SRS.Domain.Entities;
-using SRS.Services.Attributes;
+﻿using SRS.Services.Attributes;
 using SRS.Services.Models.BaseModels;
 
 namespace SRS.Services.Models
@@ -9,7 +7,5 @@ namespace SRS.Services.Models
     {
         [RequiredField]
         public string Name { get; set; }
-
-        public IList<Cathedra> Cathedra { get; set; }
     }
 }

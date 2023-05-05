@@ -25,6 +25,10 @@ namespace SRS.Services.Models.PublicationModels
 
         public string JournalName { get; set; }
 
+        public string ChapterMonographyName { get; set; }
+
+        public string ConferenceName { get; set; }
+
         public IList<string> UserIds { get; set; }
     }
 }
