@@ -3,6 +3,7 @@ using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Account;
+using SRS.Web.Models.ThemeOfScientificWorks;
 
 namespace SRS.Web.Mapping.Profiles
 {
@@ -11,6 +12,10 @@ namespace SRS.Web.Mapping.Profiles
         public AccountProfile()
         {
             CreateMap<RegisterViewModel, ApplicationUser>()
+                .ForMember(dest => dest.UserName, opts => opts.MapFrom(src => src.Email))
+                .ForMember(dest => dest.BirthDate, opts => opts.MapFrom(_ => new DateTime(1950, 1, 1)));
+
+            CreateMap<ExternalPartTimeEmployeeViewModel, ApplicationUser>()
                 .ForMember(dest => dest.UserName, opts => opts.MapFrom(src => src.Email))
                 .ForMember(dest => dest.BirthDate, opts => opts.MapFrom(_ => new DateTime(1950, 1, 1)));
 
