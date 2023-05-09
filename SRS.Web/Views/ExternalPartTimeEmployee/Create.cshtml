@@ -1,0 +1,80 @@
+﻿@model SRS.Web.Models.ThemeOfScientificWorks.ExternalPartTimeEmployeeViewModel
+@{
+    ViewBag.Title = "Створення сумісника";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+
+@using (Html.BeginForm("Create", "ExternalPartTimeEmployee", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Факультет</label>
+        <div class="col-md-10">
+            <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
+                <option value="">Виберіть факультет</option>
+                @foreach (var faculty in ViewBag.AllFaculties)
+                {
+                    <option value="@faculty.Id" selected="@(Model != null && Model.FacultyId == faculty.Id)">@faculty.Name</option>
+                }
+            </select>
+            <div>
+                @Html.ValidationMessageFor(model => model.FacultyId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Кафедра</label>
+        <div class="col-md-10">
+            <select id="cathedra-selector" class="form-control chosen-select" name="CathedraId">
+                <option value="">Виберіть кафедру</option>
+                @foreach (var cathedra in ViewBag.AllCathedras)
+                {
+                    <option value="@cathedra.Id" data-faculty="@cathedra.FacultyId" selected="@(Model != null && Model.CathedraId == cathedra.Id)">@cathedra.Name</option>
+                }
+            </select>
+            <div>
+                @Html.ValidationMessageFor(model => model.CathedraId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="button" type="submit" class="btn btn-info" value="Створити сумісника" />
+        </div>
+    </div>
+}
+@section Styles{
+    @Styles.Render("~/Content/chosen/bundle")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/jqueryval")
+}

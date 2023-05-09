@@ -199,9 +199,37 @@
     <Compile Include="Migrations\202210282217131_ChangedPublicationPagesToString.designer.cs">
       <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303162214131_AddedEditorsField.cs" />
+    <Compile Include="Migrations\202303162214131_AddedEditorsField.designer.cs">
+      <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.cs" />
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.designer.cs">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202303291618220_UpdateJournalType.cs" />
     <Compile Include="Migrations\202303291618220_UpdateJournalType.designer.cs">
       <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.cs" />
+    <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.designer.cs">
+      <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.designer.cs">
+      <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050806543_ResolveMigrationConflict.cs" />
+    <Compile Include="Migrations\202305050806543_ResolveMigrationConflict.designer.cs">
+      <DependentUpon>202305050806543_ResolveMigrationConflict.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.designer.cs">
+      <DependentUpon>202305031238069_UpdateReportThemeOfScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050819430_ResolveMigrationConflict1.cs" />
+    <Compile Include="Migrations\202305050819430_ResolveMigrationConflict1.designer.cs">
+      <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202304291604026_ChangeCathedra.cs" />
     <Compile Include="Migrations\202304291604026_ChangeCathedra.designer.cs">
@@ -210,6 +238,10 @@
     <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.cs" />
     <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.designer.cs">
       <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.cs" />
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.designer.cs">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -307,14 +339,38 @@
     <EmbeddedResource Include="Migrations\202210282217131_ChangedPublicationPagesToString.resx">
       <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303162214131_AddedEditorsField.resx">
+      <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303182329139_AddedUserFieldsToReport.resx">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303291618220_UpdateJournalType.resx">
       <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050757385_ResolveMigrationCoflict.resx">
+      <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304051740443_UpdateThemeOfScientificWork.resx">
+      <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050806543_ResolveMigrationConflict.resx">
+      <DependentUpon>202305050806543_ResolveMigrationConflict.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.resx">
+      <DependentUpon>202305031238069_UpdateReportThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050819430_ResolveMigrationConflict1.resx">
+      <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304291604026_ChangeCathedra.resx">
       <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.resx">
       <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091151426_RemovedCathedraValue.resx">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

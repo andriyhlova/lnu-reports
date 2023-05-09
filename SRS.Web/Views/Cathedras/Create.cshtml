@@ -1,0 +1,72 @@
+﻿@using SRS.Services.Models.Constants
+@using SRS.Services.Models
+@model CathedraModel
+
+@{
+    ViewBag.Title = "Створити";
+}
+
+<h2>Створити</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Кафедра</h4>
+        @{Html.RenderPartial("Common/RequiredFieldsInfo");}
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Назва кафедри<span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Назва у родовому відмінку<span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GenitiveCase, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GenitiveCase, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Факультет</label>
+            <div class="col-md-10">
+                <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
+                    <option value="">Виберіть факультет</option>
+                    @foreach (var faculty in ViewBag.AllFaculties)
+                    {
+                        <option value="@faculty.Id">@faculty.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Створити" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Повернутись до списку", "Index", new { IsActive = true })
+</div>
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/relatedEntity/bundle")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/relatedEntityComponent")
+    @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/themeofscientificworks/edit")
+}

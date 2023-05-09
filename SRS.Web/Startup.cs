@@ -38,6 +38,8 @@ namespace SRS.Web
             CreateDeaneryAdmin(roleManager);
             CreateCathedraAdmin(roleManager);
             CreateWorker(roleManager);
+            CreateThemeOfScientificWorkAdmin(roleManager);
+            CreateExternalPartTimeEmployee(roleManager);
 
             RolesProvider.AllRoles = context.Roles.OrderBy(x => x.Id).ToDictionary(x => x.Id, x => x.Name);
         }
@@ -116,6 +118,32 @@ namespace SRS.Web
                 {
                     Id = "5",
                     Name = RoleNames.Worker
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateThemeOfScientificWorkAdmin(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.ThemeOfScientificWorkAdmin))
+            {
+                var role = new IdentityRole
+                {
+                    Id = "6",
+                    Name = RoleNames.ThemeOfScientificWorkAdmin
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateExternalPartTimeEmployee(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.ExternalPartTimeEmployee))
+            {
+                var role = new IdentityRole
+                {
+                    Id = "7",
+                    Name = RoleNames.ExternalPartTimeEmployee
                 };
                 roleManager.Create(role);
             }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SRS.Domain.Entities
 {
-    public class Cathedra : BaseValueEntity
+    public class Cathedra : BaseEntity
     {
         public string Name { get; set; }
 

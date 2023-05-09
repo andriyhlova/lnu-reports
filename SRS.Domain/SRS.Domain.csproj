@@ -99,6 +99,7 @@
     <Compile Include="Entities\ThemeOfScientificWorkCathedra.cs" />
     <Compile Include="Entities\ThemeOfScientificWorkFinancial.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+    <Compile Include="Enums\OrderTypes\CathedraOrderType.cs" />
     <Compile Include="Enums\OrderTypes\ValueOrderType.cs" />
     <Compile Include="Enums\ReportState.cs" />
     <Compile Include="Enums\ScientificWorkSubCategory.cs" />

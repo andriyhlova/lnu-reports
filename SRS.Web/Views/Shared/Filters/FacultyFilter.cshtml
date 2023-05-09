@@ -1,0 +1,17 @@
+﻿@using SRS.Services.Models.Constants
+@using SRS.Web.Models.Shared
+@model FacultyFilterViewModel
+@if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
+{
+    <div class="form-group">
+        <div>
+            <select id="faculty-selector" class="form-control chosen-select" name="FacultyId">
+                <option value="">Виберіть факультет</option>
+                @foreach (var faculty in ViewBag.AllFaculties)
+                {
+                    <option value="@faculty.Id" selected="@(faculty.Id == Model.FacultyId)">@faculty.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+}

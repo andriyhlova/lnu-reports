@@ -18,5 +18,7 @@ namespace SRS.Services.Models.FilterModels
         public DateTime? PeriodToFrom { get; set; }
 
         public DateTime? PeriodToTo { get; set; }
+
+        public string SupervisorId { get; set; }
     }
 }

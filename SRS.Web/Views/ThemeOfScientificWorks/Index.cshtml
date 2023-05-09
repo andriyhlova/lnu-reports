@@ -1,4 +1,5 @@
 ﻿@using PagedList.Mvc
+@using SRS.Domain.Enums
 @using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Extensions
 @using SRS.Services.Models.ThemeOfScientificWorkModels
@@ -65,6 +66,10 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.ScientificHead, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
+                    @Html.ActionLink("Науковий керівник", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Supervisor, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Supervisor, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
                     @Html.ActionLink("Період виконання", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.PeriodTo, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.PeriodTo, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
@@ -98,6 +103,21 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ScientificHead)
+                    </td>
+                    <td>
+                        @if (item.Supervisor != null)
+                        {
+                            foreach (var i in item.Supervisor.I18nUserInitials)
+                            {
+                                if (i.Language == Language.UA)
+                                {
+                                    @Html.DisplayFor(modelItem => i.LastName)<br />
+                                    @Html.DisplayFor(modelItem => i.FirstName)<br />
+                                    @Html.DisplayFor(modelItem => i.FathersName)
+                                    break;
+                                }
+                            }
+                        }
                     </td>
                     <td>
                         <div class="white-space-nowrap">@Html.DisplayFor(modelItem => item.PeriodFrom)</div>

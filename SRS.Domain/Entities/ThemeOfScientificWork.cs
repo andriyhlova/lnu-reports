@@ -29,7 +29,11 @@ namespace SRS.Domain.Entities
 
         public string UserId { get; set; }
 
+        public string SupervisorId { get; set; }
+
         public virtual ApplicationUser User { get; set; }
+
+        public virtual ApplicationUser Supervisor { get; set; }
 
         public virtual ICollection<ThemeOfScientificWorkFinancial> ThemeOfScientificWorkFinancials { get; set; }
 

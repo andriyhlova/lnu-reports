@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SRS.Services.Interfaces;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using SRS.Services.Interfaces;
-using SRS.Services.Models.FilterModels;
 
 namespace SRS.Web.Areas.Api.Controllers
 {
@@ -22,7 +17,7 @@ namespace SRS.Web.Areas.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            var cathedra = await _cathedraService.GetAllAsync(new BaseFilterModel());
+            var cathedra = await _cathedraService.GetByFacultyAsync(null);
             return Json(cathedra, JsonRequestBehavior.AllowGet);
         }
     }

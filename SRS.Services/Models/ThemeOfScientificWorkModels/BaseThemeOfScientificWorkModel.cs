@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models.BaseModels;
+using SRS.Services.Models.UserModels;
 
 namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
@@ -32,5 +33,9 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
         public ScientificWorkSubCategory? SubCategory { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string SupervisorId { get; set; }
+
+        public BaseUserInfoModel Supervisor { get; set; }
     }
 }
