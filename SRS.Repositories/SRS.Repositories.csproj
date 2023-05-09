@@ -231,6 +231,18 @@
     <Compile Include="Migrations\202305050819430_ResolveMigrationConflict1.designer.cs">
       <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202304291604026_ChangeCathedra.cs" />
+    <Compile Include="Migrations\202304291604026_ChangeCathedra.designer.cs">
+      <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.cs" />
+    <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.designer.cs">
+      <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.cs" />
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.designer.cs">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -350,6 +362,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305050819430_ResolveMigrationConflict1.resx">
       <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304291604026_ChangeCathedra.resx">
+      <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.resx">
+      <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091151426_RemovedCathedraValue.resx">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

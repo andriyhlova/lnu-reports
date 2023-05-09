@@ -219,6 +219,7 @@
     <Compile Include="Models\ReportModels\ReportThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkWithFinancialsModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkCathedraModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\UserModels\UserHonoraryTitleModel.cs" />

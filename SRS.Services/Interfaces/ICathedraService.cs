@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using SRS.Services.Models;
+﻿using SRS.Services.Models;
 using SRS.Services.Models.FilterModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Interfaces
 {

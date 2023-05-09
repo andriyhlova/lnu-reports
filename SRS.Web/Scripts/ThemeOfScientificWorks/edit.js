@@ -1,17 +1,44 @@
 (function () {
     const selectedFinancials = [];
+    const selectedCathedras = []
     const minYear = 2010;
     const minAmount = 1;
+    let allCathedras = [];
     $(function () {
         getUsers();
-        getScientificHead()
         getSelectedFinancials();
+        getSelectedCathedras();
+        getCathedras();
         financialChange();
-        const financialEntityComponent = new RelatedEntityComponent(getSettings());
+        const financialEntityComponent = new RelatedEntityComponent(getFinancialSettings());
         financialEntityComponent.load();
+        const cathedraEntityComponent = new RelatedEntityComponent(getCathedraSettings());
+        cathedraEntityComponent.load();
     });
 
-    function getSettings() {
+    function getUsers() {
+        $.ajax('/api/users/getByFacultyAndCathedra')
+            .done(function (users) {
+                let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
+                updateUserList(users, selectedUser, "#user-selector");
+
+                let selectedScientificHead = $("#scientific-head-selector").val() || $("#scientific-head-selector")[0].dataset.selected;
+                updateUserList(users, selectedScientificHead, "#scientific-head-selector");
+            });
+    }
+
+    function updateUserList(users, selectedUser) {
+        let str = "<option value=''>Виберіть користувача</option>";
+        for (var i = 0; i < users.length; i++) {
+            let user = users[i];
+            str += `<option value='${user.Id}' ${user.Id == selectedUser ? 'selected' : ''}>${[user.LastName, user.FirstName, user.FathersName].join(' ')}</option>`;
+        }
+
+        $("#user-selector").html(str);
+        $("#user-selector").trigger("chosen:updated");
+    }
+
+    function getFinancialSettings() {
         return {
             relatedEntityContainerId: '#financial-related-entity',
             selectedItems: selectedFinancials,
@@ -22,24 +49,8 @@
         };
     }
 
-    function getUsers() {
-        $.ajax('/api/users/getByFacultyAndCathedra')
-            .done(function (users) {
-                let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
-                updateUserList(users, selectedUser, "#user-selector");
-            });
-    }
-
-    function getScientificHead() {
-        $.ajax('/api/users/getByFacultyAndCathedra?roleId=' + themeOfScientificWorkAdmin)
-            .done(function (users) {
-                let selectedUser = $("#scientific-head-selector").val() || $("#scientific-head-selector")[0].dataset.selected;
-                updateUserList(users, selectedUser, "#scientific-head-selector");
-            });
-    }
-
     function getSelectedFinancials() {
-        const financials = $('.selected-item');
+        const financials = $('#financial-related-entity .selected-item');
         for (let i = 0; i < financials.length; i++) {
             const financial = {
                 Id: $(financials[i]).find('.id').val(),
@@ -132,6 +143,94 @@
                             <input type="hidden" name="ThemeOfScientificWorkFinancials[${index}].Id" class="id" value="${financial.Id}" />
                             <input type="hidden" name="ThemeOfScientificWorkFinancials[${index}].Year" class="year" value="${financial.Year}" />
                             <input type="hidden" name="ThemeOfScientificWorkFinancials[${index}].Amount" class="amount" value="${financial.Amount}" />
+                    </div>
+                </div>`;
+    }
+
+    function getCathedraSettings() {
+        return {
+            relatedEntityContainerId: '#cathedra-related-entity',
+            selectedItems: selectedCathedras,
+            getFormHtml: getCathedraFormHtml,
+            postLoadForm: updateCathedraList,
+            getRelatedEntityFormObject: getCathedraFormObject,
+            getSelectedRelatedEntityHtml: getSelectedCathedraHtml
+        };
+    }
+
+    function getSelectedCathedras() {
+        const cathedras = $('#cathedra-related-entity .selected-item');
+        for (let i = 0; i < cathedras.length; i++) {
+            const cathedra = {
+                Id: $(cathedras[i]).find('.id').val(),
+                CathedraId: $(cathedras[i]).find('.cathedraId').val(),
+                CathedraName: $(cathedras[i]).find('.cathedraName').val(),
+                ThemeOfScientificWorkId: $(cathedras[i]).find('.themeOfScientificWorkId').val()
+            }
+
+            selectedCathedras.push(cathedra);
+        }
+    }
+
+    function getCathedras() {
+        $.ajax('/api/cathedrasapi/getAll')
+            .done(function (cathedras) {
+                allCathedras = cathedras;
+                updateCathedraList();
+            });
+    }
+
+    function getCathedraFormHtml() {
+        return `<div>
+                        <label class="control-label">Кафедра <span class="text-danger">*</span></label>
+                        <div><select id="cathedra-selector" class="form-control chosen-select"></select></div>
+                    </div>`;
+    }
+
+    function updateCathedraList() {
+        const cathedraElement = $("#cathedra-selector");
+        if (!cathedraElement.length || cathedraElement.children().length) {
+            return;
+        }
+
+        let str = '';
+        for (var i = 0; i < allCathedras.length; i++) {
+            let cathedra = allCathedras[i];
+            str += `<option value='${cathedra.Id}'>${cathedra.Name}</option>`;
+        }
+
+        cathedraElement.html(str);
+        cathedraElement.chosen();
+    }
+
+    function getCathedraFormObject() {
+        const cathedraId = $('#cathedra-related-entity .new-related-entity-form select').val();
+        if (!cathedraId) {
+            alert('Виберіть кафедру');
+            return;
+        }
+
+        const cathedraName = $('#cathedra-related-entity .new-related-entity-form select :selected').text();
+        const themeOfScientificWorkId = $('input[name=Id]').val();
+        return {
+            Id: 0,
+            CathedraId: cathedraId,
+            CathedraName: cathedraName,
+            ThemeOfScientificWorkId: themeOfScientificWorkId
+        };
+    }
+
+    function getSelectedCathedraHtml(index, cathedra) {
+        return `<div>
+                    <div class="selected-item">
+                            <div>
+                                <div>${cathedra.CathedraName}</div>
+                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                            </div>
+                            <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].Id" class="id" value="${cathedra.Id}" />
+                            <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].ThemeOfScientificWorkId" class="themeOfScientificWorkId" value="${cathedra.Id}" />
+                            <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].CathedraId" class="cathedraId" value="${cathedra.CathedraId}" />
+                            <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].CathedraName" class="cathedraName" value="${cathedra.CathedraName}" />
                     </div>
                 </div>`;
     }

@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums.OrderTypes;
+using SRS.Domain.Specifications;
 using SRS.Services.Models.FilterModels;
 
-namespace SRS.Domain.Specifications
+namespace SRS.Services.Specifications
 {
     public class CathedraSpecification : BaseFilterSpecification<Cathedra>
     {
