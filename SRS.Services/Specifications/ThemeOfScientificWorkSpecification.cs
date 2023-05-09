@@ -49,8 +49,6 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.PeriodTo when desc: ApplyOrderByDescending(x => x.PeriodTo); break;
                 case ThemeOfScientificWorkOrderType.Financial when !desc: ApplyOrderBy(x => x.Financial); break;
                 case ThemeOfScientificWorkOrderType.Financial when desc: ApplyOrderByDescending(x => x.Financial); break;
-                case ThemeOfScientificWorkOrderType.CathedraName when !desc: ApplyOrderBy(x => x.Cathedra.Name); break;
-                case ThemeOfScientificWorkOrderType.CathedraName when desc: ApplyOrderByDescending(x => x.Cathedra.Name); break;
                 case ThemeOfScientificWorkOrderType.SubCategory when !desc: ApplyOrderBy(x => x.SubCategory); break;
                 case ThemeOfScientificWorkOrderType.SubCategory when desc: ApplyOrderByDescending(x => x.SubCategory); break;
                 case ThemeOfScientificWorkOrderType.FinancialAmount when !desc: ApplyOrderBy(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;

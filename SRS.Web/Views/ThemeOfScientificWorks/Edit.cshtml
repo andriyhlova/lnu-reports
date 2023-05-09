@@ -13,124 +13,153 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Тематичний план</h4>
-        @{Html.RenderPartial("Common/RequiredFieldsInfo");}
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        <div class="form-group">
-            <label class="control-label col-md-2">Номер державної реєстрації</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ThemeNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ThemeNumber, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <h4>Тематичний план</h4>
+    @{Html.RenderPartial("Common/RequiredFieldsInfo");}
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="form-group">
+        <label class="control-label col-md-2">Номер державної реєстрації</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ThemeNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ThemeNumber, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Внутрішній шифр</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Внутрішній шифр</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Назва <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Назва <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Тип проєкту <span class="text-danger">*</span></label>
-            @Html.EnumDropDownListFor(model => model.Financial,
-                                                                                   new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
-        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Тип проєкту <span class="text-danger">*</span></label>
+        @Html.EnumDropDownListFor(model => model.Financial,
+                                                                                         new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+    </div>
 
-        <div class="form-group other-project-type-container">
-            <label class="control-label col-md-2">Інший тип</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OtherProjectType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OtherProjectType, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group other-project-type-container">
+        <label class="control-label col-md-2">Інший тип</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OtherProjectType, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.OtherProjectType, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group subcategory-container">
-            <label class="control-label col-md-2">Підкатегорія</label>
-            @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
-                                                                              new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
-        </div>
+    <div class="form-group subcategory-container">
+        <label class="control-label col-md-2">Підкатегорія</label>
+        @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
+                                                                                    new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Фінансування за роками</label>
-            <div class="col-md-10" id="financial-related-entity">
-                <button class="btn btn-info add-related-entity" type="button">Додати</button>
-                <div class="selected-items">
-                    @if (Model.ThemeOfScientificWorkFinancials != null)
+    <div class="form-group">
+        <label class="control-label col-md-2">Фінансування за роками</label>
+        <div class="col-md-10" id="financial-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @if (Model.ThemeOfScientificWorkFinancials != null)
+                {
+                    for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
                     {
-                        for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
-                        {
-                            <div>
-                                <div class="selected-item">
-                                    <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн <i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
-                                    <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Id" class="id" value="@Model.ThemeOfScientificWorkFinancials[i].Id" />
-                                    <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Year" class="year" value="@Model.ThemeOfScientificWorkFinancials[i].Year" />
-                                    <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Amount" class="amount" value="@Model.ThemeOfScientificWorkFinancials[i].Amount" />
-                                </div>
+                        <div>
+                            <div class="selected-item">
+                                <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн <i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
+                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Id" class="id" value="@Model.ThemeOfScientificWorkFinancials[i].Id" />
+                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Year" class="year" value="@Model.ThemeOfScientificWorkFinancials[i].Year" />
+                                <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Amount" class="amount" value="@Model.ThemeOfScientificWorkFinancials[i].Amount" />
                             </div>
-                        }
+                        </div>
                     }
-                </div>
-                <div class="new-related-entity">
-                </div>
+                }
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Науковий керівник <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ScientificHead, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ScientificHead, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Відповідальний виконавець</label>
-            <div class="col-md-10">
-                <select id="user-selector" class="form-control chosen-select" name="UserId" data-selected="@Model.UserId">
-                    <option value="">Виберіть користувача</option>
-                </select>
-                <div>
-                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Період виконання</label>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">З <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PeriodFrom, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
-                @Html.ValidationMessageFor(model => model.PeriodFrom, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">По <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PeriodTo, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
-                @Html.ValidationMessageFor(model => model.PeriodTo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Зберегти" class="btn btn-info" />
+            <div class="new-related-entity">
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Кафедри</label>
+        <div class="col-md-10" id="cathedra-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @if (Model.ThemeOfScientificWorkCathedras != null)
+                {
+                    for (var i = 0; i < Model.ThemeOfScientificWorkCathedras.Count; i++)
+                    {
+                        <div>
+                            <div class="selected-item">
+                                <div>
+                                    <div>@Model.ThemeOfScientificWorkCathedras[i].CathedraName</div>
+                                    <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                </div>
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].Id" class="id" value="@Model.ThemeOfScientificWorkCathedras[i].Id" />
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].ThemeOfScientificWorkId" class="themeOfScientificWorkId" value="@Model.ThemeOfScientificWorkCathedras[i].ThemeOfScientificWorkId" />
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].CathedraId" class="cathedraId" value="@Model.ThemeOfScientificWorkCathedras[i].CathedraId" />
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].CathedraName" class="cathedraName" value="@Model.ThemeOfScientificWorkCathedras[i].CathedraName" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="new-related-entity">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Науковий керівник <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ScientificHead, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ScientificHead, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Відповідальний виконавець</label>
+        <div class="col-md-10">
+            <select id="user-selector" class="form-control chosen-select" name="UserId" data-selected="@Model.UserId">
+                <option value="">Виберіть користувача</option>
+            </select>
+            <div>
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Період виконання</label>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">З <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PeriodFrom, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
+            @Html.ValidationMessageFor(model => model.PeriodFrom, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">По <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PeriodTo, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
+            @Html.ValidationMessageFor(model => model.PeriodTo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Зберегти" class="btn btn-info" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
