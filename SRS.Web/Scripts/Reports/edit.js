@@ -139,6 +139,7 @@ function submitDateForm() {
                 Value: $(scientificWorks[i])[0].dataset.value,
                 Description: $(scientificWorks[i])[0].dataset.description,
                 Resume: $(scientificWorks[i])[0].dataset.resume,
+                Publications: $(scientificWorks[i])[0].dataset.publications,
                 SupervisorId: $(scientificWorks[i])[0].dataset.supervisorid
             }
 
@@ -177,6 +178,7 @@ function submitDateForm() {
         if (theme) {
             theme.Description = $(element.target).val();
             theme.Resume = $(element.target).val();
+            theme.Publications = $(element.target).val();
         }
     }
 
@@ -189,17 +191,25 @@ function submitDateForm() {
     };
 
     function getScientificWorkHtml(index, scientificWork, fieldName) {
-        let resume = ``;
+        let aditionalFileds = ``;
 
         if (CurrentUserId == scientificWork.SupervisorId)
         {
-            resume = `<label class="control-label">
-                        Резюме
-                    </label>
+            aditionalFileds = `<label class="control-label">
+                                   Резюме
+                               </label>
 
-                    <div>
-                        <textarea class="form-control" name="${fieldName}[${index}].Resume" style="max-width:100%" rows="6" data-value="${scientificWork.Resume}">${scientificWork.Resume || ''}</textarea>
-                    </div>`;
+                               <div>
+                                   <textarea class="form-control" name="${fieldName}[${index}].Resume" style="max-width:100%" rows="6" data-value="${scientificWork.Resume}">${scientificWork.Resume || ''}</textarea>
+                               </div>
+
+                               <label class="control-label">
+                                   Публікації
+                               </label >
+
+                               <div>
+                                   <textarea class="form-control" name="${fieldName}[${index}].Publications" style="max-width:100%" rows="6" data-value="${scientificWork.Publications}">${scientificWork.Publications || ''}</textarea>
+                               </div>`;
         }
 
         return `<div class="selected-item scientific-work">
@@ -216,7 +226,7 @@ function submitDateForm() {
                     </div>
                 </div>
 
-                ${resume}
+                ${aditionalFileds}
 
                 <input type="hidden" name="${fieldName}[${index}].Id" class="id" value="${scientificWork.ReportThemeId || 0}" />
                 <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
