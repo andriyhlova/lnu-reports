@@ -8,6 +8,8 @@
 
         public string Publications { get; set; }
 
+        public string DefendedDissertation { get; set; }
+
         public int ReportId { get; set; }
 
         public virtual Report Report { get; set; }

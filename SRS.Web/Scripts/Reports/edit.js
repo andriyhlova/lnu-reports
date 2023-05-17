@@ -140,6 +140,7 @@ function submitDateForm() {
                 Description: $(scientificWorks[i])[0].dataset.description,
                 Resume: $(scientificWorks[i])[0].dataset.resume,
                 Publications: $(scientificWorks[i])[0].dataset.publications,
+                DefendedDissertation: $(scientificWorks[i])[0].dataset.defendeddissertation,
                 SupervisorId: $(scientificWorks[i])[0].dataset.supervisorid
             }
 
@@ -179,6 +180,7 @@ function submitDateForm() {
             theme.Description = $(element.target).val();
             theme.Resume = $(element.target).val();
             theme.Publications = $(element.target).val();
+            theme.DefendedDissertation = $(element.target).val();
         }
     }
 
@@ -209,6 +211,14 @@ function submitDateForm() {
 
                                <div>
                                    <textarea class="form-control" name="${fieldName}[${index}].Publications" style="max-width:100%" rows="6" data-value="${scientificWork.Publications}">${scientificWork.Publications || ''}</textarea>
+                               </div>
+
+                               <label class="control-label">
+                                   Захищено дисертацій за тематикою роботи
+                               </label>
+
+                               <div>
+                                   <textarea class="form-control" name="${fieldName}[${index}].DefendedDissertation" style="max-width:100%" rows="6" data-value="${scientificWork.DefendedDissertation}">${scientificWork.DefendedDissertation || ''}</textarea>
                                </div>`;
         }
 

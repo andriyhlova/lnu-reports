@@ -48,6 +48,7 @@ namespace SRS.Repositories.Implementations
                 theme.Description = newInitial.Description;
                 theme.Resume = newInitial.Resume;
                 theme.Publications = newInitial.Publications;
+                theme.DefendedDissertation = newInitial.DefendedDissertation;
             }
 
             var toAddThemes = newEntity.ThemeOfScientificWorks.Where(x => !existingEntity.ThemeOfScientificWorks.Any(y => y.Id == x.Id)).ToList();
