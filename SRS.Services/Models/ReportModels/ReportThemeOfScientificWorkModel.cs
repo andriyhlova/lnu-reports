@@ -12,5 +12,9 @@ namespace SRS.Services.Models.ReportModels
         public string Description { get; set; }
 
         public string Resume { get; set; }
+
+        public string DefendedDissertation { get; set; }
+
+        public string Publications { get; set; }
     }
 }
