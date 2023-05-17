@@ -14,6 +14,12 @@ namespace SRS.Repositories.Implementations
 
         protected override void UpdateRelatedEntities(ThemeOfScientificWork existingEntity, ThemeOfScientificWork newEntity)
         {
+            UpdateFinancials(existingEntity, newEntity);
+            UpdateCathedras(existingEntity, newEntity);
+        }
+
+        private void UpdateFinancials(ThemeOfScientificWork existingEntity, ThemeOfScientificWork newEntity)
+        {
             var toDelete = existingEntity.ThemeOfScientificWorkFinancials.Where(x => !newEntity.ThemeOfScientificWorkFinancials.Any(y => y.Id == x.Id)).ToList();
             foreach (var item in toDelete)
             {
@@ -26,6 +32,23 @@ namespace SRS.Repositories.Implementations
             {
                 _context.Entry(item).State = EntityState.Added;
                 existingEntity.ThemeOfScientificWorkFinancials.Add(item);
+            }
+        }
+
+        private void UpdateCathedras(ThemeOfScientificWork existingEntity, ThemeOfScientificWork newEntity)
+        {
+            var toDelete = existingEntity.ThemeOfScientificWorkCathedras.Where(x => !newEntity.ThemeOfScientificWorkCathedras.Any(y => y.Id == x.Id)).ToList();
+            foreach (var item in toDelete)
+            {
+                _context.Entry(item).State = EntityState.Deleted;
+                existingEntity.ThemeOfScientificWorkCathedras.Remove(item);
+            }
+
+            var toAdd = newEntity.ThemeOfScientificWorkCathedras.Where(x => !existingEntity.ThemeOfScientificWorkCathedras.Any(y => y.Id == x.Id)).ToList();
+            foreach (var item in toAdd)
+            {
+                _context.Entry(item).State = EntityState.Added;
+                existingEntity.ThemeOfScientificWorkCathedras.Add(item);
             }
         }
     }

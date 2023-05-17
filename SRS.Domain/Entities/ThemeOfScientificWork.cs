@@ -27,11 +27,6 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<ReportThemeOfScientificWork> Reports { get; set; }
 
-        [Column("Cathedra_Id")]
-        public int? CathedraId { get; set; }
-
-        public virtual Cathedra Cathedra { get; set; }
-
         public string UserId { get; set; }
 
         public string SupervisorId { get; set; }
@@ -41,5 +36,7 @@ namespace SRS.Domain.Entities
         public virtual ApplicationUser Supervisor { get; set; }
 
         public virtual ICollection<ThemeOfScientificWorkFinancial> ThemeOfScientificWorkFinancials { get; set; }
+
+        public virtual ICollection<ThemeOfScientificWorkCathedra> ThemeOfScientificWorkCathedras { get; set; }
     }
 }

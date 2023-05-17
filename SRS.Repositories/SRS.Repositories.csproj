@@ -231,6 +231,18 @@
     <Compile Include="Migrations\202305050819430_ResolveMigrationConflict1.designer.cs">
       <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202304291604026_ChangeCathedra.cs" />
+    <Compile Include="Migrations\202304291604026_ChangeCathedra.designer.cs">
+      <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.cs" />
+    <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.designer.cs">
+      <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.cs" />
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.designer.cs">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202305161658589_Update-Reports.cs" />
     <Compile Include="Migrations\202305161658589_Update-Reports.designer.cs">
       <DependentUpon>202305161658589_Update-Reports.cs</DependentUpon>
@@ -238,6 +250,10 @@
     <Compile Include="Migrations\202305171343437_AddDefendedDissertation.cs" />
     <Compile Include="Migrations\202305171343437_AddDefendedDissertation.designer.cs">
       <DependentUpon>202305171343437_AddDefendedDissertation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305171609532_ResolveMigrationConflict2.cs" />
+    <Compile Include="Migrations\202305171609532_ResolveMigrationConflict2.designer.cs">
+      <DependentUpon>202305171609532_ResolveMigrationConflict2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -359,11 +375,23 @@
     <EmbeddedResource Include="Migrations\202305050819430_ResolveMigrationConflict1.resx">
       <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304291604026_ChangeCathedra.resx">
+      <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.resx">
+      <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091151426_RemovedCathedraValue.resx">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305161658589_Update-Reports.resx">
       <DependentUpon>202305161658589_Update-Reports.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305171343437_AddDefendedDissertation.resx">
       <DependentUpon>202305171343437_AddDefendedDissertation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305171609532_ResolveMigrationConflict2.resx">
+      <DependentUpon>202305171609532_ResolveMigrationConflict2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

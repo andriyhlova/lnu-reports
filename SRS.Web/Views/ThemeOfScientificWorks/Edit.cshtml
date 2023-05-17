@@ -44,7 +44,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Тип проєкту <span class="text-danger">*</span></label>
         @Html.EnumDropDownListFor(model => model.Financial,
-                       new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                            new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
     </div>
 
     <div class="form-group other-project-type-container">
@@ -58,7 +58,7 @@
     <div class="form-group subcategory-container">
         <label class="control-label col-md-2">Підкатегорія</label>
         @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
-                                                                                         new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                                                                              new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
     </div>
 
     <div class="form-group">
@@ -76,6 +76,35 @@
                                 <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Id" class="id" value="@Model.ThemeOfScientificWorkFinancials[i].Id" />
                                 <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Year" class="year" value="@Model.ThemeOfScientificWorkFinancials[i].Year" />
                                 <input type="hidden" name="ThemeOfScientificWorkFinancials[@i].Amount" class="amount" value="@Model.ThemeOfScientificWorkFinancials[i].Amount" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="new-related-entity">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Кафедри</label>
+        <div class="col-md-10" id="cathedra-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @if (Model.ThemeOfScientificWorkCathedras != null)
+                {
+                    for (var i = 0; i < Model.ThemeOfScientificWorkCathedras.Count; i++)
+                    {
+                        <div>
+                            <div class="selected-item">
+                                <div>
+                                    <div>@Model.ThemeOfScientificWorkCathedras[i].CathedraName</div>
+                                    <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                </div>
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].Id" class="id" value="@Model.ThemeOfScientificWorkCathedras[i].Id" />
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].ThemeOfScientificWorkId" class="themeOfScientificWorkId" value="@Model.ThemeOfScientificWorkCathedras[i].ThemeOfScientificWorkId" />
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].CathedraId" class="cathedraId" value="@Model.ThemeOfScientificWorkCathedras[i].CathedraId" />
+                                <input type="hidden" name="ThemeOfScientificWorkCathedras[@i].CathedraName" class="cathedraName" value="@Model.ThemeOfScientificWorkCathedras[i].CathedraName" />
                             </div>
                         </div>
                     }
@@ -160,6 +189,5 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/relatedEntityComponent")
-    @Scripts.Render("~/bundles/departmentSelector")
     @Scripts.Render("~/bundles/themeofscientificworks/edit")
 }

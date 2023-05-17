@@ -65,6 +65,18 @@
             @Html.DisplayFor(model => model.ScientificHead)
         </dd>
         <dt>
+            Кафедри
+        </dt>
+        <dd>
+            @if (Model.ThemeOfScientificWorkCathedras != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkCathedras)
+                {
+                    <div>@i.CathedraName</div>
+                }
+            }
+        </dd>
+        <dt>
             Період виконання
         </dt>
         <dd>

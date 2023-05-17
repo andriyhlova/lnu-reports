@@ -7,15 +7,12 @@ using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Identity;
-using SRS.Web.Models.Account;
 using SRS.Web.Models.ThemeOfScientificWorks;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 
 namespace SRS.Web.Controllers
 {
@@ -67,7 +64,6 @@ namespace SRS.Web.Controllers
                     await UserManager.AddToRoleAsync(user.Id, RoleNames.Worker);
                     await UserManager.AddToRoleAsync(user.Id, RoleNames.ExternalPartTimeEmployee);
                     await AddUserInitials(user.Id);
-                    TempData["Success"] = true;
                     return RedirectToAction(nameof(Index));
                 }
 

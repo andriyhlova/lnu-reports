@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using SRS.Domain.Enums;
-using SRS.Services.Attributes;
-using SRS.Services.Models.BaseModels;
+﻿using System.Collections.Generic;
 
 namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
     public class BaseThemeOfScientificWorkWithFinancialsModel : BaseThemeOfScientificWorkModel
     {
         public IList<ThemeOfScientificWorkFinancialModel> ThemeOfScientificWorkFinancials { get; set; }
+
+        public IList<ThemeOfScientificWorkCathedraModel> ThemeOfScientificWorkCathedras { get; set; }
     }
 }
