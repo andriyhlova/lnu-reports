@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SRS.Services.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,5 +32,9 @@ namespace SRS.Web.Models.ThemeOfScientificWorks
         [Required(ErrorMessage = "Виберіть кафедру зі списку")]
         [Display(Name = "Кафедра")]
         public int CathedraId { get; set; }
+
+        [Required(ErrorMessage = "Виберіть посаду зі списку")]
+        [Display(Name = "Посада")]
+        public int PositionId { get; set; }
     }
 }
