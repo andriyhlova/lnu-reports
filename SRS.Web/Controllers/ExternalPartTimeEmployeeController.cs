@@ -2,9 +2,11 @@
 using Microsoft.AspNet.Identity.Owin;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Identity;
 using SRS.Web.Models.ThemeOfScientificWorks;
@@ -21,17 +23,20 @@ namespace SRS.Web.Controllers
         private readonly IBaseCrudService<CathedraModel> _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<I18nUserInitialsModel> _i18nUserInitialsService;
+        private readonly IPositionService _positionService;
         private readonly IMapper _mapper;
 
         public ExternalPartTimeEmployeeController(
             IBaseCrudService<CathedraModel> cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<I18nUserInitialsModel> i18nUserInitialsService,
+            IPositionService positionService,
             IMapper mapper)
         {
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _i18nUserInitialsService = i18nUserInitialsService;
+            _positionService = positionService;
             _mapper = mapper;
         }
 
@@ -95,6 +100,8 @@ namespace SRS.Web.Controllers
             ViewBag.AllFaculties = (await _facultyService.GetAllAsync())
                 .OrderBy(x => x.Name)
                 .ToList();
+
+            ViewBag.AllPositions = await _positionService.GetAllAsync(new BaseFilterModel());
         }
     }
 }
