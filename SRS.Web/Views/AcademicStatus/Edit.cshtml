@@ -13,7 +13,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Науковий ступінь</h4>
+        <h4>Вчене звання</h4>
         @{Html.RenderPartial("Common/RequiredFieldsInfo");}
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
