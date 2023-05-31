@@ -8,5 +8,7 @@ namespace SRS.Services.Interfaces
     public interface IAcademicStatusService
     {
         Task<IList<AcademicStatusModel>> GetAllAsync(BaseFilterModel filterModel);
+
+        Task<int> CountAsync(BaseFilterModel filterModel);
     }
 }
