@@ -241,6 +241,7 @@
     <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\AcademicStatusController.cs" />
     <Compile Include="Controllers\CathedrasController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\ExternalPartTimeEmployeeController.cs" />
@@ -513,6 +514,10 @@
     <Content Include="Views\Analytics\Index.cshtml" />
     <Content Include="Views\ExternalPartTimeEmployee\Index.cshtml" />
     <Content Include="Views\ExternalPartTimeEmployee\Create.cshtml" />
+    <Content Include="Views\AcademicStatus\Index.cshtml" />
+    <Content Include="Views\AcademicStatus\Create.cshtml" />
+    <Content Include="Views\AcademicStatus\Edit.cshtml" />
+    <Content Include="Views\AcademicStatus\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
