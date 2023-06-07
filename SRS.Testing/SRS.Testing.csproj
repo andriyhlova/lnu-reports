@@ -13,6 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CoverletReport\**" />
+    <EmbeddedResource Remove="CoverletReport\**" />
+    <None Remove="CoverletReport\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="coverlet.msbuild" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -36,10 +42,6 @@
     <ProjectReference Include="..\SRS.Domain\SRS.Domain.csproj" />
     <ProjectReference Include="..\SRS.Repositories\SRS.Repositories.csproj" />
     <ProjectReference Include="..\SRS.Services\SRS.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CoverletReport\" />
   </ItemGroup>
 
 </Project>

@@ -268,10 +268,6 @@
     <Compile Include="Migrations\202305171609532_ResolveMigrationConflict2.designer.cs">
       <DependentUpon>202305171609532_ResolveMigrationConflict2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305171722465_AddReportLocalUsers.cs" />
-    <Compile Include="Migrations\202305171722465_AddReportLocalUsers.designer.cs">
-      <DependentUpon>202305171722465_AddReportLocalUsers.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -409,9 +405,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305171609532_ResolveMigrationConflict2.resx">
       <DependentUpon>202305171609532_ResolveMigrationConflict2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305171722465_AddReportLocalUsers.resx">
-      <DependentUpon>202305171722465_AddReportLocalUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

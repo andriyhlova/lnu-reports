@@ -222,7 +222,6 @@
     <Compile Include="Models\ReportGenerationModels\Report\ReportPublicationCountersModel.cs" />
     <Compile Include="Models\ReportGenerationModels\Report\ReportGeneralInfoModel.cs" />
     <Compile Include="Models\ReportGenerationModels\Report\ReportTemplateModel.cs" />
-    <Compile Include="Models\ReportModels\ReportLocalUserModel.cs" />
     <Compile Include="Models\ReportModels\ReportModel.cs" />
     <Compile Include="Models\ReportModels\ReportPublicationsModel.cs" />
     <Compile Include="Models\ReportModels\BaseReportModel.cs" />

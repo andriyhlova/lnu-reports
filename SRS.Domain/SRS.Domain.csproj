@@ -87,7 +87,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ReportLocalUser.cs" />
     <Compile Include="Entities\ReportThemeOfScientificWork.cs" />
     <Compile Include="Entities\ApplicationUserHonoraryTitle.cs" />
     <Compile Include="Entities\HonoraryTitle.cs" />
