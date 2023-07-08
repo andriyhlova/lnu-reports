@@ -15,8 +15,8 @@ class RelatedEntityComponent {
         this._postLoadForm = settings.postLoadForm;
         this._getRelatedEntityFormObject = settings.getRelatedEntityFormObject;
         this._getSelectedRelatedEntityHtml = settings.getSelectedRelatedEntityHtml;
-        this._identifierClass = settings.identifierClass;
-        this._identifierProperty = settings.identifierProperty;
+        this._identifierClass = settings.identifierClass || this._identifierClass;
+        this._identifierProperty = settings.identifierProperty || this._identifierProperty;
     }
 
     load() {
