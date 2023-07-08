@@ -154,7 +154,9 @@
             getFormHtml: getCathedraFormHtml,
             postLoadForm: updateCathedraList,
             getRelatedEntityFormObject: getCathedraFormObject,
-            getSelectedRelatedEntityHtml: getSelectedCathedraHtml
+            getSelectedRelatedEntityHtml: getSelectedCathedraHtml,
+            identifierClass: '.cathedraId',
+            identifierProperty: 'CathedraId'
         };
     }
 
@@ -201,6 +203,7 @@
 
         cathedraElement.html(str);
         cathedraElement.chosen();
+        cathedraElement.trigger("chosen:updated");
     }
 
     function getCathedraFormObject() {

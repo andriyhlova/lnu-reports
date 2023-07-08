@@ -5,6 +5,8 @@ class RelatedEntityComponent {
     _postLoadForm;
     _getRelatedEntityFormObject;
     _getSelectedRelatedEntityHtml;
+    _identifierClass = '.id';
+    _identifierProperty = 'Id';
 
     constructor(settings) {
         this._relatedEntityContainerId = settings.relatedEntityContainerId;
@@ -13,6 +15,8 @@ class RelatedEntityComponent {
         this._postLoadForm = settings.postLoadForm;
         this._getRelatedEntityFormObject = settings.getRelatedEntityFormObject;
         this._getSelectedRelatedEntityHtml = settings.getSelectedRelatedEntityHtml;
+        this._identifierClass = settings.identifierClass;
+        this._identifierProperty = settings.identifierProperty;
     }
 
     load() {
@@ -43,8 +47,8 @@ class RelatedEntityComponent {
     removeRelatedEntityEvent() {
         $(this._relatedEntityContainerId).on('click', '.bi-file-x-fill', (element) => {
             const container = $(element.currentTarget).closest('.selected-item');
-            const id = container.find('.id').val();
-            const index = this._selectedItems.findIndex(x => x.Id == id);
+            const id = container.find(this._identifierClass).val();
+            const index = this._selectedItems.findIndex(x => x[this._identifierProperty] == id);
             if (index != -1) {
                 container.remove();
                 this._selectedItems.splice(index, 1);
