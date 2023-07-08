@@ -12,7 +12,11 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<ThemeOfScientificWorkModel, ThemeOfScientificWork>()
                 .ForMember(dest => dest.IsActive, opts => opts.Ignore());
             CreateMap<ThemeOfScientificWorkFinancial, ThemeOfScientificWorkFinancialModel>().ReverseMap();
-            CreateMap<ThemeOfScientificWorkCathedra, ThemeOfScientificWorkCathedraModel>().ReverseMap();
+
+            CreateMap<ThemeOfScientificWorkCathedra, ThemeOfScientificWorkCathedraModel>()
+                .ForMember(dest => dest.FacultyName, opts => opts.MapFrom(src => src.Cathedra.Faculty.Name));
+
+            CreateMap<ThemeOfScientificWorkCathedraModel, ThemeOfScientificWorkCathedra>();
 
             CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkModel>().ReverseMap();
             CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkWithFinancialsModel>().ReverseMap();

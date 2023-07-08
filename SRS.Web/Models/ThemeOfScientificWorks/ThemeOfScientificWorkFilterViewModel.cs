@@ -1,10 +1,10 @@
-﻿using System;
-using SRS.Domain.Enums;
+﻿using SRS.Domain.Enums;
 using SRS.Web.Models.Shared;
+using System;
 
 namespace SRS.Web.Models.ThemeOfScientificWorks
 {
-    public class ThemeOfScientificWorkFilterViewModel : BaseFilterViewModel
+    public class ThemeOfScientificWorkFilterViewModel : DepartmentFilterViewModel
     {
         public Financial? Financial { get; set; }
 

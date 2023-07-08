@@ -57,6 +57,12 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.SubCategory when desc: ApplyOrderByDescending(x => x.SubCategory); break;
                 case ThemeOfScientificWorkOrderType.FinancialAmount when !desc: ApplyOrderBy(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;
                 case ThemeOfScientificWorkOrderType.FinancialAmount when desc: ApplyOrderByDescending(x => x.ThemeOfScientificWorkFinancials.Sum(y => y.Amount)); break;
+                case ThemeOfScientificWorkOrderType.PlannedAmount when !desc: ApplyOrderBy(x => x.PlannedAmount); break;
+                case ThemeOfScientificWorkOrderType.PlannedAmount when desc: ApplyOrderByDescending(x => x.PlannedAmount); break;
+                case ThemeOfScientificWorkOrderType.Cathedras when desc: ApplyOrderBy(x => x.ThemeOfScientificWorkCathedras.OrderBy(y => y.Cathedra.Name).FirstOrDefault().Cathedra.Name); break;
+                case ThemeOfScientificWorkOrderType.Cathedras when desc: ApplyOrderByDescending(x => x.ThemeOfScientificWorkCathedras.OrderBy(y => y.Cathedra.Name).FirstOrDefault().Cathedra.Name); break;
+                case ThemeOfScientificWorkOrderType.Faculties when desc: ApplyOrderBy(x => x.ThemeOfScientificWorkCathedras.OrderBy(y => y.Cathedra.Faculty.Name).FirstOrDefault().Cathedra.Faculty.Name); break;
+                case ThemeOfScientificWorkOrderType.Faculties when desc: ApplyOrderByDescending(x => x.ThemeOfScientificWorkCathedras.OrderBy(y => y.Cathedra.Faculty.Name).FirstOrDefault().Cathedra.Faculty.Name); break;
                 default: ApplyOrderByDescending(x => x.PeriodTo); ApplyThenBy(x => x.Value); break;
             }
         }

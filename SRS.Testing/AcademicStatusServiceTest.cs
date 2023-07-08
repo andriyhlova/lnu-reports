@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using Moq;
 using SRS.Domain.Entities;
+using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Implementations;
-using SRS.Services.Models.FilterModels;
 using SRS.Services.Models;
-using System;
+using SRS.Services.Models.FilterModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using SRS.Domain.Specifications;
+using Xunit;
 
 namespace SRS.Test
 {

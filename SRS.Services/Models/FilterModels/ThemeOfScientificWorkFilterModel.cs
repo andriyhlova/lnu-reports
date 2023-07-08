@@ -1,9 +1,9 @@
-﻿using System;
-using SRS.Domain.Enums;
+﻿using SRS.Domain.Enums;
+using System;
 
 namespace SRS.Services.Models.FilterModels
 {
-    public class ThemeOfScientificWorkFilterModel : BaseFilterModel
+    public class ThemeOfScientificWorkFilterModel : DepartmentFilterModel
     {
         public Financial? Financial { get; set; }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
@@ -10,6 +6,10 @@ using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
@@ -37,7 +37,9 @@ namespace SRS.Services.Implementations
                 PeriodFromFrom = filterModel.PeriodFromFrom,
                 PeriodFromTo = filterModel.PeriodFromTo,
                 PeriodToFrom = filterModel.PeriodToFrom,
-                PeriodToTo = filterModel.PeriodToTo
+                PeriodToTo = filterModel.PeriodToTo,
+                FacultyId = filterModel.FacultyId,
+                CathedraId = filterModel.CathedraId
             };
 
             return await _repo.CountAsync(new ThemeOfScientificWorkWithFinancialsSpecification(countFilterModel, null));

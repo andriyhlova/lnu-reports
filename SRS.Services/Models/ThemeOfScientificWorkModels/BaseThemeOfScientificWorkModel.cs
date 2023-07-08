@@ -33,6 +33,8 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 
         public bool IsActive { get; set; }
 
+        public decimal? PlannedAmount { get; set; }
+
         public string SupervisorId { get; set; }
 
         public BaseUserInfoModel Supervisor { get; set; }

@@ -93,6 +93,14 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-md-2">План</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PlannedAmount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PlannedAmount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-md-2">Фінансування за роками</label>
         <div class="col-md-10" id="financial-related-entity">
             <button class="btn btn-info add-related-entity" type="button">Додати</button>

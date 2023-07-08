@@ -44,7 +44,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Тип проєкту <span class="text-danger">*</span></label>
         @Html.EnumDropDownListFor(model => model.Financial,
-                            new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                 new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
     </div>
 
     <div class="form-group other-project-type-container">
@@ -58,7 +58,15 @@
     <div class="form-group subcategory-container">
         <label class="control-label col-md-2">Підкатегорія</label>
         @Html.EnumDropDownListFor(model => model.SubCategory, "Не вибрано",
-                                                                                              new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+                                                                                                   new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">План</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PlannedAmount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PlannedAmount, "", new { @class = "text-danger" })
+        </div>
     </div>
 
     <div class="form-group">

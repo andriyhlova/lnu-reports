@@ -12,6 +12,9 @@
         CathedraName,
         SubCategory,
         FinancialAmount,
-        Supervisor
+        Supervisor,
+        PlannedAmount,
+        Cathedras,
+        Faculties
     }
 }

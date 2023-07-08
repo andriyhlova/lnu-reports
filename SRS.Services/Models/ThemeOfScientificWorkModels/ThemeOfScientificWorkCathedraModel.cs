@@ -9,5 +9,7 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
         public int CathedraId { get; set; }
 
         public string CathedraName { get; set; }
+
+        public string FacultyName { get; set; }
     }
 }

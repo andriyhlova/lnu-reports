@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-<CollectCoverage>true</CollectCoverage>
-<CoverletOutputFormat>lcov</CoverletOutputFormat>
-<CoverletOutputDirectory>папка_звіту</CoverletOutputDirectory>
-	  <CollectCoverage>true</CollectCoverage>
-	  <CoverletOutputFormat>lcov</CoverletOutputFormat>
-	  <CoverletOutputDirectory>SRS.Testing/CoverletReport</CoverletOutputDirectory>
-
+    <TargetFramework>net48</TargetFramework>
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>lcov</CoverletOutputFormat>
+    <CoverletOutputDirectory>папка_звіту</CoverletOutputDirectory>
+	<CollectCoverage>true</CollectCoverage>
+	<CoverletOutputFormat>lcov</CoverletOutputFormat>
+	<CoverletOutputDirectory>SRS.Testing/CoverletReport</CoverletOutputDirectory>
 	  <IsPackable>false</IsPackable>
   </PropertyGroup>
 

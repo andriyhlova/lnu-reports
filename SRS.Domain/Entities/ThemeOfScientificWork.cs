@@ -1,7 +1,6 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
@@ -20,6 +19,8 @@ namespace SRS.Domain.Entities
         public Financial Financial { get; set; }
 
         public string OtherProjectType { get; set; }
+
+        public decimal? PlannedAmount { get; set; }
 
         public bool IsActive { get; set; } = true;
 
