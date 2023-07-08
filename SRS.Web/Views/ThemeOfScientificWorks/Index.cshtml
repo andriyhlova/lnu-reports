@@ -135,9 +135,9 @@
                     <td>
                         @if (item.ThemeOfScientificWorkCathedras != null)
                         {
-                            foreach (var i in item.ThemeOfScientificWorkCathedras.OrderBy(x => x.FacultyName))
+                            foreach (var i in item.ThemeOfScientificWorkCathedras.OrderBy(x => x.FacultyName).Select(x => x.FacultyName).Distinct())
                             {
-                                <div>@i.FacultyName</div>
+                                <div>@i</div>
                             }
                         }
                     </td>
