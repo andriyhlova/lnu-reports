@@ -57,6 +57,12 @@
             @Model.PlannedAmount
         </dd>
         <dt>
+            Валюта
+        </dt>
+        <dd>
+            @(Model.Currency != null ? Model.Currency.GetDisplayName() : null)
+        </dd>
+        <dt>
             Фінансування за роками
         </dt>
         <dd>

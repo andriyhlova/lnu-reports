@@ -101,6 +101,11 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-md-2">Валюта</label>
+        @Html.EnumDropDownListFor(model => model.Currency, "Не вибрано", new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-md-2">Фінансування за роками</label>
         <div class="col-md-10" id="financial-related-entity">
             <button class="btn btn-info add-related-entity" type="button">Додати</button>

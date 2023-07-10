@@ -259,6 +259,10 @@
     <Compile Include="Migrations\202307081118093_AddedPlannedAmount.designer.cs">
       <DependentUpon>202307081118093_AddedPlannedAmount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202307101035547_AddedCurrency.cs" />
+    <Compile Include="Migrations\202307101035547_AddedCurrency.designer.cs">
+      <DependentUpon>202307101035547_AddedCurrency.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -399,6 +403,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202307081118093_AddedPlannedAmount.resx">
       <DependentUpon>202307081118093_AddedPlannedAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307101035547_AddedCurrency.resx">
+      <DependentUpon>202307101035547_AddedCurrency.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

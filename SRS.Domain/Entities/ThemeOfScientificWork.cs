@@ -22,6 +22,8 @@ namespace SRS.Domain.Entities
 
         public decimal? PlannedAmount { get; set; }
 
+        public Currency? Currency { get; set; }
+
         public bool IsActive { get; set; } = true;
 
         public ScientificWorkSubCategory? SubCategory { get; set; }
