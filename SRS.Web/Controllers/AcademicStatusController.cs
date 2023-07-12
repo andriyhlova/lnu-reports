@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using PagedList;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Web.Models.Shared;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
+    [Authorize(Roles = "Superadmin, Адміністрація ректорату")]
     public class AcademicStatusController : Controller
     {
         private readonly IBaseCrudService<AcademicStatusModel> _academicStatusCrudService;

@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Identity.Owin;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
-using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;

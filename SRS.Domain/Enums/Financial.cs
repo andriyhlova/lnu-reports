@@ -4,7 +4,7 @@ namespace SRS.Domain.Enums
 {
     public enum Financial
     {
-        [Display(Name = "Наукова, науково-технічна робота чи проєкт МОН України")]
+        [Display(Name = "Наукові дослідження і розробки МОН України")]
         Budget,
         [Display(Name = "Державне замовлення на науково-технічні розробки")]
         GovernmentOrder,
