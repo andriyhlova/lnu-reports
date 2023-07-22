@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.ReportModels;
+using System.Linq;
 
 namespace SRS.Services.Mapping.Profiles
 {
@@ -13,6 +13,8 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<CathedraReport, BaseCathedraReportModel>()
                 .ForMember(dest => dest.CathedraName, opts => opts.MapFrom(src => src.User.Cathedra.Name))
                 .ForMember(dest => dest.I18nUserInitials, opts => opts.MapFrom(src => src.User.I18nUserInitials));
+
+            CreateMap<CathedraReportAchievementSchoolModel, CathedraReport>();
 
             CreateMap<CathedraReportBudgetThemeModel, CathedraReport>()
                 .ForMember(dest => dest.PrintedPublicationBudgetTheme, opts => opts.MapFrom(src => src.PrintedPublicationBudgetThemeIds.Select(x => new Publication { Id = x })));

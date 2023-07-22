@@ -175,6 +175,7 @@
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportAchievementSchoolModel.cs" />
     <Compile Include="Models\FilterModels\FacultyFilterModel.cs" />
     <Compile Include="Models\FilterModels\JournalFilterModel.cs" />
     <Compile Include="Models\FilterModels\UserFilterModel.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkCathedraModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\CathedraReportThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\UserModels\UserHonoraryTitleModel.cs" />
     <Compile Include="Models\UserModels\UserAcademicStatusModel.cs" />
     <Compile Include="Models\UserModels\UserDegreeModel.cs" />

@@ -243,7 +243,7 @@
         }
 
         function getHonoraryTitles() {
-            $.ajax('/api/honoraryTitles/getAll')
+            $.ajax('/api/honoraryTitlesApi/getAll')
                 .done(function (honoraryTitles) {
                     allHonoraryTitles = honoraryTitles;
                     updateHonoraryTitleList();

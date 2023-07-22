@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
     public class CathedraReport : BaseEntity
     {
+        // leave
         public string AchivementSchool { get; set; } // 1
 
         [Column("BudgetTheme_Id")]
@@ -49,22 +50,29 @@ namespace SRS.Domain.Entities
 
         public string OtherHospDohovirTheme { get; set; }// 4.5
 
+        // leave
         public string OtherFormsOfScientificWork { get; set; }// 5
 
+        // leave
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1
 
+        // leave
         public string CooperationWithForeignScientificInstitution { get; set; } // 6.2
 
+        // leave
         public string StudentsWorks { get; set; }// 8
 
+        // leave
         public string ConferencesInUniversity { get; set; } // 10
 
         public string ApplicationOnInvention { get; set; }// 11.1
 
         public string Patents { get; set; }// 11.2
 
+        // leave
         public string Materials { get; set; }// 12
 
+        // leave
         public string PropositionForNewForms { get; set; }// 13
 
         public string Protocol { get; set; }

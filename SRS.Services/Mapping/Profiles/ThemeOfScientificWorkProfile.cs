@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
+using System.Linq;
 
 namespace SRS.Services.Mapping.Profiles
 {
@@ -20,6 +22,9 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkModel>().ReverseMap();
             CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkWithFinancialsModel>().ReverseMap();
+
+            CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>()
+                .ForMember(dest => dest.ReportThemeOfScientificWork, opts => opts.MapFrom(src => src.Reports.OrderByDescending(x => x.Id).FirstOrDefault(x => x.Report.UserId == src.SupervisorId && x.Report.State == ReportState.Signed)));
         }
     }
 }

@@ -59,6 +59,16 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
         }
 
+        public async Task<IList<CathedraReportThemeOfScientificWorkModel>> GetActiveForCathedraReport1Async(int cathedraId, Financial financial)
+        {
+            var themes = await _repo.GetAsync(x => x.Financial == financial &&
+                                                    x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
+                                                    x.PeriodFrom <= DateTime.Now && x.PeriodTo >= DateTime.Now &&
+                                                    x.IsActive);
+
+            return _mapper.Map<IList<CathedraReportThemeOfScientificWorkModel>>(themes);
+        }
+
         public async Task<bool> ToggleActivationAsync(int id)
         {
             var entity = await _repo.GetAsync(id);

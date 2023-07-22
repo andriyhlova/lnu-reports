@@ -3,21 +3,24 @@ function changeStepPageAndSubmit(index, newIndex) {
         $(this).val(newIndex);
     });
     if (index == 0) {
-        $('#updateBudgetThemeForm').submit();
+        $('#updateAchievementSchoolForm').submit();
     }
     if (index == 1) {
-        $('#updateInWorkThemeForm').submit();
+        $('#updateBudgetThemeForm').submit();
     }
     if (index == 2) {
-        $('#updateHospDohovirThemeForm').submit();
+        $('#updateInWorkThemeForm').submit();
     }
     if (index == 3) {
-        $('#updateOtherForm').submit();
+        $('#updateHospDohovirThemeForm').submit();
     }
     if (index == 4) {
-        $('#updateFinishForm').submit();
+        $('#updateOtherForm').submit();
     }
     if (index == 5) {
+        $('#updateFinishForm').submit();
+    }
+    if (index == 6) {
         $('#updateEndForm').submit();
     }
 };

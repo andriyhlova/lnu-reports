@@ -41,7 +41,7 @@
                                 }
                                 @if (User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Поточний звіт кафедри", "InDevelopment", "Home")</li>
+                                    <li>@Html.ActionLink("Поточний звіт кафедри", "Index", "CathedraReport")</li>
                                 }
                                 @if (User.IsInRole(RoleNames.DeaneryAdmin))
                                 {
@@ -57,7 +57,7 @@
                                     || User.IsInRole(RoleNames.DeaneryAdmin)
                                     || User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Архів кафедральні звітів", "InDevelopment", "Home")</li>
+                                    <li>@Html.ActionLink("Архів кафедральні звітів", "Index", "CathedraReportList")</li>
                                 }
                                 @if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin)
