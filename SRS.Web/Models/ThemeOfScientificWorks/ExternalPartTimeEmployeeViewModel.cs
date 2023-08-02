@@ -1,14 +1,14 @@
-﻿using SRS.Services.Attributes;
-using System;
+﻿using SRS.Services.Models.UserModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace SRS.Web.Models.ThemeOfScientificWorks
 {
     public class ExternalPartTimeEmployeeViewModel
     {
+        [Required]
+        public List<I18nUserInitialsModel> I18nUserInitials { get; set; }
+
         [Required(ErrorMessage = "Введіть електронну пошту")]
         [RegularExpression("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", ErrorMessage = "Некоректна електронна пошта. Повинна бути: ...@...")]
         [Display(Name = "Електронна пошта")]

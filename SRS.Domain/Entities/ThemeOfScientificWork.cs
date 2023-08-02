@@ -41,5 +41,7 @@ namespace SRS.Domain.Entities
         public virtual ICollection<ThemeOfScientificWorkFinancial> ThemeOfScientificWorkFinancials { get; set; }
 
         public virtual ICollection<ThemeOfScientificWorkCathedra> ThemeOfScientificWorkCathedras { get; set; }
+
+        public virtual ICollection<CathedraReport> CathedraReports { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SRS.Services.Models.CathedraReportModels;
+﻿using SRS.Services.Models.CathedraReportModels;
+using System.Collections.Generic;
 
 namespace SRS.Services.Models.ReportModels
 {
@@ -63,10 +63,14 @@ namespace SRS.Services.Models.ReportModels
 
         public int CathedraId { get; set; }
 
-        public List<int> PrintedPublicationBudgetThemeIds { get; set; }// 2.3
+        public List<int> PublicationsIds { get; set; }
 
-        public List<int> PrintedPublicationThemeInWorkTimeIds { get; set; }// 3.3
+        public IList<int> ApplicationsForInventionIds { get; set; }
 
-        public List<int> PrintedPublicationHospDohovirThemeIds { get; set; }// 4.3
+        public IList<int> PatentsForInventionIds { get; set; }
+
+        public IList<int> GrantsIds { get; set; }
+
+        public string OtherGrants { get; set; }
     }
 }

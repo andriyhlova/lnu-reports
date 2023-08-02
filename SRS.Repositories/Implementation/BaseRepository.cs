@@ -1,14 +1,14 @@
-﻿using System;
+﻿using SRS.Domain.Entities;
+using SRS.Domain.Specifications;
+using SRS.Repositories.Context;
+using SRS.Repositories.Interfaces;
+using SRS.Repositories.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using SRS.Domain.Entities;
-using SRS.Domain.Specifications;
-using SRS.Repositories.Context;
-using SRS.Repositories.Interfaces;
-using SRS.Repositories.Utilities;
 
 namespace SRS.Repositories.Implementations
 {

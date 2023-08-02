@@ -302,6 +302,8 @@
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportBudgetThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportHospDohovirThemeViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportGrantsViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportPublicationsViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Constants\CookieNames.cs" />

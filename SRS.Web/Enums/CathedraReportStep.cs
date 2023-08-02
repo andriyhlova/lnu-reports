@@ -3,9 +3,7 @@
     public enum CathedraReportStep
     {
         AchievementSchool,
-        BudgetThemeInfo,
-        InTimeTHemeInfo,
-        HospDohovirThemeInfo,
+        ThemeInfo,
         OtherInfo,
         FinalInfo,
         FinalizeStep

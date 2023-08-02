@@ -6,23 +6,22 @@ function changeStepPageAndSubmit(index, newIndex) {
         $('#updateAchievementSchoolForm').submit();
     }
     if (index == 1) {
-        $('#updateBudgetThemeForm').submit();
+        $('#updateThemeForm').submit();
     }
     if (index == 2) {
-        $('#updateInWorkThemeForm').submit();
+        $('#updatePublicationForm').submit();
     }
     if (index == 3) {
-        $('#updateHospDohovirThemeForm').submit();
-    }
-    if (index == 4) {
         $('#updateOtherForm').submit();
     }
-    if (index == 5) {
+    if (index == 4) {
         $('#updateFinishForm').submit();
     }
-    if (index == 6) {
+    if (index == 5) {
         $('#updateEndForm').submit();
     }
+
+    return true;
 };
 
 function themeDropdownOnChange() {

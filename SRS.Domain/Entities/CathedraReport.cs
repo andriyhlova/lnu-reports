@@ -83,6 +83,8 @@ namespace SRS.Domain.Entities
 
         public ReportState State { get; set; }
 
+        public string OtherGrants { get; set; }
+
         [Column("User_Id")]
         public string UserId { get; set; }
 
@@ -96,19 +98,22 @@ namespace SRS.Domain.Entities
 
         public virtual ThemeOfScientificWork HospDohovirTheme { get; set; }// 4
 
-        [InverseProperty("PrintedPublicationBudgetCathedraReport")]
-        public virtual List<Publication> PrintedPublicationBudgetTheme { get; set; }// 2.3
-
-        [InverseProperty("PrintedPublicationInWorkCathedraReport")]
-        public virtual List<Publication> PrintedPublicationThemeInWorkTime { get; set; }// 3.3
-
-        [InverseProperty("PrintedPublicationHospDohovirCathedraReport")]
-        public virtual List<Publication> PrintedPublicationHospDohovirTheme { get; set; }// 4.3
-
         public virtual List<CathedraDefenses> DefenseOfDoctorantsAndAspirants { get; set; }// 7.1
 
         public virtual List<CoworkersDefenses> DefenseOfCoworkers { get; set; }// 7.2
 
         public virtual List<OtherDefenses> DefenseWithSpecialPeople { get; set; }// 7.3
+
+        [InverseProperty("PublicationsCathedraReport")]
+        public virtual List<Publication> Publications { get; set; }
+
+        [InverseProperty("PatentsForInventionCathedraReport")]
+        public virtual ICollection<Publication> PatentsForInvention { get; set; }// Пункт 6.2.5
+
+        [InverseProperty("ApplicationsForInventionCathedraReport")]
+        public virtual ICollection<Publication> ApplicationsForInvention { get; set; }
+
+        [InverseProperty("CathedraReports")]
+        public virtual ICollection<ThemeOfScientificWork> Grants { get; set; }
     }
 }

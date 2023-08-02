@@ -6,10 +6,9 @@ using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
-using SRS.Web.Enums;
 using SRS.Web.Models.CathedraReports;
 using SRS.Web.Models.Shared;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -44,13 +43,9 @@ namespace SRS.Web.Controllers
             var report = await _cathedraReportService.GetUserCathedraReportAsync(User.Identity.GetUserId(), reportId);
             var user = await _userAccountService.GetByIdAsync(report.UserId);
             var viewModel = _mapper.Map<CathedraReportViewModel>(report);
-            var financial = GetFinancialByStep(stepIndex);
-            await FillPublications(viewModel, report, financial);
-
-            ViewBag.BudgetThemes = await _themeOfScientificWorkService.GetActiveForCathedraReport1Async(user.CathedraId.Value, Financial.Budget);
-
-            await FillThemeOfScientificWorks(user.CathedraId.Value, financial);
-            FillFilters(financial);
+            await FillPublications(viewModel, report);
+            await FillThemes(user, report);
+            await FillGrants(viewModel, report);
             FillStepIndex(stepIndex);
             return View(viewModel);
         }
@@ -65,25 +60,17 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateBudgetThemeInfo(CathedraReportBudgetThemeViewModel reportBudgetThemeViewModel, int? stepIndex)
+        public async Task<ActionResult> UpdateThemeInfo(CathedraReportGrantsViewModel reportGrantsModel, int? stepIndex)
         {
-            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportBudgetThemeModel>(reportBudgetThemeViewModel), User.Identity.GetUserId());
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportGrantsModel>(reportGrantsModel), User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateInWorkThemeInfo(CathedraReportInTimeThemeViewModel reportInTimeThemeModel, int? stepIndex)
+        public async Task<ActionResult> UpdatePublications(CathedraReportPublicationsViewModel reportPublicationsModel, int? stepIndex)
         {
-            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportInTimeThemeModel>(reportInTimeThemeModel), User.Identity.GetUserId());
-            return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateHospDohovirThemeInfo(CathedraReportHospDohovirThemeViewModel reportHospDohovirThemeModel, int? stepIndex)
-        {
-            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportHospDohovirThemeModel>(reportHospDohovirThemeModel), User.Identity.GetUserId());
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportPublicationsModel>(reportPublicationsModel), User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
@@ -110,75 +97,55 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });
         }
 
-        private Financial? GetFinancialByStep(int? stepIndex)
+        private async Task FillPublications(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport)
         {
-            switch ((CathedraReportStep?)stepIndex)
-            {
-                case CathedraReportStep.BudgetThemeInfo: return Financial.Budget;
-                case CathedraReportStep.InTimeTHemeInfo: return Financial.InWorkTime;
-                case CathedraReportStep.HospDohovirThemeInfo: return Financial.BusinessContract;
-                default: return null;
-            }
-        }
-
-        private async Task FillThemeOfScientificWorks(int cathedraId, Financial? financial)
-        {
-            if (!financial.HasValue)
-            {
-                ViewBag.ScientificThemesByFaculty = new List<SelectListItem>();
-                ViewBag.AllThemeDescriptions = new List<SelectListItem>();
-                return;
-            }
-
-            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(cathedraId, financial.Value);
-            ViewBag.ScientificThemesByFaculty = _mapper.Map<IList<SelectListItem>>(themes);
-            ViewBag.AllThemeDescriptions = _mapper.Map<IList<SelectListItem>>(themes);
-        }
-
-        private async Task FillPublications(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport, Financial? financial)
-        {
-            if (!financial.HasValue)
-            {
-                viewModel.PrintedPublicationBudgetTheme = new List<CheckboxListItem>();
-                viewModel.PrintedPublicationHospDohovirTheme = new List<CheckboxListItem>();
-                viewModel.PrintedPublicationThemeInWorkTime = new List<CheckboxListItem>();
-                return;
-            }
-
             var filterModel = new CathedraReportPublicationFilterModel
             {
                 CathedraId = cathedraReport.CathedraId,
-                Financial = financial.Value
+                Date = cathedraReport.Date ?? DateTime.Now
             };
+
             var availablePublications = await _publicationService.GetAvailableCathedraReportPublicationsAsync(filterModel);
-            viewModel.PrintedPublicationBudgetTheme = availablePublications
+            viewModel.Publications = availablePublications.Where(x => x.PublicationType != PublicationType.Заявка_на_винахід && x.PublicationType != PublicationType.Патент)
                 .Select(x => new CheckboxListItem()
                 {
-                    Checked = cathedraReport.PrintedPublicationBudgetThemeIds.Any(y => y == x.Id),
+                    Checked = cathedraReport.PublicationsIds.Any(y => y == x.Id),
                     Id = x.Id,
                     Name = x.Name
                 }).ToList();
 
-            viewModel.PrintedPublicationHospDohovirTheme = availablePublications
+            viewModel.ApplicationsForInvention = availablePublications.Where(x => x.PublicationType == PublicationType.Заявка_на_винахід)
                 .Select(x => new CheckboxListItem()
                 {
-                    Checked = cathedraReport.PrintedPublicationHospDohovirThemeIds.Any(y => y == x.Id),
+                    Checked = cathedraReport.ApplicationsForInventionIds.Any(y => y == x.Id),
                     Id = x.Id,
                     Name = x.Name
                 }).ToList();
 
-            viewModel.PrintedPublicationThemeInWorkTime = availablePublications
+            viewModel.PatentsForInvention = availablePublications.Where(x => x.PublicationType == PublicationType.Патент)
                 .Select(x => new CheckboxListItem()
                 {
-                    Checked = cathedraReport.PrintedPublicationThemeInWorkTimeIds.Any(y => y == x.Id),
+                    Checked = cathedraReport.PatentsForInventionIds.Any(y => y == x.Id),
                     Id = x.Id,
                     Name = x.Name
                 }).ToList();
         }
 
-        private void FillFilters(Financial? financial)
+        private async Task FillThemes(UserAccountModel user, CathedraReportModel cathedraReport)
         {
-            ViewBag.Financial = financial;
+            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForCathedraReport1Async(user.CathedraId.Value, cathedraReport.Date ?? DateTime.Now);
+        }
+
+        private async Task FillGrants(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport)
+        {
+            var availableGrants = await _themeOfScientificWorkService.GetGrantsForCathedraReportAsync(cathedraReport.CathedraId, cathedraReport.Date ?? DateTime.Now);
+            viewModel.Grants = availableGrants
+                .Select(x => new CheckboxListItem()
+                {
+                    Checked = cathedraReport.GrantsIds.Any(y => y == x.Id),
+                    Id = x.Id,
+                    Name = x.Value
+                }).ToList();
         }
 
         private void FillStepIndex(int? stepIndex)

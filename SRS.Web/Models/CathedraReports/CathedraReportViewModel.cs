@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SRS.Web.Models.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.CathedraReports
 {
@@ -71,10 +71,14 @@ namespace SRS.Web.Models.CathedraReports
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public IList<CheckboxListItem> PrintedPublicationBudgetTheme { get; set; }// 2.3
+        public IList<CheckboxListItem> Publications { get; set; }
 
-        public IList<CheckboxListItem> PrintedPublicationThemeInWorkTime { get; set; }// 3.3
+        public IList<CheckboxListItem> ApplicationsForInvention { get; set; }
 
-        public IList<CheckboxListItem> PrintedPublicationHospDohovirTheme { get; set; }// 4.3
+        public IList<CheckboxListItem> PatentsForInvention { get; set; }
+
+        public IList<CheckboxListItem> Grants { get; set; }
+
+        public string OtherGrants { get; set; }
     }
 }

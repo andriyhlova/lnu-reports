@@ -100,11 +100,11 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<Report> PatentsForInventionReport { get; set; }
 
-        public virtual ICollection<CathedraReport> PrintedPublicationBudgetCathedraReport { get; set; }
+        public virtual ICollection<CathedraReport> PublicationsCathedraReport { get; set; }
 
-        public virtual ICollection<CathedraReport> PrintedPublicationInWorkCathedraReport { get; set; }
+        public virtual ICollection<CathedraReport> ApplicationsForInventionCathedraReport { get; set; }
 
-        public virtual ICollection<CathedraReport> PrintedPublicationHospDohovirCathedraReport { get; set; }
+        public virtual ICollection<CathedraReport> PatentsForInventionCathedraReport { get; set; }
 
         public string GetPages()
         {

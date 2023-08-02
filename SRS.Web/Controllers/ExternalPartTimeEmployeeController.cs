@@ -9,7 +9,7 @@ using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Identity;
 using SRS.Web.Models.ThemeOfScientificWorks;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -50,7 +50,16 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> Create()
         {
             await AddDepartments();
-            return View();
+            return View(new ExternalPartTimeEmployeeViewModel
+            {
+                I18nUserInitials = new List<I18nUserInitialsModel>
+                {
+                    new I18nUserInitialsModel
+                    {
+                        Language = Language.UA
+                    }
+                }
+            });
         }
 
         [HttpPost]
@@ -67,28 +76,25 @@ namespace SRS.Web.Controllers
                     user.IsActive = true;
                     await UserManager.AddToRoleAsync(user.Id, RoleNames.Worker);
                     await UserManager.AddToRoleAsync(user.Id, RoleNames.ExternalPartTimeEmployee);
-                    await AddUserInitials(user.Id);
+                    await AddUserInitials(user.Id, model);
                     return RedirectToAction(nameof(Index));
                 }
 
-                ModelState.AddModelError(string.Empty, "Помилка створення сумісника");
+                ModelState.AddModelError(string.Empty, "Помилка створення сумісника. Перевірте наявність сумісника із зазначеною електронною поштою.");
             }
 
             await AddDepartments();
             return View(model);
         }
 
-        private async Task AddUserInitials(string userId)
+        private async Task AddUserInitials(string userId, ExternalPartTimeEmployeeViewModel model)
         {
-            var availableLanguages = Enum.GetNames(typeof(Language)).Where(x => x == Language.UA.ToString() || x == Language.EN.ToString());
-            foreach (var name in availableLanguages)
+            await _i18nUserInitialsService.AddAsync(model.I18nUserInitials.First());
+            await _i18nUserInitialsService.AddAsync(new I18nUserInitialsModel()
             {
-                await _i18nUserInitialsService.AddAsync(new I18nUserInitialsModel()
-                {
-                    Language = (Language)Enum.Parse(typeof(Language), name),
-                    UserId = userId
-                });
-            }
+                Language = Language.EN,
+                UserId = userId
+            });
         }
 
         private async Task AddDepartments()

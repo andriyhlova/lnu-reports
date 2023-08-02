@@ -16,14 +16,13 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<CathedraReportAchievementSchoolModel, CathedraReport>();
 
-            CreateMap<CathedraReportBudgetThemeModel, CathedraReport>()
-                .ForMember(dest => dest.PrintedPublicationBudgetTheme, opts => opts.MapFrom(src => src.PrintedPublicationBudgetThemeIds.Select(x => new Publication { Id = x })));
+            CreateMap<CathedraReportPublicationsModel, CathedraReport>()
+                .ForMember(dest => dest.Publications, opts => opts.MapFrom(src => src.PublicationsIds.Select(x => new Publication { Id = x })))
+                .ForMember(dest => dest.ApplicationsForInvention, opts => opts.MapFrom(src => src.ApplicationsForInventionIds.Select(x => new Publication { Id = x })))
+                .ForMember(dest => dest.PatentsForInvention, opts => opts.MapFrom(src => src.PatentsForInventionIds.Select(x => new Publication { Id = x })));
 
-            CreateMap<CathedraReportInTimeThemeModel, CathedraReport>()
-                .ForMember(dest => dest.PrintedPublicationThemeInWorkTime, opts => opts.MapFrom(src => src.PrintedPublicationThemeInWorkTimeIds.Select(x => new Publication { Id = x })));
-
-            CreateMap<CathedraReportHospDohovirThemeModel, CathedraReport>()
-                .ForMember(dest => dest.PrintedPublicationHospDohovirTheme, opts => opts.MapFrom(src => src.PrintedPublicationHospDohovirThemeIds.Select(x => new Publication { Id = x })));
+            CreateMap<CathedraReportGrantsModel, CathedraReport>()
+                .ForMember(dest => dest.Grants, opts => opts.MapFrom(src => src.GrantsIds.Select(x => new ThemeOfScientificWork { Id = x })));
 
             CreateMap<CathedraReportOtherInfoModel, CathedraReport>();
 
@@ -32,9 +31,10 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<CathedraReport, CathedraReportModel>()
                 .IncludeBase<CathedraReport, BaseCathedraReportModel>()
                 .ForMember(dest => dest.CathedraId, opts => opts.MapFrom(src => src.User.CathedraId))
-                .ForMember(dest => dest.PrintedPublicationBudgetThemeIds, opts => opts.MapFrom(src => src.PrintedPublicationBudgetTheme.Select(x => x.Id)))
-                .ForMember(dest => dest.PrintedPublicationThemeInWorkTimeIds, opts => opts.MapFrom(src => src.PrintedPublicationThemeInWorkTime.Select(x => x.Id)))
-                .ForMember(dest => dest.PrintedPublicationHospDohovirThemeIds, opts => opts.MapFrom(src => src.PrintedPublicationHospDohovirTheme.Select(x => x.Id)));
+                .ForMember(dest => dest.PublicationsIds, opts => opts.MapFrom(src => src.Publications.Select(x => x.Id)))
+                .ForMember(dest => dest.ApplicationsForInventionIds, opts => opts.MapFrom(src => src.ApplicationsForInvention.Select(x => x.Id)))
+                .ForMember(dest => dest.PatentsForInventionIds, opts => opts.MapFrom(src => src.PatentsForInvention.Select(x => x.Id)))
+                .ForMember(dest => dest.GrantsIds, opts => opts.MapFrom(src => src.Grants.Select(x => x.Id)));
         }
     }
 }

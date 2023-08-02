@@ -176,6 +176,8 @@
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportAchievementSchoolModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportGrantsModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportPublicationsModel.cs" />
     <Compile Include="Models\FilterModels\FacultyFilterModel.cs" />
     <Compile Include="Models\FilterModels\JournalFilterModel.cs" />
     <Compile Include="Models\FilterModels\UserFilterModel.cs" />

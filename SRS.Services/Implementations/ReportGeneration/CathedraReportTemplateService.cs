@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations.ReportGeneration
 {
@@ -65,7 +65,6 @@ namespace SRS.Services.Implementations.ReportGeneration
             themeOfScientificWork.Description = dbReport.AllDescriptionBudgetTheme;
             themeOfScientificWork.ThemeCV = dbReport.CVBudgetTheme;
             themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersBudgetTheme;
-            themeOfScientificWork.PublicationsCounters = GetPublicationCounters(dbReport.PrintedPublicationBudgetTheme);
             themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionBudgetTheme;
             themeOfScientificWork.Other = dbReport.OtherBudgetTheme;
             return themeOfScientificWork;
@@ -77,7 +76,6 @@ namespace SRS.Services.Implementations.ReportGeneration
             themeOfScientificWork.Description = dbReport.AllDescriptionThemeInWorkTime;
             themeOfScientificWork.ThemeCV = dbReport.CVThemeInWorkTime;
             themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersThemeInWorkTime;
-            themeOfScientificWork.PublicationsCounters = GetPublicationCounters(dbReport.PrintedPublicationThemeInWorkTime);
             themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionThemeInWorkTime;
             themeOfScientificWork.Other = dbReport.OtherThemeInWorkTime;
             return themeOfScientificWork;
@@ -89,7 +87,6 @@ namespace SRS.Services.Implementations.ReportGeneration
             themeOfScientificWork.Description = dbReport.AllDescriptionHospDohovirTheme;
             themeOfScientificWork.ThemeCV = dbReport.CVHospDohovirTheme;
             themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersHospDohovirTheme;
-            themeOfScientificWork.PublicationsCounters = GetPublicationCounters(dbReport.PrintedPublicationHospDohovirTheme);
             themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionHospDohovirTheme;
             themeOfScientificWork.Other = dbReport.OtherHospDohovirTheme;
             return themeOfScientificWork;
@@ -125,9 +122,7 @@ namespace SRS.Services.Implementations.ReportGeneration
 
         private CathedraReportPublicationsModel GetPublications(CathedraReport dbReport)
         {
-            var distinctPublications = dbReport.PrintedPublicationBudgetTheme
-                .Union(dbReport.PrintedPublicationHospDohovirTheme)
-                .Union(dbReport.PrintedPublicationThemeInWorkTime)
+            var distinctPublications = dbReport.Publications
                 .GroupBy(x => x.Id)
                 .Select(x => x.First())
                 .ToList();

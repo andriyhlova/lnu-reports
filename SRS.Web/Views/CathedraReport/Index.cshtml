@@ -1,5 +1,7 @@
 ﻿@using SRS.Services.Models.Constants
 @using SRS.Services.Models.ThemeOfScientificWorkModels
+@using SRS.Services.Extensions
+@using SRS.Domain.Enums
 
 @model SRS.Web.Models.CathedraReports.CathedraReportViewModel
 
@@ -32,90 +34,112 @@
             <input type="hidden" name="Id" value="@Model.Id" />
         }
     </section>
-    <h3>Держбюджетні теми</h3>
+    <h3>Наукова робота</h3>
     <section class="section-body">
-        @using (@Html.BeginForm("UpdateBudgetThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateBudgetThemeForm" }))
+        @using (@Html.BeginForm("UpdateThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateThemeForm" }))
         {
             @Html.AntiForgeryToken()
+
+            var counter = 1;
+            foreach (var item in (Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>)ViewBag.AllThemes)
+            {
+                <div class="form-group">
+                    <label class="control-label">
+                        2.@(counter++) @(item.Key.GetDisplayName()):
+                    </label>
+                    @foreach (var theme in item.Value)
+                    {
+                        <div><b>Тема @theme.Code “@theme.Value”</b></div>
+                        <div><b>Науковий керівник:</b> @theme.ScientificHead</div>
+                        <div>Номер державної реєстрації: @theme.ThemeNumber.</div>
+                        {
+                            var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+                            <div>Термін дії теми: @theme.PeriodFrom.ToString(Dates.UaDatePattern)&mdash;@theme.PeriodFrom.ToString(Dates.UaDatePattern) р. Обсяг фінансування: @(financial != null ? financial.Amount : 0m) грн. у @DateTime.Now.Year році.</div>
+                        }
+                        <div><b>Резюме</b></div>
+                        <div>@(theme.ReportThemeOfScientificWork != null ? theme.ReportThemeOfScientificWork.Resume : "")</div>
+                        <div><b>Публікації</b></div>
+                        <div>@(theme.ReportThemeOfScientificWork != null ? theme.ReportThemeOfScientificWork.Publications : "")</div>
+                        <div><b>Захищені дисертації</b></div>
+                        <div>@(theme.ReportThemeOfScientificWork != null ? theme.ReportThemeOfScientificWork.DefendedDissertation : "")</div>
+                        <br />
+                    }
+                </div>
+                <hr />
+            }
+            if (Model.Grants.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Гранти:
+                    </p>
+                    @Html.EditorFor(model => model.Grants)
+                </div>
+            }
             <div class="form-group">
                 <label class="control-label">
-                    2. Держбюджетні теми: <span class="text-danger">*</span>
+                    Інші гранти:
                 </label>
-                @foreach (var theme in (IList<CathedraReportThemeOfScientificWorkModel>)ViewBag.BudgetThemes)
-                {
-                    <div><b>Тема @theme.Code “@theme.Value”</b></div>
-                    <div><b>Науковий керівник:</b> @theme.ScientificHead</div>
-                    <div>Номер державної реєстрації: @theme.ThemeNumber.</div>
+                <div>
+                    @Html.TextAreaFor(model => model.OtherGrants, 6, 70, new
                     {
-                        var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == DateTime.Now.Year);
-                        <div>Термін дії теми: @theme.PeriodFrom.ToString(Dates.UaDatePattern)&mdash;@theme.PeriodFrom.ToString(Dates.UaDatePattern) р. Обсяг фінансування: @(financial != null ? financial.Amount : 0m) грн. у @DateTime.Now.Year році.</div>
-                    }
-                    <div><b>Резюме</b></div>
-                    <div>@(theme.ReportThemeOfScientificWork != null ? theme.ReportThemeOfScientificWork.Resume : "")</div>
-                    <div><b>Публікації</b></div>
-                    <div>@(theme.ReportThemeOfScientificWork != null ? theme.ReportThemeOfScientificWork.Publications : "")</div>
-                    <div><b>Захищені дисертації</b></div>
-                    <div>@(theme.ReportThemeOfScientificWork != null ? theme.ReportThemeOfScientificWork.DefendedDissertation : "")</div>
-                    <hr />
-                }
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.OtherGrants,
+                    })
+                </div>
             </div>
+
             <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_2" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
     </section>
-    <h3>Теми в межах робочого часу</h3>
+
+    <h3>Публікації</h3>
     <section class="section-body">
-        @using (@Html.BeginForm("UpdateInWorkThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateInWorkThemeForm" }))
+        @using (@Html.BeginForm("UpdatePublications", "CathedraReport", FormMethod.Post, new { @id = "updatePublicationForm" }))
         {
             @Html.AntiForgeryToken()
-            <div class="form-group">
-                <label class="control-label">
-                    3. Теми, які виконуються в межах робочого часу викладачів: <span class="text-danger">*</span>
-                </label>
-                <div>
-                    <div id="scientific-work-search" class="search-container">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
-                            <input class="form-control" placeholder="Пошук за назвою, номером, шифром, науковим керівником" />
-                        </div>
-                        <div class="search-results">
-                        </div>
-                    </div>
-                    <div class="selected-items selected-scientific-works">
-                    </div>
+            if (Model.Publications.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Публікації:
+                    </p>
+                    @Html.EditorFor(model => model.Publications)
                 </div>
-            </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_3" />
+            }
+            if (Model.ApplicationsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Заявки на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.ApplicationsForInvention)
+                </div>
+            }
+            if (Model.PatentsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Патенти на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.PatentsForInvention)
+                </div>
+            }
+            if (Model.Publications.Count == 0 
+                && Model.ApplicationsForInvention.Count == 0
+                && Model.PatentsForInvention.Count == 0)
+            {
+                <p style="margin-top:100px">
+                    Немає публікацій за цей період.
+                </p>
+            }
+            <input type="hidden" name="stepIndex" id="stepIndex_3" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
     </section>
 
-    <h3>Госпдоговірна тематика</h3>
-    <section class="section-body">
-        @using (@Html.BeginForm("UpdateHospDohovirThemeInfo", "CathedraReport", FormMethod.Post, new { @id = "updateHospDohovirThemeForm" }))
-        {
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-                <label class="control-label">
-                    4. Госпдоговірна тематика: <span class="text-danger">*</span>
-                </label>
-                <div>
-                    <div id="scientific-work-search" class="search-container">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
-                            <input class="form-control" placeholder="Пошук за назвою, номером, шифром, науковим керівником" />
-                        </div>
-                        <div class="search-results">
-                        </div>
-                    </div>
-                    <div class="selected-items selected-scientific-works">
-                    </div>
-                </div>
-            </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_4" />
-            <input type="hidden" name="Id" value="@Model.Id" />
-        }
-    </section>
     <h3>Інше</h3>
     <section class="section-body">
         @using (@Html.BeginForm("UpdateOtherInfo", "CathedraReport", FormMethod.Post, new { @id = "updateOtherForm" }))
@@ -237,7 +261,7 @@
                     })
                 </div>
             </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_5" />
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_4" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
     </section>
@@ -265,7 +289,7 @@
             </div>
 
             @Html.ValidationSummary("", new { @class = "text-danger" })
-            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_6" />
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_5" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
     </section>
@@ -280,7 +304,7 @@
                         color: green;">
                 Ваш звіт успішно заповнено!
             </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_7" />
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_6" />
             <input type="hidden" name="Id" value="@Model.Id" />
         }
         <div style="padding-top: 50px;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Repositories.Interfaces;
@@ -11,6 +7,10 @@ using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.UserModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
@@ -73,7 +73,7 @@ namespace SRS.Services.Implementations
         public async Task<IList<BasePublicationModel>> GetAvailableCathedraReportPublicationsAsync(CathedraReportPublicationFilterModel filterModel)
         {
             var publications = await _repo.GetAsync(new CathedraReportPublicationSpecification(filterModel));
-            return _mapper.Map<IList<BasePublicationModel>>(publications);
+            return _mapper.Map<IList<BasePublicationModel>>(publications.Distinct());
         }
     }
 }

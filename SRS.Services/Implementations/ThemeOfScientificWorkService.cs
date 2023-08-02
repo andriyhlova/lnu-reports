@@ -59,14 +59,27 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
         }
 
-        public async Task<IList<CathedraReportThemeOfScientificWorkModel>> GetActiveForCathedraReport1Async(int cathedraId, Financial financial)
+        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReport1Async(int cathedraId, DateTime date)
         {
-            var themes = await _repo.GetAsync(x => x.Financial == financial &&
-                                                    x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
+            var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
                                                     x.PeriodFrom <= DateTime.Now && x.PeriodTo >= DateTime.Now &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == date.Year) &&
+                                                    x.Financial != Financial.InternationalGrant &&
                                                     x.IsActive);
 
-            return _mapper.Map<IList<CathedraReportThemeOfScientificWorkModel>>(themes);
+            var groupped = themes.GroupBy(x => x.Financial).ToDictionary(x => x.Key, x => x.ToList());
+
+            return _mapper.Map<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>>(groupped, opts => opts.Items["date"] = date);
+        }
+
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime date)
+        {
+            var themes = await _repo.GetAsync(x => x.PeriodFrom <= DateTime.Now && x.PeriodTo >= DateTime.Now &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == date.Year && y.Report.User.CathedraId == cathedraId) &&
+                                                    x.Financial == Financial.InternationalGrant &&
+                                                    x.IsActive);
+
+            return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes.Distinct());
         }
 
         public async Task<bool> ToggleActivationAsync(int id)
