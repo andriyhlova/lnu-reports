@@ -55,7 +55,7 @@ function addCathedraPickerListener() {
 };
 
 function queryUsers(faculty, cathedra) {
-    userQuery = $.ajax(`/api/users/getByFacultyAndCathedra?facultyId=${faculty || ''}&cathedraId=${cathedra || ''}`)
+    userQuery = $.ajax(`/api/users/getByFacultyAndCathedra?facultyId=${faculty || ''}&cathedraId=${cathedra || ''}&isActive=true`)
         .done(function (users) {
             let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
             updateUserList(users, selectedUser);

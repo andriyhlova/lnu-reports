@@ -17,7 +17,7 @@
     });
 
     function getUsers() {
-        $.ajax('/api/users/getByFacultyAndCathedra')
+        $.ajax('/api/users/getByFacultyAndCathedra?')
             .done(function (users) {
                 let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
                 updateUserList(users, selectedUser, "#user-selector");

@@ -2,8 +2,11 @@
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
+using SRS.Services.Extensions;
+using SRS.Services.Interfaces;
 using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
+using SRS.Services.Models.Constants;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +19,18 @@ namespace SRS.Services.Implementations.ReportGeneration
         private readonly IBaseRepository<CathedraReport> _repo;
         private readonly IUserRepository _userRepo;
         private readonly IBibliographyService<Publication> _bibliographyService;
+        private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
 
         public CathedraReportTemplateService(
             IBaseRepository<CathedraReport> repo,
             IUserRepository userRepo,
-            IBibliographyService<Publication> bibliographyService)
+            IBibliographyService<Publication> bibliographyService,
+            IThemeOfScientificWorkService themeOfScientificWorkService)
         {
             _repo = repo;
             _userRepo = userRepo;
             _bibliographyService = bibliographyService;
+            _themeOfScientificWorkService = themeOfScientificWorkService;
         }
 
         public async Task<CathedraReportTemplateModel> BuildAsync(int reportId)
@@ -33,18 +39,16 @@ namespace SRS.Services.Implementations.ReportGeneration
             var facultyLeads = await _userRepo.GetAsync(new FacultyLeadSpecification(dbReport.User.Cathedra.FacultyId));
             var report = new CathedraReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
-            report.BudgetThemeOfScientificWork = dbReport.BudgetTheme != null ? GetBudgetThemeOfScientificWork(dbReport) : null;
-            report.InWorkTimeThemeOfScientificWork = dbReport.ThemeInWorkTime != null ? GetInWorkTimeThemeOfScientificWork(dbReport) : null;
-            report.HospDohovirThemeOfScientificWork = dbReport.HospDohovirTheme != null ? GetHospDohovirThemeOfScientificWork(dbReport) : null;
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, facultyLeads);
+            report.ThemeOfScientificWorks = await GetThemeOfScientificWorksAsync(dbReport);
             return report;
         }
 
         private CathedraReportGeneralInfoModel GetGeneralInfo(CathedraReport dbReport)
         {
             var generalInfo = new CathedraReportGeneralInfoModel();
-            generalInfo.Cathedra = dbReport.User.Cathedra.Name.Replace("Кафедра ", string.Empty);
+            generalInfo.Cathedra = dbReport.User.Cathedra.GenitiveCase.ToLower();
             generalInfo.Year = dbReport.Date?.Year ?? 0;
             generalInfo.AchievementSchool = dbReport.AchivementSchool;
             generalInfo.OtherFormsOfScientificWork = dbReport.OtherFormsOfScientificWork;
@@ -57,67 +61,6 @@ namespace SRS.Services.Implementations.ReportGeneration
             generalInfo.Materials = dbReport.Materials;
             generalInfo.PropositionForNewForms = dbReport.PropositionForNewForms;
             return generalInfo;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetBudgetThemeOfScientificWork(CathedraReport dbReport)
-        {
-            var themeOfScientificWork = GetThemeOfScientificWorkBase(dbReport.BudgetTheme);
-            themeOfScientificWork.Description = dbReport.AllDescriptionBudgetTheme;
-            themeOfScientificWork.ThemeCV = dbReport.CVBudgetTheme;
-            themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersBudgetTheme;
-            themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionBudgetTheme;
-            themeOfScientificWork.Other = dbReport.OtherBudgetTheme;
-            return themeOfScientificWork;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetInWorkTimeThemeOfScientificWork(CathedraReport dbReport)
-        {
-            var themeOfScientificWork = GetThemeOfScientificWorkBase(dbReport.ThemeInWorkTime);
-            themeOfScientificWork.Description = dbReport.AllDescriptionThemeInWorkTime;
-            themeOfScientificWork.ThemeCV = dbReport.CVThemeInWorkTime;
-            themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersThemeInWorkTime;
-            themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionThemeInWorkTime;
-            themeOfScientificWork.Other = dbReport.OtherThemeInWorkTime;
-            return themeOfScientificWork;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetHospDohovirThemeOfScientificWork(CathedraReport dbReport)
-        {
-            var themeOfScientificWork = GetThemeOfScientificWorkBase(dbReport.BudgetTheme);
-            themeOfScientificWork.Description = dbReport.AllDescriptionHospDohovirTheme;
-            themeOfScientificWork.ThemeCV = dbReport.CVHospDohovirTheme;
-            themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersHospDohovirTheme;
-            themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionHospDohovirTheme;
-            themeOfScientificWork.Other = dbReport.OtherHospDohovirTheme;
-            return themeOfScientificWork;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetThemeOfScientificWorkBase(ThemeOfScientificWork scientificWork)
-        {
-            var themeOfScientificWork = new CathedraReportThemeOfScientificWorkModel();
-            themeOfScientificWork.Title = scientificWork.Value;
-            themeOfScientificWork.Number = scientificWork.ThemeNumber;
-            themeOfScientificWork.Code = scientificWork.Code;
-            themeOfScientificWork.PeriodFrom = scientificWork.PeriodFrom.Year.ToString();
-            themeOfScientificWork.PeriodTo = scientificWork.PeriodTo.Year.ToString();
-            themeOfScientificWork.Head = scientificWork.ScientificHead;
-            return themeOfScientificWork;
-        }
-
-        private List<CathedraReportPublicationCountersModel> GetPublicationCounters(List<Publication> publications)
-        {
-            var aggregatedPublications = publications.GroupBy(x => x.PublicationType).ToDictionary(k => k.Key, x => x.Count());
-            var result = new List<CathedraReportPublicationCountersModel>();
-            foreach (var item in aggregatedPublications)
-            {
-                result.Add(new CathedraReportPublicationCountersModel
-                {
-                    Type = item.Key.ToString().Replace("_", " ").ToLower(),
-                    Count = item.Value
-                });
-            }
-
-            return result;
         }
 
         private CathedraReportPublicationsModel GetPublications(CathedraReport dbReport)
@@ -171,6 +114,42 @@ namespace SRS.Services.Implementations.ReportGeneration
         private List<string> GetPublicationsBibliography(IEnumerable<Publication> publications)
         {
             return publications.Select(x => _bibliographyService.Get(x)).ToList();
+        }
+
+        private async Task<List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>> GetThemeOfScientificWorksAsync(CathedraReport dbReport)
+        {
+            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReport1Async(dbReport.User.CathedraId.Value, dbReport.Date.Value);
+            var results = new List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>();
+            foreach (var financialThemes in themes)
+            {
+                var item = (financialThemes.Key.GetDisplayName(), new List<CathedraReportThemeOfScientificWorkModel>());
+
+                foreach (var theme in financialThemes.Value)
+                {
+                    var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == dbReport.Date.Value.Year);
+
+                    var model = new CathedraReportThemeOfScientificWorkModel
+                    {
+                        Code = theme.Code,
+                        Value = theme.Value,
+                        ScientificHead = theme.ScientificHead,
+                        ThemeNumber = theme.ThemeNumber,
+                        PeriodFrom = theme.PeriodFrom.ToString(Dates.UaDatePattern),
+                        PeriodTo = theme.PeriodTo.ToString(Dates.UaDatePattern),
+                        Resume = theme.ReportThemeOfScientificWork.Resume,
+                        DefendedDissertation = theme.ReportThemeOfScientificWork.DefendedDissertation,
+                        Publications = theme.ReportThemeOfScientificWork.Publications,
+                        FinancialAmount = financial?.Amount,
+                        FinancialYear = financial?.Year
+                    };
+
+                    item.Item2.Add(model);
+                }
+
+                results.Add(item);
+            }
+
+            return results;
         }
     }
 }

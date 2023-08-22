@@ -176,7 +176,10 @@
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportAchievementSchoolModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportBudgetThemeModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportGrantsModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportHospDohovirThemeModel.cs" />
+    <Compile Include="Models\CathedraReportModels\CathedraReportInTimeThemeModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportPublicationsModel.cs" />
     <Compile Include="Models\FilterModels\FacultyFilterModel.cs" />
     <Compile Include="Models\FilterModels\JournalFilterModel.cs" />
@@ -184,9 +187,6 @@
     <Compile Include="Models\FilterModels\ThemeOfScientificWorkFilterModel.cs" />
     <Compile Include="Models\HonoraryTitleModel.cs" />
     <Compile Include="Models\CathedraReportModels\BaseCathedraReportModel.cs" />
-    <Compile Include="Models\CathedraReportModels\CathedraReportBudgetThemeModel.cs" />
-    <Compile Include="Models\CathedraReportModels\CathedraReportInTimeThemeModel.cs" />
-    <Compile Include="Models\CathedraReportModels\CathedraReportHospDohovirThemeModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportOtherInfoModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportFinalInfoModel.cs" />
@@ -200,6 +200,7 @@
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportPublicationCountersModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportTemplateModel.cs" />
+    <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportThemeOfScientificWorkFinancialModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportSignatureModel.cs" />
     <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportGeneralInfoModel.cs" />
