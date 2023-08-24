@@ -51,5 +51,9 @@ namespace SRS.Services.Models.ReportGenerationModels.CathedraReport
         public List<string> InternationalConferences { get; set; }
 
         public List<string> NationalConferences { get; set; }
+
+        public List<string> ApplicationsForInvention { get; set; }
+
+        public List<string> PatentsForInvention { get; set; }
     }
 }

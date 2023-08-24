@@ -20,17 +20,20 @@ namespace SRS.Services.Implementations.ReportGeneration
         private readonly IUserRepository _userRepo;
         private readonly IBibliographyService<Publication> _bibliographyService;
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
+        private readonly IBibliographyService<ThemeOfScientificWork> _themeBibliographyService;
 
         public CathedraReportTemplateService(
             IBaseRepository<CathedraReport> repo,
             IUserRepository userRepo,
             IBibliographyService<Publication> bibliographyService,
-            IThemeOfScientificWorkService themeOfScientificWorkService)
+            IThemeOfScientificWorkService themeOfScientificWorkService,
+            IBibliographyService<ThemeOfScientificWork> themeBibliographyService)
         {
             _repo = repo;
             _userRepo = userRepo;
             _bibliographyService = bibliographyService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
+            _themeBibliographyService = themeBibliographyService;
         }
 
         public async Task<CathedraReportTemplateModel> BuildAsync(int reportId)
@@ -42,6 +45,8 @@ namespace SRS.Services.Implementations.ReportGeneration
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, facultyLeads);
             report.ThemeOfScientificWorks = await GetThemeOfScientificWorksAsync(dbReport);
+            report.Grants = GetGrants(dbReport);
+            report.OtherGrantDescription = dbReport.OtherGrants;
             return report;
         }
 
@@ -70,6 +75,9 @@ namespace SRS.Services.Implementations.ReportGeneration
                 .Select(x => x.First())
                 .ToList();
 
+            var reportApplicationsForInvention = dbReport.ApplicationsForInvention.ToList();
+            var reportPatentsForInvention = dbReport.PatentsForInvention.ToList();
+
             var publications = new CathedraReportPublicationsModel();
             publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
@@ -85,6 +93,9 @@ namespace SRS.Services.Implementations.ReportGeneration
             publications.OtherNationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));
             publications.InternationalConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції));
             publications.NationalConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції));
+            publications.ApplicationsForInvention = GetPublicationsBibliography(reportApplicationsForInvention);
+            publications.PatentsForInvention = GetPublicationsBibliography(reportPatentsForInvention);
+
             return publications;
         }
 
@@ -147,6 +158,17 @@ namespace SRS.Services.Implementations.ReportGeneration
                 }
 
                 results.Add(item);
+            }
+
+            return results;
+        }
+
+        private List<string> GetGrants(CathedraReport dbReport)
+        {
+            var results = new List<string>();
+            foreach (var grant in dbReport.Grants)
+            {
+                results.Add(_themeBibliographyService.Get(grant));
             }
 
             return results;

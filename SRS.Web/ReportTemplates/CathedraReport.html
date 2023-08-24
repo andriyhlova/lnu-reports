@@ -104,6 +104,31 @@
         </div>
         {{/each}}
 
+        {{#if Grants.Count}}
+        <div class="top-ident">
+            <p>
+                3. Участь у виконанні індивідуальних або колективних ґрантів.
+            </p>
+        </div>
+        {{#each Grants}}
+        <p class="bottom-ident">
+            {{this}}
+        </p>
+        {{/each}}
+        {{/if}}
+        {{#if OtherGrantDescription}}
+        {{#unless Grants.Count}}
+        <div class="top-ident">
+            <p>
+                3. Участь у виконанні індивідуальних або колективних ґрантів.
+            </p>
+        </div>
+        {{/unless}}
+        <p class="bottom-ident pre-line">{{OtherGrantDescription}}</p>
+        {{/if}}
+
+
+
         {{#with GeneralInfo}}
         {{#if OtherFormsOfScientificWork}}
         <div class="top-ident">
@@ -183,7 +208,7 @@
             <p class="header bold">
                 Монографії
             </p>
-            <p>
+            <p class="header">
                 Видано {{Monographs.Count}} монографії загальним обсягом {{MonographsSize}}.
             </p>
         </div>
@@ -204,7 +229,7 @@
             <p class="header bold">
                 Підручники
             </p>
-            <p>
+            <p class="header">
                 Видано {{Books.Count}} підручники загальним обсягом {{BooksSize}}.
             </p>
         </div>
@@ -225,7 +250,7 @@
             <p class="header bold">
                 Навчальні посібники
             </p>
-            <p>
+            <p class="header">
                 Видано {{TrainingBooks.Count}} навчальні посібники загальним обсягом {{TrainingBooksSize}}.
             </p>
         </div>
@@ -246,7 +271,7 @@
             <p class="header bold">
                 Інші наукові видання
             </p>
-            <p>
+            <p class="header">
                 Видано {{OtherWritings.Count}} інші наукові видання загальним обсягом {{OtherWritingsSize}}.
             </p>
         </div>
@@ -399,41 +424,51 @@
             </p>
         </div>
         {{/if}}
+        {{/with}}
 
-        {{#if ApplicationOnInvention}}
-        {{#if Patents}}
+        {{#with Publications}}
+        {{#if ApplicationsForInvention.Count}}
         <div class="top-ident">
             <p>
                 11. Патентно-ліцензійна діяльність:
             </p>
         </div>
-
-        {{#if ApplicationOnInvention}}
         <div class="top-ident">
             <p>
                 11.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
                 автори, назва, № заявки, дата подачі, заявник(и):
             </p>
-            <p class="pre-line">
-                {{ApplicationOnInvention}}
-            </p>
+            <div>
+                {{#each ApplicationsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
-
-        {{#if Patents}}
+        {{#if PatentsForInvention.Count}}
+        {{#unless ApplicationsForInvention.Count}}
+        <div class="top-ident">
+            <p>
+                11. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+        {{/unless}}
         <div class="top-ident">
             <p>
                 11.2 Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
             </p>
-            <p class="pre-line">
-                {{Patents}}
-            </p>
+            <div>
+                {{#each PatentsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
+        {{/with}}
 
-        {{/if}}
-        {{/if}}
 
+        
+        {{#with GeneralInfo}}
         {{#if Materials}}
         <div class="top-ident">
             <p>
@@ -459,10 +494,7 @@
 
         {{#with Signature}}
         <div class="top-ident">
-            <p>Звіт заслухано і затверджено на Вченій (науково-технічній) раді факультету</p>
-            <p class="footer-text-ident">
-                {{Faculty}}, протокол №: {{Protocol}} від: {{Date}}
-            </p>
+            <p class="footer-text-ident">Звіт заслухано і затверджено на Вченій (науково-технічній) раді факультету {{Faculty}}, протокол №: {{Protocol}} від: {{Date}}</p>
             <p class="footer-text-ident">
                 Декан факультету {{Faculty}}__________________{{#each FacultyLeadStatus}}{{this}}{{#if @last}}{{else}},{{/if}}{{/each}} {{FacultyLead}}
             </p>

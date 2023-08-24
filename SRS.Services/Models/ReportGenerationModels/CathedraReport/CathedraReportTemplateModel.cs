@@ -11,5 +11,9 @@ namespace SRS.Services.Models.ReportGenerationModels.CathedraReport
         public CathedraReportPublicationsModel Publications { get; set; }
 
         public CathedraReportSignatureModel Signature { get; set; }
+
+        public IList<string> Grants { get; set; }
+
+        public string OtherGrantDescription { get; set; }
     }
 }
