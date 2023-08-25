@@ -52,14 +52,7 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes);
         }
 
-        public async Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial)
-        {
-            var themes = await _repo.GetAsync(x => x.Financial == financial
-                                                   && x.Reports.Any(y => y.ThemeOfScientificWork.User.CathedraId == cathedraId && y.Report.State == ReportState.Confirmed));
-            return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
-        }
-
-        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReport1Async(int cathedraId, DateTime date)
+        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime date)
         {
             var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
                                                     x.PeriodFrom <= DateTime.Now && x.PeriodTo >= DateTime.Now &&
@@ -67,9 +60,34 @@ namespace SRS.Services.Implementations
                                                     x.Financial != Financial.InternationalGrant &&
                                                     x.IsActive);
 
-            var groupped = themes.GroupBy(x => x.Financial).ToDictionary(x => x.Key, x => x.ToList());
+            var groupped = themes.GroupBy(x => x.Financial);
+            var result = new Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>();
+            foreach (var group in groupped)
+            {
+                result.Add(group.Key, new List<CathedraReportThemeOfScientificWorkModel>());
+                foreach (var theme in group)
+                {
+                    var mapped = _mapper.Map<CathedraReportThemeOfScientificWorkModel>(theme);
 
-            return _mapper.Map<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>>(groupped, opts => opts.Items["date"] = date);
+                    var report = theme.Reports
+                            .OrderByDescending(x => x.Id)
+                            .FirstOrDefault(r => r.Report.Date.HasValue &&
+                                r.Report.Date.Value.Year == date.Year &&
+                                r.Report.UserId == theme.SupervisorId);
+
+                    var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == date.Year);
+
+                    mapped.Resume = report?.Resume;
+                    mapped.DefendedDissertation = report?.DefendedDissertation;
+                    mapped.Publications = report?.Publications;
+                    mapped.FinancialAmount = financial?.Amount;
+                    mapped.FinancialYear = financial?.Year;
+
+                    result[group.Key].Add(mapped);
+                }
+            }
+
+            return result;
         }
 
         public async Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime date)

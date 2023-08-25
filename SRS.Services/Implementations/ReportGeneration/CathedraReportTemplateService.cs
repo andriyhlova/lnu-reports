@@ -129,7 +129,7 @@ namespace SRS.Services.Implementations.ReportGeneration
 
         private async Task<List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>> GetThemeOfScientificWorksAsync(CathedraReport dbReport)
         {
-            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReport1Async(dbReport.User.CathedraId.Value, dbReport.Date.Value);
+            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(dbReport.User.CathedraId.Value, dbReport.Date.Value);
             var results = new List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>();
             foreach (var financialThemes in themes)
             {
@@ -137,8 +137,6 @@ namespace SRS.Services.Implementations.ReportGeneration
 
                 foreach (var theme in financialThemes.Value)
                 {
-                    var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == dbReport.Date.Value.Year);
-
                     var model = new CathedraReportThemeOfScientificWorkModel
                     {
                         Code = theme.Code,
@@ -147,11 +145,11 @@ namespace SRS.Services.Implementations.ReportGeneration
                         ThemeNumber = theme.ThemeNumber,
                         PeriodFrom = theme.PeriodFrom.ToString(Dates.UaDatePattern),
                         PeriodTo = theme.PeriodTo.ToString(Dates.UaDatePattern),
-                        Resume = theme.ReportThemeOfScientificWork.Resume,
-                        DefendedDissertation = theme.ReportThemeOfScientificWork.DefendedDissertation,
-                        Publications = theme.ReportThemeOfScientificWork.Publications,
-                        FinancialAmount = financial?.Amount,
-                        FinancialYear = financial?.Year
+                        Resume = theme.Resume,
+                        DefendedDissertation = theme.DefendedDissertation,
+                        Publications = theme.Publications,
+                        FinancialAmount = theme.FinancialAmount,
+                        FinancialYear = theme.FinancialYear
                     };
 
                     item.Item2.Add(model);

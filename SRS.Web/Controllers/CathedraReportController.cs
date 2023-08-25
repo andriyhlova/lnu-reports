@@ -133,7 +133,7 @@ namespace SRS.Web.Controllers
 
         private async Task FillThemes(UserAccountModel user, CathedraReportModel cathedraReport)
         {
-            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForCathedraReport1Async(user.CathedraId.Value, cathedraReport.Date ?? DateTime.Now);
+            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(user.CathedraId.Value, cathedraReport.Date ?? DateTime.Now);
         }
 
         private async Task FillGrants(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport)

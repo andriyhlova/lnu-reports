@@ -1,12 +1,15 @@
-﻿using SRS.Services.Models.ReportModels;
-using System.Collections.Generic;
-
-namespace SRS.Services.Models.ThemeOfScientificWorkModels
+﻿namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
     public class CathedraReportThemeOfScientificWorkModel : BaseThemeOfScientificWorkModel
     {
-        public IList<ThemeOfScientificWorkFinancialModel> ThemeOfScientificWorkFinancials { get; set; }
+        public string Resume { get; set; }
 
-        public ReportThemeOfScientificWorkModel ReportThemeOfScientificWork { get; set; }
+        public string DefendedDissertation { get; set; }
+
+        public string Publications { get; set; }
+
+        public decimal? FinancialAmount { get; set; }
+
+        public int? FinancialYear { get; set; }
     }
 }
