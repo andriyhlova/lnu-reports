@@ -133,7 +133,7 @@ function submitDateForm() {
                 ReportThemeId: $(scientificWorks[i])[0].dataset.themeid,
                 ThemeNumber: $(scientificWorks[i])[0].dataset.themenumber,
                 Code: $(scientificWorks[i])[0].dataset.code,
-                ScientificHead: $(scientificWorks[i])[0].dataset.scientifichead,
+                SupervisorDescription: $(scientificWorks[i])[0].dataset.supervisordescription,
                 Value: $(scientificWorks[i])[0].dataset.value,
                 Description: $(scientificWorks[i])[0].dataset.description,
                 Resume: $(scientificWorks[i])[0].dataset.resume,
@@ -149,7 +149,7 @@ function submitDateForm() {
     }
 
     function getScientificWorkSearchResultText(scientificWork) {
-        return `<div>${scientificWork.ThemeNumber || ''} ${scientificWork.Code || ''} ${scientificWork.ScientificHead || ''}  <span class="theme-name">${scientificWork.Value}</span></div>`;
+        return `<div>${scientificWork.ThemeNumber || ''} ${scientificWork.Code || ''} ${scientificWork.SupervisorDescription || ''}  <span class="theme-name">${scientificWork.Value}</span></div>`;
     };
 
     function appendScientificWorkSearchResultItem(scientificWork, settings) {
@@ -240,7 +240,7 @@ function submitDateForm() {
                 <input type="hidden" class="themenumber" value="${scientificWork.ThemeNumber}" />
                 <input type="hidden" name="${fieldName}[${index}].ThemeOfScientificWorkId" class="themeid" value="${scientificWork.Id}" />
                 <input type="hidden" class="code" value="${scientificWork.Code}" />
-                <input type="hidden" class="scientifichead" value="${scientificWork.ScientificHead}" />
+                <input type="hidden" class="supervisordescription" value="${scientificWork.SupervisorDescription}" />
                 <input type="hidden" class="value" value="${scientificWork.Value}" />
             </div>`;
         

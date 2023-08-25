@@ -1,10 +1,10 @@
-﻿using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Enums;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.Shared;
 using SRS.Web.Models.ThemeOfScientificWorks;
+using System.Web.Mvc;
 
 namespace SRS.Web.Mapping.Profiles
 {
@@ -29,7 +29,7 @@ namespace SRS.Web.Mapping.Profiles
 
             if (src.Financial == Financial.InWorkTime)
             {
-                return $"{src.ScientificHead} {src.Value}";
+                return $"{src.SupervisorDescription} {src.Value}";
             }
 
             return src.Value;

@@ -102,6 +102,7 @@
     <Compile Include="Enums\OrderTypes\CathedraOrderType.cs" />
     <Compile Include="Enums\OrderTypes\ValueOrderType.cs" />
     <Compile Include="Enums\Currency.cs" />
+    <Compile Include="Enums\AcademicStatusType.cs" />
     <Compile Include="Enums\ReportState.cs" />
     <Compile Include="Enums\ScientificWorkSubCategory.cs" />
     <Compile Include="Enums\OrderTypes\JournalOrderType.cs" />

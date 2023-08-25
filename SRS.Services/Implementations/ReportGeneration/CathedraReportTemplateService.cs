@@ -141,7 +141,7 @@ namespace SRS.Services.Implementations.ReportGeneration
                     {
                         Code = theme.Code,
                         Value = theme.Value,
-                        ScientificHead = theme.ScientificHead,
+                        SupervisorDescription = theme.SupervisorDescription,
                         ThemeNumber = theme.ThemeNumber,
                         PeriodFrom = theme.PeriodFrom.ToString(Dates.UaDatePattern),
                         PeriodTo = theme.PeriodTo.ToString(Dates.UaDatePattern),

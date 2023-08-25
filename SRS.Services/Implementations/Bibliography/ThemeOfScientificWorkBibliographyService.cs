@@ -15,7 +15,7 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" - ", GetFinancialPart(theme))}" +
                 $"{GetBibliographyPart("; ", GetThemeBlock("номер державної реєстрації", theme.ThemeNumber))}" +
                 $"{GetBibliographyPart("; ", GetThemeBlock("термін виконання", GetDatePart(theme)))}" +
-                $"{GetBibliographyPart("; ", GetThemeBlock("науковий керівник", theme.ScientificHead))}")
+                $"{GetBibliographyPart("; ", GetThemeBlock("науковий керівник", theme.GetSupervisorWithTitles()))}")
                 .Trim();
         }
 

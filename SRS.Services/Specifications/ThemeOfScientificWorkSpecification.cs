@@ -29,9 +29,12 @@ namespace SRS.Domain.Specifications
                                 x.OtherProjectType.Contains(filterModel.Search) ||
                                 x.Code.Contains(filterModel.Search) ||
                                 x.Value.Contains(filterModel.Search) ||
-                                x.ScientificHead.Contains(filterModel.Search))),
+                                x.Supervisor.I18nUserInitials.Any(y => y.FirstName.Contains(filterModel.Search) ||
+                                                                       y.LastName.Contains(filterModel.Search) ||
+                                                                       y.FathersName.Contains(filterModel.Search)))),
                   true)
         {
+            AddIncludes(x => x.Supervisor.I18nUserInitials);
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 

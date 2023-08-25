@@ -1,6 +1,7 @@
 ﻿using SRS.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SRS.Domain.Entities
 {
@@ -43,5 +44,25 @@ namespace SRS.Domain.Entities
         public virtual ICollection<ThemeOfScientificWorkCathedra> ThemeOfScientificWorkCathedras { get; set; }
 
         public virtual ICollection<CathedraReport> CathedraReports { get; set; }
+
+        public string GetSupervisor()
+        {
+            if (Supervisor == null)
+            {
+                return ScientificHead;
+            }
+
+            return Supervisor.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
+        }
+
+        public string GetSupervisorWithTitles()
+        {
+            if (Supervisor == null)
+            {
+                return ScientificHead;
+            }
+
+            return string.Join(", ", GetSupervisor(), Supervisor.GetTitles());
+        }
     }
 }

@@ -6,7 +6,7 @@
 
         public string Value { get; set; }
 
-        public string ScientificHead { get; set; }
+        public string SupervisorDescription { get; set; }
 
         public string ThemeNumber { get; set; }
 

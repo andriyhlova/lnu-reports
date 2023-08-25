@@ -8,7 +8,9 @@ namespace SRS.Services.Mapping.Profiles
     {
         public ThemeOfScientificWorkProfile()
         {
-            CreateMap<ThemeOfScientificWork, ThemeOfScientificWorkModel>();
+            CreateMap<ThemeOfScientificWork, ThemeOfScientificWorkModel>()
+                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()));
+
             CreateMap<ThemeOfScientificWorkModel, ThemeOfScientificWork>()
                 .ForMember(dest => dest.IsActive, opts => opts.Ignore());
             CreateMap<ThemeOfScientificWorkFinancial, ThemeOfScientificWorkFinancialModel>().ReverseMap();
@@ -18,10 +20,18 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<ThemeOfScientificWorkCathedraModel, ThemeOfScientificWorkCathedra>();
 
-            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkModel>().ReverseMap();
-            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkWithFinancialsModel>().ReverseMap();
+            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkModel>()
+                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()));
 
-            CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>();
+            CreateMap<BaseThemeOfScientificWorkModel, ThemeOfScientificWork>();
+
+            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkWithFinancialsModel>()
+                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()));
+
+            CreateMap<BaseThemeOfScientificWorkWithFinancialsModel, ThemeOfScientificWork>();
+
+            CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>()
+                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisorWithTitles()));
         }
     }
 }

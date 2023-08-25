@@ -1,7 +1,6 @@
 ﻿using SRS.Domain.Enums;
 using SRS.Services.Attributes;
 using SRS.Services.Models.BaseModels;
-using SRS.Services.Models.UserModels;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -39,6 +38,6 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 
         public string SupervisorId { get; set; }
 
-        public BaseUserInfoModel Supervisor { get; set; }
+        public string SupervisorDescription { get; set; }
     }
 }

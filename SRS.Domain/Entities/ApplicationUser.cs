@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SRS.Domain.Entities
 {
@@ -93,6 +95,35 @@ namespace SRS.Domain.Entities
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             return await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+        }
+
+        public string GetTitles()
+        {
+            var academicStatusesAcademyOfScience = AcademicStatuses
+                .Where(x => x.AcademicStatus.Type == AcademicStatusType.AcademyOfScience)
+                .GroupBy(x => x.AcademicStatus.Priority)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()
+                ?.Select(x => x.AcademicStatus.Value).ToList() ?? new List<string>(0);
+
+            var academicStatusesDefault = AcademicStatuses
+                .Where(x => x.AcademicStatus.Type == AcademicStatusType.Default)
+                .GroupBy(x => x.AcademicStatus.Priority)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()
+                ?.Select(x => x.AcademicStatus.Value).ToList() ?? new List<string>(0);
+
+            var degrees = Degrees
+                .GroupBy(x => x.Degree.Priority)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()
+                ?.Select(x => x.Degree.Value) ?? new List<string>(0);
+
+            var results = new List<string>(academicStatusesAcademyOfScience);
+            results.AddRange(degrees);
+            results.AddRange(academicStatusesDefault);
+
+            return string.Join(", ", results);
         }
     }
 }

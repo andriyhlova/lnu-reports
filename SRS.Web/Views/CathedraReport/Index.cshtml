@@ -50,7 +50,7 @@
                     @foreach (var theme in item.Value)
                     {
                         <div><b>Тема @theme.Code “@theme.Value”</b></div>
-                        <div><b>Науковий керівник:</b> @theme.ScientificHead</div>
+                        <div><b>Науковий керівник:</b> @theme.SupervisorDescription</div>
                         <div>Номер державної реєстрації: @theme.ThemeNumber.</div>
                         {
                             <div>Термін дії теми: @theme.PeriodFrom.ToString(Dates.UaDatePattern)&mdash;@theme.PeriodTo.ToString(Dates.UaDatePattern) р. Обсяг фінансування: @(theme.FinancialAmount ?? 0m) грн. у @(theme.FinancialYear ?? DateTime.Now.Year) році.</div>
