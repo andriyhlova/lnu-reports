@@ -12,7 +12,6 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 
         public string Code { get; set; }
 
-        [RequiredField]
         public string ScientificHead { get; set; }
 
         [RequiredField]
