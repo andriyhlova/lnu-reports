@@ -62,7 +62,15 @@ namespace SRS.Domain.Entities
                 return ScientificHead;
             }
 
-            return string.Join(", ", GetSupervisor(), Supervisor.GetTitles());
+            var supervisor = GetSupervisor();
+            var titles = Supervisor.GetTitles();
+
+            if (string.IsNullOrWhiteSpace(titles))
+            {
+                return supervisor;
+            }
+
+            return string.Join(", ", supervisor, titles);
         }
     }
 }
