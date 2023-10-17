@@ -26,7 +26,7 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<BaseThemeOfScientificWorkModel, ThemeOfScientificWork>();
 
             CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkWithFinancialsModel>()
-                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()));
+                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisorWithTitles()));
 
             CreateMap<BaseThemeOfScientificWorkWithFinancialsModel, ThemeOfScientificWork>();
 
