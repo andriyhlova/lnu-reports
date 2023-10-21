@@ -28,7 +28,7 @@ function changeStepPageAndSubmit(index, newIndex) {
 function submitThemeForm() {
     let themes = $('textarea[name^=ThemeOfScientificWorks]');
     for (let i = 0; i < themes.length; i++) {
-        if (!themes[i].value || !themes[i].value.trim()) {
+        if (themes[i].name.includes('Description') && (!themes[i].value || !themes[i].value.trim())) {
             alert('Введіть опис теми');
             return false;
         }
@@ -36,7 +36,7 @@ function submitThemeForm() {
 
     let grants = $('textarea[name^=Grants]');
     for (let i = 0; i < grants.length; i++) {
-        if (!grants[i].value || !grants[i].value.trim()) {
+        if (grants[i].name.includes('Description') && (!grants[i].value || !grants[i].value.trim())) {
             alert('Введіть опис ґранту');
             return false;
         }
