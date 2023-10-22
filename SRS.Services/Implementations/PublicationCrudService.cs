@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
-using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Extensions;
-using SRS.Services.Interfaces;
-using SRS.Services.Models.Constants;
-using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.PublicationModels;
-using SRS.Services.Models.UserModels;
+using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
@@ -26,7 +20,7 @@ namespace SRS.Services.Implementations
         {
             var normalizedName = model.Name.NormalizeText();
             var existingPublication = await _repo
-                .GetFirstOrDefaultAsync(x => x.Name.Trim().ToUpper().Replace("  ", " \u0001").Replace("\u0001 ", string.Empty).Replace("\u0001", string.Empty) == normalizedName);
+                .GetFirstOrDefaultAsync(GetPublicationExistsExpression(model, normalizedName));
             if (existingPublication == null)
             {
                 return await base.AddAsync(model);
@@ -38,13 +32,20 @@ namespace SRS.Services.Implementations
         public override async Task<PublicationModel> UpdateAsync(PublicationModel model)
         {
             var normalizedName = model.Name.NormalizeText();
-            var existingPublication = await _repo.GetFirstOrDefaultAsync(x => x.Id != model.Id && x.Name.Trim().ToUpper().Replace("  ", " \u0001").Replace("\u0001 ", string.Empty).Replace("\u0001", string.Empty) == normalizedName);
+            var existingPublication = await _repo.GetFirstOrDefaultAsync(GetPublicationExistsExpression(model, normalizedName));
             if (existingPublication == null)
             {
                 return await base.UpdateAsync(model);
             }
 
             return null;
+        }
+
+        private Expression<Func<Publication, bool>> GetPublicationExistsExpression(PublicationModel model, string normalizedName)
+        {
+            return x => x.Id != model.Id &&
+                   x.PublicationType == model.PublicationType &&
+                   x.Name.Trim().ToUpper().Replace("  ", " \u0001").Replace("\u0001 ", string.Empty).Replace("\u0001", string.Empty) == normalizedName;
         }
     }
 }

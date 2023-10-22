@@ -200,7 +200,7 @@
 
     <div class="form-group field"
          data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate)))">
-        <label class="control-label col-md-2">Дата публікації</label>
+        <label class="control-label col-md-2">Дата публікації <span class="text-danger">*</span></label>
         <div class="col-md-10">
             @Html.EditorFor(model => model.PublicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
             @Html.ValidationMessageFor(model => model.PublicationDate, "", new { @class = "text-danger" })
