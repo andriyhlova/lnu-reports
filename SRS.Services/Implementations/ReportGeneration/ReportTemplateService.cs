@@ -40,7 +40,7 @@ namespace SRS.Services.Implementations.ReportGeneration
         {
             var dbReport = await _repo.GetAsync(reportId);
             var cathedraLeads = await _userRepo.GetAsync(new CathedraLeadSpecification(dbReport.User.CathedraId));
-            var allPrintedPublications = await _publicationRepository.GetAsync(new UserPrintedPublicationSpecification(dbReport.UserId));
+            var allPrintedPublications = await _publicationRepository.GetAsync(new UserPrintedPublicationSpecification(dbReport.UserId, dbReport.Date ?? DateTime.Now));
             var allPatents = await _publicationRepository.GetAsync(new UserPatentSpecification(dbReport.UserId));
             var report = new ReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
