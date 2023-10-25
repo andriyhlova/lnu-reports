@@ -131,7 +131,7 @@ namespace SRS.Services.Implementations
             var user = report.User;
             var cathedraLeads = await _userRepository.GetAsync(new CathedraLeadSpecification(user.CathedraId));
             report.UserFullName = user.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
-            report.PositionName = user.Position.Value;
+            report.PositionName = user.Position?.Value;
             report.CathedraName = user.Cathedra.GenitiveCase;
             report.CathedraLeadName = cathedraLeads.FirstOrDefault()?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
             report.GoogleScholarHIndex = user.GoogleScholarHIndex;

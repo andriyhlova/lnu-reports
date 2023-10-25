@@ -69,9 +69,11 @@
             </p>
             {{/with}}
             {{#with UserInfo}}
+            {{#if Position}}
             <p class="bold">
                 {{Position}} {{Cathedra}}
             </p>
+            {{/if}}
             <p class="bold">
                 {{UserFullName}}
             </p>
