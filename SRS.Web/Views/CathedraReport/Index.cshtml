@@ -315,7 +315,7 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("reportId", Model.Id)
-                    <button type="submit" class="btn btn-primary" id="signButton">Підписати</button>
+                    <button type="submit" class="btn btn-primary" id="signButton">Зберегти і завершити</button>
                 }
             }
             @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })

@@ -96,7 +96,7 @@
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("reportId", item.Id)
-                                    <button type="submit" class="btn btn-primary">Підписати</button>
+                                    <button type="submit" class="btn btn-primary">Завершити</button>
                                 }
                             }
                             @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))

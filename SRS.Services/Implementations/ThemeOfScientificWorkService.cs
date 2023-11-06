@@ -54,8 +54,9 @@ namespace SRS.Services.Implementations
 
         public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime date)
         {
+            var currentYear = DateTime.Now.Year;
             var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
-                                                    x.PeriodFrom <= DateTime.Now && x.PeriodTo >= DateTime.Now &&
+                                                    x.PeriodFrom.Year <= currentYear && x.PeriodTo.Year >= currentYear &&
                                                     x.Reports.Any(y => y.Report.Date.Value.Year == date.Year) &&
                                                     x.Financial != Financial.InternationalGrant &&
                                                     x.IsActive);
