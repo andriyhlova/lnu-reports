@@ -129,7 +129,7 @@ namespace SRS.Services.Implementations.ReportGeneration
 
         private async Task<List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>> GetThemeOfScientificWorksAsync(CathedraReport dbReport)
         {
-            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(dbReport.User.CathedraId.Value, dbReport.Date.Value);
+            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(dbReport.User.CathedraId.Value, dbReport.Date);
             var results = new List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>();
             foreach (var financialThemes in themes)
             {

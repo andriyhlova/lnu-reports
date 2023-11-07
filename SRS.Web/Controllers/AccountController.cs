@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -16,6 +11,11 @@ using SRS.Services.Models.UserModels;
 using SRS.Services.Utilities;
 using SRS.Web.Identity;
 using SRS.Web.Models.Account;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -147,6 +147,7 @@ namespace SRS.Web.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
+                    ModelState.AddModelError(nameof(model.Email), "Некоректна електронна пошта");
                     return View(model);
                 }
 

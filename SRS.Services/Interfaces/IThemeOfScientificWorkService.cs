@@ -15,9 +15,9 @@ namespace SRS.Services.Interfaces
 
         Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials);
 
-        Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime date);
+        Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime? date);
 
-        Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime date);
+        Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime? date);
 
         Task<bool> ToggleActivationAsync(int id);
     }

@@ -133,12 +133,12 @@ namespace SRS.Web.Controllers
 
         private async Task FillThemes(UserAccountModel user, CathedraReportModel cathedraReport)
         {
-            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(user.CathedraId.Value, cathedraReport.Date ?? DateTime.Now);
+            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(user.CathedraId.Value, cathedraReport.Date);
         }
 
         private async Task FillGrants(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport)
         {
-            var availableGrants = await _themeOfScientificWorkService.GetGrantsForCathedraReportAsync(cathedraReport.CathedraId, cathedraReport.Date ?? DateTime.Now);
+            var availableGrants = await _themeOfScientificWorkService.GetGrantsForCathedraReportAsync(cathedraReport.CathedraId, cathedraReport.Date);
             viewModel.Grants = availableGrants
                 .Select(x => new CheckboxListItem()
                 {

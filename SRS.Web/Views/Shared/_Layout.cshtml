@@ -57,18 +57,18 @@
                                     || User.IsInRole(RoleNames.DeaneryAdmin)
                                     || User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Архів кафедральні звітів", "Index", "CathedraReportList")</li>
+                                    <li>@Html.ActionLink("Архів кафедральних звітів", "Index", "CathedraReportList")</li>
                                 }
                                 @if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin)
                                     || User.IsInRole(RoleNames.DeaneryAdmin))
                                 {
-                                    <li>@Html.ActionLink("Архів факультетські звітів", "InDevelopment", "Home")</li>
+                                    <li>@Html.ActionLink("Архів факультетських звітів", "InDevelopment", "Home")</li>
                                 }
                                 @if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin))
                                 {
-                                    <li>@Html.ActionLink("Архів університетські звітів", "InDevelopment", "Home")</li>
+                                    <li>@Html.ActionLink("Архів університетських звітів", "InDevelopment", "Home")</li>
                                 }
                             </ul>
                         </li>

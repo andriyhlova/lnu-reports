@@ -48,16 +48,19 @@ namespace SRS.Services.Implementations
         public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials)
         {
             var currentYear = DateTime.Now.Year;
-            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom.Year <= currentYear && x.PeriodTo.Year >= currentYear && financials.Contains(x.Financial)));
+            var previousYear = currentYear - 1;
+            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) && financials.Contains(x.Financial)));
             return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes);
         }
 
-        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime date)
+        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime? date)
         {
-            var currentYear = DateTime.Now.Year;
+            var reportDate = date ?? DateTime.Now;
+            var currentYear = reportDate.Year;
+            var previousYear = currentYear - 1;
             var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
-                                                    x.PeriodFrom.Year <= currentYear && x.PeriodTo.Year >= currentYear &&
-                                                    x.Reports.Any(y => y.Report.Date.Value.Year == date.Year) &&
+                                                    x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.CathedraId == cathedraId) &&
                                                     x.Financial != Financial.InternationalGrant &&
                                                     x.IsActive);
 
@@ -73,10 +76,10 @@ namespace SRS.Services.Implementations
                     var report = theme.Reports
                             .OrderByDescending(x => x.Id)
                             .FirstOrDefault(r => r.Report.Date.HasValue &&
-                                r.Report.Date.Value.Year == date.Year &&
+                                r.Report.Date.Value.Year == reportDate.Year &&
                                 r.Report.UserId == theme.SupervisorId);
 
-                    var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == date.Year);
+                    var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == reportDate.Year);
 
                     mapped.Resume = report?.Resume;
                     mapped.DefendedDissertation = report?.DefendedDissertation;
@@ -91,10 +94,14 @@ namespace SRS.Services.Implementations
             return result;
         }
 
-        public async Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime date)
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime? date)
         {
-            var themes = await _repo.GetAsync(x => x.PeriodFrom <= DateTime.Now && x.PeriodTo >= DateTime.Now &&
-                                                    x.Reports.Any(y => y.Report.Date.Value.Year == date.Year && y.Report.User.CathedraId == cathedraId) &&
+            var reportDate = date ?? DateTime.Now;
+            var currentYear = reportDate.Year;
+            var previousYear = currentYear - 1;
+            var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
+                                                    x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.CathedraId == cathedraId) &&
                                                     x.Financial == Financial.InternationalGrant &&
                                                     x.IsActive);
 
