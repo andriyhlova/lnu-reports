@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Web.Models.Shared;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,15 +18,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<HonoraryTitleModel> _honoraryTitlesCrudService;
         private readonly IHonoraryTitleService _honoraryTitlesService;
+        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public HonoraryTitlesController(
             IBaseCrudService<HonoraryTitleModel> honoraryTitlesCrudService,
             IHonoraryTitleService honoraryTitlesService,
+            ICsvService csvService,
             IMapper mapper)
         {
             _honoraryTitlesCrudService = honoraryTitlesCrudService;
             _honoraryTitlesService = honoraryTitlesService;
+            _csvService = csvService;
             _mapper = mapper;
         }
 
@@ -58,6 +64,23 @@ namespace SRS.Web.Controllers
             }
 
             return View(honoraryTitles);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(BaseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var honoraryTitles = await _honoraryTitlesService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<HonoraryTitleCsvModel>
+            {
+                Data = _mapper.Map<IList<HonoraryTitleCsvModel>>(honoraryTitles)
+            };
+
+            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "honoraryTitle.csv");
         }
 
         [HttpGet]

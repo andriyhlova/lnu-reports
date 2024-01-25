@@ -3,6 +3,7 @@ using PagedList;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.Shared;
@@ -20,6 +21,7 @@ namespace SRS.Web.Controllers
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public ThemeOfScientificWorksController(
@@ -27,12 +29,14 @@ namespace SRS.Web.Controllers
             IThemeOfScientificWorkService themeOfScientificWorkService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
+            ICsvService csvService,
             IMapper mapper)
         {
             _themeOfScientificWorkCrudService = themeOfScientificWorkCrudService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
+            _csvService = csvService;
             _mapper = mapper;
         }
 
@@ -82,6 +86,23 @@ namespace SRS.Web.Controllers
             }
 
             return View(themeOfScientificWork);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(ThemeOfScientificWorkFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<ThemeOfScientificWorkFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var scientificThemes = await _themeOfScientificWorkService.GetAsync(filterModel);
+            var csvModel = new CsvModel<ThemeOfScientificWorkCsvModel>
+            {
+                Data = _mapper.Map<IList<ThemeOfScientificWorkCsvModel>>(scientificThemes)
+            };
+
+            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "themeOfScientificWork.csv");
         }
 
         [HttpGet]

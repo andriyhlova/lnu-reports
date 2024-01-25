@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using AutoMapper;
 using SRS.Domain.Entities;
+using SRS.Domain.Enums;
+using SRS.Services.Extensions;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.ReportModels;
 
 namespace SRS.Services.Mapping.Profiles
@@ -37,6 +40,12 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.AcceptedToPrintPublicationIds, opts => opts.MapFrom(src => src.AcceptedToPrintPublication.Select(x => x.Id)))
                 .ForMember(dest => dest.ApplicationsForInventionIds, opts => opts.MapFrom(src => src.ApplicationsForInvention.Select(x => x.Id)))
                 .ForMember(dest => dest.PatentsForInventionIds, opts => opts.MapFrom(src => src.PatentsForInvention.Select(x => x.Id)));
+
+            CreateMap<BaseReportModel, ReportCsvModel>()
+                .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.Date.ToString()))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => src.State.GetDisplayName()))
+                .ForMember(dest => dest.Employee, opts => opts.MapFrom(src => src.I18nUserInitials.Where(x => x.Language == Language.UA)
+                .Select(x => x.LastName + " " + x.FirstName).FirstOrDefault()));
         }
     }
 }

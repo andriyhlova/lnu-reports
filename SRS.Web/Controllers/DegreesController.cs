@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Web.Models.Shared;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,15 +18,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<DegreeModel> _degreesCrudService;
         private readonly IDegreeService _degreesService;
+        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public DegreesController(
             IBaseCrudService<DegreeModel> degreesCrudService,
             IDegreeService degreesService,
+            ICsvService csvService,
             IMapper mapper)
         {
             _degreesCrudService = degreesCrudService;
             _degreesService = degreesService;
+            _csvService = csvService;
             _mapper = mapper;
         }
 
@@ -58,6 +64,23 @@ namespace SRS.Web.Controllers
             }
 
             return View(degrees);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(BaseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var degrees = await _degreesService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<DegreeCsvModel>
+            {
+                Data = _mapper.Map<IList<DegreeCsvModel>>(degrees)
+            };
+
+            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "degrees.csv");
         }
 
         [HttpGet]
