@@ -1,0 +1,17 @@
+diff a/SRS.Domain/SRS.Domain.csproj b/SRS.Domain/SRS.Domain.csproj	(rejected hunks)
+@@ -74,7 +74,6 @@
+     <Reference Include="System.Xml" />
+   </ItemGroup>
+   <ItemGroup>
+-    <Compile Include="Entities\DissertationDefense.cs" />
+     <Compile Include="Entities\ReportThemeOfScientificWork.cs" />
+     <Compile Include="Entities\ApplicationUserHonoraryTitle.cs" />
+     <Compile Include="Entities\HonoraryTitle.cs" />
+@@ -100,7 +99,6 @@
+     <Compile Include="Entities\ThemeOfScientificWorkCathedra.cs" />
+     <Compile Include="Entities\ThemeOfScientificWorkFinancial.cs" />
+     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+-    <Compile Include="Enums\DissertationType.cs" />
+     <Compile Include="Enums\OrderTypes\CathedraOrderType.cs" />
+     <Compile Include="Enums\OrderTypes\ValueOrderType.cs" />
+     <Compile Include="Enums\Currency.cs" />
