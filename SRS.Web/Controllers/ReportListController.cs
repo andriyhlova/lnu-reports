@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using SRS.Domain.Enums;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -24,7 +25,7 @@ namespace SRS.Web.Controllers
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IUserService<UserAccountModel> _userService;
         private readonly IReportService _reportService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public ReportListController(
@@ -32,14 +33,14 @@ namespace SRS.Web.Controllers
             IBaseCrudService<FacultyModel> facultyService,
             IUserService<UserAccountModel> userService,
             IReportService reportService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _userService = userService;
             _reportService = reportService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -74,8 +75,26 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<ReportCsvModel>>(reports)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "report.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(ReportFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<ReportFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var reports = await _reportService.GetForUserAsync(user, filterModel);
+            var csvModel = new CsvModel<ReportCsvModel>
+            {
+                Data = _mapper.Map<IList<ReportCsvModel>>(reports)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "report.xlsx");
         }
 
         [HttpPost]

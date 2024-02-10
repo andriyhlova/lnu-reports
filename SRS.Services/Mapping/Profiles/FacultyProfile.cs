@@ -10,7 +10,7 @@ namespace SRS.Services.Mapping.Profiles
         public FacultyProfile()
         {
             CreateMap<Faculty, FacultyModel>().ReverseMap();
-            CreateMap<FacultyModel, FacultyCsvModel>().ReverseMap();
+            CreateMap<FacultyModel, FacultyCsvModel>();
         }
     }
 }

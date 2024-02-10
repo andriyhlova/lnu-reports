@@ -21,18 +21,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<JournalModel> _journalCrudService;
         private readonly IJournalService _journalService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public JournalsController(
             IBaseCrudService<JournalModel> journalCrudService,
             IJournalService journalService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _journalCrudService = journalCrudService;
             _journalService = journalService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -94,8 +94,25 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<JournalCsvModel>>(journals)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "journal.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(JournalFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<JournalFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var journals = await _journalService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<JournalCsvModel>
+            {
+                Data = _mapper.Map<IList<JournalCsvModel>>(journals)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "journal.xlsx");
         }
 
         [HttpGet]

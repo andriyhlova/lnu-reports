@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -26,7 +27,7 @@ namespace SRS.Web.Controllers
         private readonly IUserService<UserAccountModel> _userAccountService;
         private readonly IRoleService _roleService;
         private readonly IPositionService _positionService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public UsersManagementController(
@@ -38,7 +39,7 @@ namespace SRS.Web.Controllers
             IUserService<UserAccountModel> userAccountService,
             IRoleService roleService,
             IPositionService positionService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraCrudService = cathedraCrudService;
@@ -49,7 +50,7 @@ namespace SRS.Web.Controllers
             _userAccountService = userAccountService;
             _roleService = roleService;
             _positionService = positionService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -97,8 +98,26 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<BaseUserInfoCsvModel>>(users)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "users.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(UserFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
+            var users = await _baseUserInfoService.GetForUserAsync(currentUser, filterModel);
+            var csvModel = new CsvModel<BaseUserInfoCsvModel>
+            {
+                Data = _mapper.Map<IList<BaseUserInfoCsvModel>>(users)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "users.xlsx");
         }
 
         [HttpGet]

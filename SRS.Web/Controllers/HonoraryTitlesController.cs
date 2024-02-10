@@ -18,18 +18,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<HonoraryTitleModel> _honoraryTitlesCrudService;
         private readonly IHonoraryTitleService _honoraryTitlesService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public HonoraryTitlesController(
             IBaseCrudService<HonoraryTitleModel> honoraryTitlesCrudService,
             IHonoraryTitleService honoraryTitlesService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _honoraryTitlesCrudService = honoraryTitlesCrudService;
             _honoraryTitlesService = honoraryTitlesService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -79,8 +79,25 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<HonoraryTitleCsvModel>>(honoraryTitles)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "honoraryTitle.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(FacultyFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var honoraryTitles = await _honoraryTitlesService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<HonoraryTitleCsvModel>
+            {
+                Data = _mapper.Map<IList<HonoraryTitleCsvModel>>(honoraryTitles)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "honoraryTitle.xlsx");
         }
 
         [HttpGet]

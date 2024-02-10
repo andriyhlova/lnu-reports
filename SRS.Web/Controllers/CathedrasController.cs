@@ -20,20 +20,20 @@ namespace SRS.Web.Controllers
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<CathedraModel> _cathedraCrudService;
         private readonly ICathedraService _cathedraService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public CathedrasController(
             IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<CathedraModel> cathedraCrudService,
             ICathedraService cathedraService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraCrudService = cathedraCrudService;
             _facultyService = facultyService;
             _cathedraService = cathedraService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -102,8 +102,25 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<CathedraCsvModel>>(cathedras)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "cathedra.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(FacultyFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<FacultyFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var cathedras = await _cathedraService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<CathedraCsvModel>
+            {
+                Data = _mapper.Map<IList<CathedraCsvModel>>(cathedras)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "cathedra.xlsx");
         }
 
         [HttpGet]
