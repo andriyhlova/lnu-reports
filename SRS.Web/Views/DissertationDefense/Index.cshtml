@@ -1,0 +1,104 @@
+﻿@using PagedList.Mvc
+@using SRS.Domain.Enums
+@using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Extensions
+@using SRS.Services.Models
+@using SRS.Web.Models.Shared
+@using SRS.Web.Models.DissertationDefense
+@model ItemsViewModel<DissertationDefenseFilterViewModel, DissertationDefenseModel>
+@{
+    ViewBag.Title = "Захист дисертації";
+}
+
+<h2>Тематичний план</h2>
+<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
+<form id="filter-container" class="collapse-target">
+    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+    <div>
+        <label class="control-label">
+            Дата захисту
+        </label>
+    </div>
+    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodFrom, To = Model.FilterModel.PeriodTo, Prefix = "Period" });}
+    @{ViewBag.SearchPlaceholder = "Пошук за темою";}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+    </div>
+</form>
+<p>
+    @Html.ActionLink("Створити", "Create", null, new { @class = "btn btn-success" })
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Тема", "Index", new DissertationDefenseFilterViewModel { Page = 1, OrderBy = (int)DissertationDefenseOrderType.Theme, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)DissertationDefenseOrderType.Theme, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Дата захисту", "Index", new DissertationDefenseFilterViewModel { Page = 1, OrderBy = (int)DissertationDefenseOrderType.DefenseDate, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)DissertationDefenseOrderType.DefenseDate, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Дата подання", "Index", new DissertationDefenseFilterViewModel { Page = 1, OrderBy = (int)DissertationDefenseOrderType.SubmissionDate, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)DissertationDefenseOrderType.SubmissionDate, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Керівник", "Index", new DissertationDefenseFilterViewModel { Page = 1, OrderBy = (int)DissertationDefenseOrderType.SupervisorId, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)DissertationDefenseOrderType.SupervisorId, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Виконавець", "Index", new DissertationDefenseFilterViewModel { Page = 1, OrderBy = (int)DissertationDefenseOrderType.UserId, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)DissertationDefenseOrderType.UserId, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Тип дисертації", "Index", new DissertationDefenseFilterViewModel { Page = 1, OrderBy = (int)DissertationDefenseOrderType.DissertationType, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)DissertationDefenseOrderType.DissertationType, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Theme)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DefenseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubmissionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SupervisorDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserDescription)
+                    </td>
+                    <td>
+                        @(item.DissertationType != null ? item.DissertationType.GetDisplayName() : string.Empty)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new DissertationDefenseFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search, PeriodFrom = Model.FilterModel.PeriodFrom, PeriodTo = Model.FilterModel.PeriodTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId }))
+
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/collapsible")
+}

@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedDissertationDefense : DbMigration
+    public partial class AddedDissertationDefenses : DbMigration
     {
         public override void Up()
         {

@@ -1,0 +1,94 @@
+﻿@using SRS.Services.Models
+@using SRS.Services.Models.Constants
+@model DissertationDefenseModel
+
+@{
+    ViewBag.Title = "Редагувати";
+}
+
+<h2>Редагувати</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Захист дисертації</h4>
+        @{Html.RenderPartial("Common/RequiredFieldsInfo");}
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-group">
+            <label class="control-label col-md-2">Тема</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Theme, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Theme, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Дата захисту <span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DefenseDate, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
+                @Html.ValidationMessageFor(model => model.DefenseDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Дата подання <span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SubmissionDate, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
+                @Html.ValidationMessageFor(model => model.SubmissionDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Науковий керівник</label>
+            <div class="col-md-10">
+                <select id="head-selector" class="form-control chosen-select" name="SupervisorId" data-selected="@Model.SupervisorId">
+                    <option value="">Виберіть користувача</option>
+                </select>
+                <div>
+                    @Html.ValidationMessageFor(model => model.SupervisorId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Відповідальний виконавець</label>
+            <div class="col-md-10">
+                <select id="user-selector" class="form-control chosen-select" name="UserId" data-selected="@Model.UserId">
+                    <option value="">Виберіть користувача</option>
+                </select>
+                <div>
+                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Тип дисертації</label>
+            @Html.EnumDropDownListFor(model => model.DissertationType, "Не вибрано", new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Зберегти" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Повернутись до списку", "Index", new { IsActive = true })
+</div>
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/relatedEntity/bundle")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/dissertationdefense/edit")
+}

@@ -27,15 +27,15 @@
             });
     }
 
-    function updateUserList(users, selectedUser) {
+    function updateUserList(users, selectedUser, selectorId) {
         let str = "<option value=''>Виберіть користувача</option>";
         for (var i = 0; i < users.length; i++) {
             let user = users[i];
             str += `<option value='${user.Id}' ${user.Id == selectedUser ? 'selected' : ''}>${[user.LastName, user.FirstName, user.FathersName].join(' ')}</option>`;
         }
 
-        $("#user-selector").html(str);
-        $("#user-selector").trigger("chosen:updated");
+        $(selectorId).html(str);
+        $(selectorId).trigger("chosen:updated");
     }
 
     function getFinancialSettings() {

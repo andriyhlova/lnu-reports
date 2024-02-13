@@ -271,9 +271,9 @@
     <Compile Include="Migrations\202308251432590_AddedPriorityColumn.designer.cs">
       <DependentUpon>202308251432590_AddedPriorityColumn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202401261819556_AddedDissertationDefense.cs" />
-    <Compile Include="Migrations\202401261819556_AddedDissertationDefense.designer.cs">
-      <DependentUpon>202401261819556_AddedDissertationDefense.cs</DependentUpon>
+    <Compile Include="Migrations\202402091450087_AddedDissertationDefenses.cs" />
+    <Compile Include="Migrations\202402091450087_AddedDissertationDefenses.designer.cs">
+      <DependentUpon>202402091450087_AddedDissertationDefenses.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -425,8 +425,8 @@
     <EmbeddedResource Include="Migrations\202308251432590_AddedPriorityColumn.resx">
       <DependentUpon>202308251432590_AddedPriorityColumn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202401261819556_AddedDissertationDefense.resx">
-      <DependentUpon>202401261819556_AddedDissertationDefense.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202402091450087_AddedDissertationDefenses.resx">
+      <DependentUpon>202402091450087_AddedDissertationDefenses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
