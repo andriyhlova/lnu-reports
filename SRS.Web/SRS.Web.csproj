@@ -257,6 +257,7 @@
     <Compile Include="Controllers\AcademicStatusController.cs" />
     <Compile Include="Controllers\CathedrasController.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\DissertationDefenseController.cs" />
     <Compile Include="Controllers\ExternalPartTimeEmployeeController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Mapping\Profiles\CathedraReportProfile.cs" />
+    <Compile Include="Mapping\Profiles\DissertationDeffenseProfile.cs" />
     <Compile Include="Mapping\Profiles\JournalProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\ReportProfile.cs" />
@@ -307,6 +309,7 @@
     <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Constants\CookieNames.cs" />
+    <Compile Include="Models\DissertationDefense\DissertationDefenseFilterViewModel.cs" />
     <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
@@ -396,6 +399,7 @@
     <Content Include="Scripts\Common\collapsible.js" />
     <Content Include="Scripts\Common\customDatatable.js" />
     <Content Include="Scripts\Common\departmentSelector.js" />
+    <Content Include="Scripts\DissertationDefense\edit.js" />
     <Content Include="Scripts\docsupport\chosen.png" />
     <Content Include="Scripts\docsupport\init.js" />
     <Content Include="Scripts\docsupport\init.proto.js" />
@@ -533,6 +537,10 @@
     <Content Include="Views\AcademicStatus\Create.cshtml" />
     <Content Include="Views\AcademicStatus\Edit.cshtml" />
     <Content Include="Views\AcademicStatus\Delete.cshtml" />
+    <Content Include="Views\DissertationDefense\Create.cshtml" />
+    <Content Include="Views\DissertationDefense\Delete.cshtml" />
+    <Content Include="Views\DissertationDefense\Edit.cshtml" />
+    <Content Include="Views\DissertationDefense\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

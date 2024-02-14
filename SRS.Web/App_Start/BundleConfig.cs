@@ -83,6 +83,9 @@ namespace SRS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/journals/edit").Include(
                         "~/Scripts/Journals/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dissertationdefense/edit").Include(
+                        "~/Scripts/DissertationDefense/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)

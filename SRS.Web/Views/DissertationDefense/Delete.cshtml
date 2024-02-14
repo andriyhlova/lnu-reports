@@ -1,0 +1,69 @@
+﻿@using SRS.Services.Models
+@using SRS.Services.Extensions
+@using SRS.Services.Models.Constants
+@model DissertationDefenseModel
+
+@{
+    ViewBag.Title = "Видалити";
+}
+
+<h2>Видалити</h2>
+
+<h3>Ви впевнені, що хочете видалити?</h3>
+<div>
+    <h4>Дисертація</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Тема
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Theme)
+        </dd>
+
+        <dt>
+            Дата захисту
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DefenseDate)
+        </dd>
+
+        <dt>
+            Дата подання
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubmissionDate)
+        </dd>
+
+        <dt>
+            Науковий керівник
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SupervisorDescription)
+        </dd>
+
+        <dt>
+            Відповідальний виконавець
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserDescription)
+        </dd>
+
+        <dt>
+            Тип дисертації
+        </dt>
+        <dd>
+            @(Model.DissertationType != null ? Model.DissertationType.GetDisplayName() : string.Empty)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Повернутися до списку", "Index")
+        </div>
+    }
+</div>

@@ -7,13 +7,13 @@ namespace SRS.Repositories.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddedDissertationDefense : IMigrationMetadata
+    public sealed partial class AddedDissertationDefenses : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedDissertationDefense));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedDissertationDefenses));
         
         string IMigrationMetadata.Id
         {
-            get { return "202401261819556_AddedDissertationDefense"; }
+            get { return "202402091450087_AddedDissertationDefenses"; }
         }
         
         string IMigrationMetadata.Source
