@@ -17,11 +17,13 @@
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     <div class="form-group">
         <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/Cathedras/ExportToCsv" />
     </div>
 </form>
 <p>
     @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
 </p>
+
 <div class="table-responsive">
     <table class="table">
         <thead>

@@ -12,35 +12,40 @@
 
 <h2>Тематичний план</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
-<form id="filter-container" class="collapse-target">
-    <div class="form-group">
+<form>
+    <div id="filter-container" class="collapse-target">
+        <div class="form-group">
+            <div>
+                @Html.EnumDropDownListFor(model => model.FilterModel.Financial, "Виберіть тип проєкту", new { @class = "form-control chosen-select", Name = "Financial" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.EnumDropDownListFor(model => model.FilterModel.SubCategory, "Виберіть підкатегорію", new { @class = "form-control chosen-select", Name = "SubCategory" })
+            </div>
+        </div>
+        @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/ActiveFilter", Model.FilterModel.IsActive != null ? Model.FilterModel.IsActive.ToString() : string.Empty);}
         <div>
-            @Html.EnumDropDownListFor(model => model.FilterModel.Financial, "Виберіть тип проєкту", new { @class = "form-control chosen-select", Name = "Financial" })
+            <label class="control-label">
+                Дата початку
+            </label>
+        </div>
+        @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodFromFrom, To = Model.FilterModel.PeriodFromTo, Prefix = "PeriodFrom" });}
+        <div>
+            <label class="control-label">
+                Дата завершення
+            </label>
+        </div>
+        @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodToFrom, To = Model.FilterModel.PeriodToTo, Prefix = "PeriodTo" });}
+        @{ViewBag.SearchPlaceholder = "Пошук за назвою, номером, шифром";}
+        @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Фільтрувати" />
         </div>
     </div>
-    <div class="form-group">
-        <div>
-            @Html.EnumDropDownListFor(model => model.FilterModel.SubCategory, "Виберіть підкатегорію", new { @class = "form-control chosen-select", Name = "SubCategory" })
-        </div>
-    </div>
-    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/ActiveFilter", Model.FilterModel.IsActive != null ? Model.FilterModel.IsActive.ToString() : string.Empty);}
     <div>
-        <label class="control-label">
-            Дата початку
-        </label>
-    </div>
-    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodFromFrom, To = Model.FilterModel.PeriodFromTo, Prefix = "PeriodFrom" });}
-    <div>
-        <label class="control-label">
-            Дата завершення
-        </label>
-    </div>
-    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodToFrom, To = Model.FilterModel.PeriodToTo, Prefix = "PeriodTo" });}
-    @{ViewBag.SearchPlaceholder = "Пошук за назвою, номером, шифром";}
-    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
-    <div class="form-group">
-        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/ThemeOfScientificWorks/ExportToCsv" />
     </div>
 </form>
 <p>

@@ -3,12 +3,16 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
+using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.JournalModels;
 using SRS.Web.Models.Journals;
 using SRS.Web.Models.Shared;
+using SRS.Web.Models.ThemeOfScientificWorks;
 
 namespace SRS.Web.Controllers
 {
@@ -17,15 +21,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<JournalModel> _journalCrudService;
         private readonly IJournalService _journalService;
+        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public JournalsController(
             IBaseCrudService<JournalModel> journalCrudService,
             IJournalService journalService,
+            ICsvService csvService,
             IMapper mapper)
         {
             _journalCrudService = journalCrudService;
             _journalService = journalService;
+            _csvService = csvService;
             _mapper = mapper;
         }
 
@@ -72,6 +79,23 @@ namespace SRS.Web.Controllers
             }
 
             return View(journal);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(JournalFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<JournalFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var journals = await _journalService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<JournalCsvModel>
+            {
+                Data = _mapper.Map<IList<JournalCsvModel>>(journals)
+            };
+
+            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "journal.csv");
         }
 
         [HttpGet]

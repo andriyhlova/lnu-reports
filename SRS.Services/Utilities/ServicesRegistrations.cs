@@ -70,6 +70,7 @@ namespace SRS.Services.Utilities
             Bind<IBibliographyService<ThemeOfScientificWork>>().To<ThemeOfScientificWorkBibliographyService>();
             Bind<IFacultyService>().To<FacultyService>();
             Bind<IDissertationDefenseService>().To<DissertationDefenseService>();
+            Bind<ICsvService>().To<CsvService>();
         }
     }
 }

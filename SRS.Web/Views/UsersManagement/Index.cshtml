@@ -27,9 +27,10 @@
     </div>
     @{Html.RenderPartial("Filters/ActiveFilter", Model.FilterModel.IsActive != null ? Model.FilterModel.IsActive.ToString() : string.Empty);}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
-    <div class="form-group">
-        <input type="submit" class="btn btn-info" value="Фільтрувати" />
-    </div>
+<div class="form-group">
+    <input type="submit" class="btn btn-info" value="Фільтрувати" />
+    <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/UsersManagement/ExportToCsv" />
+</div>
 </form>
 <div class="table-responsive">
     <table class="table">

@@ -223,3 +223,8 @@ input[type=number].simplified {
     color: lightskyblue;
     margin-right: 8px;
 }
+
+#exportButton {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
