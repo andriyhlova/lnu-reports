@@ -113,7 +113,6 @@
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Implementations\Bibliography\BaseBibliographyService.cs" />
     <Compile Include="Implementations\CsvService.cs" />
-    <Compile Include="Implementations\ExcellService.cs" />
     <Compile Include="Implementations\ExportService.cs" />
     <Compile Include="Implementations\FacultyService.cs" />
     <Compile Include="Implementations\PositionService.cs" />
@@ -143,7 +142,6 @@
     <Compile Include="Implementations\BaseCrudService.cs" />
     <Compile Include="Implementations\EmailService.cs" />
     <Compile Include="Interfaces\ICsvService.cs" />
-    <Compile Include="Interfaces\IExcelService.cs" />
     <Compile Include="Interfaces\IExportService.cs" />
     <Compile Include="Interfaces\IFacultyService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />

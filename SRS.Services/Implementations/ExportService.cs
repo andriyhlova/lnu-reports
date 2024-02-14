@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 
 namespace SRS.Services.Implementations
 {
@@ -72,8 +73,6 @@ namespace SRS.Services.Implementations
 #pragma warning restore S3220 // Method calls should not resolve ambiguously to overloads with "params"
 
                     WriteDataToSheet(csvModel.Data, sheetData);
-
-                    spreadsheetDocument.Close();
                 }
 
                 excelBytes = memoryStream.ToArray();
@@ -110,7 +109,7 @@ namespace SRS.Services.Implementations
                     Cell cell = new Cell();
                     cell.DataType = CellValues.String;
 
-                    cell.CellValue = new CellValue(property.GetValue(item)?.ToString() ?? string.Empty);
+                    cell.CellValue = new CellValue(XmlConvert.EncodeName(property.GetValue(item)?.ToString()) ?? string.Empty);
 
                     row.AppendChild(cell);
                 }
