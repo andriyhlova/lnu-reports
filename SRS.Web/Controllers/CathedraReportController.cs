@@ -1,14 +1,20 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
+using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
+using SRS.Services.Models;
 using SRS.Services.Models.CathedraReportModels;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.CathedraReports;
+using SRS.Web.Models.Reports;
 using SRS.Web.Models.Shared;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -22,6 +28,7 @@ namespace SRS.Web.Controllers
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly IUserService<UserAccountModel> _userAccountService;
         private readonly IPublicationService _publicationService;
+        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public CathedraReportController(
@@ -29,12 +36,14 @@ namespace SRS.Web.Controllers
             IThemeOfScientificWorkService themeOfScientificWorkService,
             IUserService<UserAccountModel> userAccountService,
             IPublicationService publicationService,
+            ICsvService csvService,
             IMapper mapper)
         {
             _cathedraReportService = cathedraReportService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userAccountService = userAccountService;
             _publicationService = publicationService;
+            _csvService = csvService;
             _mapper = mapper;
         }
 

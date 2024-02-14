@@ -1,9 +1,11 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.UserModels;
+using SRS.Services.Providers;
+using System.Linq;
 
 namespace SRS.Services.Mapping.Profiles
 {
@@ -50,6 +52,13 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<UserInfoModel, ApplicationUser>()
                 .ForMember(dest => dest.Roles, opts => opts.MapFrom(src => src.RoleIds.Select(x => new IdentityUserRole { RoleId = x, UserId = src.Id })));
+
+            CreateMap<BaseUserInfoModel, BaseUserInfoCsvModel>()
+                .ForMember(dest => dest.LastName, opts => opts.MapFrom(src => src.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA).LastName))
+                .ForMember(dest => dest.FirstName, opts => opts.MapFrom(src => src.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA).FirstName))
+                .ForMember(dest => dest.IsActive, opts => opts.MapFrom(src => src.IsActive ? "Так" : "Ні"))
+                .ForMember(dest => dest.Roles, opts => opts.MapFrom(src => string
+                .Join(", ", src.RoleIds.OrderBy(r => r).Select(x => RolesProvider.AllRoles[x]))));
         }
     }
 }

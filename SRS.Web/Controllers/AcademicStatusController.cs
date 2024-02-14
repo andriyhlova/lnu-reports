@@ -3,8 +3,10 @@ using PagedList;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Web.Models.Shared;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,15 +17,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<AcademicStatusModel> _academicStatusCrudService;
         private readonly IAcademicStatusService _academicStatusService;
+        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public AcademicStatusController(
             IBaseCrudService<AcademicStatusModel> academicStatusCrudService,
             IAcademicStatusService academicStatusService,
+            ICsvService csvService,
             IMapper mapper)
         {
             _academicStatusCrudService = academicStatusCrudService;
             _academicStatusService = academicStatusService;
+            _csvService = csvService;
             _mapper = mapper;
         }
 
@@ -76,6 +81,23 @@ namespace SRS.Web.Controllers
             }
 
             return View(academicStatus);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(BaseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var academicStatus = await _academicStatusService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<AcademicStatusCsvModel>
+            {
+                Data = _mapper.Map<IList<AcademicStatusCsvModel>>(academicStatus)
+            };
+
+            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "academicStatus.csv");
         }
 
         [HttpGet]

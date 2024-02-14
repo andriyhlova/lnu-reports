@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Services.Models;
+using SRS.Services.Models.CsvModels;
 
 namespace SRS.Services.Mapping.Profiles
 {
@@ -9,6 +10,8 @@ namespace SRS.Services.Mapping.Profiles
         public PositionProfile()
         {
             CreateMap<Position, PositionModel>().ReverseMap();
+            CreateMap<PositionModel, PositionCsvModel>()
+                .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Value));
         }
     }
 }
