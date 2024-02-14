@@ -17,18 +17,24 @@
 
 <h2>Індивідуальні звіти</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
-<form id="filter-container" class="collapse-target">
-    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
-    <div class="form-group">
-        <div>
-            @Html.EnumDropDownListFor(model => model.FilterModel.State, "Виберіть статус звіту", new { @class = "form-control chosen-select", Name = "State" })
+<form>
+    <div id="filter-container" class="collapse-target">
+        @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
+        <div class="form-group">
+            <div>
+                @Html.EnumDropDownListFor(model => model.FilterModel.State, "Виберіть статус звіту", new { @class = "form-control chosen-select", Name = "State" })
+            </div>
+        </div>
+        @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Застосувати" />
         </div>
     </div>
-    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
-    <div class="form-group">
-        <input type="submit" class="btn btn-info" value="Застосувати" />
+    <div>
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/ReportList/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/ReportList/ExportToExcel" />
     </div>
 </form>
 

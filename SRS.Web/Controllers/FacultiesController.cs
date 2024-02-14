@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Web.Models.Shared;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,15 +18,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<FacultyModel> _facultiesCrudService;
         private readonly IFacultyService _facultiesService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public FacultiesController(
             IBaseCrudService<FacultyModel> facultiesCrudService,
             IFacultyService facultiesService,
+            IExportService exportService,
             IMapper mapper)
         {
             _facultiesCrudService = facultiesCrudService;
             _facultiesService = facultiesService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -58,6 +64,40 @@ namespace SRS.Web.Controllers
             }
 
             return View(faculties);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(BaseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var faculties = await _facultiesService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<FacultyCsvModel>
+            {
+                Data = _mapper.Map<IList<FacultyCsvModel>>(faculties)
+            };
+
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "faculty.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(BaseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var faculties = await _facultiesService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<FacultyCsvModel>
+            {
+                Data = _mapper.Map<IList<FacultyCsvModel>>(faculties)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "faculty.xlsx");
         }
 
         [HttpGet]

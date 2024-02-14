@@ -17,19 +17,25 @@
 
 <h2>Публікації</h2>
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
-<form id="filter-container" class="collapse-target">
-    @{ViewBag.SearchPlaceholder = "Пошук за назвою, авторами, журналом";}
-    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
-    <div class="form-group">
-        <div>
-            @Html.EnumDropDownListFor(model => model.FilterModel.PublicationType, "Виберіть тип публікації", new { @class = "form-control chosen-select", Name = "PublicationType" })
+<form>
+    <div id="filter-container" class="collapse-target">
+        @{ViewBag.SearchPlaceholder = "Пошук за назвою, авторами, журналом";}
+        @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/UserFilter", Model.FilterModel.UserId != null ? Model.FilterModel.UserId : "");}
+        <div class="form-group">
+            <div>
+                @Html.EnumDropDownListFor(model => model.FilterModel.PublicationType, "Виберіть тип публікації", new { @class = "form-control chosen-select", Name = "PublicationType" })
+            </div>
+        </div>
+        @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Застосувати" />
         </div>
     </div>
-    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
-    <div class="form-group">
-        <input type="submit" class="btn btn-info" value="Застосувати" />
+    <div>
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/Publications/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/Publications/ExportToExcel" />
     </div>
 </form>
 
