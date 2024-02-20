@@ -16,6 +16,7 @@ namespace SRS.Repositories.Implementations
         {
             UpdateFinancials(existingEntity, newEntity);
             UpdateCathedras(existingEntity, newEntity);
+            UpdateSupervisors(existingEntity, newEntity);
         }
 
         private void UpdateFinancials(ThemeOfScientificWork existingEntity, ThemeOfScientificWork newEntity)
@@ -49,6 +50,23 @@ namespace SRS.Repositories.Implementations
             {
                 _context.Entry(item).State = EntityState.Added;
                 existingEntity.ThemeOfScientificWorkCathedras.Add(item);
+            }
+        }
+
+        private void UpdateSupervisors(ThemeOfScientificWork existingEntity, ThemeOfScientificWork newEntity)
+        {
+            var toDelete = existingEntity.ThemeOfScientificWorkSupervisors.Where(x => !newEntity.ThemeOfScientificWorkSupervisors.Any(y => y.Id == x.Id)).ToList();
+            foreach (var item in toDelete)
+            {
+                _context.Entry(item).State = EntityState.Deleted;
+                existingEntity.ThemeOfScientificWorkSupervisors.Remove(item);
+            }
+
+            var toAdd = newEntity.ThemeOfScientificWorkSupervisors.Where(x => !existingEntity.ThemeOfScientificWorkSupervisors.Any(y => y.Id == x.Id)).ToList();
+            foreach (var item in toAdd)
+            {
+                _context.Entry(item).State = EntityState.Added;
+                existingEntity.ThemeOfScientificWorkSupervisors.Add(item);
             }
         }
     }

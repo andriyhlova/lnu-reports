@@ -142,6 +142,37 @@
         </div>
     </div>
 
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Наукові керівники</label>
+        <div class="col-md-10" id="supervisor-related-entity">
+            <button class="btn btn-info add-related-entity" type="button">Додати</button>
+            <div class="selected-items">
+                @if (Model.ThemeOfScientificWorkSupervisors != null)
+                {
+                    for (var i = 0; i < Model.ThemeOfScientificWorkSupervisors.Count; i++)
+                    {
+                        <div>
+                            <div class="selected-item">
+                                <div>
+                                    <div>@Model.ThemeOfScientificWorkSupervisors[i].SupervisorName</div>
+                                    <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                </div>
+                                <input type="hidden" name="ThemeOfScientificWorkSupervisors[@i].Id" class="id" value="@Model.ThemeOfScientificWorkSupervisors[i].Id" />
+                                <input type="hidden" name="ThemeOfScientificWorkSupervisors[@i].ThemeOfScientificWorkId" class="themeOfScientificWorkId" value="@Model.ThemeOfScientificWorkSupervisors[i].ThemeOfScientificWorkId" />
+                                <input type="hidden" name="ThemeOfScientificWorkSupervisors[@i].SupervisorId" class="supervisorId" value="@Model.ThemeOfScientificWorkSupervisors[i].SupervisorId" />
+                                <input type="hidden" name="ThemeOfScientificWorkSupervisors[@i].SupervisorName" class="supervisorName" value="@Model.ThemeOfScientificWorkSupervisors[i].SupervisorName" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="new-related-entity">
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
         <label class="control-label col-md-2">Відповідальний виконавець</label>
         <div class="col-md-10">

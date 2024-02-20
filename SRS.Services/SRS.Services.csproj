@@ -254,6 +254,7 @@
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\CathedraReportThemeOfScientificWorkModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkSupervisorModel.cs" />
     <Compile Include="Models\UserModels\UserHonoraryTitleModel.cs" />
     <Compile Include="Models\UserModels\UserAcademicStatusModel.cs" />
     <Compile Include="Models\UserModels\UserDegreeModel.cs" />

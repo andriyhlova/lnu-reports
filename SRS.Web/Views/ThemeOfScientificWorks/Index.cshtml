@@ -72,6 +72,10 @@
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Supervisor, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
+                    @Html.ActionLink("Наукові керівники", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Supervisors, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Supervisors, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
                     @Html.ActionLink("Факультети", "Index", new ThemeOfScientificWorkFilterViewModel { Page = 1, OrderBy = (int)ThemeOfScientificWorkOrderType.Faculties, Desc = !Model.FilterModel.Desc, Financial = Model.FilterModel.Financial, Search = Model.FilterModel.Search, IsActive = Model.FilterModel.IsActive, SubCategory = Model.FilterModel.SubCategory, PeriodFromFrom = Model.FilterModel.PeriodFromFrom, PeriodFromTo = Model.FilterModel.PeriodFromTo, PeriodToFrom = Model.FilterModel.PeriodToFrom, PeriodToTo = Model.FilterModel.PeriodToTo, FacultyId = Model.FilterModel.FacultyId, CathedraId = Model.FilterModel.CathedraId })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ThemeOfScientificWorkOrderType.Faculties, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
@@ -121,6 +125,15 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.SupervisorDescription)
+                    </td>
+                    <td>
+                        @if (item.ThemeOfScientificWorkSupervisors != null)
+                        {
+                            foreach (var i in item.ThemeOfScientificWorkSupervisors.OrderBy(x => x.SupervisorName).Distinct().Select(x => x.SupervisorName))
+                            {
+                                <div>@i,</div>
+                            }
+                        }
                     </td>
                     <td>
                         @if (item.ThemeOfScientificWorkCathedras != null)

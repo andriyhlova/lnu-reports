@@ -16,6 +16,7 @@
         PlannedAmount,
         Cathedras,
         Faculties,
+        Supervisors,
         Currency
     }
 }

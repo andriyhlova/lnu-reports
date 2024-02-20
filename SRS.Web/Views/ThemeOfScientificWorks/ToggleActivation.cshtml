@@ -77,6 +77,18 @@
             @Html.DisplayFor(model => model.ScientificHead)
         </dd>
         <dt>
+            Наукові керівники
+        </dt>
+        <dd>
+            @if (Model.ThemeOfScientificWorkSupervisors != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkSupervisors)
+                {
+                    <div>@i.SupervisorName</div>
+                }
+            }
+        </dd>
+        <dt>
             Кафедри
         </dt>
         <dd>

@@ -43,6 +43,8 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<ThemeOfScientificWorkCathedra> ThemeOfScientificWorkCathedras { get; set; }
 
+        public virtual ICollection<ThemeOfScientificWorkSupervisor> ThemeOfScientificWorkSupervisors { get; set; }
+
         public virtual ICollection<CathedraReport> CathedraReports { get; set; }
 
         public string GetSupervisor()

@@ -50,6 +50,11 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>()
                 .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisorWithTitles()));
+
+            CreateMap<ThemeOfScientificWorkSupervisor, ThemeOfScientificWorkSupervisorModel>()
+                .ForMember(dest => dest.SupervisorName, opts => opts.MapFrom(src => src.GetSupervisor()));
+
+            CreateMap<ThemeOfScientificWorkSupervisorModel, ThemeOfScientificWorkSupervisor>();
         }
     }
 }
