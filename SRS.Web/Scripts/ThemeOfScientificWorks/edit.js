@@ -291,9 +291,9 @@
 
     function updateUsersForSupervisorsList() {
         const supervisorElement = $("#supervisor-selector");
-        /*if (!supervisorElement.length || supervisorElement.children().length) {
+        if (supervisorElement.find("option").length > 1) {
             return;
-        }*/
+        }
 
         let str = "<option value=''>Виберіть користувача</option>";
         for (var i = 0; i < allSupervisors.length; i++) {

@@ -19,7 +19,7 @@ namespace SRS.Domain.Entities
 
         public string GetSupervisor()
         {
-            return Supervisor.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
+            return Supervisor?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
         }
     }
 }
