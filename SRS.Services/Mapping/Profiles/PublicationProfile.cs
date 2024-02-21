@@ -31,7 +31,7 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.Date.ToString("yyyy")))
                 .ForMember(dest => dest.PublicationType, opts => opts.MapFrom(src => src.PublicationType.GetDisplayName()))
                 .ForMember(dest => dest.JournalOrChapterMonographyOrConference, opts => opts.MapFrom(src => StringUtilities.JoinNotNullOrWhitespace(" / ", src.JournalName, src.ChapterMonographyName, src.ConferenceName)))
-                .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.AuthorsOrder));
+                .ForMember(dest => dest.Authors, opts => opts.MapFrom(src => src.AuthorsOrder));
         }
     }
 }

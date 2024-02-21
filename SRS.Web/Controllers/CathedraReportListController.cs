@@ -26,7 +26,7 @@ namespace SRS.Web.Controllers
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IUserService<UserAccountModel> _userService;
         private readonly ICathedraReportService _cathedraReportService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public CathedraReportListController(
@@ -34,14 +34,14 @@ namespace SRS.Web.Controllers
             IBaseCrudService<FacultyModel> facultyService,
             IUserService<UserAccountModel> userService,
             ICathedraReportService cathedraReportService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _userService = userService;
             _cathedraReportService = cathedraReportService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -76,8 +76,26 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<CathedraReportCsvModel>>(cathedraReports)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "cathedraReport.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(CathedraReportFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<CathedraReportFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var cathedraReports = await _cathedraReportService.GetForUserAsync(user, filterModel);
+            var csvModel = new CsvModel<CathedraReportCsvModel>
+            {
+                Data = _mapper.Map<IList<CathedraReportCsvModel>>(cathedraReports)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "cathedraReport.xlsx");
         }
 
         [HttpPost]

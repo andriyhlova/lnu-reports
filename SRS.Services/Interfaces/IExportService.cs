@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace SRS.Services.Interfaces
 {
-    public interface IExcelService
+    public interface IExportService
     {
-        byte[] ExportToExcelBytes<TData>(CsvModel<TData> csvModel, string sheetName);
+        byte[] WriteExcel<TData>(CsvModel<TData> csvModel);
+
+        byte[] WriteCsv<TData>(CsvModel<TData> model);
     }
 }

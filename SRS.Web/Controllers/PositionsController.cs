@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -17,18 +18,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<PositionModel> _positionsCrudService;
         private readonly IPositionService _positionsService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public PositionsController(
             IBaseCrudService<PositionModel> positionsCrudService,
             IPositionService positionsService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _positionsCrudService = positionsCrudService;
             _positionsService = positionsService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -78,8 +79,25 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<PositionCsvModel>>(positions)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "position.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(FacultyFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var positions = await _positionsService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<PositionCsvModel>
+            {
+                Data = _mapper.Map<IList<PositionCsvModel>>(positions)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "position.xlsx");
         }
 
         [HttpGet]

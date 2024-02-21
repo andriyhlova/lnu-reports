@@ -28,7 +28,6 @@ namespace SRS.Web.Controllers
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly IUserService<UserAccountModel> _userAccountService;
         private readonly IPublicationService _publicationService;
-        private readonly ICsvService _csvService;
         private readonly IMapper _mapper;
 
         public CathedraReportController(
@@ -36,14 +35,12 @@ namespace SRS.Web.Controllers
             IThemeOfScientificWorkService themeOfScientificWorkService,
             IUserService<UserAccountModel> userAccountService,
             IPublicationService publicationService,
-            ICsvService csvService,
             IMapper mapper)
         {
             _cathedraReportService = cathedraReportService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _userAccountService = userAccountService;
             _publicationService = publicationService;
-            _csvService = csvService;
             _mapper = mapper;
         }
 
