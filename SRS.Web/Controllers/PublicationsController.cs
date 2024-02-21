@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -26,7 +27,7 @@ namespace SRS.Web.Controllers
         private readonly IPublicationService _publicationService;
         private readonly IUserService<UserAccountModel> _userService;
         private readonly IUserService<UserInitialsModel> _userWithInitialService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public PublicationsController(
@@ -36,7 +37,7 @@ namespace SRS.Web.Controllers
             IPublicationService publicationService,
             IUserService<UserAccountModel> userService,
             IUserService<UserInitialsModel> userWithInitialService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraService = cathedraService;
@@ -45,7 +46,7 @@ namespace SRS.Web.Controllers
             _publicationService = publicationService;
             _userService = userService;
             _userWithInitialService = userWithInitialService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -129,8 +130,26 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<PublicationCsvModel>>(publications)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "publication.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(PublicationFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<PublicationFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var publications = await _publicationService.GetForUserAsync(user, filterModel);
+            var csvModel = new CsvModel<PublicationCsvModel>
+            {
+                Data = _mapper.Map<IList<PublicationCsvModel>>(publications)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "publication.xlsx");
         }
 
         [HttpGet]

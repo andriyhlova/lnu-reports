@@ -18,18 +18,18 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<DegreeModel> _degreesCrudService;
         private readonly IDegreeService _degreesService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public DegreesController(
             IBaseCrudService<DegreeModel> degreesCrudService,
             IDegreeService degreesService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _degreesCrudService = degreesCrudService;
             _degreesService = degreesService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -79,8 +79,25 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<DegreeCsvModel>>(degrees)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "degrees.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(BaseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var degrees = await _degreesService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<DegreeCsvModel>
+            {
+                Data = _mapper.Map<IList<DegreeCsvModel>>(degrees)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "degrees.xlsx");
         }
 
         [HttpGet]

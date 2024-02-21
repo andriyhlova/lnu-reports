@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -21,7 +22,7 @@ namespace SRS.Web.Controllers
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
-        private readonly ICsvService _csvService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public ThemeOfScientificWorksController(
@@ -29,14 +30,14 @@ namespace SRS.Web.Controllers
             IThemeOfScientificWorkService themeOfScientificWorkService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
-            ICsvService csvService,
+            IExportService exportService,
             IMapper mapper)
         {
             _themeOfScientificWorkCrudService = themeOfScientificWorkCrudService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
-            _csvService = csvService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -101,8 +102,25 @@ namespace SRS.Web.Controllers
                 Data = _mapper.Map<IList<ThemeOfScientificWorkCsvModel>>(scientificThemes)
             };
 
-            byte[] fileBytes = _csvService.WriteCsv(csvModel);
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
             return File(fileBytes, "text/csv", "themeOfScientificWork.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(ThemeOfScientificWorkFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<ThemeOfScientificWorkFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var scientificThemes = await _themeOfScientificWorkService.GetAsync(filterModel);
+            var csvModel = new CsvModel<ThemeOfScientificWorkCsvModel>
+            {
+                Data = _mapper.Map<IList<ThemeOfScientificWorkCsvModel>>(scientificThemes)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "themeOfScientificWork.xlsx");
         }
 
         [HttpGet]
