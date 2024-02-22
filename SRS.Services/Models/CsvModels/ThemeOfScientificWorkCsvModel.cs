@@ -22,8 +22,8 @@ namespace SRS.Services.Models.CsvModels
 
         [Name("Науковий керівник (нове поле)")]
         [Index(3)]
-        [DisplayName("Науковий керівник (нове поле)")]
-        public string SupervisorDescription { get; set; }
+        [DisplayName("Наукові керівники")]
+        public string SupervisorsDescription { get; set; }
 
         [Name("Факультети")]
         [Index(4)]

@@ -27,7 +27,9 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => src.Currency != null ? src.Currency.GetDisplayName() : string.Empty))
                 .ForMember(dest => dest.Amount, opts => opts.MapFrom(src => string
                 .Join(", ", src.ThemeOfScientificWorkFinancials.Select(x => x.Year.ToString() + "р. - " + x.Amount.ToString() + "грн. ")) + "Сума - " +
-                src.ThemeOfScientificWorkFinancials.Sum(x => x.Amount).ToString() + "грн."));
+                src.ThemeOfScientificWorkFinancials.Sum(x => x.Amount).ToString() + "грн."))
+                .ForMember(dest => dest.SupervisorsDescription, opts => opts.MapFrom(src => string
+                .Join(", ", src.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorName))));
 
             CreateMap<ThemeOfScientificWorkModel, ThemeOfScientificWork>()
                 .ForMember(dest => dest.IsActive, opts => opts.Ignore());
