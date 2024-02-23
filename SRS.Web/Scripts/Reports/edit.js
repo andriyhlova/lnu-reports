@@ -133,13 +133,13 @@ function submitDateForm() {
                 ReportThemeId: $(scientificWorks[i])[0].dataset.themeid,
                 ThemeNumber: $(scientificWorks[i])[0].dataset.themenumber,
                 Code: $(scientificWorks[i])[0].dataset.code,
-                SupervisorDescription: $(scientificWorks[i])[0].dataset.supervisordescription,
+                SupervisorDescription: $(scientificWorks[i])[0].dataset.supervisorsdescription,
                 Value: $(scientificWorks[i])[0].dataset.value,
                 Description: $(scientificWorks[i])[0].dataset.description,
                 Resume: $(scientificWorks[i])[0].dataset.resume,
                 Publications: $(scientificWorks[i])[0].dataset.publications,
                 DefendedDissertation: $(scientificWorks[i])[0].dataset.defendeddissertation,
-                SupervisorId: $(scientificWorks[i])[0].dataset.supervisorid
+                SupervisorId: $(scientificWorks[i])[0].dataset.supervisorsid
             }
 
             settings.collection.push(scientificWork);
@@ -193,7 +193,8 @@ function submitDateForm() {
     function getScientificWorkHtml(index, scientificWork, fieldName) {
         let aditionalFileds = ``;
 
-        if (CurrentUserId == scientificWork.SupervisorId)
+
+        if (scientificWork.SupervisorId.split(",").some(x => x == CurrentUserId))
         {
             aditionalFileds = `<label class="control-label">
                                    Резюме

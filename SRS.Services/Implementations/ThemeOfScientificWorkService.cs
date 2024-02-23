@@ -77,7 +77,7 @@ namespace SRS.Services.Implementations
                             .OrderByDescending(x => x.Id)
                             .FirstOrDefault(r => r.Report.Date.HasValue &&
                                 r.Report.Date.Value.Year == reportDate.Year &&
-                                r.Report.UserId == theme.SupervisorId);
+                                theme.ThemeOfScientificWorkSupervisors.Any(x => x.SupervisorId == r.Report.UserId));
 
                     var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == reportDate.Year);
 

@@ -21,5 +21,18 @@ namespace SRS.Domain.Entities
         {
             return Supervisor?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
         }
+
+        public string GetSupervisorWithTitles()
+        {
+            var supervisor = GetSupervisor();
+            var titles = Supervisor.GetTitles();
+
+            if (string.IsNullOrWhiteSpace(titles))
+            {
+                return supervisor;
+            }
+
+            return string.Join(", ", supervisor, titles);
+        }
     }
 }

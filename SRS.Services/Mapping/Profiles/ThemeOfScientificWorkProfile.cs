@@ -11,9 +11,6 @@ namespace SRS.Services.Mapping.Profiles
     {
         public ThemeOfScientificWorkProfile()
         {
-            CreateMap<ThemeOfScientificWork, ThemeOfScientificWorkModel>()
-                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()));
-
             CreateMap<BaseThemeOfScientificWorkWithFinancialsModel, ThemeOfScientificWorkCsvModel>()
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Value))
                 .ForMember(dest => dest.Faculties, opts => opts.MapFrom(src => string.Join(", ", src.ThemeOfScientificWorkCathedras
@@ -40,18 +37,7 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<ThemeOfScientificWorkCathedraModel, ThemeOfScientificWorkCathedra>();
 
-            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkModel>()
-                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()));
-
-            CreateMap<BaseThemeOfScientificWorkModel, ThemeOfScientificWork>();
-
-            CreateMap<ThemeOfScientificWork, BaseThemeOfScientificWorkWithFinancialsModel>()
-                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisorWithTitles()));
-
-            CreateMap<BaseThemeOfScientificWorkWithFinancialsModel, ThemeOfScientificWork>();
-
-            CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>()
-                .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisorWithTitles()));
+            CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>();
 
             CreateMap<ThemeOfScientificWorkSupervisor, ThemeOfScientificWorkSupervisorModel>()
                 .ForMember(dest => dest.SupervisorName, opts => opts.MapFrom(src => src.GetSupervisor()));
