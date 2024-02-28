@@ -74,10 +74,12 @@ namespace SRS.Services.Implementations
                     var mapped = _mapper.Map<CathedraReportThemeOfScientificWorkModel>(theme);
 
                     var report = theme.Reports
-                            .OrderByDescending(x => x.Id)
                             .FirstOrDefault(r => r.Report.Date.HasValue &&
                                 r.Report.Date.Value.Year == reportDate.Year &&
-                                theme.ThemeOfScientificWorkSupervisors.Any(x => x.SupervisorId == r.Report.UserId));
+                                r.Report.User.CathedraId == cathedraId &&
+                                !string.IsNullOrEmpty(r.Resume) &&
+                                !string.IsNullOrEmpty(r.DefendedDissertation) &&
+                                !string.IsNullOrEmpty(r.Publications));
 
                     var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == reportDate.Year);
 

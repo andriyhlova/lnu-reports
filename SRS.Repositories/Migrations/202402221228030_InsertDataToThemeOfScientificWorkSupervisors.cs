@@ -8,9 +8,9 @@
     {
         public override void Up()
         {
-            Sql("INSERT INTO [AttendanceDB].[dbo].[ThemeOfScientificWorkSupervisors] (ThemeOfScientificWorkId, SupervisorId)\r\n" +
+            Sql("INSERT INTO [dbo].[ThemeOfScientificWorkSupervisors] (ThemeOfScientificWorkId, SupervisorId)\r\n" +
                 "SELECT Id ,SupervisorId\r\n" +
-                "FROM [AttendanceDB].[dbo].[ThemeOfScientificWorks]\r\n" +
+                "FROM [dbo].[ThemeOfScientificWorks]\r\n" +
                 "where SupervisorId != 'NULL';");
         }
         
