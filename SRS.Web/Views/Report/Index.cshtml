@@ -41,11 +41,11 @@
                                    data-themeid="@Model.ThemeOfScientificWorks[i].Id"
                                    data-themenumber="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeNumber"
                                    data-code="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Code"
-                                   data-supervisordescription="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.SupervisorDescription"
+                                   data-supervisorsdescription="@string.Join(", ", Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorName))"
                                    data-value="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Value"
                                    data-description="@Model.ThemeOfScientificWorks[i].Description"
                                    data-resume="@Model.ThemeOfScientificWorks[i].Resume"
-                                   data-supervisorid="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.SupervisorId"
+                                   data-supervisorsid="@string.Join(",", Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorId))"
                                    data-publications="@Model.ThemeOfScientificWorks[i].Publications"
                                    data-defendeddissertation="@Model.ThemeOfScientificWorks[i].DefendedDissertation"/>
                         }
@@ -96,7 +96,7 @@
                                    data-themeid="@Model.Grants[i].Id"
                                    data-themenumber="@Model.Grants[i].ThemeOfScientificWork.ThemeNumber"
                                    data-code="@Model.Grants[i].ThemeOfScientificWork.Code"
-                                   data-supervisordescription="@Model.Grants[i].ThemeOfScientificWork.SupervisorDescription"
+                                   data-supervisorsdescription="@string.Join(", ", Model.Grants[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorName))"
                                    data-value="@Model.Grants[i].ThemeOfScientificWork.Value"
                                    data-description="@Model.Grants[i].Description" />
                         }

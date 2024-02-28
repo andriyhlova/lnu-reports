@@ -72,10 +72,16 @@
             }
         </dd>
         <dt>
-            Науковий керівник
+            Наукові керівники
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ScientificHead)
+            @if (Model.ThemeOfScientificWorkSupervisors != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkSupervisors)
+                {
+                    <div>@i.SupervisorName</div>
+                }
+            }
         </dd>
         <dt>
             Кафедри

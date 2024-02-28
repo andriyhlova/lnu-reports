@@ -1,19 +1,25 @@
 (function () {
     const selectedFinancials = [];
-    const selectedCathedras = []
+    const selectedCathedras = [];
+    const selectedSupervisors = [];
     const minYear = 2010;
     const minAmount = 1;
     let allCathedras = [];
+    let allSupervisors = [];
     $(function () {
         getUsers();
         getSelectedFinancials();
         getSelectedCathedras();
+        getSelectedSupervisors();
         getCathedras();
         financialChange();
+        getUsersForSupervisors();
         const financialEntityComponent = new RelatedEntityComponent(getFinancialSettings());
         financialEntityComponent.load();
         const cathedraEntityComponent = new RelatedEntityComponent(getCathedraSettings());
         cathedraEntityComponent.load();
+        const supervisorEntityComponent = new RelatedEntityComponent(getSupervisorSettings());
+        supervisorEntityComponent.load();
     });
 
     function getUsers() {
@@ -147,6 +153,7 @@
                 </div>`;
     }
 
+
     function getCathedraSettings() {
         return {
             relatedEntityContainerId: '#cathedra-related-entity',
@@ -234,6 +241,99 @@
                             <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].ThemeOfScientificWorkId" class="themeOfScientificWorkId" value="${cathedra.Id}" />
                             <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].CathedraId" class="cathedraId" value="${cathedra.CathedraId}" />
                             <input type="hidden" name="ThemeOfScientificWorkCathedras[${index}].CathedraName" class="cathedraName" value="${cathedra.CathedraName}" />
+                    </div>
+                </div>`;
+    }
+
+
+
+    function getSupervisorSettings() {
+        return {
+            relatedEntityContainerId: '#supervisor-related-entity',
+            selectedItems: selectedSupervisors,
+            getFormHtml: getSupervisorFormHtml,
+            postLoadForm: updateUsersForSupervisorsList,
+            getRelatedEntityFormObject: getSupervisorFormObject,
+            getSelectedRelatedEntityHtml: getSelectedSupervisorHtml,
+            identifierClass: '.supervisorId',
+            identifierProperty: 'SupervisorId'
+        };
+    }
+
+    function getSelectedSupervisors() {
+        const supervisors = $('#supervisor-related-entity .selected-item');
+        for (let i = 0; i < supervisors.length; i++) {
+            const supervisor = {
+                Id: $(supervisors[i]).find('.id').val(),
+                SupervisorId: $(supervisors[i]).find('.supervisorId').val(),
+                SupervisorName: $(supervisors[i]).find('.supervisorName').val(),
+                ThemeOfScientificWorkId: $(supervisors[i]).find('.themeOfScientificWorkId').val()
+            }
+
+            selectedSupervisors.push(supervisor);
+        }
+    }
+
+    function getUsersForSupervisors() {
+        $.ajax('/api/users/getByFacultyAndCathedra?')
+            .done(function (users) {
+                allSupervisors = users;
+                updateUsersForSupervisorsList();
+            });
+    }
+
+    function getSupervisorFormHtml() {
+        return `<div>
+                        <label class="control-label">Науковий керівник <span class="text-danger">*</span></label>
+                        <div><select id="supervisor-selector" class="form-control chosen-select"></select></div>
+                    </div>`;
+    }
+
+    function updateUsersForSupervisorsList() {
+        const supervisorElement = $("#supervisor-selector");
+        if (supervisorElement.find("option").length > 1) {
+            return;
+        }
+
+        let str = "<option value=''>Виберіть користувача</option>";
+        for (var i = 0; i < allSupervisors.length; i++) {
+            let supervisor = allSupervisors[i];
+            str += `<option value='${supervisor.Id}'>${supervisor.FullName}</option>`;
+        }
+
+        supervisorElement.html(str);
+        supervisorElement.chosen();
+        supervisorElement.trigger("chosen:updated");
+    }
+
+    function getSupervisorFormObject() {
+        const supervisorId = $('#supervisor-related-entity .new-related-entity-form select').val();
+        if (!supervisorId) {
+            alert('Виберіть керівника');
+            return;
+        }
+
+        const supervisorName = $('#supervisor-related-entity .new-related-entity-form select :selected').text();
+        const themeOfScientificWorkId = $('input[name=Id]').val();
+        return {
+            Id: 0,
+            SupervisorId: supervisorId,
+            SupervisorName: supervisorName,
+            ThemeOfScientificWorkId: themeOfScientificWorkId
+        };
+    }
+
+    function getSelectedSupervisorHtml(index, supervisor) {
+        return `<div>
+                    <div class="selected-item">
+                            <div>
+                                <div>${supervisor.SupervisorName}</div>
+                                <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                            </div>
+                            <input type="hidden" name="ThemeOfScientificWorkSupervisors[${index}].Id" class="id" value="${supervisor.Id}" />
+                            <input type="hidden" name="ThemeOfScientificWorkSupervisors[${index}].ThemeOfScientificWorkId" class="themeOfScientificWorkId" value="${supervisor.Id}" />
+                            <input type="hidden" name="ThemeOfScientificWorkSupervisors[${index}].SupervisorId" class="supervisorId" value="${supervisor.SupervisorId}" />
+                            <input type="hidden" name="ThemeOfScientificWorkSupervisors[${index}].SupervisorName" class="supervisorName" value="${supervisor.SupervisorName}" />
                     </div>
                 </div>`;
     }

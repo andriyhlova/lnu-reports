@@ -23,18 +23,18 @@ namespace SRS.Domain.Specifications
                                 (filterModel.PeriodFromTo == null || x.PeriodFrom <= filterModel.PeriodFromTo) &&
                                 (filterModel.PeriodToFrom == null || x.PeriodTo >= filterModel.PeriodToFrom) &&
                                 (filterModel.PeriodToTo == null || x.PeriodTo <= filterModel.PeriodToTo) &&
-                                (filterModel.SupervisorId == null || x.Supervisor.Id == filterModel.SupervisorId) &&
+                                (filterModel.SupervisorId == null || x.ThemeOfScientificWorkSupervisors.Any(y => y.SupervisorId == filterModel.SupervisorId)) &&
                                 (string.IsNullOrEmpty(filterModel.Search) ||
                                 x.ThemeNumber.Contains(filterModel.Search) ||
                                 x.OtherProjectType.Contains(filterModel.Search) ||
                                 x.Code.Contains(filterModel.Search) ||
                                 x.Value.Contains(filterModel.Search) ||
-                                x.Supervisor.I18nUserInitials.Any(y => y.FirstName.Contains(filterModel.Search) ||
+                                x.ThemeOfScientificWorkSupervisors.Any(z => z.Supervisor.I18nUserInitials.Any(y => y.FirstName.Contains(filterModel.Search) ||
                                                                        y.LastName.Contains(filterModel.Search) ||
-                                                                       y.FathersName.Contains(filterModel.Search)))),
+                                                                       y.FathersName.Contains(filterModel.Search))))),
                   true)
         {
-            AddIncludes(x => x.Supervisor.I18nUserInitials);
+            AddIncludes(x => x.ThemeOfScientificWorkSupervisors.Select(y => y.Supervisor.I18nUserInitials));
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 
@@ -50,8 +50,6 @@ namespace SRS.Domain.Specifications
                 case ThemeOfScientificWorkOrderType.Value when desc: ApplyOrderByDescending(x => x.Value); break;
                 case ThemeOfScientificWorkOrderType.ScientificHead when !desc: ApplyOrderBy(x => x.ScientificHead); break;
                 case ThemeOfScientificWorkOrderType.ScientificHead when desc: ApplyOrderByDescending(x => x.ScientificHead); break;
-                case ThemeOfScientificWorkOrderType.Supervisor when !desc: ApplyOrderBy(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).LastName); ApplyThenBy(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).FirstName); break;
-                case ThemeOfScientificWorkOrderType.Supervisor when desc: ApplyOrderByDescending(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).LastName); ApplyThenByDescending(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).FirstName); break;
                 case ThemeOfScientificWorkOrderType.PeriodTo when !desc: ApplyOrderBy(x => x.PeriodTo); break;
                 case ThemeOfScientificWorkOrderType.PeriodTo when desc: ApplyOrderByDescending(x => x.PeriodTo); break;
                 case ThemeOfScientificWorkOrderType.Financial when !desc: ApplyOrderBy(x => x.Financial); break;

@@ -34,9 +34,5 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
         public decimal? PlannedAmount { get; set; }
 
         public Currency? Currency { get; set; }
-
-        public string SupervisorId { get; set; }
-
-        public string SupervisorDescription { get; set; }
     }
 }

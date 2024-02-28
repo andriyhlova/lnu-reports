@@ -71,7 +71,6 @@ namespace SRS.Services.Utilities
             Bind<IFacultyService>().To<FacultyService>();
             Bind<IDissertationDefenseService>().To<DissertationDefenseService>();
             Bind<ICsvService>().To<CsvService>();
-            Bind<IExcelService>().To<ExcellService>();
             Bind<IExportService>().To<ExportService>();
         }
     }

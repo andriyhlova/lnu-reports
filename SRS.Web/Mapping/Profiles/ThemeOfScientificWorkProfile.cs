@@ -4,6 +4,7 @@ using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.Shared;
 using SRS.Web.Models.ThemeOfScientificWorks;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SRS.Web.Mapping.Profiles
@@ -29,7 +30,7 @@ namespace SRS.Web.Mapping.Profiles
 
             if (src.Financial == Financial.InWorkTime)
             {
-                return $"{src.SupervisorDescription} {src.Value}";
+                return $"{src.ThemeOfScientificWorkSupervisors.FirstOrDefault()} {src.Value}";
             }
 
             return src.Value;

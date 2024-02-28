@@ -1,7 +1,9 @@
 ﻿using SRS.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SRS.Domain.Entities
 {
@@ -33,44 +35,26 @@ namespace SRS.Domain.Entities
 
         public string UserId { get; set; }
 
-        public string SupervisorId { get; set; }
-
         public virtual ApplicationUser User { get; set; }
-
-        public virtual ApplicationUser Supervisor { get; set; }
 
         public virtual ICollection<ThemeOfScientificWorkFinancial> ThemeOfScientificWorkFinancials { get; set; }
 
         public virtual ICollection<ThemeOfScientificWorkCathedra> ThemeOfScientificWorkCathedras { get; set; }
 
+        public virtual ICollection<ThemeOfScientificWorkSupervisor> ThemeOfScientificWorkSupervisors { get; set; }
+
         public virtual ICollection<CathedraReport> CathedraReports { get; set; }
 
-        public string GetSupervisor()
+        public string GetSupervisors(bool withTitle = false)
         {
-            if (Supervisor == null)
+            if (withTitle)
             {
-                return ScientificHead;
+                return string.Join(", ", ThemeOfScientificWorkSupervisors.Select(x => x.GetSupervisorWithTitles()));
             }
-
-            return Supervisor.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;
-        }
-
-        public string GetSupervisorWithTitles()
-        {
-            if (Supervisor == null)
+            else
             {
-                return ScientificHead;
+                return string.Join(", ", ThemeOfScientificWorkSupervisors.Select(x => x.GetSupervisor()));
             }
-
-            var supervisor = GetSupervisor();
-            var titles = Supervisor.GetTitles();
-
-            if (string.IsNullOrWhiteSpace(titles))
-            {
-                return supervisor;
-            }
-
-            return string.Join(", ", supervisor, titles);
         }
     }
 }

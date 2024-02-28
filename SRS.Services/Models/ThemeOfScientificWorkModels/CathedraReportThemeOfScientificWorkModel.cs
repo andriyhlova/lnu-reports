@@ -1,6 +1,6 @@
 ﻿namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
-    public class CathedraReportThemeOfScientificWorkModel : BaseThemeOfScientificWorkModel
+    public class CathedraReportThemeOfScientificWorkModel : BaseThemeOfScientificWorkWithFinancialsModel
     {
         public string Resume { get; set; }
 
