@@ -10,20 +10,14 @@
     ViewBag.Title = "Захист дисертації";
 }
 
-<h2>Тематичний план</h2>
-<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
-<form id="filter-container" class="collapse-target">
-    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
-    <div>
-        <label class="control-label">
-            Дата захисту
-        </label>
-    </div>
-    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.PeriodFrom, To = Model.FilterModel.PeriodTo, Prefix = "Period" });}
-    @{ViewBag.SearchPlaceholder = "Пошук за темою";}
+<h2>Захисти дисертацій</h2>
+<form>
+    @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     <div class="form-group">
         <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/DissertationDefense/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/DissertationDefense/ExportToExcel" />
     </div>
 </form>
 <p>
