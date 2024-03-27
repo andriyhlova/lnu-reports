@@ -111,6 +111,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\YearRangeAttribute.cs" />
     <Compile Include="Implementations\Bibliography\BaseBibliographyService.cs" />
     <Compile Include="Implementations\DissertationDefenseService.cs" />
     <Compile Include="Implementations\CsvService.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Implementations\ReportService.cs" />
     <Compile Include="Implementations\RoleActionService.cs" />
     <Compile Include="Implementations\PublicationService.cs" />
+    <Compile Include="Implementations\SpecializationService.cs" />
     <Compile Include="Implementations\ThemeOfScientificWorkService.cs" />
     <Compile Include="Implementations\RoleService.cs" />
     <Compile Include="Implementations\UserService.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Interfaces\IHonoraryTitleService.cs" />
     <Compile Include="Interfaces\Bibliography\IBibliographyService.cs" />
     <Compile Include="Interfaces\IAcademicStatusService.cs" />
+    <Compile Include="Interfaces\ISpecializationService.cs" />
     <Compile Include="Interfaces\ReportGeneration\IHtmlCompiler.cs" />
     <Compile Include="Interfaces\ReportGeneration\ICathedraReportTemplateService.cs" />
     <Compile Include="Interfaces\ReportGeneration\IWordReportBuilderService.cs" />
@@ -182,15 +185,18 @@
     <Compile Include="Mapping\Profiles\FacultyProfile.cs" />
     <Compile Include="Mapping\Profiles\RoleProfile.cs" />
     <Compile Include="Mapping\Profiles\PublicationProfile.cs" />
+    <Compile Include="Mapping\Profiles\SpecializationProfile.cs" />
     <Compile Include="Mapping\Profiles\UserProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\DegreeProfile.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportAchievementSchoolModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportBudgetThemeModel.cs" />
+    <Compile Include="Models\ReportGenerationModels\CathedraReport\CathedraReportDissertarionDefenseModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportGrantsModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportHospDohovirThemeModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportInTimeThemeModel.cs" />
     <Compile Include="Models\CathedraReportModels\CathedraReportPublicationsModel.cs" />
+    <Compile Include="Models\CsvModels\SpecializationCsvModel.cs" />
     <Compile Include="Models\DissertationDefenseModel.cs" />
     <Compile Include="Models\FilterModels\DissertationDefenseFilterModel.cs" />
     <Compile Include="Models\CsvModel.cs" />
@@ -250,6 +256,7 @@
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
+    <Compile Include="Models\SpecializationModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkWithFinancialsModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkCathedraModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkFinancialModel.cs" />
@@ -301,6 +308,7 @@
     <Compile Include="Specifications\PublicationSpecifications\CathedraReportPublicationSpecification.cs" />
     <Compile Include="Specifications\PublicationSpecifications\ReportPublicationSpecification.cs" />
     <Compile Include="Specifications\ReportSpecification.cs" />
+    <Compile Include="Specifications\SpecializationSpecification.cs" />
     <Compile Include="Specifications\ThemeOfScientificWorkWithFinancialsSpecification.cs" />
     <Compile Include="Specifications\ThemeOfScientificWorkSpecification.cs" />
     <Compile Include="Specifications\UserSpecifications\FacultyLeadSpecification.cs" />

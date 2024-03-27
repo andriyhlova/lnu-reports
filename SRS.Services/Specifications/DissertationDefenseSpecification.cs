@@ -19,6 +19,8 @@ namespace SRS.Services.Specifications
                   expression.AndAlso(
                       x => (filterModel.PeriodFrom == null || x.DefenseDate >= filterModel.PeriodFrom) &&
                            (filterModel.PeriodTo == null || x.DefenseDate <= filterModel.PeriodTo) &&
+                           (filterModel.YearOfGraduatingFrom == null || x.YearOfGraduating >= filterModel.YearOfGraduatingFrom) &&
+                           (filterModel.YearOfGraduatingTo == null || x.YearOfGraduating <= filterModel.YearOfGraduatingTo) &&
                            (filterModel.SupervisorId == null || x.Supervisor.Id == filterModel.SupervisorId) &&
                            (string.IsNullOrEmpty(filterModel.Search) ||
                            x.Theme.Contains(filterModel.Search) ||
@@ -39,6 +41,8 @@ namespace SRS.Services.Specifications
                 case DissertationDefenseOrderType.Theme when desc: ApplyOrderByDescending(x => x.Theme); break;
                 case DissertationDefenseOrderType.DefenseDate when !desc: ApplyOrderBy(x => x.DefenseDate); break;
                 case DissertationDefenseOrderType.DefenseDate when desc: ApplyOrderByDescending(x => x.DefenseDate); break;
+                case DissertationDefenseOrderType.YearOfGraduating when !desc: ApplyOrderBy(x => x.YearOfGraduating); break;
+                case DissertationDefenseOrderType.YearOfGraduating when desc: ApplyOrderByDescending(x => x.YearOfGraduating); break;
                 case DissertationDefenseOrderType.SubmissionDate when !desc: ApplyOrderBy(x => x.SubmissionDate); break;
                 case DissertationDefenseOrderType.SubmissionDate when desc: ApplyOrderByDescending(x => x.SubmissionDate); break;
                 case DissertationDefenseOrderType.SupervisorId when !desc: ApplyOrderBy(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).LastName); ApplyThenBy(x => x.Supervisor.I18nUserInitials.FirstOrDefault(y => y.Language == Language.UA).FirstName); break;

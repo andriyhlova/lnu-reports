@@ -97,6 +97,7 @@
     <Compile Include="Entities\Publication.cs" />
     <Compile Include="Entities\Report.cs" />
     <Compile Include="Entities\AcademicStatus.cs" />
+    <Compile Include="Entities\Specialization.cs" />
     <Compile Include="Entities\ThemeOfScientificWorkCathedra.cs" />
     <Compile Include="Entities\ThemeOfScientificWorkFinancial.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />

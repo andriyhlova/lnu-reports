@@ -115,5 +115,14 @@ namespace SRS.Domain.Entities
 
         [InverseProperty("CathedraReports")]
         public virtual ICollection<ThemeOfScientificWork> Grants { get; set; }
+
+        [InverseProperty("CathedraReportDefenseOfGraduates")]
+        public virtual ICollection<DissertationDefense> DissertationDefenseOfGraduates { get; set; }// 7.1
+
+        [InverseProperty("CathedraReportDefenseOfEmployees")]
+        public virtual ICollection<DissertationDefense> DissertationDefenseOfEmployees { get; set; }// 7.2
+
+        [InverseProperty("CathedraReportDefenseInAcademicCouncil")]
+        public virtual ICollection<DissertationDefense> DissertationDefenseInAcademicCouncil { get; set; }// 7.3
     }
 }

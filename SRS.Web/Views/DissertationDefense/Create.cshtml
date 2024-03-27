@@ -36,10 +36,19 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Дата подання <span class="text-danger">*</span></label>
+        <label class="control-label col-md-2">Дата подання до спеціалізованої вченої ради <span class="text-danger">*</span>
+        </label>
         <div class="col-md-10">
             @Html.EditorFor(model => model.SubmissionDate, new { htmlAttributes = new { @class = "form-control", min = Dates.MinDate.ToString(Dates.DatePattern), max = Dates.MaxDate.ToString(Dates.DatePattern) } })
             @Html.ValidationMessageFor(model => model.SubmissionDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Рік закінчення навчання в аспірантурі</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.YearOfGraduating, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.YearOfGraduating, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -56,7 +65,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Відповідальний виконавець</label>
+        <label class="control-label col-md-2">Виконавець</label>
         <div class="col-md-10">
             <select id="user-selector" class="form-control chosen-select" name="UserId" data-selected="@Model.UserId">
                 <option value="">Виберіть користувача</option>
@@ -68,13 +77,26 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-md-2">Спеціальність</label>
+        <div class="col-md-10">
+            <select id="specialization-selector" class="form-control chosen-select" name="SpecializationId">
+                <option value="">Виберіть спеціальність</option>
+                @foreach (var specialization in ViewBag.AllSpecializations)
+                {
+                    <option value="@specialization.Id">@specialization.Value</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-md-2">Тип дисертації</label>
         <div>
             @Html.EnumDropDownListFor(model => model.DissertationType, "Не вибрано", new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
             @Html.ValidationMessageFor(model => model.DissertationType, "", new { @class = "text-danger" })
         </div>
     </div>
-    
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Створити" class="btn btn-info" />

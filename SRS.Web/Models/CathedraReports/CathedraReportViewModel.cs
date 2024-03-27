@@ -1,4 +1,5 @@
-﻿using SRS.Web.Models.Shared;
+﻿using SRS.Services.Models;
+using SRS.Web.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -52,6 +53,12 @@ namespace SRS.Web.Models.CathedraReports
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1
 
         public string CooperationWithForeignScientificInstitution { get; set; } // 6.2
+
+        public IList<DissertationDefenseModel> DissertationDefenseOfGraduates { get; set; }// 7.1
+
+        public IList<DissertationDefenseModel> DissertationDefenseOfEmployees { get; set; }// 7.2
+
+        public IList<DissertationDefenseModel> DissertationDefenseInAcademicCouncil { get; set; }// 7.3
 
         public string StudentsWorks { get; set; }// 8
 

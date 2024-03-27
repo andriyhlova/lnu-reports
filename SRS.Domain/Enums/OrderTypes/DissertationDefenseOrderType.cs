@@ -12,8 +12,10 @@ namespace SRS.Domain.Enums.OrderTypes
         Theme,
         DefenseDate,
         SubmissionDate,
+        YearOfGraduating,
         SupervisorId,
         UserId,
+        Specialization,
         DissertationType
     }
 }

@@ -29,10 +29,17 @@
         </dd>
 
         <dt>
-            Дата подання
+            Дата подання до спеціалізованої вченої ради
         </dt>
         <dd>
             @Html.DisplayFor(model => model.SubmissionDate)
+        </dd>
+
+        <dt>
+            Рік закінчення навчання в аспірантурі
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearOfGraduating)
         </dd>
 
         <dt>
@@ -43,10 +50,17 @@
         </dd>
 
         <dt>
-            Відповідальний виконавець
+            Виконавець
         </dt>
         <dd>
             @Html.DisplayFor(model => model.UserDescription)
+        </dd>
+
+        <dt>
+            Спеціальність
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Specialization.Value)
         </dd>
 
         <dt>

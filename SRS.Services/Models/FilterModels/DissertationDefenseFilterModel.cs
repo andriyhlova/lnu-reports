@@ -12,6 +12,10 @@ namespace SRS.Services.Models.FilterModels
 
         public DateTime? PeriodTo { get; set; }
 
+        public int? YearOfGraduatingFrom { get; set; }
+
+        public int? YearOfGraduatingTo { get; set; }
+
         public string SupervisorId { get; set; }
     }
 }

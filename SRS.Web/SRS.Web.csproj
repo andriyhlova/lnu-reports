@@ -247,6 +247,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CathedrasApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\DissertationDefenseApiController.cs" />
     <Compile Include="Areas\Api\Controllers\HonoraryTitlesApiController.cs" />
     <Compile Include="Areas\Api\Controllers\AcademicStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\DegreesApiController.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Controllers\CathedraReportController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\JournalsController.cs" />
+    <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Controllers\ThemeOfScientificWorksController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Enums\CathedraReportStep.cs" />
@@ -541,6 +543,10 @@
     <Content Include="Views\DissertationDefense\Delete.cshtml" />
     <Content Include="Views\DissertationDefense\Edit.cshtml" />
     <Content Include="Views\DissertationDefense\Index.cshtml" />
+    <Content Include="Views\Specializations\Index.cshtml" />
+    <Content Include="Views\Specializations\Create.cshtml" />
+    <Content Include="Views\Specializations\Edit.cshtml" />
+    <Content Include="Views\Specializations\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -176,6 +176,107 @@
         {{/if}}
         {{/if}}
 
+        <div class="top-ident">
+            <p>
+                7. Аспірантура та докторантура
+            </p>
+        </div>
+
+
+        {{#if DissertationDefenseOfGraduates}}
+        <div class="top-ident">
+            <p>
+                7.1. Захист дисертацій випускниками докторантури та аспірантури
+            </p>
+        </div>
+        <table class="table-report">
+            <thead>
+                <tr>
+                    <th>Прізвище, ініціали</th>
+                    <th>Науковий керівник, консультант</th>
+                    <th>Рік закінчення</th>
+                    <th>Дата подання до спеціалізованої вченої ради</th>
+                    <th>Дата захисту</th>
+                    <th>Тема дисертації</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each DissertationDefenseOfGraduates}}
+                <tr>
+                    <td>{{this.UserDescription}}</td>
+                    <td>{{this.SupervisorDescription}}</td>
+                    <td>{{this.YearOfGraduating}}</td>
+                    <td>{{this.SubmissionDate}}</td>
+                    <td>{{this.DefenseDate}}</td>
+                    <td>{{this.Theme}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+
+
+        {{#if DissertationDefenseOfEmployees}}
+        <div class="top-ident">
+            <p>
+                7.2. Захист дисертацій співробітниками
+            </p>
+        </div>
+        <table class="table-report">
+            <thead>
+                <tr>
+                    <th>Прізвище, ініціали</th>
+                    <th>Посада, кафедра</th>
+                    <th>Спеціальність</th>
+                    <th>Дата захисту</th>
+                    <th>Тема дисертації</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each DissertationDefenseOfEmployees}}
+                <tr>
+                    <td>{{this.UserDescription}}</td>
+                    <td>{{this.PositionAndCathedra}}</td>
+                    <td>{{this.SpecializationName}}</td>
+                    <td>{{this.DefenseDate}}</td>
+                    <td>{{this.Theme}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+
+
+        {{#if DissertationDefenseInAcademicCouncil}}
+        <div class="top-ident">
+            <p>
+                7.3. Захисти у спеціалізованих вчених радах університету сторонніми працівниками
+            </p>
+        </div>
+        <table class="table-report">
+            <thead>
+                <tr>
+                    <th>Прізвище, ініціали</th>
+                    <th>Науковий керівник, консультант</th>
+                    <th>Спеціальність</th>
+                    <th>Дата захисту</th>
+                    <th>Тема дисертації</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each DissertationDefenseInAcademicCouncil}}
+                <tr>
+                    <td>{{this.UserDescription}}</td>
+                    <td>{{this.SupervisorDescription}}</td>
+                    <td>{{this.SpecializationName}}</td>
+                    <td>{{this.DefenseDate}}</td>
+                    <td>{{this.Theme}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+
         {{#if StudentsWorks}}
         <div class="top-ident">
             <p>
@@ -467,7 +568,7 @@
         {{/with}}
 
 
-        
+
         {{#with GeneralInfo}}
         {{#if Materials}}
         <div class="top-ident">
