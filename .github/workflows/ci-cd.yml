@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - SRS-52390
+      - features/SRS-52390
 
 jobs:
   build:
