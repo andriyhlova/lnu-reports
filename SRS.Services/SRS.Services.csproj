@@ -256,6 +256,7 @@
     <Compile Include="Models\ReportModels\ReportFinalInfoModel.cs" />
     <Compile Include="Models\ReportModels\ReportThemeOfScientificWorkModel.cs" />
     <Compile Include="Models\ReportModels\ReportScientificWorkModel.cs" />
+    <Compile Include="Models\ReportModels\ReportThemeOfScientificWorkPerformerModel.cs" />
     <Compile Include="Models\SpecializationModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\BaseThemeOfScientificWorkWithFinancialsModel.cs" />
     <Compile Include="Models\ThemeOfScientificWorkModels\ThemeOfScientificWorkCathedraModel.cs" />

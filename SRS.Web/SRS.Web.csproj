@@ -252,6 +252,7 @@
     <Compile Include="Areas\Api\Controllers\AcademicStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\DegreesApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalTypesController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportThemeOfScientificWorkPerformersApiController.cs" />
     <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
@@ -550,6 +551,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Api\Views\ReportThemeOfScientificWorkPerformers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

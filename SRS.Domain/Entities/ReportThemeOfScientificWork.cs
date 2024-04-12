@@ -1,4 +1,10 @@
-﻿namespace SRS.Domain.Entities
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Dynamic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+
+namespace SRS.Domain.Entities
 {
     public class ReportThemeOfScientificWork : BaseEntity
     {
@@ -17,5 +23,14 @@
         public int ThemeOfScientificWorkId { get; set; }
 
         public virtual ThemeOfScientificWork ThemeOfScientificWork { get; set; }
+
+        [InverseProperty("ReportUserFullTime")]
+        public virtual ICollection<ApplicationUser> ApplicationUserFullTime { get; set; }
+
+        [InverseProperty("ReportUserExternalPartTime")]
+        public virtual ICollection<ApplicationUser> ApplicationUserExternalPartTime { get; set; }
+
+        [InverseProperty("ReportUserLawContract")]
+        public virtual ICollection<ApplicationUser> ApplicationUserLawContract { get; set; }
     }
 }

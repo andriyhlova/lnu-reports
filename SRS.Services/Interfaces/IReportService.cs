@@ -22,5 +22,7 @@ namespace SRS.Services.Interfaces
             where TModel : BaseModel;
 
         Task<bool> DeleteAsync(int id, string currentUserId);
+
+        Task<IList<ReportThemeOfScientificWorkModel>> GetAsyncReportThemeOfScientificWork(int reportThemeOfScientificWorkId);
     }
 }

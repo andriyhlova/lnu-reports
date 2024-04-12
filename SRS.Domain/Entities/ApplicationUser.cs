@@ -92,6 +92,12 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<CathedraReport> CathedraReport { get; set; }
 
+        public virtual ICollection<ReportThemeOfScientificWork> ReportUserFullTime { get; set; }
+
+        public virtual ICollection<ReportThemeOfScientificWork> ReportUserExternalPartTime { get; set; }
+
+        public virtual ICollection<ReportThemeOfScientificWork> ReportUserLawContract { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             return await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
