@@ -45,4 +45,4 @@ jobs:
 
       - name: Deploy to IIS using Web Deploy
         run: |
-          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="C:\Users\***\actions-runner\_work\lnu-reports\lnu-reports\deployment" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://13.51.245.49:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
+          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://13.51.245.49:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
