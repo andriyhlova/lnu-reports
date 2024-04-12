@@ -1,4 +1,7 @@
-﻿namespace SRS.Services.Models.ThemeOfScientificWorkModels
+﻿using SRS.Services.Models.UserModels;
+using System.Collections.Generic;
+
+namespace SRS.Services.Models.ThemeOfScientificWorkModels
 {
     public class CathedraReportThemeOfScientificWorkModel : BaseThemeOfScientificWorkWithFinancialsModel
     {
@@ -11,5 +14,11 @@
         public decimal? FinancialAmount { get; set; }
 
         public int? FinancialYear { get; set; }
+
+        public int? AmountOfApplicationUserFullTime { get; set; }
+
+        public int? AmountOfApplicationUserExternalPartTime { get; set; }
+
+        public int? AmountOfApplicationUserLawContract { get; set; }
     }
 }

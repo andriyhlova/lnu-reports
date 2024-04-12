@@ -76,10 +76,7 @@ namespace SRS.Services.Implementations
                     var report = theme.Reports
                             .FirstOrDefault(r => r.Report.Date.HasValue &&
                                 r.Report.Date.Value.Year == reportDate.Year &&
-                                r.Report.User.CathedraId == cathedraId &&
-                                !string.IsNullOrEmpty(r.Resume) &&
-                                !string.IsNullOrEmpty(r.DefendedDissertation) &&
-                                !string.IsNullOrEmpty(r.Publications));
+                                r.Report.User.CathedraId == cathedraId);
 
                     var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == reportDate.Year);
 
@@ -88,6 +85,9 @@ namespace SRS.Services.Implementations
                     mapped.Publications = report?.Publications;
                     mapped.FinancialAmount = financial?.Amount;
                     mapped.FinancialYear = financial?.Year;
+                    mapped.AmountOfApplicationUserFullTime = report?.ApplicationUserFullTime.Count;
+                    mapped.AmountOfApplicationUserExternalPartTime = report?.ApplicationUserExternalPartTime.Count;
+                    mapped.AmountOfApplicationUserLawContract = report?.ApplicationUserLawContract.Count;
 
                     result[group.Key].Add(mapped);
                 }
