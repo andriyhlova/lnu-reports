@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-
+фівфвфівфів
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.1
 
