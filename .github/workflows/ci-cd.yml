@@ -32,6 +32,9 @@ jobs:
           name: my-artifact
           path: ${{github.workspace}}\_build\
 
+      - name: List output of build
+        run: dir D:\a\lnu-reports\lnu-reports\SRS.Testing\bin\Release\
+
       - name: Download xUnit Console Runner
         run: |
           mkdir .\tools\xunit
