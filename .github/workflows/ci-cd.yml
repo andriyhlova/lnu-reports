@@ -31,6 +31,15 @@ jobs:
         with:
           name: my-artifact
           path: ${{github.workspace}}\_build\
+          
+      - name: Run xUnit Tests
+        run: |
+          msbuild SRS.Testing/SRS.Testing.csproj /p:Configuration=Release /t:VSTest /p:VSTestLogger="trx;LogFileName=test_results.trx"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: ${{github.workspace}}/**/TestResults/*.trx
 
   deploy:
     needs: build
