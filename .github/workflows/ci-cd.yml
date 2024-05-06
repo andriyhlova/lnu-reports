@@ -32,8 +32,11 @@ jobs:
           name: my-artifact
           path: ${{github.workspace}}\_build\
 
-      - name: List output of build
-        run: dir D:\a\lnu-reports\lnu-reports\SRS.Testing\bin\Release\
+      - name: List contents of the Release directory
+        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\
+
+      - name: List contents of the net48 directory
+        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\net48\
 
       - name: Download xUnit Console Runner
         run: |
@@ -43,7 +46,7 @@ jobs:
 
       - name: Run xUnit Tests
         run: |
-          .\tools\xunit\tools\net472\xunit.console.exe ${{github.workspace}}\SRS.Testing\bin\Release\SRS.Testing.dll --xml ${{github.workspace}}\TestResults\test_results.xml
+          .\tools\xunit\tools\net472\xunit.console.exe ${{github.workspace}}\SRS.Testing\bin\Release\net48\SRS.Testing.dll --xml ${{github.workspace}}\TestResults\test_results.xml
 
       - uses: actions/upload-artifact@v3
         with:
