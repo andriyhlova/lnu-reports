@@ -7,31 +7,9 @@ on:
       - features/SRS-52390
 
 jobs:
-  cleanup-artifacts:
-    name: Cleanup Old Artifacts
-    runs-on: ubuntu-latest
-    steps:
-      - name: List and Delete Artifacts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Listing artifacts:"
-          artifacts=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts")
-          echo "$artifacts" | jq
-
-          echo "Deleting artifacts:"
-          echo "$artifacts" | jq -r '.artifacts[].id' | while read artifact_id; do
-            echo "Deleting artifact with ID $artifact_id"
-            response=$(curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$artifact_id")
-            echo "Delete response: $response"
-          done
-
-  test:
-    name: Run Tests
+  build:
+    name: Build
     runs-on: windows-latest
-    needs: cleanup-artifacts
     steps:
       - uses: actions/checkout@v3
       - name: Setup MSBuild path
@@ -40,11 +18,11 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.5
 
+      - name: Create Build Directory
+        run: mkdir ${{github.workspace}}\_build\
+
       - name: Restore NuGet packages
         run: nuget restore -verbosity quiet
-
-      - name: Build app for testing
-        run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release
 
       - name: Download xUnit Console Runner
         run: |
@@ -61,24 +39,6 @@ jobs:
           name: test-results
           path: ${{github.workspace}}\TestResults\*.xml
 
-  build:
-    name: Build
-    runs-on: windows-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.1
-
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
-
-      - name: Create Build Directory
-        run: mkdir ${{github.workspace}}\_build\
-
-      - name: Restore NuGet packages
-        run: nuget restore -verbosity quiet
-
       - name: Build app for release
         run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
 
@@ -86,12 +46,6 @@ jobs:
         with:
           name: my-artifact
           path: ${{github.workspace}}\_build\
-
-      - name: List contents of the Release directory
-        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\
-
-      - name: List contents of the net48 directory
-        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\net48\
 
   deploy:
     needs: build
