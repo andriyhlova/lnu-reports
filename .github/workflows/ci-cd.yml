@@ -27,20 +27,7 @@ jobs:
       - name: Build app for release
         run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
 
-      - name: Check available artifact storage
-        id: check_quota
-        run: |
-          $response = curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | ConvertFrom-Json
-          $quota = $response.total_count
-          echo "Total artifacts: $quota"
-          if ($quota -lt 500) {
-            echo "can_upload=true" >> $GITHUB_ENV
-          } else {
-            echo "can_upload=false" >> $GITHUB_ENV
-          }
-          
       - uses: actions/upload-artifact@v3
-        if: env.can_upload == 'true'
         with:
           name: my-artifact
           path: ${{github.workspace}}\_build\
@@ -60,7 +47,7 @@ jobs:
       - name: Run xUnit Tests
         run: |
           .\tools\xunit\tools\net472\xunit.console.exe "${{ github.workspace }}\SRS.Testing\bin\Release\net48\SRS.Testing.dll" -xml "${{ github.workspace }}\TestResults\test_results.xml"
-
+          
       - uses: actions/upload-artifact@v3
         with:
           name: test-results
@@ -80,3 +67,4 @@ jobs:
       - name: Deploy to IIS using Web Deploy
         run: |
           & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
+          
