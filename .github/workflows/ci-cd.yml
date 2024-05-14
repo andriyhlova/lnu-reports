@@ -34,13 +34,13 @@ jobs:
           $quota = $response.total_count
           echo "Total artifacts: $quota"
           if ($quota -lt 500) {
-            echo "can_upload=true" >> $env:GITHUB_ENV
+            echo "can_upload=true" >> $GITHUB_ENV
           } else {
-            echo "can_upload=false" >> $env:GITHUB_ENV
+            echo "can_upload=false" >> $GITHUB_ENV
           }
 
       - name: Echo can_upload
-        run: echo "Can upload: $env:can_upload"
+        run: echo "Can upload: ${{ env.can_upload }}"
           
       - uses: actions/upload-artifact@v3
         if: env.can_upload == 'true'
