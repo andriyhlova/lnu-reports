@@ -34,9 +34,9 @@ jobs:
           $quota = $response.total_count
           echo "Total artifacts: $quota"
           if ($quota -lt 500) {
-            echo "can_upload=true" >> $GITHUB_ENV
+            echo "can_upload=true" >> $env:GITHUB_ENV
           } else {
-            echo "can_upload=false" >> $GITHUB_ENV
+            echo "can_upload=false" >> $env:GITHUB_ENV
           }
 
       - name: Echo can_upload
