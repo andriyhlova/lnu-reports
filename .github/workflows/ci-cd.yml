@@ -30,17 +30,17 @@ jobs:
       - name: Check available artifact storage
         id: check_quota
         run: |
-          $response = Invoke-RestMethod -Headers @{Authorization = "token $env:GITHUB_TOKEN"} -Uri "https://api.github.com/repos/${{ github.repository }}/actions/artifacts"
+          $response = curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | ConvertFrom-Json
           $quota = $response.total_count
           echo "Total artifacts: $quota"
           if ($quota -lt 500) {
-            echo "can_upload=true" | Out-File -FilePath $env:GITHUB_ENV -Append
+            echo "can_upload=true" >> $GITHUB_ENV
           } else {
-            echo "can_upload=false" | Out-File -FilePath $env:GITHUB_ENV -Append
+            echo "can_upload=false" >> $GITHUB_ENV
           }
 
       - name: Echo can_upload
-        run: echo "Can upload: ${{ env.can_upload }}"
+        run: echo "Can upload: $env.can_upload"
           
       - uses: actions/upload-artifact@v3
         if: env.can_upload == 'true'
