@@ -27,7 +27,13 @@ jobs:
       - name: Build app for release
         run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
 
+      - name: Check if artifact can be uploaded
+        id: check_quota
+        run: |
+          echo "can_upload=true" >> $GITHUB_ENV
+
       - uses: actions/upload-artifact@v3
+        if: env.can_upload == 'true'
         with:
           name: my-artifact
           path: ${{github.workspace}}\_build\
@@ -47,7 +53,7 @@ jobs:
       - name: Run xUnit Tests
         run: |
           .\tools\xunit\tools\net472\xunit.console.exe "${{ github.workspace }}\SRS.Testing\bin\Release\net48\SRS.Testing.dll" -xml "${{ github.workspace }}\TestResults\test_results.xml"
-          
+
       - uses: actions/upload-artifact@v3
         with:
           name: test-results
