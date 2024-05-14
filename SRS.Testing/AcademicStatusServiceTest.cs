@@ -53,7 +53,7 @@ namespace SRS.Test
 
             var result = await _positionService.GetAllAsync(baseFilter);
 
-            _repo.Verify(x => x.GetAsync(It.IsAny<ISpecification<AcademicStatus>>()), Times.Never);
+            _repo.Verify(x => x.GetAsync(It.IsAny<ISpecification<AcademicStatus>>()), Times.Once);
 
             Assert.Equal(academicStatusModels, result);
         }
