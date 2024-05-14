@@ -15,7 +15,7 @@ jobs:
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: Setup NuGet
+      - name: Setup NuGetsdo;asjlo;dajklsdjiklo
         uses: NuGet/setup-nuget@v1.0.5
 
       - name: Create Build Directory
