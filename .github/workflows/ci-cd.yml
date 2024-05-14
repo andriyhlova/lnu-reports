@@ -30,12 +30,12 @@ jobs:
       - name: Check available artifact storage
         id: check_quota
         run: |
-          quota=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/artifacts | jq '.total_count')
-          if [[ $quota -lt 500 ]]; then # Припустимо, що ліміт квоти - 500 артефактів
+          $quota = curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | ConvertFrom-Json | Select -ExpandProperty total_count
+          if ($quota -lt 500) { # Припустимо, що ліміт квоти - 500 артефактів
             echo "can_upload=true" >> $GITHUB_ENV
-          else
+          } else {
             echo "can_upload=false" >> $GITHUB_ENV
-          fi
+          }
           
       - uses: actions/upload-artifact@v3
         if: env.can_upload == 'true'
