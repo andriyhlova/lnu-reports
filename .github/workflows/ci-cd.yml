@@ -38,9 +38,6 @@ jobs:
           } else {
             echo "can_upload=false" >> $GITHUB_ENV
           }
-
-      - name: Echo can_upload
-        run: echo "Can upload: $env.can_upload"
           
       - uses: actions/upload-artifact@v3
         if: env.can_upload == 'true'
