@@ -7,41 +7,9 @@ on:
       - features/SRS-52390
 
 jobs:
-  build:
-    name: Build
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup MSBuild path
-        uses: microsoft/setup-msbuild@v1.1
-
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
-
-      - name: Create Build Directory
-        run: mkdir ${{github.workspace}}\_build\
-
-      - name: Restore NuGet packages
-        run: nuget restore -verbosity quiet
-
-      - name: Build app for release
-        run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: ${{github.workspace}}\_build\
-
-      - name: List contents of the Release directory
-        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\
-
-      - name: List contents of the net48 directory
-        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\net48\
-
   test:
     name: Run Tests
     runs-on: windows-latest
-    needs: build
     steps:
       - uses: actions/checkout@v3
       - name: Setup MSBuild path
@@ -70,6 +38,38 @@ jobs:
         with:
           name: test-results
           path: ${{github.workspace}}\TestResults\*.xml
+
+  build:
+    name: Build
+    runs-on: windows-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Create Build Directory
+        run: mkdir ${{github.workspace}}\_build\
+
+      - name: Restore NuGet packages
+        run: nuget restore -verbosity quiet
+
+      - name: Build app for release
+        run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ${{github.workspace}}\_build\
+
+      - name: List contents of the Release directory
+        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\
+
+      - name: List contents of the net48 directory
+        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\net48\
 
   deploy:
     needs: build
