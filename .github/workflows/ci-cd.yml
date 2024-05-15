@@ -1,5 +1,10 @@
 name: Build and Publish
 
+env:
+  BUILD_PATH: ${{ github.workspace }}\_build\
+  DEPLOYMENT_PATH: C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment
+  XUNIT_TOOLS_PATH: .\tools\xunit
+
 on:
   workflow_dispatch:
   push:
@@ -12,6 +17,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.1
 
@@ -19,7 +25,7 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
 
       - name: Create Build Directory
-        run: mkdir ${{github.workspace}}\_build\
+        run: mkdir ${{ env.BUILD_PATH }}
 
       - name: Restore NuGet packages
         run: nuget restore -verbosity quiet
@@ -30,28 +36,28 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: ${{github.workspace}}\_build\
+          path: ${{ env.BUILD_PATH }}
 
       - name: List contents of the Release directory
-        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\
+        run: dir ${{ github.workspace }}\SRS.Testing\bin\Release\
 
       - name: List contents of the net48 directory
-        run: dir ${{github.workspace}}\SRS.Testing\bin\Release\net48\
+        run: dir ${{ github.workspace }}\SRS.Testing\bin\Release\net48\
 
       - name: Download xUnit Console Runner
         run: |
-          mkdir .\tools\xunit
+          mkdir ${{ env.XUNIT_TOOLS_PATH }}
           curl -L "https://nuget.org/api/v2/package/xunit.runner.console/2.4.1" -o xunit.zip
-          Expand-Archive xunit.zip -DestinationPath .\tools\xunit
+          Expand-Archive xunit.zip -DestinationPath ${{ env.XUNIT_TOOLS_PATH }}
           
       - name: Run xUnit Tests
         run: |
-          .\tools\xunit\tools\net472\xunit.console.exe "${{ github.workspace }}\SRS.Testing\bin\Release\net48\SRS.Testing.dll" -xml "${{ github.workspace }}\TestResults\test_results.xml"
+          ${{ env.XUNIT_TOOLS_PATH }}\tools\net472\xunit.console.exe "${{ github.workspace }}\SRS.Testing\bin\Release\net48\SRS.Testing.dll" -xml "${{ github.workspace }}\TestResults\test_results.xml"
           
       - uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: ${{github.workspace}}\TestResults\*.xml
+          path: ${{ github.workspace }}\TestResults\*.xml
 
   deploy:
     needs: build
@@ -66,5 +72,4 @@ jobs:
 
       - name: Deploy to IIS using Web Deploy
         run: |
-          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
-          
+          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="${{ env.DEPLOYMENT_PATH }}" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
