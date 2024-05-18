@@ -17,6 +17,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
 
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.1
@@ -24,31 +31,43 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.5
 
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~\.sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarQube scanner
+        uses: actions/cache@v1
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarQube scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+
       - name: Create Build Directory
         run: mkdir ${{ env.BUILD_PATH }}
 
       - name: Restore NuGet packages
         run: nuget restore -verbosity quiet
 
-      - name: Install SonarScanner for MSBuild
-        run: |
-          choco install sonarscanner-msbuild-net46 -y
-
-      - name: Check SonarQube Server Connectivity
-        run: |
-          curl ${{ secrets.SONAR_HOST_URL }}/api/server/version
-
       - name: Run SonarScanner Begin Command
         run: |
-          SonarScanner.MSBuild.exe begin /k:"SRS" /d:sonar.host.url=${{ secrets.SONAR_HOST_URL }} /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"SRS" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
 
       - name: Build app for release
         run: |
-          msbuild SRS.sln /t:Rebuild /p:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
+          msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
 
       - name: Run SonarScanner End Command
         run: |
-          SonarScanner.MSBuild.exe end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -66,11 +85,11 @@ jobs:
           mkdir ${{ env.XUNIT_TOOLS_PATH }}
           curl -L "https://nuget.org/api/v2/package/xunit.runner.console/2.4.1" -o xunit.zip
           Expand-Archive xunit.zip -DestinationPath ${{ env.XUNIT_TOOLS_PATH }}
-          
+
       - name: Run xUnit Tests
         run: |
           ${{ env.XUNIT_TOOLS_PATH }}\tools\net472\xunit.console.exe "${{ github.workspace }}\SRS.Testing\bin\Release\net48\SRS.Testing.dll" -xml "${{ github.workspace }}\TestResults\test_results.xml"
-          
+
       - uses: actions/upload-artifact@v3
         with:
           name: test-results
