@@ -59,7 +59,7 @@ jobs:
 
       - name: Run SonarScanner Begin Command
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"SRS" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"SRS" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://cb01-13-51-245-49.ngrok-free.app"
 
       - name: Build app for release
         run: |
