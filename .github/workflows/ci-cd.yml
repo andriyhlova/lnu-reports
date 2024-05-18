@@ -34,6 +34,10 @@ jobs:
         run: |
           choco install sonarscanner-msbuild-net46 -y
 
+      - name: Check SonarQube Server Connectivity
+        run: |
+          curl ${{ secrets.SONAR_HOST_URL }}/api/server/version
+
       - name: Run SonarScanner Begin Command
         run: |
           SonarScanner.MSBuild.exe begin /k:"SRS" /d:sonar.host.url=${{ secrets.SONAR_HOST_URL }} /d:sonar.login=${{ secrets.SONAR_TOKEN }}
