@@ -30,8 +30,21 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore -verbosity quiet
 
+      - name: Install SonarScanner for MSBuild
+        run: |
+          choco install sonarscanner-msbuild-net46 -y
+
+      - name: Run SonarScanner Begin Command
+        run: |
+          SonarScanner.MSBuild.exe begin /k:"SRS" /d:sonar.host.url=${{ secrets.SONAR_HOST_URL }} /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+
       - name: Build app for release
-        run: msbuild SRS.sln -verbosity:minimal -t:rebuild -property:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
+        run: |
+          msbuild SRS.sln /t:Rebuild /p:Configuration=Release /p:WebPublishMethod=FileSystem /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:PublishUrl="../_build"
+
+      - name: Run SonarScanner End Command
+        run: |
+          SonarScanner.MSBuild.exe end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
 
       - uses: actions/upload-artifact@v3
         with:
@@ -58,16 +71,6 @@ jobs:
         with:
           name: test-results
           path: ${{ github.workspace }}\TestResults\*.xml
-
-      - name: Install SonarScanner for MSBuild
-        run: |
-          choco install sonarscanner-msbuild-net46 -y
-
-      - name: Run SonarQube Scanner
-        run: |
-          SonarScanner.MSBuild.exe begin /k:"SRS" /d:sonar.host.url=${{ secrets.SONAR_HOST_URL }} /d:sonar.login=${{ secrets.SONAR_TOKEN }}
-          msbuild /t:Rebuild
-          SonarScanner.MSBuild.exe end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
 
   deploy:
     needs: build
