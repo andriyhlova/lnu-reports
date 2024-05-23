@@ -4,7 +4,7 @@ env:
   BUILD_PATH: ${{ github.workspace }}\_build\
   DEPLOYMENT_PATH: C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment
   XUNIT_TOOLS_PATH: .\tools\xunit
-  SERVER_IP: http://13.51.245.49
+  SERVER_IP: https://13.51.245.49
 
 on:
   workflow_dispatch:
