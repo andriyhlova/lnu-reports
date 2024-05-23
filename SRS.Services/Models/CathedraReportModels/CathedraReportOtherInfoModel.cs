@@ -4,8 +4,6 @@ namespace SRS.Services.Models.ReportModels
 {
     public class CathedraReportOtherInfoModel : BaseModel
     {
-        public string AchivementSchool { get; set; }
-
         public string OtherFormsOfScientificWork { get; set; }// 5
 
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1

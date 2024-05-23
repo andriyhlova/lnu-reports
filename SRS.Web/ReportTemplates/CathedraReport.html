@@ -42,6 +42,10 @@
         .pre-line {
             white-space: pre-line;
         }
+
+        .bold {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -65,255 +69,65 @@
         {{/if}}
         {{/with}}
 
-        {{#if BudgetThemeOfScientificWork}}
-        {{#with BudgetThemeOfScientificWork}}
-
+        {{#each ThemeOfScientificWorks}}
         <div class="top-ident">
             <p>
-                2. Держбюджетні теми: шифр, назва, науковий керівник (науковий ступінь, вчене звання),
-                № держреєстрації, термін виконання, кількість штатних
-                виконавців і сумісників із зазначенням їхніх посад, наукових ступенів, вчених звань:
+                2.{{inc @index}}. {{this.Item1}}
             </p>
-            <p>
-                {{Title}}. {{Number}}{{#if Code}} {{Code}}{{/if}}; {{Head}} {{PeriodFrom}} - {{PeriodTo}}
-            </p>
-        </div>
 
-        {{#if Description}}
+            {{#each this.Item2}}
+
+            <p class="bold">Тема {{this.Code}} “{{this.Value}}”</p>
+            <p><span class="bold">Науковий керівник:</span> {{this.SupervisorDescription}}</p>
+            {{#if this.ThemeNumber}}
+            <p>Номер державної реєстрації: {{this.ThemeNumber}}.</p>
+            {{/if}}
+
+            <p>Термін дії теми: {{this.PeriodFrom}}&mdash;{{this.PeriodTo}} р. Обсяг фінансування: {{this.FinancialAmount}} грн. у {{this.FinancialYear}} році.</p>
+
+            {{#if this.Resume}}
+            <p class="bold">Резюме</p>
+            <p>{{this.Resume}}</p>
+            {{/if}}
+
+            {{#if this.Publications}}
+            <p class="bold">Публікації</p>
+            <p>{{this.Publications}}</p>
+            {{/if}}
+
+            {{#if this.DefendedDissertation}}
+            <p class="bold">Захищені дисертації</p>
+            <p>{{this.DefendedDissertation}}</p>
+            {{/if}}
+            <br />
+            {{/each}}
+        </div>
+        {{/each}}
+
+        {{#if Grants.Count}}
         <div class="top-ident">
             <p>
-                Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):
-            </p>
-            <p class="pre-line">
-                {{Description}}
+                3. Участь у виконанні індивідуальних або колективних ґрантів.
             </p>
         </div>
+        {{#each Grants}}
+        <p class="bottom-ident">
+            {{this}}
+        </p>
+        {{/each}}
         {{/if}}
-
-        {{#if ThemeCV}}
+        {{#if OtherGrantDescription}}
+        {{#unless Grants.Count}}
         <div class="top-ident">
             <p>
-                2.1. Резюме (0,3 с.):
-            </p>
-            <p class="pre-line">
-                {{ThemeCV}}
+                3. Участь у виконанні індивідуальних або колективних ґрантів.
             </p>
         </div>
+        {{/unless}}
+        <p class="bottom-ident pre-line">{{OtherGrantDescription}}</p>
         {{/if}}
 
-        {{#if DefensesOfCoworkers}}
-        <div class="top-ident">
-            <p>
-                2.2. Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):
-            </p>
-            <p class="pre-line">
-                {{DefensesOfCoworkers}}
-            </p>
-        </div>
-        {{/if}}
 
-        {{#if PublicationsCounters.Count}}
-        <div class="top-ident">
-            <p>
-                2.3 Опубліковані монографії, підручники,
-                навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
-            </p>
-            <p class="pre-line">
-                Всього по темі опубліковано {{#each PublicationsCounters}}{{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}{{/each}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if ApplicationAndPatentsOnInvention}}
-        <div class="top-ident">
-            <p>
-                2.4 Подані заявки, отримані патенти на винахід (корисну модель):
-            </p>
-            <p class="pre-line">
-                {{ApplicationAndPatentsOnInvention}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if Other}}
-        <div class="top-ident">
-            <p>
-                2.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):
-            </p>
-            <p class="pre-line">
-                {{Other}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{/with}}
-        {{/if}}
-
-        {{#if InWorkTimeThemeOfScientificWork}}
-        {{#with InWorkTimeThemeOfScientificWork}}
-
-        <div class="top-ident">
-            <p>
-                3. Теми, які виконуються в межах робочого часу викладачів: назва,
-                науковий керівник (науковий ступінь, вчене звання), № держреєстрації, термін виконання:
-            </p>
-            <p>
-                {{Title}}. {{Number}}{{#if Code}} {{Code}}{{/if}}; {{Head}} {{PeriodFrom}} - {{PeriodTo}}
-            </p>
-        </div>
-
-        {{#if Description}}
-        <div class="top-ident">
-            <p>
-                Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):
-            </p>
-            <p class="pre-line">
-                {{Description}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if ThemeCV}}
-        <div class="top-ident">
-            <p>
-                3.1. Резюме (0,3 с.):
-            </p>
-            <p class="pre-line">
-                {{ThemeCV}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if DefensesOfCoworkers}}
-        <div class="top-ident">
-            <p>
-                3.2. Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):
-            </p>
-            <p class="pre-line">
-                {{DefensesOfCoworkers}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if PublicationsCounters.Count}}
-        <div class="top-ident">
-            <p>
-                3.3 Опубліковані монографії, підручники,
-                навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
-            </p>
-            <p class="pre-line">
-                Всього по темі опубліковано {{#each PublicationsCounters}}{{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}{{/each}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if ApplicationAndPatentsOnInvention}}
-        <div class="top-ident">
-            <p>
-                3.4 Подані заявки, отримані патенти на винахід (корисну модель):
-            </p>
-            <p class="pre-line">
-                {{ApplicationAndPatentsOnInvention}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if Other}}
-        <div class="top-ident">
-            <p>
-                3.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):
-            </p>
-            <p class="pre-line">
-                {{Other}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{/with}}
-        {{/if}}
-
-        {{#if HospDohovirThemeOfScientificWork}}
-        {{#with HospDohovirThemeOfScientificWork}}
-
-        <div class="top-ident">
-            <p>
-                4. Госпдоговірна тематика (шифр, назва, науковий керівник, термін виконання,
-                кількість штатних виконавців і сумісників із зазначенням їхніх посад, наукового ступеня, вченого звання):
-            </p>
-            <p>
-                {{Title}}. {{Number}}{{#if Code}} {{Code}}{{/if}}; {{Head}} {{PeriodFrom}} - {{PeriodTo}}
-            </p>
-        </div>
-
-        {{#if Description}}
-        <div class="top-ident">
-            <p>
-                Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):
-            </p>
-            <p class="pre-line">
-                {{Description}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if ThemeCV}}
-        <div class="top-ident">
-            <p>
-                4.1. Резюме (0,3 с.):
-            </p>
-            <p class="pre-line">
-                {{ThemeCV}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if DefensesOfCoworkers}}
-        <div class="top-ident">
-            <p>
-                4.2. Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):
-            </p>
-            <p class="pre-line">
-                {{DefensesOfCoworkers}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if PublicationsCounters.Count}}
-        <div class="top-ident">
-            <p>
-                4.3 Опубліковані монографії, підручники,
-                навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
-            </p>
-            <p class="pre-line">
-                Всього по темі опубліковано {{#each PublicationsCounters}}{{this.Count}} {{this.Type}}{{#if @last}}.{{else}},{{/if}}{{/each}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if ApplicationAndPatentsOnInvention}}
-        <div class="top-ident">
-            <p>
-                4.4 Подані заявки, отримані патенти на винахід (корисну модель):
-            </p>
-            <p class="pre-line">
-                {{ApplicationAndPatentsOnInvention}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{#if Other}}
-        <div class="top-ident">
-            <p>
-                4.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):
-            </p>
-            <p class="pre-line">
-                {{Other}}
-            </p>
-        </div>
-        {{/if}}
-
-        {{/with}}
-        {{/if}}
 
         {{#with GeneralInfo}}
         {{#if OtherFormsOfScientificWork}}
@@ -391,12 +205,10 @@
 
         {{#if Monographs.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Монографії
-                </b>
+            <p class="header bold">
+                Монографії
             </p>
-            <p>
+            <p class="header">
                 Видано {{Monographs.Count}} монографії загальним обсягом {{MonographsSize}}.
             </p>
         </div>
@@ -414,12 +226,10 @@
 
         {{#if Books.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Підручники
-                </b>
+            <p class="header bold">
+                Підручники
             </p>
-            <p>
+            <p class="header">
                 Видано {{Books.Count}} підручники загальним обсягом {{BooksSize}}.
             </p>
         </div>
@@ -437,12 +247,10 @@
 
         {{#if TrainingBooks.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Навчальні посібники
-                </b>
+            <p class="header bold">
+                Навчальні посібники
             </p>
-            <p>
+            <p class="header">
                 Видано {{TrainingBooks.Count}} навчальні посібники загальним обсягом {{TrainingBooksSize}}.
             </p>
         </div>
@@ -460,12 +268,10 @@
 
         {{#if OtherWritings.Count}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Інші наукові видання
-                </b>
+            <p class="header bold">
+                Інші наукові видання
             </p>
-            <p>
+            <p class="header">
                 Видано {{OtherWritings.Count}} інші наукові видання загальним обсягом {{OtherWritingsSize}}.
             </p>
         </div>
@@ -483,10 +289,8 @@
 
         {{#if AllArticlesCount}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Статті
-                </b>
+            <p class="header bold">
+                Статті
             </p>
         </div>
 
@@ -573,10 +377,8 @@
 
         {{#if AllConferencesCount}}
         <div class="top-ident">
-            <p class="header">
-                <b>
-                    Тези доповідей на конференціях
-                </b>
+            <p class="header bold">
+                Тези доповідей на конференціях
             </p>
         </div>
 
@@ -622,41 +424,51 @@
             </p>
         </div>
         {{/if}}
+        {{/with}}
 
-        {{#if ApplicationOnInvention}}
-        {{#if Patents}}
+        {{#with Publications}}
+        {{#if ApplicationsForInvention.Count}}
         <div class="top-ident">
             <p>
                 11. Патентно-ліцензійна діяльність:
             </p>
         </div>
-
-        {{#if ApplicationOnInvention}}
         <div class="top-ident">
             <p>
                 11.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
                 автори, назва, № заявки, дата подачі, заявник(и):
             </p>
-            <p class="pre-line">
-                {{ApplicationOnInvention}}
-            </p>
+            <div>
+                {{#each ApplicationsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
-
-        {{#if Patents}}
+        {{#if PatentsForInvention.Count}}
+        {{#unless ApplicationsForInvention.Count}}
+        <div class="top-ident">
+            <p>
+                11. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+        {{/unless}}
         <div class="top-ident">
             <p>
                 11.2 Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
             </p>
-            <p class="pre-line">
-                {{Patents}}
-            </p>
+            <div>
+                {{#each PatentsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
+        {{/with}}
 
-        {{/if}}
-        {{/if}}
 
+        
+        {{#with GeneralInfo}}
         {{#if Materials}}
         <div class="top-ident">
             <p>
@@ -682,12 +494,9 @@
 
         {{#with Signature}}
         <div class="top-ident">
-            <p>Звіт заслухано і затверджено на Вченій (науково-технічній) раді факультету</p>
+            <p class="footer-text-ident">Звіт заслухано і затверджено на Вченій (науково-технічній) раді факультету {{Faculty}}, протокол №: {{Protocol}} від: {{Date}}</p>
             <p class="footer-text-ident">
-                {{Faculty}}, протокол №: {{Protocol}} від: {{Date}}
-            </p>
-            <p class="footer-text-ident">
-                Декан факультету {{Faculty}}__________________{{FacultyLeadStatus}} {{FacultyLead}}
+                Декан факультету {{Faculty}}__________________{{#each FacultyLeadStatus}}{{this}}{{#if @last}}{{else}},{{/if}}{{/each}} {{FacultyLead}}
             </p>
         </div>
         {{/with}}

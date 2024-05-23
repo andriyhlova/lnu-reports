@@ -1,4 +1,6 @@
-﻿namespace SRS.Services.Models.ReportGenerationModels.Report
+﻿using System.Collections.Generic;
+
+namespace SRS.Services.Models.ReportGenerationModels.Report
 {
     public class ReportUserInfoModel
     {
@@ -20,12 +22,16 @@
 
         public int? DocFinish { get; set; }
 
-        public string ScientificDegree { get; set; }
+        public List<ReportUserTitleModel> Degrees { get; set; }
 
-        public int? ScientificDegreeYear { get; set; }
+        public List<ReportUserTitleModel> AcademicStatuses { get; set; }
 
-        public string AcademicStatus { get; set; }
+        public List<ReportUserTitleModel> HonoraryTitles { get; set; }
 
-        public int? AcademicStatusYear { get; set; }
+        public int? ScopusHIndex { get; set; }
+
+        public int? WebOfScienceHIndex { get; set; }
+
+        public int? GoogleScholarHIndex { get; set; }
     }
 }

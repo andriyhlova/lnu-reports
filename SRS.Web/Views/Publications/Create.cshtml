@@ -1,194 +1,366 @@
-﻿@using SRS.Services.Models.Constants
+﻿@using System.Linq
+@using SRS.Domain.Enums
+@using SRS.Services.Extensions
+@using SRS.Services.Models.Constants
+@using SRS.Web.Enums
 @using SRS.Web.Models.Publications
+@using SRS.Web.Services
 @model PublicationEditViewModel
 @{
     ViewBag.Title = "Створити";
+    var publicationTypeSeparator = ",";
 }
 
 <h2>Створити</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(new { returnUrl = ViewBag.ReturnUrl }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Публікація</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label class="control-label col-md-2">Мова публікації <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Language,
-                                                                                  new SelectList(ViewBag.AllLanguages, "Value", "Text"),
-                                                                                  new { @class = "form-control" })
-            </div>
+<div class="form-horizontal">
+    <h4>Публікація</h4>
+    @{Html.RenderPartial("Common/RequiredFieldsInfo");}
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">Мова публікації <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(model => model.Language, new { @class = "form-control chosen-select" })
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Тип публікації <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.PublicationType,
-                                                                                             new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
-                                                                                             new
-                                                                                             {
-                                                                                                 @class = "form-control col-md-2",
-                                                                                                 @onchange = "publicationTypeChange(this)"
-                                                                                             })
-                @Html.ValidationMessageFor(model => model.PublicationType, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group other-language-field">
+        <label class="control-label col-md-2">Інша мова</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OtherLanguage, new { htmlAttributes = new { @class = "form-control" } })
         </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Тип публікації <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.PublicationType,
+                         new SelectList(EnumExtensions.GetValues<PublicationType>().OrderBy(x => (int)x).Select(x => new { Id = (int)x, Value = x.GetDisplayName() }), "Id", "Value"),
+                         new { @class = "form-control chosen-select" })
+            @Html.ValidationMessageFor(model => model.PublicationType, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Назва <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
+        <label class="control-label col-md-2">Журнал</label>
+        <div class="col-md-10">
+            <select id="journal-selector" class="form-control chosen-select" name="JournalId" data-selected="@Model.JournalId">
+                <option value="">Виберіть журнал</option>
+            </select>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Головний(і) автор(и) <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MainAuthor, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
+        <label class="control-label col-md-2">Інший журнал</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OtherJournal, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.OtherJournal, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Усі автори <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AuthorsOrder, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Name)))">
+        <label class="control-label col-md-2"><span class="field-label">Назва</span> <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
+    </div>
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ChapterMonographyName)))">
+        <label class="control-label col-md-2">Назва монографії</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ChapterMonographyName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ChapterMonographyName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.MainAuthor)))">
+        <label class="control-label col-md-2">Перший автор <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MainAuthor, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.MainAuthor, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: Петренко І. І.");}
+        </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Доступно користувачам <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                <div id="user-search" class="search-container">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
-                        <input class="form-control" placeholder="Пошук за прізвищем або поштою" />
-                    </div>
-                    <div class="search-results">
-                    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Усі автори <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AuthorsOrder, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.AuthorsOrder, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: І. І. Петренко, Т. Т. Тарасенко");}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Доступно користувачам <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            <div id="user-search" class="search-container">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                    <input class="form-control" placeholder="Пошук за прізвищем або поштою" autocomplete="off" />
                 </div>
-                <div class="selected-users">
-                    @for (var i = 0; i < Model.Users.Count; i++)
-                    {
-                        <div class="user">
-                            <div class="fullname">@Model.Users[i].FullName <i class="bi bi-trash text-danger cursor-pointer"></i></div>
-                            <input type="hidden" name="Users[@i].Id" class="id" value="@Model.Users[i].Id" />
-                            <input type="hidden" name="Users[@i].LastName" class="lastname" value="@Model.Users[i].LastName" />
-                            <input type="hidden" name="Users[@i].FirstName" class="firstname" value="@Model.Users[i].FirstName" />
-                            <input type="hidden" name="Users[@i].FathersName" class="fathersname" value="@Model.Users[i].FathersName" />
-                        </div>
-                    }
+                <div class="search-results">
                 </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Місто, де розташоване видавництво</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Рік публікації <span class="text-danger">*</span></label>
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.Year, new { htmlAttributes = new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year } })
-                @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Видавництво</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Журнал</label>
-            <div class="col-md-10">
-                <select id="journal-selector" class="form-control chosen-select" name="JournalId" data-selected="@Model.JournalId">
-                    <option value="">Виберіть журнал</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Інший журнал</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OtherJournal, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OtherJournal, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Посилання на публікацію в інтернеті</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">ДОІ</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DOI, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Частина видання</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", placeholder = "вип.27" } })
-                @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Сторінки від</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber, max = int.MaxValue } })
-                @Html.ValidationMessageFor(model => model.PageFrom, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Сторінки до</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PageTo, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber, max = int.MaxValue } })
-                @Html.ValidationMessageFor(model => model.PageTo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Створити" class="btn btn-info" />
+            @for (var i = 0; i < Model.Users.Count; i++)
+            {
+                <input type="hidden" class="initial-user"
+                       data-id="@Model.Users[i].Id"
+                       data-lastname="@Model.Users[i].LastName"
+                       data-firstname="@Model.Users[i].FirstName"
+                       data-fathersname="@Model.Users[i].FathersName"
+                       data-fullname="@Model.Users[i].FullName" />
+            }
+            <div class="selected-items selected-users">
             </div>
         </div>
     </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Editors)))">
+        <label class="control-label col-md-2">Редактори монографії</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Editors, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.Editors, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: І. І. Петренко, Т. Т. Тарасенко");}
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceName)))">
+        <label class="control-label col-md-2">Назва конференції</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConferenceName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConferenceName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceDate)))">
+        <label class="control-label col-md-2">Дата проведення</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConferenceDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConferenceDate, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: 11–12 груд. 2015 р.");}
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferencePlace)))">
+        <label class="control-label col-md-2">Місто проведення</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConferencePlace, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConferencePlace, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceCountry)))">
+        <label class="control-label col-md-2">Країна проведення</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConferenceCountry, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConferenceCountry, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ConferenceEdition)))">
+        <label class="control-label col-md-2">Видання</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConferenceEdition, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConferenceEdition, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: Збірник тез доповідей");}
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationNumber)))">
+        <label class="control-label col-md-2"><span class="field-label">Номер заявки</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ApplicationNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ApplicationNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationDate)))">
+        <label class="control-label col-md-2">Дата подання заявки</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ApplicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
+            @Html.ValidationMessageFor(model => model.ApplicationDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationDate)))">
+        <label class="control-label col-md-2">Дата публікації <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PublicationDate, new { htmlAttributes = new { @class = "form-control", Max = DateTime.Now.ToString("yyyy-MM-dd") } })
+            @Html.ValidationMessageFor(model => model.PublicationDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Place)))">
+        <label class="control-label col-md-2">Місто</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Edition)))">
+        <label class="control-label col-md-2">Видавництво</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Date)))">
+        <label class="control-label col-md-2"><span class="field-label">Рік публікації</span> <span class="text-danger">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Year, new { htmlAttributes = new { @class = "form-control", Min = Dates.MinYear, Type = "number", Max = DateTime.Now.Year + 1 } })
+            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.BulletinNumber)))">
+        <label class="control-label col-md-2">Бюлетень №</label>
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.BulletinNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.BulletinNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ApplicationOwner)))">
+        <label class="control-label col-md-2">Заявник і власник</label>
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.ApplicationOwner, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.ApplicationOwner, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Tome)))">
+        <label class="control-label col-md-2">Том</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: Т. 1 або Vol. 1");}
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Issue)))">
+        <label class="control-label col-md-2">Номер, випуск</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Issue, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: Вип. 1 або №. 1 або No. 1");}
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.NumberOfPages)))">
+        <label class="control-label col-md-2">Кількість сторінок</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NumberOfPages, new { htmlAttributes = new { @class = "form-control", min = PublicationValues.MinPageNumber } })
+            @Html.ValidationMessageFor(model => model.NumberOfPages, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PublicationIdentifier)))">
+        <label class="control-label col-md-2"><span class="field-label">Ідентифікатор (номер) статті</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PublicationIdentifier, new { htmlAttributes = new { @class = "form-control simplified" } })
+            @Html.ValidationMessageFor(model => model.PublicationIdentifier, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageFrom)))">
+        <label class="control-label col-md-2">Сторінки від</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PageFrom, new { htmlAttributes = new { @class = "form-control simplified" } })
+            @Html.ValidationMessageFor(model => model.PageFrom, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.PageTo)))">
+        <label class="control-label col-md-2">Сторінки до</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PageTo, new { htmlAttributes = new { @class = "form-control simplified", min = PublicationValues.MinPageNumber } })
+            @Html.ValidationMessageFor(model => model.PageTo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.ISBN)))">
+        <label class="control-label col-md-2">ISBN</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control", placeholder = "XXX-XXX-XXX-X" } })
+            @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: 123-456-789-0");}
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.DOI)))">
+        <label class="control-label col-md-2">DOI</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DOI, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group field"
+         data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Link)))">
+        <label class="control-label col-md-2">Посилання на публікацію в Інтернеті</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+            @{Html.RenderPartial("Common/InfoBox", "Приклад: https://example.com");}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Створити" class="btn btn-info" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
-    @Html.ActionLink("Повернутись до списку", "Index")
+    <a href="/Publications@(ViewBag.ReturnUrl != null ? "?" + ViewBag.ReturnUrl : "")">Повернутись до списку</a>
 </div>
 
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")
     @Styles.Render("~/Content/search/bundle")
-    @Styles.Render("~/Content/publications/bundle")
 }
 @section Scripts {
+    <script>
+        var separator = '@publicationTypeSeparator';
+        var otherLaguageType = '@((int)Language.Other)';
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/searchComponent")
+    @Scripts.Render("~/bundles/availableFieldsComponent")
     @Scripts.Render("~/bundles/publications/edit")
 }

@@ -1,16 +1,18 @@
-﻿using System;
-using System.Data;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using PagedList;
-using SRS.Domain.Enums;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.JournalModels;
+using SRS.Web.Models.Journals;
 using SRS.Web.Models.Shared;
+using SRS.Web.Models.ThemeOfScientificWorks;
 
 namespace SRS.Web.Controllers
 {
@@ -19,25 +21,28 @@ namespace SRS.Web.Controllers
     {
         private readonly IBaseCrudService<JournalModel> _journalCrudService;
         private readonly IJournalService _journalService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public JournalsController(
             IBaseCrudService<JournalModel> journalCrudService,
             IJournalService journalService,
+            IExportService exportService,
             IMapper mapper)
         {
             _journalCrudService = journalCrudService;
             _journalService = journalService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(BaseFilterViewModel filterViewModel)
+        public async Task<ActionResult> Index(JournalFilterViewModel filterViewModel)
         {
-            var filterModel = _mapper.Map<BaseFilterModel>(filterViewModel);
+            var filterModel = _mapper.Map<JournalFilterModel>(filterViewModel);
             var journals = await _journalService.GetAllAsync(filterModel);
             var total = await _journalService.CountAsync(filterModel);
-            var viewModel = new ItemsViewModel<BaseFilterViewModel, JournalModel>
+            var viewModel = new ItemsViewModel<JournalFilterViewModel, JournalModel>
             {
                 FilterModel = filterViewModel,
                 Items = new StaticPagedList<JournalModel>(journals, filterViewModel.Page.Value, PaginationValues.PageSize, total)
@@ -60,8 +65,7 @@ namespace SRS.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            FillQuartiles();
-            return View();
+            return View(new JournalModel() { JournalTypes = new List<JournalTypeModel>() });
         }
 
         [HttpPost]
@@ -74,14 +78,46 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillQuartiles();
             return View(journal);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(JournalFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<JournalFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var journals = await _journalService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<JournalCsvModel>
+            {
+                Data = _mapper.Map<IList<JournalCsvModel>>(journals)
+            };
+
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "journal.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(JournalFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<JournalFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var journals = await _journalService.GetAllAsync(filterModel);
+            var csvModel = new CsvModel<JournalCsvModel>
+            {
+                Data = _mapper.Map<IList<JournalCsvModel>>(journals)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "journal.xlsx");
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            FillQuartiles();
             return await Details(id);
         }
 
@@ -95,7 +131,6 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FillQuartiles();
             return View(journal);
         }
 
@@ -112,13 +147,6 @@ namespace SRS.Web.Controllers
         {
             await _journalCrudService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private void FillQuartiles()
-        {
-            ViewBag.AllQuartiles = Enum.GetNames(typeof(Quartile))
-                .Select(x => new SelectListItem { Text = x, Value = x })
-                .ToList();
         }
     }
 }

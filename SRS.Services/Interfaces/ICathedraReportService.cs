@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SRS.Domain.Enums;
 using SRS.Services.Models.BaseModels;
 using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.FilterModels;
@@ -18,5 +19,7 @@ namespace SRS.Services.Interfaces
 
         Task<int> UpsertAsync<TModel>(TModel model, string currentUserId)
             where TModel : BaseModel;
+
+        Task<bool> ChangeState(int id, ReportState state);
     }
 }

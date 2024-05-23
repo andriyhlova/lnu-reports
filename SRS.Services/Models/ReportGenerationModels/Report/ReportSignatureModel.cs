@@ -6,8 +6,6 @@
 
         public string Date { get; set; }
 
-        public string CathedraLeadStatus { get; set; }
-
         public string CathedraLead { get; set; }
     }
 }

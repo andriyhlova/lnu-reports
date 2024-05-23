@@ -21,9 +21,9 @@ namespace SRS.Domain.Specifications
 
         public List<string> IncludeStrings { get; } = new List<string>();
 
-        public IOrderer<T> OrderBy { get; private set; }
+        public IOrderer<T> OrderByOrderer { get; private set; }
 
-        public IOrderer<T> OrderByDescending { get; private set; }
+        public ICollection<IThenByOrderer<T>> ThenByOrderers { get; private set; } = new List<IThenByOrderer<T>>();
 
         public Expression<Func<T, object>> GroupBy { get; private set; }
 
@@ -62,14 +62,32 @@ namespace SRS.Domain.Specifications
 
         protected virtual void ApplyOrderBy<TOrderBy>(Expression<Func<T, TOrderBy>> orderByExpression)
         {
-            OrderBy = new OrdererAsc<T, TOrderBy>(orderByExpression);
-            OrderByDescending = null;
+            OrderByOrderer = new Orderer<T, TOrderBy>(orderByExpression);
         }
 
         protected virtual void ApplyOrderByDescending<TOrderBy>(Expression<Func<T, TOrderBy>> orderByDescendingExpression)
         {
-            OrderBy = null;
-            OrderByDescending = new OrdererDesc<T, TOrderBy>(orderByDescendingExpression);
+            OrderByOrderer = new Orderer<T, TOrderBy>(orderByDescendingExpression, false);
+        }
+
+        protected virtual void ApplyThenBy<TOrderBy>(Expression<Func<T, TOrderBy>> thenByExpression)
+        {
+            if (ThenByOrderers == null)
+            {
+                ThenByOrderers = new List<IThenByOrderer<T>>();
+            }
+
+            ThenByOrderers.Add(new ThenByOrderer<T, TOrderBy>(thenByExpression));
+        }
+
+        protected virtual void ApplyThenByDescending<TOrderBy>(Expression<Func<T, TOrderBy>> thenByDescendingExpression)
+        {
+            if (ThenByOrderers == null)
+            {
+                ThenByOrderers = new List<IThenByOrderer<T>>();
+            }
+
+            ThenByOrderers.Add(new ThenByOrderer<T, TOrderBy>(thenByDescendingExpression, false));
         }
 
         protected virtual void ApplyGroupBy(Expression<Func<T, object>> groupByExpression)

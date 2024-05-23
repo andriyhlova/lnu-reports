@@ -38,8 +38,10 @@ namespace SRS.Web
             CreateDeaneryAdmin(roleManager);
             CreateCathedraAdmin(roleManager);
             CreateWorker(roleManager);
+            CreateThemeOfScientificWorkAdmin(roleManager);
+            CreateExternalPartTimeEmployee(roleManager);
 
-            RolesProvider.AllRoles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
+            RolesProvider.AllRoles = context.Roles.OrderBy(x => x.Id).ToDictionary(x => x.Id, x => x.Name);
         }
 
         private void CreateSuperadmin(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
@@ -48,6 +50,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "1",
                     Name = RoleNames.Superadmin
                 };
                 roleManager.Create(role);
@@ -57,8 +60,6 @@ namespace SRS.Web
                     UserName = "superadmin@lnu.edu.ua",
                     Email = "superadmin@lnu.edu.ua",
                     BirthDate = DateTime.Now,
-                    DefenseYear = DateTime.Now,
-                    AwardingDate = DateTime.Now,
                     GraduationDate = DateTime.Now,
                     IsActive = true
                 };
@@ -76,6 +77,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "2",
                     Name = RoleNames.RectorateAdmin
                 };
                 roleManager.Create(role);
@@ -88,6 +90,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "3",
                     Name = RoleNames.DeaneryAdmin
                 };
                 roleManager.Create(role);
@@ -100,6 +103,7 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "4",
                     Name = RoleNames.CathedraAdmin
                 };
                 roleManager.Create(role);
@@ -112,7 +116,34 @@ namespace SRS.Web
             {
                 var role = new IdentityRole
                 {
+                    Id = "5",
                     Name = RoleNames.Worker
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateThemeOfScientificWorkAdmin(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.ThemeOfScientificWorkAdmin))
+            {
+                var role = new IdentityRole
+                {
+                    Id = "6",
+                    Name = RoleNames.ThemeOfScientificWorkAdmin
+                };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateExternalPartTimeEmployee(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExists(RoleNames.ExternalPartTimeEmployee))
+            {
+                var role = new IdentityRole
+                {
+                    Id = "7",
+                    Name = RoleNames.ExternalPartTimeEmployee
                 };
                 roleManager.Create(role);
             }

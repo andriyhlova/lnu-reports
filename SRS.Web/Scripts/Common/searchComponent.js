@@ -20,20 +20,29 @@ class SearchComponent {
     }
 
     addKeyUpEvent() {
-        $(`${this._searchContainerId}.search-container input`).keyup((e)=>{
+        $(`${this._searchContainerId}.search-container input`).keyup((e) => {
+            e.stopPropagation();
+            e.preventDefault();
             clearTimeout(this._searchTimeOut);
-            if (e.target.value && e.target.value.length < 3) {
+            if (!e.target.value || e.target.value.length < 2) {
                 return;
             }
 
             this._searchTimeOut = setTimeout(() => {
-                $.ajax(this._searchUrl + `?search=${e.target.value}`)
+                const url = this._searchUrl + (this._searchUrl.indexOf('?') !== -1 ? '&' : '?') + `search=${e.target.value}`;
+                $.ajax(url)
                     .done((results) => {
                         this._results = results;
                         this.updateSearchResults(results);
                         this.toggleResults();
                     });
-            }, 2000);
+            }, 750);
+        });
+
+        $(`${this._searchContainerId}.search-container input`).keydown((e) => {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                e.preventDefault();
+            }
         });
     }
 
@@ -56,6 +65,8 @@ class SearchComponent {
 
     addItemClickEvent() {
         $(`${this._searchContainerId} .search-results`).on('click', '.search-item', (e) => {
+            $(`${this._searchContainerId}.search-container input`).val('');
+            this.updateSearchResults([]);
             $(`${this._searchContainerId} .search-results`).hide();
             const found = this._results.find(x => x.Id == e.currentTarget.dataset.id);
             this._appendSearchResultItem(found);

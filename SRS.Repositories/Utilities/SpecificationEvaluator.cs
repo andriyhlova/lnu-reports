@@ -30,13 +30,10 @@ namespace SRS.Repositories.Utilities
                 query = query.Where(specification.Criteria);
             }
 
-            if (specification.OrderBy != null)
+            if (specification.OrderByOrderer != null)
             {
-                query = specification.OrderBy.GetOrdereredQueryable(query);
-            }
-            else if (specification.OrderByDescending != null)
-            {
-                query = specification.OrderByDescending.GetOrdereredQueryable(query);
+                var orderedQuery = specification.OrderByOrderer.GetOrdereredQueryable(query);
+                query = specification.ThenByOrderers.Aggregate(orderedQuery, (current, thenBy) => thenBy.GetOrdereredQueryable(current));
             }
 
             if (specification.GroupBy != null)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Services.Models.ReportModels;
 using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
@@ -9,7 +10,9 @@ namespace SRS.Web.Models.Reports
     {
         public int Id { get; set; }
 
-        public string ParticipationInGrands { get; set; }
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
+        public string OtherGrantDescription { get; set; }
 
         public string ScientificTrainings { get; set; }
 
@@ -27,8 +30,6 @@ namespace SRS.Web.Models.Reports
 
         public string Other { get; set; }
 
-        public string ThemeOfScientificWorkDescription { get; set; }
-
         public bool IsSigned { get; set; }
 
         public bool IsConfirmed { get; set; }
@@ -39,12 +40,20 @@ namespace SRS.Web.Models.Reports
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public int? ThemeOfScientificWorkId { get; set; }
+        public List<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
+
+        public List<ReportThemeOfScientificWorkModel> Grants { get; set; }
+
+        public List<CheckboxListItem> StudentPublication { get; set; }
 
         public List<CheckboxListItem> PrintedPublication { get; set; }
 
         public List<CheckboxListItem> RecomendedPublication { get; set; }
 
         public List<CheckboxListItem> AcceptedToPrintPublication { get; set; }
+
+        public List<CheckboxListItem> ApplicationsForInvention { get; set; }
+
+        public List<CheckboxListItem> PatentsForInvention { get; set; }
     }
 }

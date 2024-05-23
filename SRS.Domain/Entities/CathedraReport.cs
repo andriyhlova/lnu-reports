@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,6 +8,7 @@ namespace SRS.Domain.Entities
 {
     public class CathedraReport : BaseEntity
     {
+        // leave
         public string AchivementSchool { get; set; } // 1
 
         [Column("BudgetTheme_Id")]
@@ -48,22 +50,29 @@ namespace SRS.Domain.Entities
 
         public string OtherHospDohovirTheme { get; set; }// 4.5
 
+        // leave
         public string OtherFormsOfScientificWork { get; set; }// 5
 
+        // leave
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1
 
+        // leave
         public string CooperationWithForeignScientificInstitution { get; set; } // 6.2
 
+        // leave
         public string StudentsWorks { get; set; }// 8
 
+        // leave
         public string ConferencesInUniversity { get; set; } // 10
 
         public string ApplicationOnInvention { get; set; }// 11.1
 
         public string Patents { get; set; }// 11.2
 
+        // leave
         public string Materials { get; set; }// 12
 
+        // leave
         public string PropositionForNewForms { get; set; }// 13
 
         public string Protocol { get; set; }
@@ -71,6 +80,10 @@ namespace SRS.Domain.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
+
+        public ReportState State { get; set; }
+
+        public string OtherGrants { get; set; }
 
         [Column("User_Id")]
         public string UserId { get; set; }
@@ -85,24 +98,22 @@ namespace SRS.Domain.Entities
 
         public virtual ThemeOfScientificWork HospDohovirTheme { get; set; }// 4
 
-        [InverseProperty("PrintedPublicationBudgetCathedraReport")]
-        public virtual List<Publication> PrintedPublicationBudgetTheme { get; set; }// 2.3
-
-        [InverseProperty("PrintedPublicationInWorkCathedraReport")]
-        public virtual List<Publication> PrintedPublicationThemeInWorkTime { get; set; }// 3.3
-
-        [InverseProperty("PrintedPublicationHospDohovirCathedraReport")]
-        public virtual List<Publication> PrintedPublicationHospDohovirTheme { get; set; }// 4.3
-
         public virtual List<CathedraDefenses> DefenseOfDoctorantsAndAspirants { get; set; }// 7.1
 
         public virtual List<CoworkersDefenses> DefenseOfCoworkers { get; set; }// 7.2
 
         public virtual List<OtherDefenses> DefenseWithSpecialPeople { get; set; }// 7.3
 
-        public object GroupBy(Func<object, object> p)
-        {
-            throw new NotImplementedException();
-        }
+        [InverseProperty("PublicationsCathedraReport")]
+        public virtual List<Publication> Publications { get; set; }
+
+        [InverseProperty("PatentsForInventionCathedraReport")]
+        public virtual ICollection<Publication> PatentsForInvention { get; set; }// Пункт 6.2.5
+
+        [InverseProperty("ApplicationsForInventionCathedraReport")]
+        public virtual ICollection<Publication> ApplicationsForInvention { get; set; }
+
+        [InverseProperty("CathedraReports")]
+        public virtual ICollection<ThemeOfScientificWork> Grants { get; set; }
     }
 }

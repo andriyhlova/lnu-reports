@@ -7,6 +7,7 @@
         ShortName,
         PrintIssn,
         ElectronicIssn,
-        Quartile
+        Quartile,
+        JournalType
     }
 }

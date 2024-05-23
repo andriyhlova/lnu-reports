@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Diagnostics;
 using Microsoft.AspNet.Identity.EntityFramework;
 using SRS.Domain.Entities;
 
@@ -9,11 +10,14 @@ namespace SRS.Repositories.Context
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.Log = s => Debug.WriteLine(s);
         }
 
         public DbSet<Degree> Degree { get; set; }
 
         public DbSet<AcademicStatus> AcademicStatus { get; set; }
+
+        public DbSet<HonoraryTitle> HonoraryTitles { get; set; }
 
         public DbSet<Cathedra> Cathedra { get; set; }
 
@@ -30,6 +34,10 @@ namespace SRS.Repositories.Context
         public DbSet<CathedraReport> CathedraReport { get; set; }
 
         public DbSet<Journal> Journals { get; set; }
+
+        public DbSet<JournalType> JournalTypes { get; set; }
+
+        public DbSet<DissertationDefense> DissertationDefenses { get; set; }
 
         public static ApplicationDbContext Create()
         {

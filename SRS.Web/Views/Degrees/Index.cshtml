@@ -1,4 +1,5 @@
 ﻿@using PagedList.Mvc
+@using SRS.Domain.Enums.OrderTypes
 @using SRS.Services.Models
 @using SRS.Web.Models.Shared
 @model ItemsViewModel<BaseFilterViewModel, DegreeModel>
@@ -12,6 +13,8 @@
     @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
     <div class="form-group">
         <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/Degrees/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/Degrees/ExportToExcel" />
     </div>
 </form>
 <p>
@@ -21,8 +24,8 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
-                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { Desc = Model.FilterModel.Desc });}
+                @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, OrderBy = (int)ValueOrderType.Value })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ValueOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
             </th>
             <th></th>
         </tr>
@@ -43,5 +46,5 @@
     </tbody>
 </table>
 
-@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
-@Html.PagedListPager(Model.Items, page => Url.Action("Index", new BaseFilterViewModel { Page = page, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new BaseFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))

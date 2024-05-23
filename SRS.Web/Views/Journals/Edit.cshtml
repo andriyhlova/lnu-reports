@@ -1,5 +1,4 @@
-﻿@using SRS.Services.Models
-@using SRS.Services.Models.Constants
+﻿@using SRS.Services.Models.JournalModels
 @model JournalModel
 
 @{
@@ -15,6 +14,7 @@
 
     <div class="form-horizontal">
         <h4>Журнал</h4>
+        @{Html.RenderPartial("Common/RequiredFieldsInfo");}
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -32,6 +32,34 @@
                 @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Тип журналу</label>
+            <div class="col-md-10" id="journal-type-related-entity">
+                <button class="btn btn-info add-related-entity" type="button">Додати</button>
+                <div class="selected-items">
+                    @if (Model.JournalTypes != null)
+                    {
+                        for (var i = 0; i < Model.JournalTypes.Count; i++)
+                        {
+                            <div>
+                                <div class="selected-item">
+                                    <div>
+                                        @Model.JournalTypes[i].Value
+                                        <i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                                    </div>
+                                    <input type="hidden" name="JournalTypes[@i].Id" class="id" value="@Model.JournalTypes[i].Id" />
+                                    <input type="hidden" name="JournalTypes[@i].Value" class="value" value="@Model.JournalTypes[i].Value" />
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="new-related-entity">
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="control-label col-md-2">Друкований ISSN</label>
             <div class="col-md-10">
@@ -49,9 +77,7 @@
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Квартиль</label>
-            @Html.DropDownList("BestQuartile",
-                                                new SelectList(ViewBag.AllQuartiles, "Value", "Text"),
-                                                new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
+            @Html.EnumDropDownListFor(model => model.BestQuartile, new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -64,6 +90,13 @@
 <div>
     @Html.ActionLink("Повернутись до списку", "Index")
 </div>
+@section Styles{
+    @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/relatedEntity/bundle")
+}
 @section Scripts {
+    @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/relatedEntityComponent")
+    @Scripts.Render("~/bundles/journals/edit")
 }

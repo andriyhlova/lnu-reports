@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -16,6 +11,11 @@ using SRS.Services.Models.UserModels;
 using SRS.Services.Utilities;
 using SRS.Web.Identity;
 using SRS.Web.Models.Account;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -51,6 +51,11 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.Success = TempData["Success"];
             return View();
@@ -87,13 +92,18 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             await AddDepartments();
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -119,6 +129,11 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -132,6 +147,7 @@ namespace SRS.Web.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
+                    ModelState.AddModelError(nameof(model.Email), "Некоректна електронна пошта");
                     return View(model);
                 }
 
@@ -157,10 +173,16 @@ namespace SRS.Web.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return code == null ? View("Error") : View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -193,6 +215,7 @@ namespace SRS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -201,7 +224,8 @@ namespace SRS.Web.Controllers
 
         private async Task AddUserInitials(string userId)
         {
-            foreach (var name in Enum.GetNames(typeof(Language)))
+            var availableLanguages = Enum.GetNames(typeof(Language)).Where(x => x == Language.UA.ToString() || x == Language.EN.ToString());
+            foreach (var name in availableLanguages)
             {
                 await _i18nUserInitialsService.AddAsync(new I18nUserInitialsModel()
                 {

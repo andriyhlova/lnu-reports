@@ -1,10 +1,10 @@
-﻿using SRS.Domain.Enums;
+﻿using System;
 
 namespace SRS.Services.Models.FilterModels
 {
     public class CathedraReportPublicationFilterModel
     {
-        public Financial Financial { get; set; }
+        public DateTime Date { get; set; }
 
         public int CathedraId { get; set; }
     }

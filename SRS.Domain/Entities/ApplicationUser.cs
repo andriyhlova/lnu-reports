@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SRS.Domain.Entities
 {
@@ -19,6 +20,8 @@ namespace SRS.Domain.Entities
 
         public int PublicationCounterBeforeRegistration { get; set; }
 
+        public int InternationalMetricPublicationCounterBeforeRegistration { get; set; }
+
         public int MonographCounterBeforeRegistration { get; set; }
 
         public int BookCounterBeforeRegistration { get; set; }
@@ -31,49 +34,37 @@ namespace SRS.Domain.Entities
 
         public int PatentCounterBeforeRegistration { get; set; }
 
-        [Display(Name = "Активний")]
         public bool IsActive { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name ="Дата народження")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік закінчення ЗВО")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? GraduationDate { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік присвоєння вченого звання")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? AwardingDate { get; set; }
-
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік захисту")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? DefenseYear { get; set; }
-
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік початку перебування в аспірантурі")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? AspirantStartYear { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік закінчення перебування в аспірантурі")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? AspirantFinishYear { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік початку перебування в докторатурі")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? DegreeDefenseYear { get; set; }
+
         public DateTime? DoctorStartYear { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Рік закінчення перебування в докторантурі")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-
         public DateTime? DoctorFinishYear { get; set; }
+
+        public DateTime? AcademicStatusDefenseYear { get; set; }
+
+        public string ResearcherId { get; set; }
+
+        public string Orcid { get; set; }
+
+        public string ScopusAuthorId { get; set; }
+
+        public string GoogleScholarLink { get; set; }
+
+        public int? ScopusHIndex { get; set; }
+
+        public int? WebOfScienceHIndex { get; set; }
+
+        public int? GoogleScholarHIndex { get; set; }
 
         public string ApprovedById { get; set; }
 
@@ -82,28 +73,20 @@ namespace SRS.Domain.Entities
         [Column("Cathedra_Id")]
         public int? CathedraId { get; set; }
 
-        [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }
 
-        [Column("Degree_Id")]
-        public int? DegreeId { get; set; }
+        public virtual ICollection<ApplicationUserDegree> Degrees { get; set; }
 
-        [Display(Name = "Науковий ступінь")]
-        public virtual Degree Degree { get; set; }
-
-        [Column("AcademicStatus_Id")]
-        public int? AcademicStatusId { get; set; }
-
-        [Display(Name = "Вчене звання")]
-        public virtual AcademicStatus AcademicStatus { get; set; }
+        public virtual ICollection<ApplicationUserAcademicStatus> AcademicStatuses { get; set; }
 
         [Column("Position_Id")]
         public int? PositionId { get; set; }
 
-        [Display(Name = "Позиція")]
         public virtual Position Position { get; set; }
 
         public virtual ICollection<Publication> Publication { get; set; }
+
+        public virtual ICollection<ApplicationUserHonoraryTitle> HonoraryTitles { get; set; }
 
         public virtual ICollection<I18nUserInitials> I18nUserInitials { get; set; }
 
@@ -112,6 +95,35 @@ namespace SRS.Domain.Entities
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             return await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+        }
+
+        public string GetTitles()
+        {
+            var academicStatusesAcademyOfScience = AcademicStatuses
+                .Where(x => x.AcademicStatus.Type == AcademicStatusType.AcademyOfScience)
+                .GroupBy(x => x.AcademicStatus.Priority)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()
+                ?.Select(x => x.AcademicStatus.Value).ToList() ?? new List<string>(0);
+
+            var academicStatusesDefault = AcademicStatuses
+                .Where(x => x.AcademicStatus.Type == AcademicStatusType.Default)
+                .GroupBy(x => x.AcademicStatus.Priority)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()
+                ?.Select(x => x.AcademicStatus.Value).ToList() ?? new List<string>(0);
+
+            var degrees = Degrees
+                .GroupBy(x => x.Degree.Priority)
+                .OrderByDescending(x => x.Key)
+                .FirstOrDefault()
+                ?.Select(x => x.Degree.Value) ?? new List<string>(0);
+
+            var results = new List<string>(academicStatusesAcademyOfScience);
+            results.AddRange(degrees);
+            results.AddRange(academicStatusesDefault);
+
+            return string.Join(", ", results);
         }
     }
 }

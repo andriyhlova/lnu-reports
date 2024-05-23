@@ -1,3 +1,4 @@
-﻿@using SRS.Web.Models.Shared
+﻿@using SRS.Web.Models.Shared;
 @model PageInfoViewModel
+<div>Показано @(Model.PageItemCount) з @(Model.TotalItemCount)</div>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount

@@ -4,23 +4,49 @@
         const searchComponent = new SearchComponent('#user-search', '/api/users/searchAll', getUserSearchResultText, appendUserSearchResultItem);
         searchComponent.load();
         getSelectedUsers();
-        $('.selected-users').on('click', '.bi-trash', removeUser);
-        fillJournals();
+        $('.selected-users').on('click', '.bi-file-x-fill', removeUser);
+        publicationTypeChanged();
+        languageChanged();
+        const availableFieldsComponent = new AvailableFieldsComponent('select[name=PublicationType]', 'types', separator);
+        availableFieldsComponent.load();
     });
 
+    function publicationTypeChanged() {
+        $('select[name=PublicationType]').change((e) => {
+            fillJournals(e.target.value);
+        });
+        $('select[name=PublicationType]').change();
+    }
+
+    function languageChanged() {
+        $('select[name=Language]').change((e) => {
+            if (e.target.value == otherLaguageType) {
+                $('.other-language-field').show();
+                $('input[name=OtherLanguage]').prop('disabled', false);
+            }
+            else {
+                $('.other-language-field').hide();
+                $('input[name=OtherLanguage]').prop('disabled', true);
+            }
+        });
+        $('select[name=Language]').change();
+    }
+
     function getSelectedUsers() {
-        const users = $('.user');
+        const users = $('.initial-user');
         for (let i = 0; i < users.length; i++) {
             const user = {
-                Id: $(users[i]).find('.id').val(),
-                FirstName: $(users[i]).find('.firstname').val(),
-                LastName: $(users[i]).find('.lastname').val(),
-                FathersName: $(users[i]).find('.fathersname').val(),
-                FullName: $(users[i]).find('.fullname').text(),
+                Id: $(users[i])[0].dataset.id,
+                FirstName: $(users[i])[0].dataset.firstname,
+                LastName: $(users[i])[0].dataset.lastname,
+                FathersName: $(users[i])[0].dataset.fathersname,
+                FullName: $(users[i])[0].dataset.fullname,
             }
 
             selectedUsers.push(user);
         }
+
+        renderUserList(selectedUsers);
     }
 
     function getUserSearchResultText(user) {
@@ -59,8 +85,8 @@
     };
 
     function getUserHtml(index, user) {
-        return `<div class="user">
-                            <div class="fullname">${user.FullName} <i class="bi bi-trash text-danger cursor-pointer"></i></div>
+        return `<div class="selected-item user">
+                            <div class="fullname">${getUserSearchResultText(user)} <i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
                             <input type="hidden" name="Users[${index}].Id" class="id" value="${user.Id}" />
                             <input type="hidden" name="Users[${index}].LastName" class="lastname" value="${user.LastName}" />
                             <input type="hidden" name="Users[${index}].FirstName" class="firstname" value="${user.FirstName}" />
@@ -68,9 +94,9 @@
                         </div>`;
     };
 
-    function fillJournals() {
+    function fillJournals(publicationType) {
         let selectedJournal = $('#journal-selector').val() || $('#journal-selector')[0].dataset.selected;
-        $.ajax('/api/journalsapi/getall')
+        $.ajax(`/api/journalsapi/getByPublicationType?publicationType=${publicationType}`)
             .done(function (journals) {
                 let str = "<option value=''>Виберіть журнал</option>";
                 for (var i = 0; i < journals.length; i++) {

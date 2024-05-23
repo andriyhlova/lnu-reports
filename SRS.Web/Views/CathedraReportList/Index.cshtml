@@ -1,5 +1,9 @@
-﻿@using PagedList.Mvc
+﻿@using Microsoft.AspNet.Identity;
+@using PagedList.Mvc
+@using SRS.Domain.Enums
 @using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Extensions
+@using SRS.Services.Models.Constants
 @using SRS.Services.Models.CathedraReportModels
 @using SRS.Web.Models.CathedraReports
 @using SRS.Web.Models.Shared
@@ -8,17 +12,24 @@
 
 @{
     ViewBag.Title = "Кафедральні звіти";
+    var userId = User.Identity.GetUserId();
 }
 
 <h2>Кафедральні звіти</h2>
 
 <button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
-<form id="filter-container" class="collapse-target">
-    @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
-    @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
-    <div class="form-group">
-        <input type="submit" class="btn btn-info" value="Застосувати" />
+<form>
+    <div id="filter-container" class="collapse-target">
+        @{Html.RenderPartial("Filters/DepartmentFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Застосувати" />
+        </div>
+    </div>
+    <div>
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/CathedraReportList/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/CathedraReportList/ExportToExcel" />
     </div>
 </form>
 <div class="table-responsive">
@@ -32,6 +43,10 @@
                 <th>
                     @Html.ActionLink("Дата", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Date, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Статус", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.State, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.State, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
                     @Html.ActionLink("Кафедра", "Index", new CathedraReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Cathedra, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
@@ -55,6 +70,9 @@
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
+                        @item.State.GetDisplayName()
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.CathedraName)
                     </td>
                     <td>
@@ -68,13 +86,50 @@
                         }
                     </td>
                     <td>
-                        <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = item.Id })"
-                           class="btn btn-info"
-                           target="_blank">
-                            Переглянути
-                        </a>
+                        <div>
+                            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = item.Id })"
+                               class="btn btn-info"
+                               target="_blank">
+                                Переглянути
+                            </a>
+                            @if (item.State == ReportState.Draft && item.UserId == userId)
+                            {
+                                @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
+                            }
+                            @if (item.State == ReportState.Draft && item.Date.HasValue && !string.IsNullOrEmpty(item.Protocol))
+                            {
+                                using (Html.BeginForm("Sign", "CathedraReportList", Model.FilterModel))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("reportId", item.Id)
+                                    <button type="submit" class="btn btn-primary">Завершити</button>
+                                }
+                            }
+                            @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))
+                            {
+                                if (item.State == ReportState.Signed)
+                                {
+                                    using (Html.BeginForm("Confirm", "CathedraReportList", Model.FilterModel))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-success">Підтвердити</button>
+                                    }
+                                }
+                                if (item.State != ReportState.Draft)
+                                {
+                                    using (Html.BeginForm("Negate", "CathedraReportList", Model.FilterModel))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-danger">Повернути</button>
+                                    }
+                                }
+                            }
+                        </div>
                         @Html.ActionLink("PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
                         @Html.ActionLink("LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Word (тест-версія)", "GetWord", "CathedraReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
                     </td>
                 </tr>
             }
@@ -82,7 +137,7 @@
     </table>
 </div>
 
-@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount });}
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
 @Html.PagedListPager(Model.Items, page => Url.Action("Index", new CathedraReportFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search }))
 
 

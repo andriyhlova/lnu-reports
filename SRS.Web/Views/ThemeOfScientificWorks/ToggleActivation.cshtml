@@ -1,0 +1,125 @@
+﻿@using SRS.Services.Extensions
+@using SRS.Services.Models.ThemeOfScientificWorkModels
+@model ThemeOfScientificWorkModel
+
+@{
+    ViewBag.Title = Model.IsActive ? "Деактивувати" : "Активувати";
+}
+
+<h2>@(Model.IsActive ? "Деактивувати" : "Активувати")</h2>
+
+<h3>Ви впевнені, що хочете @(Model.IsActive ? "деактивувати" : "активувати") це?</h3>
+<div>
+    <h4>Тематичний план</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Номер державної реєстрації
+        <dt>
+        <dd>
+            @Html.DisplayFor(model => model.ThemeNumber)
+        </dd>
+        <dt>
+            Внутрішній шифр
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <dt>
+            Назва
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+        <dt>
+            Тип проєкту
+        </dt>
+        <dd>
+            @Model.Financial.GetDisplayName()
+        </dd>
+        <dt>
+            Інший тип
+        </dt>
+        <dd>
+            @Model.OtherProjectType
+        </dd>
+        <dt>
+            Підкатегорія
+        </dt>
+        <dd>
+            @(Model.SubCategory != null ? Model.SubCategory.GetDisplayName() : null)
+        </dd>
+        <dt>
+            План
+        </dt>
+        <dd>
+            @Model.PlannedAmount
+        </dd>
+        <dt>
+            Валюта
+        </dt>
+        <dd>
+            @(Model.Currency != null ? Model.Currency.GetDisplayName() : null)
+        </dd>
+        <dt>
+            Фінансування за роками
+        </dt>
+        <dd>
+            @for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
+            {
+                <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн </div>
+            }
+        </dd>
+        <dt>
+            Наукові керівники
+        </dt>
+        <dd>
+            @if (Model.ThemeOfScientificWorkSupervisors != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkSupervisors)
+                {
+                    <div>@i.SupervisorName</div>
+                }
+            }
+        </dd>
+        <dt>
+            Кафедри
+        </dt>
+        <dd>
+            @if (Model.ThemeOfScientificWorkCathedras != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkCathedras)
+                {
+                    <div>@i.CathedraName</div>
+                }
+            }
+        </dd>
+        <dt>
+            Період виконання
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            З
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PeriodFrom)
+        </dd>
+        <dt>
+            По
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PeriodTo)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="@(Model.IsActive ? "Деактивувати" : "Активувати")" class="btn @(Model.IsActive ? "btn-danger" : "btn-success")" /> |
+            @Html.ActionLink("Повернутись до списку", "Index", new { IsActive = true })
+        </div>
+    }
+</div>

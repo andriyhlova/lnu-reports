@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.core.2.4.2\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.4.2\build\xunit.core.props')" />
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -14,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SRS.Web</RootNamespace>
     <AssemblyName>SRS.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -92,7 +93,6 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
@@ -114,7 +114,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -155,7 +154,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -163,6 +161,18 @@
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.4.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.4.2\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.4.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.4.2\lib\net452\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.4.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.4.2\lib\net452\xunit.execution.desktop.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -236,12 +246,26 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\CathedrasApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\HonoraryTitlesApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\AcademicStatusesController.cs" />
+    <Compile Include="Areas\Api\Controllers\DegreesApiController.cs" />
+    <Compile Include="Areas\Api\Controllers\JournalTypesController.cs" />
+    <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\AcademicStatusController.cs" />
+    <Compile Include="Controllers\CathedrasController.cs" />
+    <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\DissertationDefenseController.cs" />
+    <Compile Include="Controllers\ExternalPartTimeEmployeeController.cs" />
+    <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HonoraryTitlesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
     <Compile Include="Controllers\CathedraReportListController.cs" />
     <Compile Include="Controllers\CathedraReportGenerationController.cs" />
@@ -253,6 +277,7 @@
     <Compile Include="Controllers\ThemeOfScientificWorksController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Enums\CathedraReportStep.cs" />
+    <Compile Include="Enums\PublicationField.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -261,6 +286,8 @@
     <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Mapping\Profiles\CathedraReportProfile.cs" />
+    <Compile Include="Mapping\Profiles\DissertationDeffenseProfile.cs" />
+    <Compile Include="Mapping\Profiles\JournalProfile.cs" />
     <Compile Include="Mapping\Profiles\ThemeOfScientificWorkProfile.cs" />
     <Compile Include="Mapping\Profiles\ReportProfile.cs" />
     <Compile Include="Mapping\Profiles\SharedProfile.cs" />
@@ -270,29 +297,44 @@
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Account\ResetPasswordViewModel.cs" />
+    <Compile Include="Models\Account\UserHonoraryTitleViewModel.cs" />
+    <Compile Include="Models\Account\UserAcademicStatusViewModel.cs" />
+    <Compile Include="Models\Account\UserDegreeViewModel.cs" />
     <Compile Include="Models\Account\UpdateProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportBudgetThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportHospDohovirThemeViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportGrantsViewModel.cs" />
+    <Compile Include="Models\CathedraReports\CathedraReportPublicationsViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
+    <Compile Include="Models\Constants\CookieNames.cs" />
+    <Compile Include="Models\DissertationDefense\DissertationDefenseFilterViewModel.cs" />
+    <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
     <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsFilterViewModel.cs" />
+    <Compile Include="Models\Reports\ReportScientificWorkViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsViewModel.cs" />
     <Compile Include="Models\Reports\ReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportViewModel.cs" />
     <Compile Include="Models\Shared\DateRangeViewModel.cs" />
+    <Compile Include="Models\Shared\FacultyFilterViewModel.cs" />
     <Compile Include="Models\Shared\PageInfoViewModel.cs" />
     <Compile Include="Models\Shared\OrderDirectionViewModel.cs" />
     <Compile Include="Models\Shared\BaseFilterViewModel.cs" />
     <Compile Include="Models\Shared\ItemsViewModel.cs" />
     <Compile Include="Models\Shared\DepartmentFilterViewModel.cs" />
     <Compile Include="Models\Shared\CheckboxListItem.cs" />
+    <Compile Include="Models\ThemeOfScientificWorks\ExternalPartTimeEmployeeViewModel.cs" />
+    <Compile Include="Models\ThemeOfScientificWorks\ThemeOfScientificWorkFilterViewModel.cs" />
+    <Compile Include="Models\UsersManagement\UserFilterViewModel.cs" />
     <Compile Include="Models\UsersManagement\UpdateUserViewModel.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FieldInfo.cs" />
+    <Compile Include="Services\PublicationFieldsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\DependencyInjection.cs" />
     <Compile Include="Utilities\Registrations.cs" />
@@ -310,10 +352,10 @@
     <Content Include="Content\Chosen\DocSupport\prism.css" />
     <Content Include="Content\Chosen\DocSupport\style.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\RelatedEntity\relatedEntity.css" />
     <Content Include="Content\Reports\edit.css" />
     <Content Include="Content\Search\search.css" />
     <Content Include="Content\step.css" />
-    <Content Include="Content\Publications\edit.css" />
     <Content Include="Content\Steps\steps.css" />
     <Content Include="Content\UsersManagement\edit.css" />
     <Content Include="favicon.ico" />
@@ -330,6 +372,7 @@
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Rotativa\wkhtmltoimage.exe" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Rotativa\wkhtmltox.dll" />
     <Content Include="Scripts\chosen-sprite%402x.png" />
     <Content Include="Scripts\chosen-sprite.png" />
     <Content Include="Scripts\chosen.css" />
@@ -349,11 +392,14 @@
     <Content Include="Scripts\Chosen\DocSupport\jquery-3.2.1.min.js" />
     <Content Include="Scripts\Chosen\DocSupport\prism.js" />
     <Content Include="Scripts\Chosen\DocSupport\prototype-1.7.0.0.js" />
+    <Content Include="Scripts\Common\availableFieldsComponent.js" />
+    <Content Include="Scripts\Common\relatedEntityComponent.js" />
     <Content Include="Scripts\Common\stepper.js" />
     <Content Include="Scripts\Common\searchComponent.js" />
     <Content Include="Scripts\Common\collapsible.js" />
     <Content Include="Scripts\Common\customDatatable.js" />
     <Content Include="Scripts\Common\departmentSelector.js" />
+    <Content Include="Scripts\DissertationDefense\edit.js" />
     <Content Include="Scripts\docsupport\chosen.png" />
     <Content Include="Scripts\docsupport\init.js" />
     <Content Include="Scripts\docsupport\init.proto.js" />
@@ -370,14 +416,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\composer.json" />
+    <Content Include="Scripts\Journals\edit.js" />
     <Content Include="Scripts\jquery.steps.js" />
     <Content Include="Scripts\jquery.steps.min.js" />
     <Content Include="Scripts\CathedraReports\edit.js" />
+    <Content Include="Scripts\Publications\index.js" />
+    <Content Include="Scripts\Publications\view.js" />
+    <Content Include="Scripts\ThemeOfScientificWorks\edit.js" />
     <Content Include="Scripts\Reports\edit.js" />
     <Content Include="Scripts\Steps\jquery.steps.js" />
     <Content Include="Scripts\Steps\jquery.steps.min.js" />
     <Content Include="Scripts\LICENSE.md" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Rotativa\libwkhtmltox.a" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -387,6 +438,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Publications\edit.js" />
+    <Content Include="Scripts\Manage\update.js" />
     <Content Include="Scripts\UsersManagement\edit.js" />
     <Content Include="Scripts\Login\login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -430,7 +482,7 @@
     <Content Include="Views\Publications\Index.cshtml" />
     <Content Include="Views\Manage\Update.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Create.cshtml" />
-    <Content Include="Views\ThemeOfScientificWorks\Delete.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\ToggleActivation.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Details.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Edit.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Index.cshtml" />
@@ -444,7 +496,6 @@
     <Content Include="Views\Degrees\Edit.cshtml" />
     <Content Include="Views\Degrees\Index.cshtml" />
     <Content Include="Views\UsersManagement\Delete.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\I18nUserInitials.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\I18nUserInitialsModel.cshtml" />
     <Content Include="Views\Shared\Ordering\OrderDirection.cshtml" />
     <Content Include="Views\Shared\Filters\BaseFilter.cshtml" />
@@ -457,6 +508,39 @@
     <Content Include="Views\Journals\Details.cshtml" />
     <Content Include="Views\Journals\Edit.cshtml" />
     <Content Include="Views\Journals\Index.cshtml" />
+    <Content Include="Views\Shared\Common\RequiredFieldsInfo.cshtml" />
+    <Content Include="Views\Shared\Filters\ActiveFilter.cshtml" />
+    <Content Include="Views\Home\InDevelopment.cshtml" />
+    <Content Include="Views\Report\Delete.cshtml" />
+    <Content Include="Views\Shared\Common\InfoBox.cshtml" />
+    <Content Include="Views\Faculties\Index.cshtml" />
+    <Content Include="Views\Faculties\Create.cshtml" />
+    <Content Include="Views\Faculties\Edit.cshtml" />
+    <Content Include="Views\Faculties\Delete.cshtml" />
+    <Content Include="Views\Cathedras\Index.cshtml" />
+    <Content Include="Views\Cathedras\Create.cshtml" />
+    <Content Include="Views\Cathedras\Edit.cshtml" />
+    <Content Include="Views\Cathedras\Delete.cshtml" />
+    <Content Include="Views\Shared\Filters\FacultyFilter.cshtml" />
+    <Content Include="Views\HonoraryTitles\Index.cshtml" />
+    <Content Include="Views\HonoraryTitles\Create.cshtml" />
+    <Content Include="Views\HonoraryTitles\Delete.cshtml" />
+    <Content Include="Views\HonoraryTitles\Edit.cshtml" />
+    <Content Include="Views\Positions\Create.cshtml" />
+    <Content Include="Views\Positions\Delete.cshtml" />
+    <Content Include="Views\Positions\Edit.cshtml" />
+    <Content Include="Views\Positions\Index.cshtml" />
+    <Content Include="Views\Analytics\Index.cshtml" />
+    <Content Include="Views\ExternalPartTimeEmployee\Index.cshtml" />
+    <Content Include="Views\ExternalPartTimeEmployee\Create.cshtml" />
+    <Content Include="Views\AcademicStatus\Index.cshtml" />
+    <Content Include="Views\AcademicStatus\Create.cshtml" />
+    <Content Include="Views\AcademicStatus\Edit.cshtml" />
+    <Content Include="Views\AcademicStatus\Delete.cshtml" />
+    <Content Include="Views\DissertationDefense\Create.cshtml" />
+    <Content Include="Views\DissertationDefense\Delete.cshtml" />
+    <Content Include="Views\DissertationDefense\Edit.cshtml" />
+    <Content Include="Views\DissertationDefense\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -507,6 +591,8 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.41.0.50478\analyzers\SonarAnalyzer.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+    <Analyzer Include="..\packages\xunit.analyzers.1.0.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+    <Analyzer Include="..\packages\xunit.analyzers.1.0.0\analyzers\dotnet\cs\xunit.analyzers.fixes.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -542,8 +628,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.core.2.4.2\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.2\build\xunit.core.props'))" />
+    <Error Condition="!Exists('..\packages\xunit.core.2.4.2\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.2\build\xunit.core.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\xunit.core.2.4.2\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.4.2\build\xunit.core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

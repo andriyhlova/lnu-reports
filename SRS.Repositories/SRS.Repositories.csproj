@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SRS.Repositories</RootNamespace>
     <AssemblyName>SRS.Repositories</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -85,6 +85,8 @@
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Implementation\CathedraReportRepository.cs" />
+    <Compile Include="Implementation\JournalRepository.cs" />
+    <Compile Include="Implementation\ThemeOfScientificWorkRepository.cs" />
     <Compile Include="Implementation\ReportRepository.cs" />
     <Compile Include="Implementation\PublicationRepository.cs" />
     <Compile Include="Implementation\RoleRepository.cs" />
@@ -112,6 +114,178 @@
     <Compile Include="Migrations\202208102221439_RenamedScienceDegreeAcademicStatusTable.cs" />
     <Compile Include="Migrations\202208102221439_RenamedScienceDegreeAcademicStatusTable.designer.cs">
       <DependentUpon>202208102221439_RenamedScienceDegreeAcademicStatusTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208162057166_ChangedThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202208162057166_ChangedThemeOfScientificWork.designer.cs">
+      <DependentUpon>202208162057166_ChangedThemeOfScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208182122522_AssignedMultipleThemesToReport.cs" />
+    <Compile Include="Migrations\202208182122522_AssignedMultipleThemesToReport.designer.cs">
+      <DependentUpon>202208182122522_AssignedMultipleThemesToReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208192259179_AddedReportState.cs" />
+    <Compile Include="Migrations\202208192259179_AddedReportState.designer.cs">
+      <DependentUpon>202208192259179_AddedReportState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209012148040_AddedMultipleDegreesAndStatuses.cs" />
+    <Compile Include="Migrations\202209012148040_AddedMultipleDegreesAndStatuses.designer.cs">
+      <DependentUpon>202209012148040_AddedMultipleDegreesAndStatuses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209012245580_AddedPublicationFieldsAndChangedTypes.cs" />
+    <Compile Include="Migrations\202209012245580_AddedPublicationFieldsAndChangedTypes.designer.cs">
+      <DependentUpon>202209012245580_AddedPublicationFieldsAndChangedTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209042302033_AddedReportPatentsAndApplications.cs" />
+    <Compile Include="Migrations\202209042302033_AddedReportPatentsAndApplications.designer.cs">
+      <DependentUpon>202209042302033_AddedReportPatentsAndApplications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209132145445_ChangedConferencePublicationFields.cs" />
+    <Compile Include="Migrations\202209132145445_ChangedConferencePublicationFields.designer.cs">
+      <DependentUpon>202209132145445_ChangedConferencePublicationFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209150837499_NewEntitiesChanges.cs" />
+    <Compile Include="Migrations\202209150837499_NewEntitiesChanges.designer.cs">
+      <DependentUpon>202209150837499_NewEntitiesChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209160909320_UpdatedUserRoles.cs" />
+    <Compile Include="Migrations\202209160909320_UpdatedUserRoles.designer.cs">
+      <DependentUpon>202209160909320_UpdatedUserRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209202120550_AddedIsActiveToTheme.cs" />
+    <Compile Include="Migrations\202209202120550_AddedIsActiveToTheme.designer.cs">
+      <DependentUpon>202209202120550_AddedIsActiveToTheme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.cs" />
+    <Compile Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.designer.cs">
+      <DependentUpon>202209231344433_AddedEditionCategoryAndChangedPubTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210072332436_AddNewUserAndPublicationChanges.cs" />
+    <Compile Include="Migrations\202210072332436_AddNewUserAndPublicationChanges.designer.cs">
+      <DependentUpon>202210072332436_AddNewUserAndPublicationChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210112256345_AddedStudentPublications.cs" />
+    <Compile Include="Migrations\202210112256345_AddedStudentPublications.designer.cs">
+      <DependentUpon>202210112256345_AddedStudentPublications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210122222254_UpdatedLanguagesAndTypes.cs" />
+    <Compile Include="Migrations\202210122222254_UpdatedLanguagesAndTypes.designer.cs">
+      <DependentUpon>202210122222254_UpdatedLanguagesAndTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210131050088_ChangedThemesOfScientificReport.cs" />
+    <Compile Include="Migrations\202210131050088_ChangedThemesOfScientificReport.designer.cs">
+      <DependentUpon>202210131050088_ChangedThemesOfScientificReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210151616119_AddedCathedraGenitiveCase.cs" />
+    <Compile Include="Migrations\202210151616119_AddedCathedraGenitiveCase.designer.cs">
+      <DependentUpon>202210151616119_AddedCathedraGenitiveCase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210161849486_ChangedJournalAndPublicationTypes.cs" />
+    <Compile Include="Migrations\202210161849486_ChangedJournalAndPublicationTypes.designer.cs">
+      <DependentUpon>202210161849486_ChangedJournalAndPublicationTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210180030177_AddedOtherThemeField.cs" />
+    <Compile Include="Migrations\202210180030177_AddedOtherThemeField.designer.cs">
+      <DependentUpon>202210180030177_AddedOtherThemeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210242213093_AddedChapterMonographyName.cs" />
+    <Compile Include="Migrations\202210242213093_AddedChapterMonographyName.designer.cs">
+      <DependentUpon>202210242213093_AddedChapterMonographyName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210272159261_AddedGrantAndChangedIdentifier.cs" />
+    <Compile Include="Migrations\202210272159261_AddedGrantAndChangedIdentifier.designer.cs">
+      <DependentUpon>202210272159261_AddedGrantAndChangedIdentifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210282217131_ChangedPublicationPagesToString.cs" />
+    <Compile Include="Migrations\202210282217131_ChangedPublicationPagesToString.designer.cs">
+      <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303162214131_AddedEditorsField.cs" />
+    <Compile Include="Migrations\202303162214131_AddedEditorsField.designer.cs">
+      <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.cs" />
+    <Compile Include="Migrations\202303182329139_AddedUserFieldsToReport.designer.cs">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303291618220_UpdateJournalType.cs" />
+    <Compile Include="Migrations\202303291618220_UpdateJournalType.designer.cs">
+      <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.cs" />
+    <Compile Include="Migrations\202305050757385_ResolveMigrationCoflict.designer.cs">
+      <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202304051740443_UpdateThemeOfScientificWork.designer.cs">
+      <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050806543_ResolveMigrationConflict.cs" />
+    <Compile Include="Migrations\202305050806543_ResolveMigrationConflict.designer.cs">
+      <DependentUpon>202305050806543_ResolveMigrationConflict.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.designer.cs">
+      <DependentUpon>202305031238069_UpdateReportThemeOfScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305050819430_ResolveMigrationConflict1.cs" />
+    <Compile Include="Migrations\202305050819430_ResolveMigrationConflict1.designer.cs">
+      <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304291604026_ChangeCathedra.cs" />
+    <Compile Include="Migrations\202304291604026_ChangeCathedra.designer.cs">
+      <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.cs" />
+    <Compile Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.designer.cs">
+      <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.cs" />
+    <Compile Include="Migrations\202305091151426_RemovedCathedraValue.designer.cs">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305161658589_Update-Reports.cs" />
+    <Compile Include="Migrations\202305161658589_Update-Reports.designer.cs">
+      <DependentUpon>202305161658589_Update-Reports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305171343437_AddDefendedDissertation.cs" />
+    <Compile Include="Migrations\202305171343437_AddDefendedDissertation.designer.cs">
+      <DependentUpon>202305171343437_AddDefendedDissertation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305171609532_ResolveMigrationConflict2.cs" />
+    <Compile Include="Migrations\202305171609532_ResolveMigrationConflict2.designer.cs">
+      <DependentUpon>202305171609532_ResolveMigrationConflict2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307081118093_AddedPlannedAmount.cs" />
+    <Compile Include="Migrations\202307081118093_AddedPlannedAmount.designer.cs">
+      <DependentUpon>202307081118093_AddedPlannedAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307101035547_AddedCurrency.cs" />
+    <Compile Include="Migrations\202307101035547_AddedCurrency.designer.cs">
+      <DependentUpon>202307101035547_AddedCurrency.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308022202507_AddedCathedraReportGrants.cs" />
+    <Compile Include="Migrations\202308022202507_AddedCathedraReportGrants.designer.cs">
+      <DependentUpon>202308022202507_AddedCathedraReportGrants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308251432590_AddedPriorityColumn.cs" />
+    <Compile Include="Migrations\202308251432590_AddedPriorityColumn.designer.cs">
+      <DependentUpon>202308251432590_AddedPriorityColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202402091450087_AddedDissertationDefenses.cs" />
+    <Compile Include="Migrations\202402091450087_AddedDissertationDefenses.designer.cs">
+      <DependentUpon>202402091450087_AddedDissertationDefenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202402201053506_AddedThemeOfScientificWorkSupervisors.cs" />
+    <Compile Include="Migrations\202402201053506_AddedThemeOfScientificWorkSupervisors.designer.cs">
+      <DependentUpon>202402201053506_AddedThemeOfScientificWorkSupervisors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202402221228030_InsertDataToThemeOfScientificWorkSupervisors.cs" />
+    <Compile Include="Migrations\202402221228030_InsertDataToThemeOfScientificWorkSupervisors.designer.cs">
+      <DependentUpon>202402221228030_InsertDataToThemeOfScientificWorkSupervisors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202402231354491_EditThemeOfScientificWork.cs" />
+    <Compile Include="Migrations\202402231354491_EditThemeOfScientificWork.designer.cs">
+      <DependentUpon>202402231354491_EditThemeOfScientificWork.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +319,135 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202208102221439_RenamedScienceDegreeAcademicStatusTable.resx">
       <DependentUpon>202208102221439_RenamedScienceDegreeAcademicStatusTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208162057166_ChangedThemeOfScientificWork.resx">
+      <DependentUpon>202208162057166_ChangedThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208182122522_AssignedMultipleThemesToReport.resx">
+      <DependentUpon>202208182122522_AssignedMultipleThemesToReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208192259179_AddedReportState.resx">
+      <DependentUpon>202208192259179_AddedReportState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209012148040_AddedMultipleDegreesAndStatuses.resx">
+      <DependentUpon>202209012148040_AddedMultipleDegreesAndStatuses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209012245580_AddedPublicationFieldsAndChangedTypes.resx">
+      <DependentUpon>202209012245580_AddedPublicationFieldsAndChangedTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209042302033_AddedReportPatentsAndApplications.resx">
+      <DependentUpon>202209042302033_AddedReportPatentsAndApplications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209132145445_ChangedConferencePublicationFields.resx">
+      <DependentUpon>202209132145445_ChangedConferencePublicationFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209150837499_NewEntitiesChanges.resx">
+      <DependentUpon>202209150837499_NewEntitiesChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209160909320_UpdatedUserRoles.resx">
+      <DependentUpon>202209160909320_UpdatedUserRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209202120550_AddedIsActiveToTheme.resx">
+      <DependentUpon>202209202120550_AddedIsActiveToTheme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209231344433_AddedEditionCategoryAndChangedPubTypes.resx">
+      <DependentUpon>202209231344433_AddedEditionCategoryAndChangedPubTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210072332436_AddNewUserAndPublicationChanges.resx">
+      <DependentUpon>202210072332436_AddNewUserAndPublicationChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210112256345_AddedStudentPublications.resx">
+      <DependentUpon>202210112256345_AddedStudentPublications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210122222254_UpdatedLanguagesAndTypes.resx">
+      <DependentUpon>202210122222254_UpdatedLanguagesAndTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210131050088_ChangedThemesOfScientificReport.resx">
+      <DependentUpon>202210131050088_ChangedThemesOfScientificReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210151616119_AddedCathedraGenitiveCase.resx">
+      <DependentUpon>202210151616119_AddedCathedraGenitiveCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210161849486_ChangedJournalAndPublicationTypes.resx">
+      <DependentUpon>202210161849486_ChangedJournalAndPublicationTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210180030177_AddedOtherThemeField.resx">
+      <DependentUpon>202210180030177_AddedOtherThemeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210242213093_AddedChapterMonographyName.resx">
+      <DependentUpon>202210242213093_AddedChapterMonographyName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210272159261_AddedGrantAndChangedIdentifier.resx">
+      <DependentUpon>202210272159261_AddedGrantAndChangedIdentifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210282217131_ChangedPublicationPagesToString.resx">
+      <DependentUpon>202210282217131_ChangedPublicationPagesToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303162214131_AddedEditorsField.resx">
+      <DependentUpon>202303162214131_AddedEditorsField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303182329139_AddedUserFieldsToReport.resx">
+      <DependentUpon>202303182329139_AddedUserFieldsToReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303291618220_UpdateJournalType.resx">
+      <DependentUpon>202303291618220_UpdateJournalType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050757385_ResolveMigrationCoflict.resx">
+      <DependentUpon>202305050757385_ResolveMigrationCoflict.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304051740443_UpdateThemeOfScientificWork.resx">
+      <DependentUpon>202304051740443_UpdateThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050806543_ResolveMigrationConflict.resx">
+      <DependentUpon>202305050806543_ResolveMigrationConflict.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305031238069_UpdateReportThemeOfScientificWork.resx">
+      <DependentUpon>202305031238069_UpdateReportThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305050819430_ResolveMigrationConflict1.resx">
+      <DependentUpon>202305050819430_ResolveMigrationConflict1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304291604026_ChangeCathedra.resx">
+      <DependentUpon>202304291604026_ChangeCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305031456468_AddThemeOfScientificWorkCathedra.resx">
+      <DependentUpon>202305031456468_AddThemeOfScientificWorkCathedra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091151426_RemovedCathedraValue.resx">
+      <DependentUpon>202305091151426_RemovedCathedraValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305161658589_Update-Reports.resx">
+      <DependentUpon>202305161658589_Update-Reports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305171343437_AddDefendedDissertation.resx">
+      <DependentUpon>202305171343437_AddDefendedDissertation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305171609532_ResolveMigrationConflict2.resx">
+      <DependentUpon>202305171609532_ResolveMigrationConflict2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307081118093_AddedPlannedAmount.resx">
+      <DependentUpon>202307081118093_AddedPlannedAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307101035547_AddedCurrency.resx">
+      <DependentUpon>202307101035547_AddedCurrency.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308022202507_AddedCathedraReportGrants.resx">
+      <DependentUpon>202308022202507_AddedCathedraReportGrants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308251432590_AddedPriorityColumn.resx">
+      <DependentUpon>202308251432590_AddedPriorityColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402091450087_AddedDissertationDefenses.resx">
+      <DependentUpon>202402091450087_AddedDissertationDefenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402201053506_AddedThemeOfScientificWorkSupervisors.resx">
+      <DependentUpon>202402201053506_AddedThemeOfScientificWorkSupervisors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402221228030_InsertDataToThemeOfScientificWorkSupervisors.resx">
+      <DependentUpon>202402221228030_InsertDataToThemeOfScientificWorkSupervisors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402231354491_EditThemeOfScientificWork.resx">
+      <DependentUpon>202402231354491_EditThemeOfScientificWork.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SRS.Domain.Enums;
 using SRS.Services.Models.BaseModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ReportModels;
@@ -13,15 +14,13 @@ namespace SRS.Services.Interfaces
 
         Task<int> CountForUserAsync(UserAccountModel user, ReportFilterModel filterModel);
 
-        Task<bool> SignAsync(int id);
-
-        Task<bool> ConfirmAsync(int id);
-
-        Task<bool> ReturnAsync(int id);
+        Task<bool> ChangeState(int id, ReportState state);
 
         Task<ReportModel> GetUserReportAsync(string userId, int? reportId);
 
         Task<int> UpsertAsync<TModel>(TModel model, string currentUserId)
             where TModel : BaseModel;
+
+        Task<bool> DeleteAsync(int id, string currentUserId);
     }
 }

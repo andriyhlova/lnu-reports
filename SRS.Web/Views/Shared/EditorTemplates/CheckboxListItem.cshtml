@@ -1,9 +1,8 @@
 ﻿@model SRS.Web.Models.Shared.CheckboxListItem
 
-<div>
-    @Html.CheckBoxFor(x => x.Checked)
+<div data-field-id="@Model.Id">
+    <label class="checkbox-label">@Html.CheckBoxFor(x => x.Checked)@Html.DisplayFor(x => x.Name)</label>
     @Html.HiddenFor(x => x.Id)
-    @Html.DisplayFor(x => x.Name)
     @Html.HiddenFor(x => x.Name)
 </div>
 

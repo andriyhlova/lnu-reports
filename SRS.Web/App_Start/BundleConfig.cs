@@ -51,17 +51,41 @@ namespace SRS.Web
             bundles.Add(new ScriptBundle("~/bundles/searchComponent").Include(
                         "~/Scripts/Common/searchComponent.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/relatedEntityComponent").Include(
+                        "~/Scripts/Common/relatedEntityComponent.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/availableFieldsComponent").Include(
+                        "~/Scripts/Common/availableFieldsComponent.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/stepper").Include(
                         "~/Scripts/Common/stepper.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/publications/index").Include(
+                        "~/Scripts/Publications/index.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/publications/edit").Include(
                         "~/Scripts/Publications/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/publications/view").Include(
+                        "~/Scripts/Publications/view.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports/edit").Include(
                         "~/Scripts/Reports/edit.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/cathedrareports/edit").Include(
                         "~/Scripts/CathedraReports/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/themeofscientificworks/edit").Include(
+                        "~/Scripts/ThemeOfScientificWorks/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/manage/update").Include(
+                        "~/Scripts/Manage/update.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/journals/edit").Include(
+                        "~/Scripts/Journals/edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dissertationdefense/edit").Include(
+                        "~/Scripts/DissertationDefense/edit.js"));
         }
 
         private static void RegisterStyleBundles(BundleCollection bundles)
@@ -79,11 +103,11 @@ namespace SRS.Web
             bundles.Add(new StyleBundle("~/Content/steps/bundle").Include(
                       "~/Content/Steps/steps.css"));
 
+            bundles.Add(new StyleBundle("~/Content/relatedEntity/bundle").Include(
+                      "~/Content/RelatedEntity/relatedEntity.css"));
+
             bundles.Add(new StyleBundle("~/Content/usersManagement/bundle").Include(
                       "~/Content/UsersManagement/edit.css"));
-
-            bundles.Add(new StyleBundle("~/Content/publications/bundle").Include(
-                      "~/Content/Publications/edit.css"));
 
             bundles.Add(new StyleBundle("~/Content/search/bundle").Include(
                       "~/Content/Search/search.css"));

@@ -7,6 +7,8 @@ namespace SRS.Domain.Entities
     {
         public string Name { get; set; }
 
+        public string GenitiveCase { get; set; }
+
         [Column("Faculty_Id")]
         public int? FacultyId { get; set; }
 

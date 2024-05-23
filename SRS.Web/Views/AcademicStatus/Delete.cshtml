@@ -1,0 +1,58 @@
+﻿@using SRS.Services.Extensions
+@using SRS.Services.Models
+@model AcademicStatusModel
+
+@{
+    ViewBag.Title = "Видалити";
+}
+
+<h2>Видалити</h2>
+
+<h3>Ви впевнені, що хочете видалити?</h3>
+<h4 class="text-warning">*Видалити вчене звання можна лише тоді, коли він не присвоєний жодному працівнику.</h4>
+<div>
+    <h4>Вчене звання</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Назва
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+        <dt>
+            Пріоритет сортування
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SortOrder)
+        </dd>
+
+        <dt>
+            Пріоритет звання
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+
+        <dt>
+            Тип звання
+        </dt>
+
+        <dd>
+            @Model.Type.GetDisplayName()
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Повернутися до списку", "Index")
+        </div>
+    }
+</div>

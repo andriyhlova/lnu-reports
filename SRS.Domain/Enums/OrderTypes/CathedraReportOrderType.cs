@@ -6,6 +6,7 @@
         Protocol,
         Date,
         Cathedra,
-        User
+        User,
+        State
     }
 }

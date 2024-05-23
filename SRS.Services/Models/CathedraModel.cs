@@ -6,6 +6,10 @@ namespace SRS.Services.Models
     {
         public string Name { get; set; }
 
+        public string GenitiveCase { get; set; }
+
         public int? FacultyId { get; set; }
+
+        public FacultyModel Faculty { get; set; }
     }
 }

@@ -4,9 +4,8 @@ namespace SRS.Web.Models.Account
 {
     public class RegisterViewModel
     {
-        [Required]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Некоректна електронна пошта. Повинен бути: ...@lnu.edu.ua")]
-        [EmailAddress(ErrorMessage = "Некоректна електронна пошта")]
+        [Required(ErrorMessage = "Введіть електронну пошту")]
+        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Некоректна електронна пошта. Повинна бути: ...@lnu.edu.ua")]
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
@@ -21,12 +20,12 @@ namespace SRS.Web.Models.Account
         [Compare(nameof(Password), ErrorMessage = "Паролі не співпадають")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Виберіть кафедру зі списку")]
-        [Display(Name = "Кафедра")]
-        public int CathedraId { get; set; }
-
         [Required(ErrorMessage = "Виберіть факультет зі списку")]
         [Display(Name = "Факультет")]
         public int FacultyId { get; set; }
+
+        [Required(ErrorMessage = "Виберіть кафедру зі списку")]
+        [Display(Name = "Кафедра")]
+        public int CathedraId { get; set; }
     }
 }

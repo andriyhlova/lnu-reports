@@ -1,4 +1,5 @@
-﻿using SRS.Domain.Entities;
+﻿using System.Linq;
+using SRS.Domain.Entities;
 using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Models.FilterModels;
 
@@ -6,17 +7,19 @@ namespace SRS.Domain.Specifications
 {
     public class JournalSpecification : BaseFilterSpecification<Journal>
     {
-        public JournalSpecification(BaseFilterModel filterModel)
+        public JournalSpecification(JournalFilterModel filterModel)
             : base(
                   filterModel.Skip,
                   filterModel.Take,
-                  x => string.IsNullOrEmpty(filterModel.Search)
-                        || x.Name.Contains(filterModel.Search)
-                        || x.ShortName.Contains(filterModel.Search)
-                        || x.PrintIssn.Contains(filterModel.Search)
-                        || x.ElectronicIssn.Contains(filterModel.Search),
+                  x => (filterModel.PublicationType == null || x.JournalTypes.Any(y => y.PublicationType == filterModel.PublicationType)) &&
+                          (string.IsNullOrEmpty(filterModel.Search)
+                                || x.Name.Contains(filterModel.Search)
+                                || x.ShortName.Contains(filterModel.Search)
+                                || x.PrintIssn.Contains(filterModel.Search)
+                                || x.ElectronicIssn.Contains(filterModel.Search)),
                   true)
         {
+            AddInclude(journal => journal.JournalTypes);
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 
@@ -34,6 +37,8 @@ namespace SRS.Domain.Specifications
                 case JournalOrderType.ElectronicIssn when desc: ApplyOrderByDescending(x => x.ElectronicIssn); break;
                 case JournalOrderType.Quartile when !desc: ApplyOrderBy(x => x.BestQuartile); break;
                 case JournalOrderType.Quartile when desc: ApplyOrderByDescending(x => x.BestQuartile); break;
+                case JournalOrderType.JournalType when !desc: ApplyOrderBy(x => x.JournalTypes.OrderBy(r => r.Value).Select(r => r.Value).FirstOrDefault()); break;
+                case JournalOrderType.JournalType when desc: ApplyOrderByDescending(x => x.JournalTypes.OrderBy(r => r.Value).Select(r => r.Value).FirstOrDefault()); break;
                 default: ApplyOrderBy(x => x.Name); break;
             }
         }

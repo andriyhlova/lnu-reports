@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,9 @@ namespace SRS.Domain.Entities
 {
     public class Report : BaseEntity
     {
-        public string ParticipationInGrands { get; set; } // Пункт 2
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
+        public string OtherGrantDescription { get; set; }
 
         public string ScientificTrainings { get; set; } // Пункт 3
 
@@ -25,27 +28,37 @@ namespace SRS.Domain.Entities
 
         public string Other { get; set; }// Пункт 10
 
-        public string ThemeOfScientificWorkDescription { get; set; }// Пункт 1
-
         public string Protocol { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public bool IsSigned { get; set; }
+        public ReportState State { get; set; }
 
-        public bool IsConfirmed { get; set; }
+        public string UserFullName { get; set; }
+
+        public string PositionName { get; set; }
+
+        public string CathedraName { get; set; }
+
+        public string CathedraLeadName { get; set; }
+
+        public int? ScopusHIndex { get; set; }
+
+        public int? WebOfScienceHIndex { get; set; }
+
+        public int? GoogleScholarHIndex { get; set; }
 
         [Column("User_Id")]
         public string UserId { get; set; }
 
-        [Column("ThemeOfScientificWork_Id")]
-        public int? ThemeOfScientificWorkId { get; set; }// Пункт 1
-
-        public virtual ThemeOfScientificWork ThemeOfScientificWork { get; set; }// Пункт 1
+        public virtual ICollection<ReportThemeOfScientificWork> ThemeOfScientificWorks { get; set; }// Пункт 1
 
         public virtual ApplicationUser User { get; set; }
+
+        [InverseProperty("StudentPublicationReport")]
+        public virtual ICollection<Publication> StudentPublication { get; set; }// Пункт 6.1
 
         [InverseProperty("PrintedPublicationReport")]
         public virtual ICollection<Publication> PrintedPublication { get; set; }// Пункт 6.1
@@ -55,6 +68,12 @@ namespace SRS.Domain.Entities
 
         [InverseProperty("AcceptedToPrintPublicationReport")]
         public virtual ICollection<Publication> AcceptedToPrintPublication { get; set; }// Пункт 6.2.5
+
+        [InverseProperty("ApplicationsForInventionReport")]
+        public virtual ICollection<Publication> ApplicationsForInvention { get; set; }
+
+        [InverseProperty("PatentsForInventionReport")]
+        public virtual ICollection<Publication> PatentsForInvention { get; set; }
 
         public virtual List<CathedraReport> CathedraReport { get; set; }
     }

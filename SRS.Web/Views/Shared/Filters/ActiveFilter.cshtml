@@ -1,0 +1,10 @@
+﻿@model string
+<div class="form-group">
+    <div>
+        <select id="active-selector" class="form-control chosen-select" name="IsActive">
+            <option value="" selected="@(Model == string.Empty)">Виберіть статус</option>
+            <option value="true" selected="@(Model == bool.TrueString)">Активні</option>
+            <option value="false" selected="@(Model == bool.FalseString)">Неактивні</option>
+        </select>
+    </div>
+</div>

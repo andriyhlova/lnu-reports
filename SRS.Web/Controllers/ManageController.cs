@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
+using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Identity;
 using SRS.Web.Models.Account;
@@ -15,21 +16,15 @@ namespace SRS.Web.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private readonly IBaseCrudService<DegreeModel> _degreeService;
-        private readonly IBaseCrudService<AcademicStatusModel> _academicStatusService;
-        private readonly IBaseCrudService<PositionModel> _positionService;
+        private readonly IPositionService _positionService;
         private readonly IUserService<ProfileInfoModel> _userService;
         private readonly IMapper _mapper;
 
         public ManageController(
-            IBaseCrudService<DegreeModel> degreeService,
-            IBaseCrudService<AcademicStatusModel> academicStatusService,
-            IBaseCrudService<PositionModel> positionService,
+            IPositionService positionService,
             IUserService<ProfileInfoModel> userService,
             IMapper mapper)
         {
-            _degreeService = degreeService;
-            _academicStatusService = academicStatusService;
             _positionService = positionService;
             _userService = userService;
             _mapper = mapper;
@@ -105,9 +100,7 @@ namespace SRS.Web.Controllers
 
         private async Task FillRelatedInfo()
         {
-            ViewBag.AllAcademicStatuses = await _academicStatusService.GetAllAsync();
-            ViewBag.AllDegrees = await _degreeService.GetAllAsync();
-            ViewBag.AllPositions = await _positionService.GetAllAsync();
+            ViewBag.AllPositions = await _positionService.GetAllAsync(new BaseFilterModel());
         }
     }
 }

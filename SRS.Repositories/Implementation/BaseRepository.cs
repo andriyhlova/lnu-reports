@@ -1,14 +1,14 @@
-﻿using System;
+﻿using SRS.Domain.Entities;
+using SRS.Domain.Specifications;
+using SRS.Repositories.Context;
+using SRS.Repositories.Interfaces;
+using SRS.Repositories.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using SRS.Domain.Entities;
-using SRS.Domain.Specifications;
-using SRS.Repositories.Context;
-using SRS.Repositories.Interfaces;
-using SRS.Repositories.Utilities;
 
 namespace SRS.Repositories.Implementations
 {
@@ -136,8 +136,16 @@ namespace SRS.Repositories.Implementations
             var toAdd = newCollection.Where(x => !existingCollection.Any(y => y.Id == x.Id)).ToList();
             foreach (var item in toAdd)
             {
-                _context.Entry(item).State = EntityState.Unchanged;
-                existingCollection.Add(item);
+                var entity = _context.Set<TRelatedEntity>().Local.FirstOrDefault(x => x.Id == item.Id);
+                if (entity != null && _context.Entry(entity).State != EntityState.Detached)
+                {
+                    existingCollection.Add(entity);
+                }
+                else
+                {
+                    _context.Entry(item).State = EntityState.Unchanged;
+                    existingCollection.Add(item);
+                }
             }
         }
     }

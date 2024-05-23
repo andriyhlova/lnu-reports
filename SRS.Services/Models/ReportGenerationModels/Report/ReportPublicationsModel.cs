@@ -51,6 +51,13 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
 
         public List<string> NationalConferences { get; set; }
 
+        public int RecommendedPublicationCount =>
+            RecommendedPublications.Count
+            + RecommendedMonographs.Count
+            + RecommendedBooks.Count
+            + RecommendedTrainingBooks.Count
+            + RecommendedOtherWritings.Count;
+
         public List<string> RecommendedPublications { get; set; }
 
         public List<string> RecommendedMonographs { get; set; }
@@ -62,5 +69,9 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
         public List<string> RecommendedOtherWritings { get; set; }
 
         public List<string> AcceptedToPrintPublications { get; set; }
+
+        public List<string> ApplicationsForInvention { get; set; }
+
+        public List<string> PatentsForInvention { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@using SRS.Domain.Enums
+﻿@using Microsoft.AspNet.Identity
+@using SRS.Domain.Enums
 @using SRS.Services.Models.Constants
 
 <!DOCTYPE html>
@@ -28,27 +29,46 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
+                        <li>@Html.ActionLink("Публікації", "Index", "Publications", new { UserId = User.Identity.GetUserId() }, null)</li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 Звіти <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                @if (User.IsInRole(RoleNames.CathedraAdmin))
-                                {
-                                    <li>@Html.ActionLink("Звіт кафедри", "Index", "CathedraReport", new { Financial = Financial.БЮДЖЕТ }, null)</li>
-                                }
                                 @if (User.IsInRole(RoleNames.Worker))
                                 {
-                                    <li>@Html.ActionLink("Звіт працівника", "Index", "Report")</li>
+                                    <li>@Html.ActionLink("Поточний звіт працівника", "Index", "Report")</li>
                                 }
-                                <li>@Html.ActionLink("Індивідуальні звіти", "Index", "ReportList")</li>
+                                @if (User.IsInRole(RoleNames.CathedraAdmin))
+                                {
+                                    <li>@Html.ActionLink("Поточний звіт кафедри", "Index", "CathedraReport")</li>
+                                }
+                                @if (User.IsInRole(RoleNames.DeaneryAdmin))
+                                {
+                                    <li>@Html.ActionLink("Поточний звіт факультету", "InDevelopment", "Home")</li>
+                                }
+                                @if (User.IsInRole(RoleNames.RectorateAdmin))
+                                {
+                                    <li>@Html.ActionLink("Поточний звіт університету", "InDevelopment", "Home")</li>
+                                }
+                                <li>@Html.ActionLink("Архів індивідуальних звітів", "Index", "ReportList")</li>
                                 @if (User.IsInRole(RoleNames.Superadmin)
                                     || User.IsInRole(RoleNames.RectorateAdmin)
                                     || User.IsInRole(RoleNames.DeaneryAdmin)
                                     || User.IsInRole(RoleNames.CathedraAdmin))
                                 {
-                                    <li>@Html.ActionLink("Кафедральні звіти", "Index", "CathedraReportList")</li>
+                                    <li>@Html.ActionLink("Архів кафедральних звітів", "Index", "CathedraReportList")</li>
+                                }
+                                @if (User.IsInRole(RoleNames.Superadmin)
+                                    || User.IsInRole(RoleNames.RectorateAdmin)
+                                    || User.IsInRole(RoleNames.DeaneryAdmin))
+                                {
+                                    <li>@Html.ActionLink("Архів факультетських звітів", "InDevelopment", "Home")</li>
+                                }
+                                @if (User.IsInRole(RoleNames.Superadmin)
+                                    || User.IsInRole(RoleNames.RectorateAdmin))
+                                {
+                                    <li>@Html.ActionLink("Архів університетських звітів", "InDevelopment", "Home")</li>
                                 }
                             </ul>
                         </li>
@@ -62,13 +82,20 @@
                                     Керування <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
+                                    <li>@Html.ActionLink("Працівники", "Index", "UsersManagement")</li>
+                                    <li>@Html.ActionLink("Зовнішні сумісники", "Index", "ExternalPartTimeEmployee")</li>
                                     @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
                                     {
-                                        <li>@Html.ActionLink("Наукові ступені", "Index", "Degrees")</li>
                                         <li>@Html.ActionLink("Журнали", "Index", "Journals")</li>
+                                        <li>@Html.ActionLink("Тематичний план", "Index", "ThemeOfScientificWorks", new { IsActive = true }, null)</li>
+                                        <li>@Html.ActionLink("Наукові ступені", "Index", "Degrees")</li>
+                                        <li>@Html.ActionLink("Факультети", "Index", "Faculties")</li>
+                                        <li>@Html.ActionLink("Кафедри", "Index", "Cathedras")</li>
+                                        <li>@Html.ActionLink("Почесні звання", "Index", "HonoraryTitles")</li>
+                                        <li>@Html.ActionLink("Посади", "Index", "Positions")</li>
+                                        <li>@Html.ActionLink("Вчені звання", "Index", "AcademicStatus")</li>
+                                        <li>@Html.ActionLink("Захисти дисертацій", "Index", "DissertationDefense")</li>
                                     }
-                                    <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
                                 </ul>
                             </li>
                         }

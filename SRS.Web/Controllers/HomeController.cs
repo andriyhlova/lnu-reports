@@ -7,7 +7,12 @@ namespace SRS.Web.Controllers
     {
         public ActionResult Index()
         {
-               return View();
+            return View();
+        }
+
+        public ActionResult InDevelopment()
+        {
+            return View();
         }
     }
 }

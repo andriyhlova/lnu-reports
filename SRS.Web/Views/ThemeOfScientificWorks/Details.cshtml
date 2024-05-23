@@ -1,4 +1,5 @@
-﻿@using SRS.Services.Models
+﻿@using SRS.Services.Extensions
+@using SRS.Services.Models.ThemeOfScientificWorkModels
 @model ThemeOfScientificWorkModel
 
 @{
@@ -8,43 +9,105 @@
 <h2>Деталі</h2>
 
 <div>
-    <h4>Наукова робота</h4>
+    <h4>Тематичний план</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Номер ДР
+            Номер державної реєстрації
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ThemeNumber)
         </dd>
         <dt>
-            Шифр
+            Внутрішній шифр
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Code)
         </dd>
         <dt>
-            Тема
+            Назва
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Value)
         </dd>
         <dt>
-            Науковий керівник
+            Тип проєкту
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ScientificHead)
+            @Model.Financial.GetDisplayName()
         </dd>
         <dt>
-            Період з
+            Інший тип
+        </dt>
+        <dd>
+            @Model.OtherProjectType
+        </dd>
+        <dt>
+            Підкатегорія
+        </dt>
+        <dd>
+            @(Model.SubCategory != null ? Model.SubCategory.GetDisplayName() : null)
+        </dd>
+        <dt>
+            План
+        </dt>
+        <dd>
+            @Model.PlannedAmount
+        </dd>
+        <dt>
+            Валюта
+        </dt>
+        <dd>
+            @(Model.Currency != null ? Model.Currency.GetDisplayName() : null)
+        </dd>
+        <dt>
+            Фінансування за роками
+        </dt>
+        <dd>
+            @for (var i = 0; i < Model.ThemeOfScientificWorkFinancials.Count; i++)
+            {
+                <div>@Model.ThemeOfScientificWorkFinancials[i].Year рік - @Model.ThemeOfScientificWorkFinancials[i].Amount грн </div>
+            }
+        </dd>
+        <dt>
+            Наукові керівники
+        </dt>
+        <dd>
+            @if (Model.ThemeOfScientificWorkSupervisors != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkSupervisors)
+                {
+                    <div>@i.SupervisorName</div>
+                }
+            }
+        </dd>
+        <dt>
+            Кафедри
+        </dt>
+        <dd>
+            @if (Model.ThemeOfScientificWorkCathedras != null)
+            {
+                foreach (var i in Model.ThemeOfScientificWorkCathedras)
+                {
+                    <div>@i.CathedraName</div>
+                }
+            }
+        </dd>
+        <dt>
+            Період виконання
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+            З
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PeriodFrom)
         </dd>
         <dt>
-            Період до
+            По
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PeriodTo)
@@ -52,6 +115,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info"}) |
-    @Html.ActionLink("Повернутись до списку", "Index")
+    @if (Model.IsActive)
+    {
+        @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) <span>|</span>
+    }
+    @Html.ActionLink("Повернутись до списку", "Index", new { IsActive = true })
 </p>

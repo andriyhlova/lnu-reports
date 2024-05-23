@@ -13,7 +13,12 @@ $(function () {
 
     let usersSelectOptions = $("#user-selector");
     if (usersSelectOptions && usersSelectOptions.length) {
-        addCathedraPickerListener();
+        if (!$("#faculty-selector option").length && !$("#cathedra-selector option").length) {
+            queryUsers();
+        }
+        else {
+            addCathedraPickerListener();
+        }
     }
 });
 
@@ -38,20 +43,24 @@ var userQuery;
 function addCathedraPickerListener() {
     let cathedraElem = $("#cathedra-selector");
     let facultyElem = $("#faculty-selector");
-    let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
     $('#cathedra-selector').change(function (e) {
         if (userQuery) {
             userQuery.abort();
         }
 
-        userQuery = $.ajax(`/api/users/getByFacultyAndCathedra?facultyId=${facultyElem.val()}&cathedraId=${cathedraElem.val()}`)
-            .done(function (users) {
-                updateUserList(users, selectedUser);
-            });
+        queryUsers(facultyElem.val(), cathedraElem.val());
     });
 
     $('#cathedra-selector').change();
 };
+
+function queryUsers(faculty, cathedra) {
+    userQuery = $.ajax(`/api/users/getByFacultyAndCathedra?facultyId=${faculty || ''}&cathedraId=${cathedra || ''}&isActive=true`)
+        .done(function (users) {
+            let selectedUser = $("#user-selector").val() || $("#user-selector")[0].dataset.selected;
+            updateUserList(users, selectedUser);
+        });
+}
 
 function updateUserList(users, selectedUser) {
     let str = "<option value=''>Виберіть користувача</option>";

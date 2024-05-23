@@ -4,7 +4,9 @@ namespace SRS.Services.Models.ReportModels
 {
     public class ReportModel : BaseReportModel
     {
-        public string ParticipationInGrands { get; set; } // Пункт 2
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
+        public string OtherGrantDescription { get; set; }
 
         public string ScientificTrainings { get; set; } // Пункт 3
 
@@ -22,14 +24,18 @@ namespace SRS.Services.Models.ReportModels
 
         public string Other { get; set; }// Пункт 10
 
-        public string ThemeOfScientificWorkDescription { get; set; }// Пункт 1
+        public IList<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
-        public int? ThemeOfScientificWorkId { get; set; }// Пункт 1
+        public IList<int> StudentPublicationIds { get; set; }// Пункт 6.1
 
         public IList<int> PrintedPublicationIds { get; set; }// Пункт 6.1
 
         public IList<int> RecomendedPublicationIds { get; set; }// Пункт 6.2
 
         public IList<int> AcceptedToPrintPublicationIds { get; set; }// Пункт 6.2.5
+
+        public IList<int> ApplicationsForInventionIds { get; set; }
+
+        public IList<int> PatentsForInventionIds { get; set; }
     }
 }

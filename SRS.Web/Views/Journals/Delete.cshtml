@@ -1,4 +1,4 @@
-﻿@using SRS.Services.Models
+﻿@using SRS.Services.Models.JournalModels
 @model JournalModel
 
 @{
@@ -24,6 +24,15 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ShortName)
+        </dd>
+        <dt>
+            Тип журналу
+        </dt>
+        <dd>
+            @foreach (var journalType in Model.JournalTypes.OrderBy(x => x.Value))
+            {
+                <div>@journalType.Value</div>
+            }
         </dd>
         <dt>
             Друкований ISSN

@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using SRS.Domain.Enums;
-using SRS.Services.Models;
+﻿using SRS.Domain.Enums;
 using SRS.Services.Models.FilterModels;
-using SRS.Services.Models.UserModels;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Interfaces
 {
     public interface IThemeOfScientificWorkService
     {
-        Task<int> AddAsync(UserAccountModel user, ThemeOfScientificWorkModel model);
+        Task<IList<BaseThemeOfScientificWorkWithFinancialsModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel);
 
-        Task<ThemeOfScientificWorkModel> UpdateAsync(UserAccountModel user, ThemeOfScientificWorkModel model);
+        Task<int> CountAsync(ThemeOfScientificWorkFilterModel filterModel);
 
-        Task<IList<ThemeOfScientificWorkModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials);
 
-        Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel);
+        Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime? date);
 
-        Task<IList<ThemeOfScientificWorkModel>> GetActiveForFacultyAsync(int? facultyId);
+        Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime? date);
 
-        Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial);
+        Task<bool> ToggleActivationAsync(int id);
     }
 }

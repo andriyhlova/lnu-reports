@@ -1,102 +1,121 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
-using SRS.Services.Models;
-using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
-using SRS.Services.Models.UserModels;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
     public class ThemeOfScientificWorkService : BaseService<ThemeOfScientificWork>, IThemeOfScientificWorkService
     {
-        private readonly IRoleActionService _roleActionService;
-
-        public ThemeOfScientificWorkService(IBaseRepository<ThemeOfScientificWork> repo, IMapper mapper, IRoleActionService roleActionService)
+        public ThemeOfScientificWorkService(IBaseRepository<ThemeOfScientificWork> repo, IMapper mapper)
             : base(repo, mapper)
         {
-            _roleActionService = roleActionService;
         }
 
-        public async Task<int> AddAsync(UserAccountModel user, ThemeOfScientificWorkModel model)
+        public async Task<IList<BaseThemeOfScientificWorkWithFinancialsModel>> GetAsync(ThemeOfScientificWorkFilterModel filterModel)
         {
-            var actions = new Dictionary<string, Func<Task<int?>>>
-            {
-                [RoleNames.CathedraAdmin] = () => Task.FromResult(user.CathedraId)
-            };
-
-            var entity = _mapper.Map<ThemeOfScientificWork>(model);
-            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions) ?? entity.CathedraId;
-            return await _repo.AddAsync(entity);
+            var scientificThemes = await _repo.GetAsync(new ThemeOfScientificWorkWithFinancialsSpecification(filterModel, null));
+            return _mapper.Map<IList<BaseThemeOfScientificWorkWithFinancialsModel>>(scientificThemes);
         }
 
-        public async Task<ThemeOfScientificWorkModel> UpdateAsync(UserAccountModel user, ThemeOfScientificWorkModel model)
+        public async Task<int> CountAsync(ThemeOfScientificWorkFilterModel filterModel)
         {
-            var actions = new Dictionary<string, Func<Task<int?>>>
-            {
-                [RoleNames.CathedraAdmin] = () => Task.FromResult(user.CathedraId)
-            };
-
-            var entity = _mapper.Map<ThemeOfScientificWork>(model);
-            entity.CathedraId = await _roleActionService.TakeRoleActionAsync(user, actions) ?? entity.CathedraId;
-            entity = await _repo.UpdateAsync(entity);
-            return _mapper.Map<ThemeOfScientificWorkModel>(entity);
-        }
-
-        public async Task<IList<ThemeOfScientificWorkModel>> GetForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
-        {
-            var actions = new Dictionary<string, Func<Task<IList<ThemeOfScientificWork>>>>
-            {
-                [RoleNames.Superadmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
-                [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.CathedraId == user.CathedraId))
-            };
-
-            var scientificThemes = await _roleActionService.TakeRoleActionAsync(user, actions);
-            return _mapper.Map<IList<ThemeOfScientificWorkModel>>(scientificThemes ?? new List<ThemeOfScientificWork>());
-        }
-
-        public async Task<int> CountForUserAsync(UserAccountModel user, DepartmentFilterModel filterModel)
-        {
-            var countFilterModel = new DepartmentFilterModel
+            var countFilterModel = new ThemeOfScientificWorkFilterModel
             {
                 Search = filterModel.Search,
-                CathedraId = filterModel.CathedraId,
-                FacultyId = filterModel.FacultyId
+                Financial = filterModel.Financial,
+                SubCategory = filterModel.SubCategory,
+                IsActive = filterModel.IsActive,
+                PeriodFromFrom = filterModel.PeriodFromFrom,
+                PeriodFromTo = filterModel.PeriodFromTo,
+                PeriodToFrom = filterModel.PeriodToFrom,
+                PeriodToTo = filterModel.PeriodToTo,
+                FacultyId = filterModel.FacultyId,
+                CathedraId = filterModel.CathedraId
             };
 
-            var actions = new Dictionary<string, Func<Task<int>>>
+            return await _repo.CountAsync(new ThemeOfScientificWorkWithFinancialsSpecification(countFilterModel, null));
+        }
+
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials)
+        {
+            var currentYear = DateTime.Now.Year;
+            var previousYear = currentYear - 1;
+            var themes = await _repo.GetAsync(new ThemeOfScientificWorkSpecification(filterModel, x => x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) && financials.Contains(x.Financial)));
+            return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes);
+        }
+
+        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime? date)
+        {
+            var reportDate = date ?? DateTime.Now;
+            var currentYear = reportDate.Year;
+            var previousYear = currentYear - 1;
+            var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
+                                                    x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.CathedraId == cathedraId) &&
+                                                    x.Financial != Financial.InternationalGrant &&
+                                                    x.IsActive);
+
+            var groupped = themes.GroupBy(x => x.Financial);
+            var result = new Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>();
+            foreach (var group in groupped)
             {
-                [RoleNames.Superadmin] = async () => await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, x => x.Cathedra.FacultyId == user.FacultyId)),
-                [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new ThemeOfScientificWorkSpecification(countFilterModel, x => x.CathedraId == user.CathedraId))
-            };
+                result.Add(group.Key, new List<CathedraReportThemeOfScientificWorkModel>());
+                foreach (var theme in group)
+                {
+                    var mapped = _mapper.Map<CathedraReportThemeOfScientificWorkModel>(theme);
 
-            return await _roleActionService.TakeRoleActionAsync(user, actions);
+                    var report = theme.Reports
+                            .FirstOrDefault(r => r.Report.Date.HasValue &&
+                                r.Report.Date.Value.Year == reportDate.Year &&
+                                r.Report.User.CathedraId == cathedraId &&
+                                !string.IsNullOrEmpty(r.Resume) &&
+                                !string.IsNullOrEmpty(r.DefendedDissertation) &&
+                                !string.IsNullOrEmpty(r.Publications));
+
+                    var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == reportDate.Year);
+
+                    mapped.Resume = report?.Resume;
+                    mapped.DefendedDissertation = report?.DefendedDissertation;
+                    mapped.Publications = report?.Publications;
+                    mapped.FinancialAmount = financial?.Amount;
+                    mapped.FinancialYear = financial?.Year;
+
+                    result[group.Key].Add(mapped);
+                }
+            }
+
+            return result;
         }
 
-        public async Task<IList<ThemeOfScientificWorkModel>> GetActiveForFacultyAsync(int? facultyId)
+        public async Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime? date)
         {
-            var currentYear = new DateTime(DateTime.Now.Year, 1, 1);
-            var themes = await _repo.GetAsync(x => (facultyId == null || x.Cathedra.FacultyId == facultyId)
-                                                    && x.PeriodFrom <= currentYear && x.PeriodTo >= currentYear);
-            return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
+            var reportDate = date ?? DateTime.Now;
+            var currentYear = reportDate.Year;
+            var previousYear = currentYear - 1;
+            var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
+                                                    x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.CathedraId == cathedraId) &&
+                                                    x.Financial == Financial.InternationalGrant &&
+                                                    x.IsActive);
+
+            return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes.Distinct());
         }
 
-        public async Task<IList<ThemeOfScientificWorkModel>> GetActiveForCathedraReportAsync(int cathedraId, Financial financial)
+        public async Task<bool> ToggleActivationAsync(int id)
         {
-            var themes = await _repo.GetAsync(x => x.Financial == financial
-                                                   && x.Report.Any(y => y.User.CathedraId == cathedraId && y.ThemeOfScientificWork.Financial == financial && y.IsSigned && y.IsConfirmed));
-            return _mapper.Map<IList<ThemeOfScientificWorkModel>>(themes ?? new List<ThemeOfScientificWork>());
+            var entity = await _repo.GetAsync(id);
+            entity.IsActive = !entity.IsActive;
+            await _repo.UpdateAsync(entity);
+            return true;
         }
     }
 }

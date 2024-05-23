@@ -1,4 +1,5 @@
-﻿@using SRS.Services.Models.Constants
+﻿@using Microsoft.AspNet.Identity
+@using SRS.Services.Models.Constants
 @model SRS.Web.Models.Reports.ReportViewModel
 @{
     ViewBag.Title = "Індивідуальний звіт";
@@ -7,118 +8,113 @@
 <h2>Індивідуальний звіт</h2>
 
 <div id="wizard">
-    <h3>Публікації</h3>
-    <section class="section-body">
-        <form asp-controller="Report" asp-action="Index" id="dateForm">
-            <div class="form-group">
-                <label class="control-label">
-                    Період з
-                </label>
-                <div>
-                    <input name="publicationDateFrom" type="date" class="form-control" value="@(ViewBag.PublicationDateFrom != null ? ((DateTime?)ViewBag.PublicationDateFrom).Value.ToString(Dates.DatePattern) : "")" min="@Dates.MinDate.ToString(Dates.DatePattern)" max="@Dates.MaxDate.ToString(Dates.DatePattern)" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label">
-                    Період до
-                </label>
-                <div>
-                    <input name="publicationDateTo" type="date" class="form-control" value="@(ViewBag.PublicationDateTo != null ? ((DateTime?)ViewBag.PublicationDateTo).Value.ToString(Dates.DatePattern) : "")" min="@Dates.MinDate.ToString(Dates.DatePattern)" max="@Dates.MaxDate.ToString(Dates.DatePattern)" />
-                </div>
-            </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" />
-            <input type="hidden" name="reportId" value="@Model.Id" />
-            <button type="submit" class="btn btn-default">Пошук</button>
-        </form>
-        @using (@Html.BeginForm("UpdatePublications", "Report", FormMethod.Post, new { @id = "updatePublicationForm" }))
-        {
-            if (Model.PrintedPublication.Count > 0)
-            {
-                <div class="publication-block">
-                    <p class="publication-header">
-                        Праці, що вийшли з друку:
-                    </p>
-                    @Html.EditorFor(model => model.PrintedPublication)
-                </div>
-            }
-            if (Model.RecomendedPublication.Count > 0)
-            {
-                <div class="publication-block">
-                    <p class="publication-header">
-                        Праці, рекомендовані Вченою радою університету до друку:
-                    </p>
-                    @Html.EditorFor(model => model.RecomendedPublication)
-                </div>
-            }
-            if (Model.AcceptedToPrintPublication.Count > 0)
-            {
-                <div class="publication-block">
-                    <p class="publication-header">
-                        Статті, прийняті до друку:
-                    </p>
-                    @Html.EditorFor(model => model.AcceptedToPrintPublication)
-                </div>
-            }
-            if (Model.PrintedPublication.Count == 0 && Model.RecomendedPublication.Count == 0 && Model.AcceptedToPrintPublication.Count == 0)
-            {
-                <p style="margin-top:100px">
-                    Немає публікацій за цей період.
-                </p>
-            }
-            <input type="hidden" name="stepIndex" id="stepIndex_1" />
-            <input type="hidden" name="Id" value="@Model.Id" />
-        }
-    </section>
     <h3>Наукова робота</h3>
     <section class="section-body">
         @using (@Html.BeginForm("UpdateScientificWork", "Report", FormMethod.Post, new { @id = "updateThemeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
-                    Тема наукової роботи:
+                    1. Теми наукової роботи:
                 </label>
                 <div>
-                    @Html.DropDownList("ThemeOfScientificWorkId",
-                                                                             new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
-                                                                             "Виберіть тему наукової роботи",
-                                                                             new
-                                                                             {
-                                                                                 @class = "form-control chosen-select",
-                                                                                 @Value = Model.ThemeOfScientificWorkId
-                                                                             })
+                    <label class="text-danger">
+                        <span class="text-danger">*</span>
+                        Якщо теми не є зареєстрованими, перейдіть у вкладку "Інше" та введіть їх у пункті 10
+                    </label>
+                </div>
+                <div>
+                    <div id="scientific-work-search" class="search-container">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Пошук за назвою, номером, шифром, науковим керівником" />
+                        </div>
+                        <div class="search-results">
+                        </div>
+                    </div>
+                    @if (Model.ThemeOfScientificWorks != null)
+                    {
+                        for (var i = 0; i < Model.ThemeOfScientificWorks.Count; i++)
+                        {
+                            <input type="hidden" class="initial-scientific-work"
+                                   data-id="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWorkId"
+                                   data-themeid="@Model.ThemeOfScientificWorks[i].Id"
+                                   data-themenumber="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeNumber"
+                                   data-code="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Code"
+                                   data-supervisorsdescription="@string.Join(", ", Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorName))"
+                                   data-value="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Value"
+                                   data-description="@Model.ThemeOfScientificWorks[i].Description"
+                                   data-resume="@Model.ThemeOfScientificWorks[i].Resume"
+                                   data-supervisorsid="@string.Join(",", Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorId))"
+                                   data-publications="@Model.ThemeOfScientificWorks[i].Publications"
+                                   data-defendeddissertation="@Model.ThemeOfScientificWorks[i].DefendedDissertation"/>
+                        }
+                    }
+                    <div class="selected-items selected-scientific-works">
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none">
                 <label class="control-label">
-                    Опис виконаної роботи:
+                    Опис наукової роботи:
                 </label>
                 <div>
-                    @Html.TextAreaFor(model => model.ThemeOfScientificWorkDescription, 6, 70, new
+                    @Html.TextAreaFor(model => model.OtherThemeOfScientificWorkDescription, 6, 70, new
                     {
                         @class = "form-control",
                         @style = "max-width: 100%",
-                        @Value = Model.ThemeOfScientificWorkDescription,
+                        @Value = Model.OtherThemeOfScientificWorkDescription,
                     })
                 </div>
             </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_2" />
-            <input type="hidden" name="Id" value="@Model.Id" />
-        }
-    </section>
-    <h3>Інше</h3>
-    <section class="section-body">
-        @using (@Html.BeginForm("UpdateOtherInfo", "Report", FormMethod.Post, new { @id = "updateOtherForm" }))
-        {
+
             <div class="form-group">
                 <label class="control-label">
                     2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) − згідно з додатком 3:
                 </label>
                 <div>
-                    @Html.TextAreaFor(model => model.ParticipationInGrands, 6, 70, new
+                    <label class="text-danger">
+                        <span class="text-danger">*</span>
+                        Якщо ґранти не є зареєстрованими, перейдіть у вкладку "Інше" та введіть їх у пункті 10
+                    </label>
+                </div>
+                <div>
+                    <div id="grant-search" class="search-container">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Пошук за назвою, номером, шифром, науковим керівником" />
+                        </div>
+                        <div class="search-results">
+                        </div>
+                    </div>
+                    @if (Model.Grants != null)
+                    {
+                        for (var i = 0; i < Model.Grants.Count; i++)
+                        {
+                            <input type="hidden" class="initial-grant"
+                                   data-id="@Model.Grants[i].ThemeOfScientificWorkId"
+                                   data-themeid="@Model.Grants[i].Id"
+                                   data-themenumber="@Model.Grants[i].ThemeOfScientificWork.ThemeNumber"
+                                   data-code="@Model.Grants[i].ThemeOfScientificWork.Code"
+                                   data-supervisorsdescription="@string.Join(", ", Model.Grants[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorName))"
+                                   data-value="@Model.Grants[i].ThemeOfScientificWork.Value"
+                                   data-description="@Model.Grants[i].Description" />
+                        }
+                    }
+                    <div class="selected-items selected-grants">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="display:none">
+                <label class="control-label">
+                    Опис грантів:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.OtherGrantDescription, 6, 70, new
                     {
                         @class = "form-control",
                         @style = "max-width: 100%",
-                        @Value = Model.ParticipationInGrands,
+                        @Value = Model.OtherGrantDescription,
                     })
                 </div>
             </div>
@@ -159,7 +155,16 @@
                     гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
                     тощо:
                 </label>
-                <div>
+                @if (Model.StudentPublication.Count > 0)
+                {
+                    <div class="publication-block">
+                        <p class="publication-header">
+                            Публікації зі студентами:
+                        </p>
+                        @Html.EditorFor(model => model.StudentPublication)
+                    </div>
+                }
+                <div class="publication-block">
                     @Html.TextAreaFor(model => model.ScientificControlStudentsWork, 6, 70, new
                     {
                         @class = "form-control",
@@ -168,36 +173,102 @@
                     })
                 </div>
             </div>
+            <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_2" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
 
+    <h3>Публікації</h3>
+    <section class="section-body">
+        <form asp-controller="Report" asp-action="Index" id="dateForm">
             <div class="form-group">
                 <label class="control-label">
-                    7.1. Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
-                    автори, назва, № заявки, дата подачі, заявник(и):
+                    Період з
                 </label>
                 <div>
-                    @Html.TextAreaFor(model => model.ApplicationForInevention, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.ApplicationForInevention,
-                    })
+                    <input name="publicationDateFrom" type="date" class="form-control" value="@(ViewBag.PublicationDateFrom != null ? ((DateTime?)ViewBag.PublicationDateFrom).Value.ToString(Dates.DatePattern) : "")" min="@Dates.MinDate.ToString(Dates.DatePattern)" max="@Dates.MaxDate.ToString(Dates.DatePattern)" />
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="control-label">
-                    7.2. Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
+                    Період до
                 </label>
                 <div>
-                    @Html.TextAreaFor(model => model.PatentForInevention, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.PatentForInevention,
-                    })
+                    <input name="publicationDateTo" type="date" class="form-control" value="@(ViewBag.PublicationDateTo != null ? ((DateTime?)ViewBag.PublicationDateTo).Value.ToString(Dates.DatePattern) : "")" min="@Dates.MinDate.ToString(Dates.DatePattern)" max="@Dates.MaxDate.ToString(Dates.DatePattern)" />
                 </div>
             </div>
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" />
+            <input type="hidden" name="reportId" value="@Model.Id" />
+            <button type="submit" class="btn btn-default">Пошук</button>
+        </form>
+        @using (@Html.BeginForm("UpdatePublications", "Report", FormMethod.Post, new { @id = "updatePublicationForm" }))
+        {
+            @Html.AntiForgeryToken()
+            if (Model.PrintedPublication.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Праці, що вийшли з друку:
+                    </p>
+                    @Html.EditorFor(model => model.PrintedPublication)
+                </div>
+            }
+            if (Model.RecomendedPublication.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Праці, рекомендовані Вченою радою університету до друку:
+                    </p>
+                    @Html.EditorFor(model => model.RecomendedPublication)
+                </div>
+            }
+            if (Model.AcceptedToPrintPublication.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Статті, прийняті до друку:
+                    </p>
+                    @Html.EditorFor(model => model.AcceptedToPrintPublication)
+                </div>
+            }
+            if (Model.ApplicationsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Заявки на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.ApplicationsForInvention)
+                </div>
+            }
+            if (Model.PatentsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Патенти на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.PatentsForInvention)
+                </div>
+            }
+            if (Model.PrintedPublication.Count == 0
+                && Model.RecomendedPublication.Count == 0
+                && Model.AcceptedToPrintPublication.Count == 0
+                && Model.ApplicationsForInvention.Count == 0
+                && Model.PatentsForInvention.Count == 0)
+            {
+                <p style="margin-top:100px">
+                    Немає публікацій за цей період.
+                </p>
+            }
+            <input type="hidden" name="stepIndex" id="stepIndex_1" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
 
+    <h3>Інше</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("UpdateOtherInfo", "Report", FormMethod.Post, new { @id = "updateOtherForm" }))
+        {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
@@ -248,21 +319,23 @@
     <section class="section-body">
         @using (@Html.BeginForm("UpdateFinalInfo", "Report", FormMethod.Post, new { @id = "updateFinishForm" }))
         {
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">
                     Дата:
                 </label>
                 <div>
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", max = new DateTime(DateTime.Now.Year, 12, 31).ToString(Dates.DatePattern) } })
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label">
-                    Протокол:
+                    Протокол (лише числове значення):
                 </label>
                 <div>
                     @Html.TextBoxFor(model => model.Protocol, new { @class = "form-control" })
+                    @{Html.RenderPartial("Common/InfoBox", "Приклад: 5 або 5/20");}
                 </div>
             </div>
             @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -274,33 +347,50 @@
     <section class="section-body">
         @using (@Html.BeginForm("Finalize", "Report", FormMethod.Post, new { @id = "finalizeForm" }))
         {
+            @Html.AntiForgeryToken()
             <div style="text-align: center;
                         margin: 20px;
                         font-size: 22px;
                         color: green;">
                 Ваш звіт успішно заповнено!
             </div>
-
-            <div style="padding-top: 50px;
-                        display: flex;
-                        justify-content: space-evenly;">
-                @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.Id }, new { @class = "btn btn-primary", @id = "signButton" })
+            <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+        <div style="padding-top: 50px;">
+            <div style="display: flex; justify-content: space-evenly;">
                 @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
                 @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "ReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
                 <a href="@Url.Action("Preview", "ReportGeneration", new { reportId = Model.Id })"
                    target="_blank"
                    class="btn btn-default">
                     Переглянути
                 </a>
             </div>
-            <input type="hidden" name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
-            <input type="hidden" name="Id" value="@Model.Id" />
-        }
+            @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+            {
+                <div style="display: flex; justify-content: center; padding-top: 16px">
+                    @using (Html.BeginForm("Sign", "ReportList"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("reportId", Model.Id)
+                        <button type="submit" class="btn btn-primary" id="signButton">Зберегти і завершити</button>
+                    }
+                </div>
+                <div style="display: flex; justify-content: center; padding-top: 8px" class="text-danger"><span>*</span>Після цієї дії звіт стане доступним для адміністратора кафедри</div>
+            }
+        </div>
     </section>
 </div>
 
+
 @section Styles {
+    <script>
+        var CurrentUserId = "@User.Identity.GetUserId()";
+    </script>
     @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/search/bundle")
     @Styles.Render("~/Content/steps/bundle")
     @Styles.Render("~/Content/reports/bundle")
 }
@@ -309,5 +399,6 @@
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/steps")
     @Scripts.Render("~/bundles/stepper")
+    @Scripts.Render("~/bundles/searchComponent")
     @Scripts.Render("~/bundles/reports/edit")
 }

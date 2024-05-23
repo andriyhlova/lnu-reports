@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using SRS.Domain.Entities;
+using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
@@ -30,8 +31,8 @@ namespace SRS.Services.Implementations
             var actions = new Dictionary<string, Func<Task<IList<CathedraReport>>>>
             {
                 [RoleNames.Superadmin] = async () => await _repo.GetAsync(new CathedraReportSpecification(filterModel, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new CathedraReportSpecification(filterModel, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new CathedraReportSpecification(filterModel, x => x.User.Cathedra.FacultyId == user.FacultyId)),
+                [RoleNames.RectorateAdmin] = async () => await _repo.GetAsync(new CathedraReportSpecification(filterModel, x => x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id)),
+                [RoleNames.DeaneryAdmin] = async () => await _repo.GetAsync(new CathedraReportSpecification(filterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.State == ReportState.Signed || x.UserId == user.Id))),
                 [RoleNames.CathedraAdmin] = async () => await _repo.GetAsync(new CathedraReportSpecification(filterModel, x => x.User.CathedraId == user.CathedraId))
             };
 
@@ -53,8 +54,8 @@ namespace SRS.Services.Implementations
             var actions = new Dictionary<string, Func<Task<int>>>
             {
                 [RoleNames.Superadmin] = async () => await _repo.CountAsync(new CathedraReportSpecification(countFilterModel, null)),
-                [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new CathedraReportSpecification(countFilterModel, null)),
-                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new CathedraReportSpecification(countFilterModel, x => x.User.Cathedra.FacultyId == user.FacultyId)),
+                [RoleNames.RectorateAdmin] = async () => await _repo.CountAsync(new CathedraReportSpecification(countFilterModel, x => x.State == ReportState.Confirmed || x.State == ReportState.Signed || x.UserId == user.Id)),
+                [RoleNames.DeaneryAdmin] = async () => await _repo.CountAsync(new CathedraReportSpecification(countFilterModel, x => x.User.Cathedra.FacultyId == user.FacultyId && (x.State == ReportState.Signed || x.UserId == user.Id))),
                 [RoleNames.CathedraAdmin] = async () => await _repo.CountAsync(new CathedraReportSpecification(countFilterModel, x => x.User.CathedraId == user.CathedraId))
             };
 
@@ -66,7 +67,7 @@ namespace SRS.Services.Implementations
             CathedraReport oldReport;
             if (!reportId.HasValue)
             {
-                oldReport = await _repo.GetFirstOrDefaultAsync(x => x.UserId == userId);
+                oldReport = await _repo.GetFirstOrDefaultAsync(x => x.State == ReportState.Draft && x.UserId == userId);
             }
             else
             {
@@ -91,6 +92,19 @@ namespace SRS.Services.Implementations
             report.UserId = currentUserId;
             _mapper.Map(model, report);
             return await _repo.AddAsync(report);
+        }
+
+        public async Task<bool> ChangeState(int id, ReportState state)
+        {
+            var report = await _repo.GetAsync(id);
+            if (report.Date.HasValue && !string.IsNullOrEmpty(report.Protocol))
+            {
+                report.State = state;
+                await _repo.UpdateAsync(report);
+                return true;
+            }
+
+            return false;
         }
     }
 }

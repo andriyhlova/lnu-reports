@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
+using SRS.Services.Models.FilterModels;
+using SRS.Services.Specifications;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
@@ -24,6 +26,21 @@ namespace SRS.Services.Implementations
 
             var cathedras = await _repo.GetAsync(x => x.FacultyId == facultyId);
             return _mapper.Map<IList<CathedraModel>>(cathedras);
+        }
+
+        public async Task<IList<CathedraModel>> GetAllAsync(FacultyFilterModel filterModel)
+        {
+            var cathedras = await _repo.GetAsync(new CathedraSpecification(filterModel));
+            return _mapper.Map<IList<CathedraModel>>(cathedras);
+        }
+
+        public async Task<int> CountAsync(FacultyFilterModel filterModel)
+        {
+            var countFilterModel = new FacultyFilterModel
+            {
+                Search = filterModel.Search
+            };
+            return await _repo.CountAsync(new CathedraSpecification(countFilterModel));
         }
     }
 }

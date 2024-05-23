@@ -3,6 +3,6 @@
     public static class PublicationValues
     {
         public const double FontSize = 16.0;
-        public const int MinPageNumber = 0;
+        public const int MinPageNumber = 1;
     }
 }

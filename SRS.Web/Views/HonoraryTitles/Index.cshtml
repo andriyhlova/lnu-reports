@@ -1,0 +1,57 @@
+﻿@using PagedList.Mvc
+@using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Models
+@using SRS.Web.Models.Shared
+@model ItemsViewModel<BaseFilterViewModel, HonoraryTitleModel>
+@{
+    ViewBag.Title = "Почесні звання";
+}
+
+<h2>Почесні звання</h2>
+<form>
+    @{ViewBag.SearchPlaceholder = "Пошук за назвою";}
+    @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+    <div class="form-group">
+        <input type="submit" class="btn btn-info" value="Фільтрувати" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/HonoraryTitles/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/HonoraryTitles/ExportToExcel" />
+    </div>
+</form>
+
+<p>
+    @Html.ActionLink("Cтворити", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Назва", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, OrderBy = (int)ValueOrderType.Value })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ValueOrderType.Value, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+            </th>
+            <th>
+                @Html.ActionLink("Порядок сортування", "Index", new BaseFilterViewModel { Page = 1, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search, OrderBy = (int)ValueOrderType.SortOrder })
+                @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)ValueOrderType.SortOrder, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SortOrder)
+                </td>
+                <td>
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new BaseFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))

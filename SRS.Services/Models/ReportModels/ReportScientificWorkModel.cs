@@ -1,11 +1,24 @@
-﻿using SRS.Services.Models.BaseModels;
+﻿using System.Collections.Generic;
+using SRS.Services.Models.BaseModels;
 
 namespace SRS.Services.Models.ReportModels
 {
     public class ReportScientificWorkModel : BaseModel
     {
-        public int? ThemeOfScientificWorkId { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> ThemeOfScientificWorks { get; set; }
 
-        public string ThemeOfScientificWorkDescription { get; set; }
+        public IList<ReportThemeOfScientificWorkModel> Grants { get; set; }
+
+        public string OtherThemeOfScientificWorkDescription { get; set; }
+
+        public string OtherGrantDescription { get; set; }
+
+        public string ScientificTrainings { get; set; }
+
+        public string ScientificControlDoctorsWork { get; set; }
+
+        public string ScientificControlStudentsWork { get; set; }
+
+        public IList<int> StudentPublicationIds { get; set; }
     }
 }

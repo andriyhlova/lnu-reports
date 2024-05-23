@@ -6,6 +6,7 @@
         Email,
         FirstName,
         LastName,
-        Active
+        Active,
+        Roles
     }
 }

@@ -1,11 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Shared;
@@ -23,6 +26,8 @@ namespace SRS.Web.Controllers
         private readonly IUserService<UserInfoModel> _userInfoService;
         private readonly IUserService<UserAccountModel> _userAccountService;
         private readonly IRoleService _roleService;
+        private readonly IPositionService _positionService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public UsersManagementController(
@@ -33,6 +38,8 @@ namespace SRS.Web.Controllers
             IUserService<UserInfoModel> userInfoService,
             IUserService<UserAccountModel> userAccountService,
             IRoleService roleService,
+            IPositionService positionService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraCrudService = cathedraCrudService;
@@ -42,19 +49,21 @@ namespace SRS.Web.Controllers
             _userInfoService = userInfoService;
             _userAccountService = userAccountService;
             _roleService = roleService;
+            _positionService = positionService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
-        public async Task<ActionResult> Index(DepartmentFilterViewModel filterViewModel)
+        public async Task<ActionResult> Index(UserFilterViewModel filterViewModel)
         {
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
-            var filterModel = _mapper.Map<DepartmentFilterModel>(filterViewModel);
+            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
             var users = await _baseUserInfoService.GetForUserAsync(currentUser, filterModel);
             var total = await _baseUserInfoService.CountForUserAsync(currentUser, filterModel);
 
             await FillAvailableDepartments(currentUser.FacultyId);
 
-            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, BaseUserInfoModel>
+            var viewModel = new ItemsViewModel<UserFilterViewModel, BaseUserInfoModel>
             {
                 FilterModel = filterViewModel,
                 Items = new StaticPagedList<BaseUserInfoModel>(users, filterViewModel.Page.Value, PaginationValues.PageSize, total)
@@ -71,7 +80,44 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(user);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(UserFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
+            var users = await _baseUserInfoService.GetForUserAsync(currentUser, filterModel);
+            var csvModel = new CsvModel<BaseUserInfoCsvModel>
+            {
+                Data = _mapper.Map<IList<BaseUserInfoCsvModel>>(users)
+            };
+
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "users.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(UserFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<UserFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
+            var users = await _baseUserInfoService.GetForUserAsync(currentUser, filterModel);
+            var csvModel = new CsvModel<BaseUserInfoCsvModel>
+            {
+                Data = _mapper.Map<IList<BaseUserInfoCsvModel>>(users)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "users.xlsx");
         }
 
         [HttpGet]
@@ -83,7 +129,8 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
-            await FillAvailableRoles();
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+            await FillRelatedEntities();
             return View(user);
         }
 
@@ -99,13 +146,14 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            await FillAvailableRoles();
+            await FillRelatedEntities();
             return View(existingUser);
         }
 
         [HttpGet]
         public async Task<ActionResult> Delete(string id)
         {
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return await Details(id);
         }
 
@@ -118,9 +166,16 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task FillAvailableRoles()
+        private async Task FillRelatedEntities()
         {
             var currentUser = await _userAccountService.GetByIdAsync(User.Identity.GetUserId());
+            await FillAvailableRoles(currentUser);
+            await FillAvailableDepartments(currentUser.FacultyId);
+            await FillAvailablePositions();
+        }
+
+        private async Task FillAvailableRoles(UserAccountModel currentUser)
+        {
             ViewBag.AvailableRoles = await _roleService.GetAvailableRolesAsync(currentUser);
         }
 
@@ -135,6 +190,11 @@ namespace SRS.Web.Controllers
             {
                 ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(facultyId);
             }
+        }
+
+        private async Task FillAvailablePositions()
+        {
+            ViewBag.AllPositions = await _positionService.GetAllAsync(new BaseFilterModel());
         }
     }
 }

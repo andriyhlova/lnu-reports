@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
-using SRS.Domain.Enums;
+using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.UserModels;
@@ -27,6 +27,7 @@ namespace SRS.Web.Controllers
         private readonly IPublicationService _publicationService;
         private readonly IUserService<UserAccountModel> _userService;
         private readonly IUserService<UserInitialsModel> _userWithInitialService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public PublicationsController(
@@ -36,6 +37,7 @@ namespace SRS.Web.Controllers
             IPublicationService publicationService,
             IUserService<UserAccountModel> userService,
             IUserService<UserInitialsModel> userWithInitialService,
+            IExportService exportService,
             IMapper mapper)
         {
             _cathedraService = cathedraService;
@@ -44,6 +46,7 @@ namespace SRS.Web.Controllers
             _publicationService = publicationService;
             _userService = userService;
             _userWithInitialService = userWithInitialService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -74,19 +77,21 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(publication);
         }
 
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            FillRelatedEntities();
             var currentUser = await _userWithInitialService.GetByIdAsync(User.Identity.GetUserId());
             var model = new PublicationEditViewModel
             {
                 Users = new List<UserInitialsModel> { currentUser },
                 Year = DateTime.Now.Year
             };
+
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(model);
         }
 
@@ -96,12 +101,55 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
-                return RedirectToAction(nameof(Index));
+                var id = await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
+                if (id > 0)
+                {
+                    return RedirectToIndex();
+                }
+
+                ModelState.AddModelError(string.Empty, "Така публікація вже існує");
+                ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+                return View(model);
             }
 
-            FillRelatedEntities();
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(PublicationFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<PublicationFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var publications = await _publicationService.GetForUserAsync(user, filterModel);
+            var csvModel = new CsvModel<PublicationCsvModel>
+            {
+                Data = _mapper.Map<IList<PublicationCsvModel>>(publications)
+            };
+
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "publication.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(PublicationFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<PublicationFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var user = await _userService.GetByIdAsync(User.Identity.GetUserId());
+            var publications = await _publicationService.GetForUserAsync(user, filterModel);
+            var csvModel = new CsvModel<PublicationCsvModel>
+            {
+                Data = _mapper.Map<IList<PublicationCsvModel>>(publications)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "publication.xlsx");
         }
 
         [HttpGet]
@@ -113,7 +161,7 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
-            FillRelatedEntities();
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(_mapper.Map<PublicationEditViewModel>(publication));
         }
 
@@ -123,17 +171,25 @@ namespace SRS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
-                return RedirectToAction(nameof(Index));
+                var entity = await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
+                if (entity != null)
+                {
+                    return RedirectToIndex();
+                }
+
+                ModelState.AddModelError(string.Empty, "Така публікація вже існує");
+                ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+                return View(model);
             }
 
-            FillRelatedEntities();
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(model);
         }
 
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
+            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return await Details(id);
         }
 
@@ -143,7 +199,7 @@ namespace SRS.Web.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             await _publicationCrudService.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToIndex();
         }
 
         private async Task FillAvailableDepartments(int? facultyId)
@@ -159,13 +215,10 @@ namespace SRS.Web.Controllers
             }
         }
 
-        private void FillRelatedEntities()
+        private RedirectResult RedirectToIndex()
         {
-            ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Where(x => x != nameof(PublicationType.Стаття))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();
-            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+            var returnUrl = Request.QueryString["returnUrl"];
+            return Redirect(Url.Action(nameof(Index)) + (!string.IsNullOrWhiteSpace(returnUrl) ? "?" + returnUrl : string.Empty));
         }
     }
 }

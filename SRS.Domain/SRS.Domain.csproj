@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SRS.Domain</RootNamespace>
     <AssemblyName>SRS.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -74,6 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DissertationDefense.cs" />
+    <Compile Include="Entities\ReportThemeOfScientificWork.cs" />
+    <Compile Include="Entities\ApplicationUserHonoraryTitle.cs" />
+    <Compile Include="Entities\HonoraryTitle.cs" />
+    <Compile Include="Entities\ApplicationUserAcademicStatus.cs" />
+    <Compile Include="Entities\ApplicationUserDegree.cs" />
+    <Compile Include="Entities\JournalType.cs" />
     <Compile Include="Entities\Journal.cs" />
     <Compile Include="Entities\Degree.cs" />
     <Compile Include="Entities\BaseValueEntity.cs" />
@@ -90,7 +97,18 @@
     <Compile Include="Entities\Publication.cs" />
     <Compile Include="Entities\Report.cs" />
     <Compile Include="Entities\AcademicStatus.cs" />
+    <Compile Include="Entities\ThemeOfScientificWorkCathedra.cs" />
+    <Compile Include="Entities\ThemeOfScientificWorkFinancial.cs" />
     <Compile Include="Entities\ThemeOfScientificWork.cs" />
+    <Compile Include="Entities\ThemeOfScientificWorkSupervisor.cs" />
+    <Compile Include="Enums\DissertationType.cs" />
+    <Compile Include="Enums\OrderTypes\CathedraOrderType.cs" />
+    <Compile Include="Enums\OrderTypes\DissertationDefenseOrderType.cs" />
+    <Compile Include="Enums\OrderTypes\ValueOrderType.cs" />
+    <Compile Include="Enums\Currency.cs" />
+    <Compile Include="Enums\AcademicStatusType.cs" />
+    <Compile Include="Enums\ReportState.cs" />
+    <Compile Include="Enums\ScientificWorkSubCategory.cs" />
     <Compile Include="Enums\OrderTypes\JournalOrderType.cs" />
     <Compile Include="Enums\OrderTypes\CathedraReportOrderType.cs" />
     <Compile Include="Enums\OrderTypes\ReportOrderType.cs" />
@@ -103,8 +121,10 @@
     <Compile Include="Enums\PublicationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specifications\BaseFilterSpecification.cs" />
-    <Compile Include="Specifications\Ordering\OrdererDesc.cs" />
-    <Compile Include="Specifications\Ordering\OrdererAsc.cs" />
+    <Compile Include="Specifications\Ordering\IThenByOrderer.cs" />
+    <Compile Include="Specifications\Ordering\BaseOrderer.cs" />
+    <Compile Include="Specifications\Ordering\ThenByOrderer.cs" />
+    <Compile Include="Specifications\Ordering\Orderer.cs" />
     <Compile Include="Specifications\Ordering\IOrderer.cs" />
     <Compile Include="Specifications\BaseSpecification.cs" />
     <Compile Include="Specifications\ISpecification.cs" />

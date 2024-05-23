@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Repositories.Context;
 
 namespace SRS.Repositories.Implementations
@@ -13,16 +12,18 @@ namespace SRS.Repositories.Implementations
 
         protected override void AddRelatedEntities(CathedraReport entity)
         {
-            AddCollection(entity.PrintedPublicationBudgetTheme);
-            AddCollection(entity.PrintedPublicationThemeInWorkTime);
-            AddCollection(entity.PrintedPublicationHospDohovirTheme);
+            AddCollection(entity.Publications);
+            AddCollection(entity.ApplicationsForInvention);
+            AddCollection(entity.PatentsForInvention);
+            AddCollection(entity.Grants);
         }
 
         protected override void UpdateRelatedEntities(CathedraReport existingEntity, CathedraReport newEntity)
         {
-            UpdateCollection(existingEntity.PrintedPublicationBudgetTheme, newEntity.PrintedPublicationBudgetTheme);
-            UpdateCollection(existingEntity.PrintedPublicationThemeInWorkTime, newEntity.PrintedPublicationThemeInWorkTime);
-            UpdateCollection(existingEntity.PrintedPublicationHospDohovirTheme, newEntity.PrintedPublicationHospDohovirTheme);
+            UpdateCollection(existingEntity.Publications, newEntity.Publications);
+            UpdateCollection(existingEntity.ApplicationsForInvention, newEntity.ApplicationsForInvention);
+            UpdateCollection(existingEntity.PatentsForInvention, newEntity.PatentsForInvention);
+            UpdateCollection(existingEntity.Grants, newEntity.Grants);
         }
     }
 }

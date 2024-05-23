@@ -3,13 +3,13 @@ function changeStepPageAndSubmit(index, newIndex) {
         $(this).val(newIndex);
     });
     if (index == 0) {
-        $('#updateBudgetThemeForm').submit();
+        $('#updateAchievementSchoolForm').submit();
     }
     if (index == 1) {
-        $('#updateInWorkThemeForm').submit();
+        $('#updateThemeForm').submit();
     }
     if (index == 2) {
-        $('#updateHospDohovirThemeForm').submit();
+        $('#updatePublicationForm').submit();
     }
     if (index == 3) {
         $('#updateOtherForm').submit();
@@ -20,6 +20,8 @@ function changeStepPageAndSubmit(index, newIndex) {
     if (index == 5) {
         $('#updateEndForm').submit();
     }
+
+    return true;
 };
 
 function themeDropdownOnChange() {

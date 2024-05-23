@@ -1,4 +1,5 @@
-﻿using SRS.Domain.Enums;
+﻿using System.Collections.Generic;
+using SRS.Domain.Enums;
 
 namespace SRS.Domain.Entities
 {
@@ -13,5 +14,7 @@ namespace SRS.Domain.Entities
         public string ElectronicIssn { get; set; }
 
         public Quartile? BestQuartile { get; set; }
+
+        public virtual ICollection<JournalType> JournalTypes { get; set; }
     }
 }

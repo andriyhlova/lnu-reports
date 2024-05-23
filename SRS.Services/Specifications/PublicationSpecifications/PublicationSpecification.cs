@@ -16,15 +16,24 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                   filterModel.Take,
                   expression.AndAlso(
                       x => (string.IsNullOrEmpty(filterModel.Search) ||
-                                x.Name.Contains(filterModel.Search)) &&
-                            (filterModel.From == null || x.Date >= filterModel.From) &&
-                            (filterModel.To == null || x.Date <= filterModel.To) &&
+                            x.Name.Contains(filterModel.Search) ||
+                            x.AuthorsOrder.Contains(filterModel.Search) ||
+                            x.Place.Contains(filterModel.Search) ||
+                            x.Tome.Contains(filterModel.Search) ||
+                            x.Edition.Contains(filterModel.Search) ||
+                            x.Journal.Name.Contains(filterModel.Search) ||
+                            x.OtherJournal.Contains(filterModel.Search) ||
+                            x.DOI.Contains(filterModel.Search)) &&
+                            (filterModel.PublicationType == null || x.PublicationType == filterModel.PublicationType) &&
+                            (filterModel.From == null || x.Date.Year >= filterModel.From.Value.Year) &&
+                            (filterModel.To == null || x.Date.Year <= filterModel.To.Value.Year) &&
                             (filterModel.UserId == null || x.User.Any(u => u.Id == filterModel.UserId)) &&
                             (filterModel.CathedraId == null || x.User.Any(u => u.CathedraId == filterModel.CathedraId)) &&
                             (filterModel.FacultyId == null || x.User.Any(u => u.Cathedra.FacultyId == filterModel.FacultyId))),
                   true)
         {
             AddInclude(x => x.User.Select(u => u.Cathedra));
+            AddInclude(x => x.Journal);
             AddOrder(filterModel.OrderBy, filterModel.Desc);
         }
 
@@ -40,7 +49,9 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
                 case PublicationOrderType.PublicationType when desc: ApplyOrderByDescending(x => x.PublicationType); break;
                 case PublicationOrderType.AuthorsOrder when !desc: ApplyOrderBy(x => x.AuthorsOrder); break;
                 case PublicationOrderType.AuthorsOrder when desc: ApplyOrderByDescending(x => x.AuthorsOrder); break;
-                default: ApplyOrderByDescending(x => x.Date); break;
+                case PublicationOrderType.JournalChapterConferenceName when !desc: ApplyOrderBy(x => x.Journal.Name ?? x.OtherJournal); ApplyThenBy(x => x.ChapterMonographyName); ApplyThenBy(x => x.ConferenceName); break;
+                case PublicationOrderType.JournalChapterConferenceName when desc: ApplyOrderByDescending(x => x.Journal.Name ?? x.OtherJournal); ApplyThenByDescending(x => x.ChapterMonographyName); ApplyThenByDescending(x => x.ConferenceName); break;
+                default: ApplyOrderByDescending(x => x.Date); ApplyThenBy(x => x.Name); break;
             }
         }
     }

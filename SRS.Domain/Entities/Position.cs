@@ -2,5 +2,6 @@
 {
     public class Position : BaseValueEntity
     {
+        public int SortOrder { get; set; }
     }
 }

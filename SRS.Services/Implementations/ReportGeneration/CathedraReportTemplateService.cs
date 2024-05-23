@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
+using SRS.Services.Extensions;
+using SRS.Services.Interfaces;
+using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
+using SRS.Services.Models.Constants;
 using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations.ReportGeneration
 {
@@ -14,16 +18,22 @@ namespace SRS.Services.Implementations.ReportGeneration
     {
         private readonly IBaseRepository<CathedraReport> _repo;
         private readonly IUserRepository _userRepo;
-        private readonly IBibliographyService _bibliographyService;
+        private readonly IBibliographyService<Publication> _bibliographyService;
+        private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
+        private readonly IBibliographyService<ThemeOfScientificWork> _themeBibliographyService;
 
         public CathedraReportTemplateService(
             IBaseRepository<CathedraReport> repo,
             IUserRepository userRepo,
-            IBibliographyService bibliographyService)
+            IBibliographyService<Publication> bibliographyService,
+            IThemeOfScientificWorkService themeOfScientificWorkService,
+            IBibliographyService<ThemeOfScientificWork> themeBibliographyService)
         {
             _repo = repo;
             _userRepo = userRepo;
             _bibliographyService = bibliographyService;
+            _themeOfScientificWorkService = themeOfScientificWorkService;
+            _themeBibliographyService = themeBibliographyService;
         }
 
         public async Task<CathedraReportTemplateModel> BuildAsync(int reportId)
@@ -32,18 +42,18 @@ namespace SRS.Services.Implementations.ReportGeneration
             var facultyLeads = await _userRepo.GetAsync(new FacultyLeadSpecification(dbReport.User.Cathedra.FacultyId));
             var report = new CathedraReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
-            report.BudgetThemeOfScientificWork = dbReport.BudgetTheme != null ? GetBudgetThemeOfScientificWork(dbReport) : null;
-            report.InWorkTimeThemeOfScientificWork = dbReport.ThemeInWorkTime != null ? GetInWorkTimeThemeOfScientificWork(dbReport) : null;
-            report.HospDohovirThemeOfScientificWork = dbReport.HospDohovirTheme != null ? GetHospDohovirThemeOfScientificWork(dbReport) : null;
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, facultyLeads);
+            report.ThemeOfScientificWorks = await GetThemeOfScientificWorksAsync(dbReport);
+            report.Grants = GetGrants(dbReport);
+            report.OtherGrantDescription = dbReport.OtherGrants;
             return report;
         }
 
         private CathedraReportGeneralInfoModel GetGeneralInfo(CathedraReport dbReport)
         {
             var generalInfo = new CathedraReportGeneralInfoModel();
-            generalInfo.Cathedra = dbReport.User.Cathedra.Name.Replace("Кафедра ", string.Empty);
+            generalInfo.Cathedra = dbReport.User.Cathedra.GenitiveCase.ToLower();
             generalInfo.Year = dbReport.Date?.Year ?? 0;
             generalInfo.AchievementSchool = dbReport.AchivementSchool;
             generalInfo.OtherFormsOfScientificWork = dbReport.OtherFormsOfScientificWork;
@@ -58,92 +68,34 @@ namespace SRS.Services.Implementations.ReportGeneration
             return generalInfo;
         }
 
-        private CathedraReportThemeOfScientificWorkModel GetBudgetThemeOfScientificWork(CathedraReport dbReport)
-        {
-            var themeOfScientificWork = GetThemeOfScientificWorkBase(dbReport.BudgetTheme);
-            themeOfScientificWork.Description = dbReport.AllDescriptionBudgetTheme;
-            themeOfScientificWork.ThemeCV = dbReport.CVBudgetTheme;
-            themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersBudgetTheme;
-            themeOfScientificWork.PublicationsCounters = GetPublicationCounters(dbReport.PrintedPublicationBudgetTheme);
-            themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionBudgetTheme;
-            themeOfScientificWork.Other = dbReport.OtherBudgetTheme;
-            return themeOfScientificWork;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetInWorkTimeThemeOfScientificWork(CathedraReport dbReport)
-        {
-            var themeOfScientificWork = GetThemeOfScientificWorkBase(dbReport.ThemeInWorkTime);
-            themeOfScientificWork.Description = dbReport.AllDescriptionThemeInWorkTime;
-            themeOfScientificWork.ThemeCV = dbReport.CVThemeInWorkTime;
-            themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersThemeInWorkTime;
-            themeOfScientificWork.PublicationsCounters = GetPublicationCounters(dbReport.PrintedPublicationThemeInWorkTime);
-            themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionThemeInWorkTime;
-            themeOfScientificWork.Other = dbReport.OtherThemeInWorkTime;
-            return themeOfScientificWork;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetHospDohovirThemeOfScientificWork(CathedraReport dbReport)
-        {
-            var themeOfScientificWork = GetThemeOfScientificWorkBase(dbReport.BudgetTheme);
-            themeOfScientificWork.Description = dbReport.AllDescriptionHospDohovirTheme;
-            themeOfScientificWork.ThemeCV = dbReport.CVHospDohovirTheme;
-            themeOfScientificWork.DefensesOfCoworkers = dbReport.DefensesOfCoworkersHospDohovirTheme;
-            themeOfScientificWork.PublicationsCounters = GetPublicationCounters(dbReport.PrintedPublicationHospDohovirTheme);
-            themeOfScientificWork.ApplicationAndPatentsOnInvention = dbReport.ApplicationAndPatentsOnInventionHospDohovirTheme;
-            themeOfScientificWork.Other = dbReport.OtherHospDohovirTheme;
-            return themeOfScientificWork;
-        }
-
-        private CathedraReportThemeOfScientificWorkModel GetThemeOfScientificWorkBase(ThemeOfScientificWork scientificWork)
-        {
-            var themeOfScientificWork = new CathedraReportThemeOfScientificWorkModel();
-            themeOfScientificWork.Title = scientificWork.Value;
-            themeOfScientificWork.Number = scientificWork.ThemeNumber;
-            themeOfScientificWork.Code = scientificWork.Code;
-            themeOfScientificWork.PeriodFrom = scientificWork.PeriodFrom.Year.ToString();
-            themeOfScientificWork.PeriodTo = scientificWork.PeriodTo.Year.ToString();
-            themeOfScientificWork.Head = scientificWork.ScientificHead;
-            return themeOfScientificWork;
-        }
-
-        private List<CathedraReportPublicationCountersModel> GetPublicationCounters(List<Publication> publications)
-        {
-            var aggregatedPublications = publications.GroupBy(x => x.PublicationType).ToDictionary(k => k.Key, x => x.Count());
-            var result = new List<CathedraReportPublicationCountersModel>();
-            foreach (var item in aggregatedPublications)
-            {
-                result.Add(new CathedraReportPublicationCountersModel
-                {
-                    Type = item.Key.ToString().Replace("_", " ").ToLower(),
-                    Count = item.Value
-                });
-            }
-
-            return result;
-        }
-
         private CathedraReportPublicationsModel GetPublications(CathedraReport dbReport)
         {
-            var distinctPublications = dbReport.PrintedPublicationBudgetTheme
-                .Union(dbReport.PrintedPublicationHospDohovirTheme)
-                .Union(dbReport.PrintedPublicationThemeInWorkTime)
+            var distinctPublications = dbReport.Publications
                 .GroupBy(x => x.Id)
                 .Select(x => x.First())
                 .ToList();
 
+            var reportApplicationsForInvention = dbReport.ApplicationsForInvention.ToList();
+            var reportPatentsForInvention = dbReport.PatentsForInvention.ToList();
+
             var publications = new CathedraReportPublicationsModel();
-            publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія));
+            publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві));
             publications.Books = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.TrainingBooks = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.OtherWritings = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));
             publications.ImpactFactorArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор));
             publications.InternationalMetricArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних));
-            publications.InternationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Закордонних_Виданнях));
             publications.OtherInternationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях));
             publications.NationalProfessionalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України));
             publications.OtherNationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));
             publications.InternationalConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції));
             publications.NationalConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції));
+            publications.ApplicationsForInvention = GetPublicationsBibliography(reportApplicationsForInvention);
+            publications.PatentsForInvention = GetPublicationsBibliography(reportPatentsForInvention);
+
             return publications;
         }
 
@@ -155,7 +107,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             signature.Protocol = dbReport.Protocol;
             signature.Date = dbReport.Date?.ToString("dd.MM.yyyy");
             signature.FacultyLead = facultyLead?.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.ShortReverseFullName;
-            signature.FacultyLeadStatus = facultyLead?.AcademicStatus?.Value;
+            signature.FacultyLeadStatuses = facultyLead?.AcademicStatuses.Select(academicStatus => academicStatus.AcademicStatus.Value).ToList();
             return signature;
         }
 
@@ -173,6 +125,51 @@ namespace SRS.Services.Implementations.ReportGeneration
         private List<string> GetPublicationsBibliography(IEnumerable<Publication> publications)
         {
             return publications.Select(x => _bibliographyService.Get(x)).ToList();
+        }
+
+        private async Task<List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>> GetThemeOfScientificWorksAsync(CathedraReport dbReport)
+        {
+            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(dbReport.User.CathedraId.Value, dbReport.Date);
+            var results = new List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>();
+            foreach (var financialThemes in themes)
+            {
+                var item = (financialThemes.Key.GetDisplayName(), new List<CathedraReportThemeOfScientificWorkModel>());
+
+                foreach (var theme in financialThemes.Value)
+                {
+                    var model = new CathedraReportThemeOfScientificWorkModel
+                    {
+                        Code = theme.Code,
+                        Value = theme.Value,
+                        SupervisorDescription = theme.GetSupervisors(),
+                        ThemeNumber = theme.ThemeNumber,
+                        PeriodFrom = theme.PeriodFrom.ToString(Dates.UaDatePattern),
+                        PeriodTo = theme.PeriodTo.ToString(Dates.UaDatePattern),
+                        Resume = theme.Resume,
+                        DefendedDissertation = theme.DefendedDissertation,
+                        Publications = theme.Publications,
+                        FinancialAmount = theme.FinancialAmount,
+                        FinancialYear = theme.FinancialYear
+                    };
+
+                    item.Item2.Add(model);
+                }
+
+                results.Add(item);
+            }
+
+            return results;
+        }
+
+        private List<string> GetGrants(CathedraReport dbReport)
+        {
+            var results = new List<string>();
+            foreach (var grant in dbReport.Grants)
+            {
+                results.Add(_themeBibliographyService.Get(grant));
+            }
+
+            return results;
         }
     }
 }

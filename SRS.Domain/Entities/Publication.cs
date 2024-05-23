@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SRS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Domain.Enums;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SRS.Domain.Entities
 {
@@ -20,15 +22,19 @@ namespace SRS.Domain.Entities
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
 
-        public int? PageFrom { get; set; }
+        public string PageFrom { get; set; }
 
-        public int? PageTo { get; set; }
+        public string PageTo { get; set; }
+
+        public string PublicationIdentifier { get; set; }
 
         public double SizeOfPages { get; set; }
 
         public PublicationType PublicationType { get; set; }
 
         public Language Language { get; set; }
+
+        public string OtherLanguage { get; set; }
 
         public string Link { get; set; }
 
@@ -50,9 +56,39 @@ namespace SRS.Domain.Entities
 
         public bool IsMainAuthorRegistered { get; set; }
 
+        public int? NumberOfPages { get; set; }
+
+        public string ISBN { get; set; }
+
+        public string ConferenceName { get; set; }
+
+        public string ConferenceDate { get; set; }
+
+        public string ConferencePlace { get; set; }
+
+        public string ConferenceCountry { get; set; }
+
+        public string ConferenceEdition { get; set; }
+
+        public string Issue { get; set; }
+
+        public string ApplicationNumber { get; set; }
+
+        public DateTime? ApplicationDate { get; set; }
+
+        public string ApplicationOwner { get; set; }
+
+        public string BulletinNumber { get; set; }
+
+        public string ChapterMonographyName { get; set; }
+
+        public string Editors { get; set; }
+
         public virtual Journal Journal { get; set; }
 
         public virtual ICollection<ApplicationUser> User { get; set; }
+
+        public virtual ICollection<Report> StudentPublicationReport { get; set; }
 
         public virtual ICollection<Report> PrintedPublicationReport { get; set; }
 
@@ -60,32 +96,38 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<Report> AcceptedToPrintPublicationReport { get; set; }
 
-        public virtual ICollection<CathedraReport> PrintedPublicationBudgetCathedraReport { get; set; }
+        public virtual ICollection<Report> ApplicationsForInventionReport { get; set; }
 
-        public virtual ICollection<CathedraReport> PrintedPublicationInWorkCathedraReport { get; set; }
+        public virtual ICollection<Report> PatentsForInventionReport { get; set; }
 
-        public virtual ICollection<CathedraReport> PrintedPublicationHospDohovirCathedraReport { get; set; }
+        public virtual ICollection<CathedraReport> PublicationsCathedraReport { get; set; }
+
+        public virtual ICollection<CathedraReport> ApplicationsForInventionCathedraReport { get; set; }
+
+        public virtual ICollection<CathedraReport> PatentsForInventionCathedraReport { get; set; }
 
         public string GetPages()
         {
-            if (!PageFrom.HasValue || !PageTo.HasValue)
+            var spaceRegex = new Regex(@"\s{2,}");
+            var pageFromTrimmed = !string.IsNullOrWhiteSpace(PageFrom) ? spaceRegex.Replace(PageFrom.Trim(), " ") : null;
+            var pageToTrimmed = !string.IsNullOrWhiteSpace(PageTo) ? spaceRegex.Replace(PageTo.Trim(), " ") : null;
+            if (!string.IsNullOrWhiteSpace(pageFromTrimmed) && !string.IsNullOrWhiteSpace(pageToTrimmed) && pageFromTrimmed == pageToTrimmed)
             {
-                return null;
+                return pageFromTrimmed;
             }
 
-            return PageFrom.Value != PageTo.Value ? $"{PageFrom.Value}-{PageTo.Value}" : PageFrom.Value.ToString();
+            var pages = new string[] { pageFromTrimmed, pageToTrimmed };
+            return string.Join("-", pages.Where(x => !string.IsNullOrWhiteSpace(x) && x != "0"));
         }
 
-        public string GetJournalName()
+        public string GetJournalName(bool useShortName = false)
         {
-            return Journal?.Name ?? OtherJournal;
+            return (useShortName && !string.IsNullOrWhiteSpace(Journal?.ShortName) ? Journal?.ShortName : Journal?.Name) ?? OtherJournal;
         }
 
         public bool IsArticle()
         {
-            return PublicationType == PublicationType.Стаття
-                || PublicationType == PublicationType.Стаття_В_Закордонних_Виданнях
-                || PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України
+            return PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України
                 || PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях
                 || PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор
                 || PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних

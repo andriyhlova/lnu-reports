@@ -23,12 +23,20 @@
             margin-left: 34px;
         }
 
-        .header {
+        .header, .header p, .header div {
             text-align: center;
+        }
+
+        p, div{
+            text-align: justify;
         }
 
         .top-ident {
             margin-top: 25px;
+        }
+
+        .bottom-ident {
+            margin-bottom: 25px;
         }
 
         .table-report {
@@ -42,29 +50,40 @@
         .pre-line {
             white-space: pre-line;
         }
+
+        .italic{
+            font-style:italic;
+        }
+
+        .bold{
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="body">
         <div class="header">
             {{#with GeneralInfo}}
-            <h2>
-                Індивідуальний звіт про наукову роботу в {{Year}} році
-            </h2>
+            <p class="bold">
+                Індивідуальний звіт про наукову роботу в {{#if Year}}{{Year}}{{/if}} році
+            </p>
             {{/with}}
             {{#with UserInfo}}
-            <p>
-                <i>
-                    {{Position}} кафедри {{Cathedra}} {{UserFullName}}
-                </i>
+            {{#if Position}}
+            <p class="bold">
+                {{Position}} {{Cathedra}}
+            </p>
+            {{/if}}
+            <p class="bold">
+                {{UserFullName}}
             </p>
             {{/with}}
         </div>
 
         {{#with UserInfo}}
         <div>
-            <p>
-                <b>Відомості про вченого:</b>
+            <p class="bold">
+                Відомості про вченого:
             </p>
             <p>
                 Рік народження: {{BirthYear}}
@@ -74,53 +93,106 @@
             </p>
             {{#if AspStart}}
             <p>
-                Перебування в аспірантурі ({{AspStart}} - {{AspFinish}})
+                Перебування в аспірантурі: {{AspStart}}-{{AspFinish}}
             </p>
             {{/if}}
             {{#if DocStart}}
             <p>
-                Перебування в докторантурі ({{DocStart}} - {{DocFinish}})
+                Перебування в докторантурі: {{DocStart}}-{{DocFinish}}
             </p>
             {{/if}}
+            {{#if Degrees.Count}}
             <p>
-                Науковий ступінь, рік захисту:
-                {{#if ScientificDegree}}
-                {{ScientificDegree}}, {{ScientificDegreeYear}}
-                {{else}}
-                Без ступеня
-                {{/if}}
+                Науковий ступінь, рік присудження:
+                {{#each Degrees}}
+                {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{/each}}
             </p>
+            {{/if}}
+            {{#if AcademicStatuses.Count}}
             <p>
                 Вчене звання, рік присвоєння:
-                {{#if AcademicStatus}}
-                {{AcademicStatus}}, {{AcademicStatusYear}}
-                {{else}}
-                Без ступеня
-                {{/if}}
+                {{#each AcademicStatuses}}
+                {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{/each}}
             </p>
-        </div>
-        {{/with}}
-
-        {{#with ThemeOfScientificWork}}
-        <div class="top-ident">
-            <p>1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).</p>
+            {{/if}}
+            {{#if HonoraryTitles.Count}}
             <p>
-                <i>
-                    Тема {{Financial}} - {{Title}}. {{Number}}{{#if Code}} {{Code}}{{/if}}; {{Head}} {{PeriodFrom}} - {{PeriodTo}}
-                </i>
+                Почесне звання, рік присвоєння:
+                {{#each HonoraryTitles}}
+                {{this.Title}}, {{this.Year}}{{#if @last}}{{else}},{{/if}}
+                {{/each}}
             </p>
-            <p class="top-ident pre-line">{{Description}}</p>
+            {{/if}}
+            {{#if ScopusHIndex}}
+            <p>
+                h-індекс (Scopus):
+                {{ScopusHIndex}}
+            </p>
+            {{/if}}
+            {{#if WebOfScienceHIndex}}
+            <p>
+                h-індекс (Web of Science):
+                {{WebOfScienceHIndex}}
+            </p>
+            {{/if}}
+            {{#if GoogleScholarHIndex}}
+            <p>
+                h-індекс (Google Scholar):
+                {{GoogleScholarHIndex}}
+            </p>
+            {{/if}}
         </div>
         {{/with}}
 
-        {{#with GeneralInfo}}
-        {{#if ParticipationInGrands}}
+        {{#with ScientificWork}}
+
+        {{#if ThemeOfScientificWorks.Count}}
+        <div class="top-ident">
+            <p>
+                1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).
+            </p>
+        </div>
+        {{#each ThemeOfScientificWorks}}
+        <p class="bottom-ident">Тема {{this.Theme}}</p>
+        <p class="bottom-ident pre-line">{{this.Description}}</p>
+        {{/each}}
+        {{/if}}
+
+        {{#if OtherThemeOfScientificWorkDescription}}
+        {{#unless ThemeOfScientificWorks.Count}}
+        <div class="top-ident">
+            <p>
+                1. Участь у науково-дослідній тематиці підрозділу - шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).
+            </p>
+        </div>
+        {{/unless}}
+        <p class="bottom-ident pre-line">{{OtherThemeOfScientificWorkDescription}}</p>
+        {{/if}}
+
+        {{#if Grants.Count}}
         <div class="top-ident">
             <p>
                 2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
             </p>
-            <p class="pre-line">{{ParticipationInGrands}}</p>
         </div>
+        {{#each Grants}}
+        <p class="bottom-ident">
+            {{this.Theme}}
+        </p>
+        <p class="bottom-ident pre-line">{{this.Description}}</p>
+        {{/each}}
+        {{/if}}
+        {{#if OtherGrantDescription}}
+        {{#unless Grants.Count}}
+        <div class="top-ident">
+            <p>
+                2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) - згідно з додатком 3.
+            </p>
+        </div>
+        {{/unless}}
+        <p class="bottom-ident pre-line">{{OtherGrantDescription}}</p>
         {{/if}}
 
         {{#if ScientificTrainings}}
@@ -143,13 +215,34 @@
         </div>
         {{/if}}
 
-        {{#if ScientificControlStudentsWork}}
+        {{#if StudentPublications.Count}}
         <div class="top-ident">
             <p>
                 5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
                 гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
                 тощо.
             </p>
+        </div>
+        <div>
+            Публікації зі студентами:
+        </div>
+        <div class="bottom-ident">
+            {{#each StudentPublications}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+        {{#if ScientificControlStudentsWork}}
+        {{#unless StudentPublications.Count}}
+        <div class="top-ident">
+            <p>
+                5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
+                гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
+                тощо.
+            </p>
+        </div>
+        {{/unless}}
+        <div>
             <p class="pre-line">{{ScientificControlStudentsWork}}</p>
         </div>
         {{/if}}
@@ -344,10 +437,10 @@
         </div>
         {{/if}}
 
-        {{#if RecommendedPublications.Count}}
+        {{#if RecommendedPublicationCount}}
         <div class="top-ident">
             <p>
-                6.2.Праці, рекомендовані Вченою радою університету до друку(автори, назва праці, обсяг, дата
+                6.2. Праці, рекомендовані Вченою радою університету до друку(автори, назва праці, обсяг, дата
                 подачі):
             </p>
         </div>
@@ -425,36 +518,47 @@
         {{/if}}
 
         {{/if}}
-        {{/with}}
 
-        {{#with GeneralInfo}}
-        {{#if ApplicationForInevention}}
-        {{#if PatentForInevention}}
+        {{#if ApplicationsForInvention.Count}}
         <div class="top-ident">
             <p>
                 7. Патентно-ліцензійна діяльність:
             </p>
         </div>
-        {{#if ApplicationForInevention}}
         <div class="top-ident">
             <p>
                 7.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) -
                 автори, назва, № заявки, дата подачі, заявник(и):
             </p>
-            <p class="pre-line">{{ApplicationForInevention}}</p>
+            <div>
+                {{#each ApplicationsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
-        {{#if PatentForInevention}}
+        {{#if PatentsForInvention.Count}}
+        {{#unless ApplicationsForInvention.Count}}
+        <div class="top-ident">
+            <p>
+                7. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+        {{/unless}}
         <div class="top-ident">
             <p>
                 7.2 Патенти на винахід (корисну модель) - автори, назва, № патенту, дата видачі, заявник(и):
             </p>
-            <p class="pre-line">{{PatentForInevention}}</p>
+            <div>
+                {{#each PatentsForInvention}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </div>
         </div>
         {{/if}}
-        {{/if}}
-        {{/if}}
+        {{/with}}
 
+        {{#with GeneralInfo}}
         {{#if ReviewForTheses}}
         <div class="top-ident">
             <p>
@@ -485,12 +589,9 @@
 
         <div class="top-ident"><p>Підпис_______________</p></div>
         <div class="top-ident">
-            <p>Звіт заслухано і затверджено на засіданні кафедри (підрозділу)</p>
+            <p>Звіт заслухано і затверджено на засіданні {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}</p>
             <p class="footer-text-ident">
-                {{#with UserInfo}}{{Cathedra}}{{/with}}, протокол №: {{#with Signature}}{{Protocol}}, дата: {{Date}}{{/with}}
-            </p>
-            <p class="footer-text-ident">
-                Завідувач кафедри {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}}{{CathedraLeadStatus}} {{CathedraLead}}{{/with}}
+                Завідувач {{#with UserInfo}}{{Cathedra}}{{/with}}__________________{{#with Signature}} {{CathedraLead}}{{/with}}
             </p>
         </div>
     </div>

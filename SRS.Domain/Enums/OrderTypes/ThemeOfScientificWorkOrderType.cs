@@ -9,6 +9,13 @@
         ScientificHead,
         PeriodTo,
         Financial,
-        CathedraName
+        CathedraName,
+        SubCategory,
+        FinancialAmount,
+        PlannedAmount,
+        Cathedras,
+        Faculties,
+        Supervisors,
+        Currency
     }
 }

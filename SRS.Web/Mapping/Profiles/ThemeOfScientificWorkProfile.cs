@@ -1,9 +1,13 @@
-﻿using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Enums;
-using SRS.Services.Models;
+using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.ThemeOfScientificWorkModels;
+using SRS.Web.Models.Shared;
+using SRS.Web.Models.ThemeOfScientificWorks;
+using System.Linq;
+using System.Web.Mvc;
 
-namespace SRS.Services.Mapping.Profiles
+namespace SRS.Web.Mapping.Profiles
 {
     public class ThemeOfScientificWorkProfile : Profile
     {
@@ -12,18 +16,21 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<ThemeOfScientificWorkModel, SelectListItem>()
                 .ForMember(dest => dest.Value, opts => opts.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Text, opts => opts.MapFrom(src => GetThemeOfScientificWorkText(src)));
+
+            CreateMap<ThemeOfScientificWorkFilterViewModel, ThemeOfScientificWorkFilterModel>()
+                .IncludeBase<BaseFilterViewModel, BaseFilterModel>();
         }
 
         private string GetThemeOfScientificWorkText(ThemeOfScientificWorkModel src)
         {
-            if (src.Financial == Financial.БЮДЖЕТ)
+            if (src.Financial == Financial.Budget)
             {
                 return $"{src.Code} {src.Value}";
             }
 
-            if (src.Financial == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ)
+            if (src.Financial == Financial.InWorkTime)
             {
-                return $"{src.ScientificHead} {src.Value}";
+                return $"{src.ThemeOfScientificWorkSupervisors.FirstOrDefault()} {src.Value}";
             }
 
             return src.Value;

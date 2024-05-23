@@ -1,9 +1,11 @@
-﻿using SRS.Services.Models.BaseModels;
+﻿using SRS.Services.Attributes;
+using SRS.Services.Models.BaseModels;
 
 namespace SRS.Services.Models
 {
-    public class FacultyModel : BaseValueModel
+    public class FacultyModel : BaseModel
     {
+        [RequiredField]
         public string Name { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SRS.Domain.Enums;
 using SRS.Services.Models.BaseModels;
 using SRS.Services.Models.UserModels;
 
@@ -14,9 +15,7 @@ namespace SRS.Services.Models.ReportModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
 
-        public bool IsSigned { get; set; }
-
-        public bool IsConfirmed { get; set; }
+        public ReportState State { get; set; }
 
         public string UserId { get; set; }
 
