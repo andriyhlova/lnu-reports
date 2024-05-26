@@ -41,6 +41,8 @@ namespace SRS.Repositories.Context
 
         public DbSet<Specialization> Specializations { get; set; }
 
+        public DbSet<FacultyReport> FacultyReport { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

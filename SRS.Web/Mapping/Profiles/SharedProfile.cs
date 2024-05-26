@@ -13,10 +13,13 @@ namespace SRS.Web.Mapping.Profiles
                 .ForMember(dest => dest.Skip, opts => opts.MapFrom(src => (src.Page.Value - 1) * PaginationValues.PageSize))
                 .ForMember(dest => dest.Take, opts => opts.MapFrom(src => PaginationValues.PageSize));
 
-            CreateMap<FacultyFilterViewModel, FacultyFilterModel>().IncludeBase<BaseFilterViewModel, BaseFilterModel>();
+            CreateMap<FacultyFilterViewModel, FacultyFilterModel>()
+                .IncludeBase<BaseFilterViewModel, BaseFilterModel>();
 
             CreateMap<DepartmentFilterViewModel, DepartmentFilterModel>()
                 .IncludeBase<BaseFilterViewModel, BaseFilterModel>();
+
+            CreateMap<FacultyFilterViewModel, DepartmentFilterViewModel>();
         }
     }
 }

@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNet.Identity;
+@using PagedList.Mvc
+@using SRS.Domain.Enums
+@using SRS.Domain.Enums.OrderTypes
+@using SRS.Services.Extensions
+@using SRS.Services.Models.Constants
+@using SRS.Services.Models.DepartmentReportModels
+@using SRS.Web.Models.DepartmentReports
+@using SRS.Web.Models.Shared
+
+@model ItemsViewModel<DepartmentReportFilterViewModel, BaseDepartmentReportModel>
+
+@{
+    ViewBag.Title = "Факультетські звіти";
+    var userId = User.Identity.GetUserId();
+}
+
+<h2>Факультетські звіти</h2>
+
+<button class="collapsible btn btn-light" data-target="#filter-container">Фільтри <i class="bi bi-filter"></i></button>
+<form>
+    <div id="filter-container" class="collapse-target">
+        @{Html.RenderPartial("Filters/FacultyFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/BaseFilter", Model.FilterModel);}
+        @{Html.RenderPartial("Filters/DateRangeFilter", new DateRangeViewModel { From = Model.FilterModel.From, To = Model.FilterModel.To });}
+        <div class="form-group">
+            <input type="submit" class="btn btn-info" value="Застосувати" />
+        </div>
+    </div>
+    <div>
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в CSV" formaction="/FacultyReportList/ExportToCsv" />
+        <input type="submit" id="exportButton" class="btn btn-info" value="Експортувати в Excel" formaction="/FacultyReportList/ExportToExcel" />
+    </div>
+</form>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Протокол", "Index", new DepartmentReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Protocol, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Protocol, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Дата", "Index", new DepartmentReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Date, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Date, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Статус", "Index", new DepartmentReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.State, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.State, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Факультет", "Index", new DepartmentReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.Cathedra, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.Cathedra, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th>
+                    @Html.ActionLink("Керівник кафедри", "Index", new DepartmentReportFilterViewModel { Page = 1, OrderBy = (int)CathedraReportOrderType.User, Desc = !Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search })
+                    @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraReportOrderType.User, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Protocol)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @item.State.GetDisplayName()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartmentName)
+                    </td>
+                    <td>
+                        @foreach (var initial in item.I18nUserInitials)
+                        {
+                            if (initial.Language == SRS.Domain.Enums.Language.UA)
+                            {
+                                <span>@initial.FirstName&nbsp;@initial.LastName</span>
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        <div>
+                            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = item.Id, department = Departments.Faculty })"
+                               target="_blank"
+                               class="btn btn-default">
+                                Переглянути
+                            </a>
+                            @if (item.State == ReportState.Draft && item.UserId == userId)
+                            {
+                                @Html.ActionLink("Редагувати", "Index", "Report", new { reportId = item.Id }, new { @class = "btn btn-info" })
+                            }
+                            @if (item.State == ReportState.Draft && item.Date.HasValue && !string.IsNullOrEmpty(item.Protocol))
+                            {
+                                using (Html.BeginForm("Sign", "CathedraReportList", Model.FilterModel))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("reportId", item.Id)
+                                    <button type="submit" class="btn btn-primary">Завершити</button>
+                                }
+                            }
+                            @if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin) || User.IsInRole(RoleNames.DeaneryAdmin))
+                            {
+                                if (item.State == ReportState.Signed)
+                                {
+                                    using (Html.BeginForm("Confirm", "CathedraReportList", Model.FilterModel))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-success">Підтвердити</button>
+                                    }
+                                }
+                                if (item.State != ReportState.Draft)
+                                {
+                                    using (Html.BeginForm("Negate", "CathedraReportList", Model.FilterModel))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("reportId", item.Id)
+                                        <button type="submit" class="btn btn-danger">Повернути</button>
+                                    }
+                                }
+                            }
+                        </div>
+                        @Html.ActionLink("PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = item.Id }, new { @target = "_blank", @class = "btn btn-default" })
+                        @Html.ActionLink("LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Word (тест-версія)", "GetWord", "CathedraReportGeneration", new { reportId = item.Id }, new { @class = "btn btn-default" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentReportFilterViewModel { Page = page, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc, CathedraId = Model.FilterModel.CathedraId, FacultyId = Model.FilterModel.FacultyId, From = Model.FilterModel.From, To = Model.FilterModel.To, Search = Model.FilterModel.Search }))
+
+
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/departmentSelector")
+    @Scripts.Render("~/bundles/collapsible")
+}

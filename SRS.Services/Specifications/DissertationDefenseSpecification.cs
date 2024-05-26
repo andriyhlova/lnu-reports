@@ -21,6 +21,8 @@ namespace SRS.Services.Specifications
                            (filterModel.PeriodTo == null || x.DefenseDate <= filterModel.PeriodTo) &&
                            (filterModel.YearOfGraduatingFrom == null || x.YearOfGraduating >= filterModel.YearOfGraduatingFrom) &&
                            (filterModel.YearOfGraduatingTo == null || x.YearOfGraduating <= filterModel.YearOfGraduatingTo) &&
+                           (filterModel.FacultyId == null || x.User.Cathedra.FacultyId == filterModel.FacultyId) &&
+                           (filterModel.CathedraId == null || x.User.CathedraId == filterModel.CathedraId) &&
                            (filterModel.SupervisorId == null || x.Supervisor.Id == filterModel.SupervisorId) &&
                            (string.IsNullOrEmpty(filterModel.Search) ||
                            x.Theme.Contains(filterModel.Search) ||

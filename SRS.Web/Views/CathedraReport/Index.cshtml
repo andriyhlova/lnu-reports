@@ -3,7 +3,7 @@
 @using SRS.Services.Extensions
 @using SRS.Domain.Enums
 
-@model SRS.Web.Models.CathedraReports.CathedraReportViewModel
+@model SRS.Web.Models.DepartmentReports.DepartmentReportViewModel
 
 @{
     ViewBag.Title = "Кафедральний звіт";
@@ -41,7 +41,7 @@
             @Html.AntiForgeryToken()
 
             var counter = 1;
-            foreach (var item in (Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>)ViewBag.AllThemes)
+            foreach (var item in (Dictionary<Financial, IList<DepartmentReportThemeOfScientificWorkModel>>)ViewBag.AllThemes)
             {
         <div class="form-group">
             <label class="control-label">
@@ -419,7 +419,7 @@
             @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
             @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
             @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id })"
+            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id, department = Departments.Cathedra })"
                target="_blank"
                class="btn btn-default">
                 Переглянути

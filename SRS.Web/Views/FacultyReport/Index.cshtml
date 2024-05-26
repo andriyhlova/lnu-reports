@@ -1,0 +1,450 @@
+﻿@using SRS.Services.Models.Constants
+@using SRS.Services.Models.ThemeOfScientificWorkModels
+@using SRS.Services.Extensions
+@using SRS.Domain.Enums
+
+@model SRS.Web.Models.DepartmentReports.DepartmentReportViewModel
+
+@{
+    ViewBag.Title = "Факультетський звіт";
+}
+
+<h2>Факультетський звіт</h2>
+
+<div id="wizard">
+    <h3>Досягнення провідних наукових шкіл</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("UpdateAchievementSchoolInfo", "FacultyReport", FormMethod.Post, new { @id = "updateAchievementSchoolForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label class="control-label">
+                    1. Досягнення провідних наукових шкіл за звітний рік (до 1 с.):
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.AchivementSchool, 15, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.AchivementSchool,
+                    })
+                </div>
+            </div>
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_1" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
+    <h3>Наукова робота</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("UpdateThemeInfo", "FacultyReport", FormMethod.Post, new { @id = "updateThemeForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            var counter = 1;
+            foreach (var item in (Dictionary<Financial, IList<DepartmentReportThemeOfScientificWorkModel>>)ViewBag.AllThemes)
+            {
+                <div class="form-group">
+                    <label class="control-label">
+                        2.@(counter++) @(item.Key.GetDisplayName()):
+                    </label>
+                    @foreach (var theme in item.Value)
+                    {
+                        <div><b>Тема @theme.Code “@theme.Value”</b></div>
+                        <div><b>Наукові керівники:</b> @theme.GetSupervisors()</div>
+                        <div>Номер державної реєстрації: @theme.ThemeNumber.</div>
+                        {
+                            <div>Термін дії теми: @theme.PeriodFrom.ToString(Dates.UaDatePattern)&mdash;@theme.PeriodTo.ToString(Dates.UaDatePattern) р. Обсяг фінансування: @(theme.FinancialAmount ?? 0m) грн. у @(theme.FinancialYear ?? DateTime.Now.Year) році.</div>
+                        }
+                        <div><b>Резюме</b></div>
+                        <div>@theme.Resume</div>
+                        <div><b>Публікації</b></div>
+                        <div>@theme.Publications</div>
+                        <div><b>Захищені дисертації</b></div>
+                        <div>@theme.DefendedDissertation</div>
+                        <div><b>Виконавці:</b></div>
+                        <div>Штатні - @theme.AmountOfApplicationUserFullTime</div>
+                        <div>Сумісники - @theme.AmountOfApplicationUserExternalPartTime</div>
+                        <div>За цивільно-правовим договором - @theme.AmountOfApplicationUserLawContract</div>
+                        <br />
+                    }
+                </div>
+                <hr />
+            }
+            if (Model.Grants.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        3. Участь у виконанні індивідуальних або колективних ґрантів:
+                    </p>
+                    @Html.EditorFor(model => model.Grants)
+                </div>
+            }
+            <div class="form-group">
+                <label class="control-label">
+                    Інші ґранти:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.OtherGrants, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.OtherGrants,
+                    })
+                </div>
+            </div>
+
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_2" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
+
+    <h3>Публікації</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("UpdatePublications", "FacultyReport", FormMethod.Post, new { @id = "updatePublicationForm" }))
+        {
+            @Html.AntiForgeryToken()
+            if (Model.Publications.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Публікації:
+                    </p>
+                    @Html.EditorFor(model => model.Publications)
+                </div>
+            }
+            if (Model.ApplicationsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Заявки на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.ApplicationsForInvention)
+                </div>
+            }
+            if (Model.PatentsForInvention.Count > 0)
+            {
+                <div class="publication-block">
+                    <p class="publication-header">
+                        Патенти на винахід:
+                    </p>
+                    @Html.EditorFor(model => model.PatentsForInvention)
+                </div>
+            }
+            if (Model.Publications.Count == 0
+                && Model.ApplicationsForInvention.Count == 0
+                && Model.PatentsForInvention.Count == 0)
+            {
+                <p style="margin-top:100px">
+                    Немає публікацій за цей період.
+                </p>
+            }
+            <input type="hidden" name="stepIndex" id="stepIndex_3" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
+
+    <h3>Інше</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("UpdateOtherInfo", "FacultyReport", FormMethod.Post, new { @id = "updateOtherForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label class="control-label">
+                    5. Інші форми наукової діяльності
+                    (робота спеціалізованих вчених, експертних рад, рецензування та опонування дисертацій тощо):
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.OtherFormsOfScientificWork, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.OtherFormsOfScientificWork,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    6. Зовнішні зв’язки:
+                </label>
+                <div class="form-group">
+                    <label class="control-label">
+                        6.1. Співпраця з науковими установами НАН України
+                        та галузевих академій наук України
+                        (наукові стажування, кількість спільних публікацій, спільні наукові заходи):
+                    </label>
+                    <div>
+                        @Html.TextAreaFor(model => model.CooperationWithAcadamyOfScience, 6, 70, new
+                        {
+                            @class = "form-control",
+                            @style = "max-width: 100%",
+                            @Value = Model.CooperationWithAcadamyOfScience,
+                        })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        6.2. Співпраця із закордонними науковими установами та фірмами
+                        (наукові стажування, контракти, кількість
+                        спільних публікацій, спільні наукові заходи, запрошення закордонних науковців):
+                    </label>
+                    <div>
+                        @Html.TextAreaFor(model => model.CooperationWithForeignScientificInstitution, 6, 70, new
+                        {
+                            @class = "form-control",
+                            @style = "max-width: 100%",
+                            @Value = Model.CooperationWithForeignScientificInstitution,
+                        })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    7. Аспірантура та докторантура
+                </label>
+                <div class="form-group">
+                    <label class="control-label">
+                        7.1. Захист дисертацій випускниками докторантури та аспірантури*
+                    </label>
+                    @foreach (var defense in Model.DissertationDefenseOfGraduates)
+                    {
+                    <div>
+                        <div><b>Тема @defense.Theme </b></div>
+                        <div><b>Науковий керівник:</b> @defense.SupervisorDescription</div>
+                        <div><b>Виконавець:</b> @defense.UserDescription</div>
+                        <div><b>Дата захисту</b></div>
+                        <div>@defense.DefenseDate.ToString(Dates.UaDatePattern)</div>
+                        <div><b>Дата подання до спеціалізованої вченої ради</b></div>
+                        <div>@defense.SubmissionDate.ToString(Dates.UaDatePattern)</div>
+                        <div><b>Рік закінчення навчання в аспірантурі</b></div>
+                        <div>@defense.YearOfGraduating</div>
+                        <div><b>Спеціальність</b></div>
+                        <div>@defense.SpecializationCode - @defense.SpecializationName</div>
+                        <div><b>Тип дисертації</b></div>
+                        <div>@(defense.DissertationType != null ? defense.DissertationType.GetDisplayName() : string.Empty)</div>
+                        <br />
+
+                        <input type="hidden" name="DissertationDefenseOfGraduates[@Model.DissertationDefenseOfGraduates.IndexOf(defense)].Id" class="id" value="@(defense.Id != 0 ? defense.Id : 0)" />
+                        <input type="hidden" name="DissertationDefenseOfGraduates[@Model.DissertationDefenseOfGraduates.IndexOf(defense)].Theme" class="theme" value="@defense.Theme" />
+                        <input type="hidden" name="DissertationDefenseOfGraduates[@Model.DissertationDefenseOfGraduates.IndexOf(defense)].SpecializationName" class="specializationname" value="@defense.SpecializationName" />
+                        <input type="hidden" name="DissertationDefenseOfGraduates[@Model.DissertationDefenseOfGraduates.IndexOf(defense)].SupervisorDescription" class="supervisordescription" value="@defense.SupervisorDescription" />
+                        <input type="hidden" name="DissertationDefenseOfGraduates[@Model.DissertationDefenseOfGraduates.IndexOf(defense)].YearOfGraduating" class="yearofgraduating" value="@defense.YearOfGraduating" />
+                    </div>
+                    }
+                    *Випускниками докторантури та аспірантури.
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        7.2. Захист дисертацій співробітниками*
+                    </label>
+                    @foreach (var defense in Model.DissertationDefenseOfEmployees)
+                    {
+                        <div>
+                            <div><b>Тема @defense.Theme </b></div>
+                            <div><b>Науковий керівник:</b> @defense.SupervisorDescription</div>
+                            <div><b>Виконавець:</b> @defense.UserDescription</div>
+                            <div><b>Дата захисту</b></div>
+                            <div>@defense.DefenseDate.ToString(Dates.UaDatePattern)</div>
+                            <div><b>Дата подання до спеціалізованої вченої ради</b></div>
+                            <div>@defense.SubmissionDate.ToString(Dates.UaDatePattern)</div>
+                            <div><b>Рік закінчення навчання в аспірантурі</b></div>
+                            <div>@defense.YearOfGraduating</div>
+                            <div><b>Спеціальність</b></div>
+                            <div>@defense.SpecializationCode - @defense.SpecializationName</div>
+                            <div><b>Тип дисертації</b></div>
+                            <div>@(defense.DissertationType != null ? defense.DissertationType.GetDisplayName() : string.Empty)</div>
+                            <br />
+
+                            <input type="hidden" name="DissertationDefenseOfEmployees[@Model.DissertationDefenseOfEmployees.IndexOf(defense)].Id" class="id" value="@(defense.Id != 0 ? defense.Id : 0)" />
+                            <input type="hidden" name="DissertationDefenseOfEmployees[@Model.DissertationDefenseOfEmployees.IndexOf(defense)].Theme" class="theme" value="@defense.Theme" />
+                            <input type="hidden" name="DissertationDefenseOfEmployees[@Model.DissertationDefenseOfEmployees.IndexOf(defense)].SpecializationName" class="specializationname" value="@defense.SpecializationName" />
+                            <input type="hidden" name="DissertationDefenseOfEmployees[@Model.DissertationDefenseOfEmployees.IndexOf(defense)].SupervisorDescription" class="supervisordescription" value="@defense.SupervisorDescription" />
+                            <input type="hidden" name="DissertationDefenseOfEmployees[@Model.DissertationDefenseOfEmployees.IndexOf(defense)].YearOfGraduating" class="yearofgraduating" value="@defense.YearOfGraduating" />
+                        </div>
+                    }
+                    *Співробітники.
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        7.3. Захист у спеціалізованих вчених радах університету сторонніми працівниками*
+                    </label>
+                    @foreach (var defense in Model.DissertationDefenseInAcademicCouncil)
+                    {
+                        <div>
+                            <div><b>Тема @defense.Theme </b></div>
+                            <div><b>Науковий керівник:</b> @defense.SupervisorDescription</div>
+                            <div><b>Виконавець:</b> @defense.UserDescription</div>
+                            <div><b>Дата захисту</b></div>
+                            <div>@defense.DefenseDate.ToString(Dates.UaDatePattern)</div>
+                            <div><b>Дата подання до спеціалізованої вченої ради</b></div>
+                            <div>@defense.SubmissionDate.ToString(Dates.UaDatePattern)</div>
+                            <div><b>Рік закінчення навчання в аспірантурі</b></div>
+                            <div>@defense.YearOfGraduating</div>
+                            <div><b>Спеціальність</b></div>
+                            <div>@defense.SpecializationCode - @defense.SpecializationName</div>
+                            <div><b>Тип дисертації</b></div>
+                            <div>@(defense.DissertationType != null ? defense.DissertationType.GetDisplayName() : string.Empty)</div>
+                            <br />
+
+                            <input type="hidden" name="DissertationDefenseInAcademicCouncil[@Model.DissertationDefenseInAcademicCouncil.IndexOf(defense)].Id" class="id" value="@(defense.Id != 0 ? defense.Id : 0)" />
+                            <input type="hidden" name="DissertationDefenseInAcademicCouncil[@Model.DissertationDefenseInAcademicCouncil.IndexOf(defense)].Theme" class="theme" value="@defense.Theme" />
+                            <input type="hidden" name="DissertationDefenseInAcademicCouncil[@Model.DissertationDefenseInAcademicCouncil.IndexOf(defense)].SpecializationName" class="specializationname" value="@defense.SpecializationName" />
+                            <input type="hidden" name="DissertationDefenseInAcademicCouncil[@Model.DissertationDefenseInAcademicCouncil.IndexOf(defense)].SupervisorDescription" class="supervisordescription" value="@defense.SupervisorDescription" />
+                            <input type="hidden" name="DissertationDefenseInAcademicCouncil[@Model.DissertationDefenseInAcademicCouncil.IndexOf(defense)].YearOfGraduating" class="yearofgraduating" value="@defense.YearOfGraduating" />
+                        </div>
+                    }
+                    *Співробітники.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    8. Студентська наукова робота: кількість наукових гуртків і кількість студентів,
+                    що беруть участь у їхній роботі; участь (кількість студентів) у виконанні держбюджетної
+                    чи іншої наукової тематики; проведені студентські наукові конференції на базі
+                    університету; виступи на конференціях (кількість доповідей за участю студентів,
+                    назви конференцій); індивідуальні та спільні зі співробітниками університету
+                    публікації; отримані нагороди у II етапі Всеукраїнських студентських Олімпіад,
+                    міжнародних Олімпіадах, Всеукраїнських конкурсах студентських наукових робіт,
+                    турнірах, чемпіонатах тощо:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.StudentsWorks, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.StudentsWorks,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    10. Конференції: стислий звіт про проведення конференцій
+                    на базі університету (0,5 с. про кожну конференцію):
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ConferencesInUniversity, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ConferencesInUniversity,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    12. Матеріальна база підрозділу (обладнання, придбане за звітний період чи введене в дію на кінець звітного року):
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.Materials, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.Materials,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    13. Пропозиції щодо нових форм організації наукової роботи в ринкових умовах:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.PropositionForNewForms, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.PropositionForNewForms,
+                    })
+                </div>
+            </div>
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_4" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
+    <h3>Дата та протокол</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("UpdateFinalInfo", "FacultyReport", FormMethod.Post, new { @id = "updateFinishForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label class="control-label">
+                    Дата:
+                </label>
+                <div>
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    Протокол:
+                </label>
+                <div>
+                    @Html.TextBoxFor(model => model.Protocol, new { @class = "form-control" })
+                </div>
+            </div>
+
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_5" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+    </section>
+    <h3>Завершення</h3>
+    <section class="section-body">
+        @using (@Html.BeginForm("Finalize", "FacultyReport", FormMethod.Post, new { @id = "updateEndForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div style="text-align: center;
+                        margin: 20px;
+                        font-size: 22px;
+                        color: green;">
+                Ваш звіт успішно заповнено!
+            </div>
+            <input type="hidden" name="stepIndex" value="@ViewBag.StepIndex" id="stepIndex_6" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+        <div style="padding-top: 50px;
+                        display: flex;
+                        justify-content: space-evenly;">
+            @if (Model.Date.HasValue && !string.IsNullOrEmpty(Model.Protocol))
+            {
+                using (Html.BeginForm("Sign", "CathedraReportList"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("reportId", Model.Id)
+                    <button type="submit" class="btn btn-primary" id="signButton">Зберегти і завершити</button>
+                }
+            }
+            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
+            @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
+            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id, department = Departments.Faculty })"
+               target="_blank"
+               class="btn btn-default">
+                Переглянути
+            </a>
+        </div>
+    </section>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/search/bundle")
+    @Styles.Render("~/Content/steps/bundle")
+    @Styles.Render("~/Content/reports/bundle")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/chosen")
+    @Scripts.Render("~/bundles/steps")
+    @Scripts.Render("~/bundles/stepper")
+    @Scripts.Render("~/bundles/searchComponent")
+    @Scripts.Render("~/bundles/cathedrareports/edit")
+}

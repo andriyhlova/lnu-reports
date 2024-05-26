@@ -182,16 +182,18 @@ function submitDateForm() {
             settings.collection.push(scientificWork);
             renderScientificWorkList(settings);
 
-            pushSelectedPerformers(`#performer-full-time-related-entity`, i, selectedPerformersFullTime);
-            const performerFullTimeEntityComponent = new RelatedEntityComponent(getPerformerFullTimeSettings(i));
+            index = settings.collection.indexOf(scientificWork);
+
+            pushSelectedPerformers(`#performer-full-time-related-entity`, index, selectedPerformersFullTime);
+            const performerFullTimeEntityComponent = new RelatedEntityComponent(getPerformerFullTimeSettings(index));
             performerFullTimeEntityComponent.load();
 
-            pushSelectedPerformers(`#performer-external-part-time-related-entity`, i, selectedPerformersExternalPartTime);
-            const performerExternalPartTimeEntityComponent = new RelatedEntityComponent(getPerformerExternalPartTimeSettings(i));
+            pushSelectedPerformers(`#performer-external-part-time-related-entity`, index, selectedPerformersExternalPartTime);
+            const performerExternalPartTimeEntityComponent = new RelatedEntityComponent(getPerformerExternalPartTimeSettings(index));
             performerExternalPartTimeEntityComponent.load();
 
-            pushSelectedPerformers(`#performer-law-contract-related-entity`, i, selectedPerformersLawContract);
-            const performerLawContractEntityComponent = new RelatedEntityComponent(getPerformerLawContractSettings(i));
+            pushSelectedPerformers(`#performer-law-contract-related-entity`, index, selectedPerformersLawContract);
+            const performerLawContractEntityComponent = new RelatedEntityComponent(getPerformerLawContractSettings(index));
             performerLawContractEntityComponent.load();
         }
     };
@@ -250,7 +252,7 @@ function submitDateForm() {
         const selectedGrants = $(settings.selectedItemsSelector);
         selectedGrants.html('');
         for (let i = 0; i < settings.collection.length; i++) {
-            selectedGrants.append(getScientificWorkHtml(i, settings.collection[i], settings.fieldName));
+            selectedGrants.append(getGrantHtml(i, settings.collection[i], settings.fieldName));
         }
     };
 
@@ -273,6 +275,33 @@ function submitDateForm() {
 
         }
     };
+
+    function getGrantHtml(index, grant, fieldName) {
+        return `
+                <div class="selected-item grant">
+                    <div class="form-group fullname">
+                        ${getScientificWorkSearchResultText(grant)}<i class="bi bi-file-x-fill text-danger cursor-pointer"></i>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Опис виконаної роботи <span class="text-danger">*</span>
+                            </label>
+
+                            <div>
+                                <textarea class="form-control" name="${fieldName}[${index}].Description" style="max-width:100%" rows="6" data-value="${grant.Description}">${grant.Description || ''}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="${fieldName}[${index}].Id" class="id" value="${grant.ReportThemeId || 0}" />
+                    <input type="hidden" class="themenumber" value="${grant.ThemeNumber}" />
+                    <input type="hidden" name="${fieldName}[${index}].ThemeOfScientificWorkId" class="themeid" value="${grant.Id}" />
+                    <input type="hidden" class="code" value="${grant.Code}" />
+                    <input type="hidden" class="supervisordescription" value="${grant.SupervisorDescription}" />
+                    <input type="hidden" class="value" value="${grant.Value}" />
+                </div>`;
+    }
 
     function getScientificWorkHtml(index, scientificWork, fieldName) {
         let aditionalFileds = ``;

@@ -2,11 +2,11 @@
 using Microsoft.AspNet.Identity;
 using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
-using SRS.Services.Models.CathedraReportModels;
+using SRS.Services.Models.Constants;
+using SRS.Services.Models.DepartmentReportModels;
 using SRS.Services.Models.FilterModels;
-using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
-using SRS.Web.Models.CathedraReports;
+using SRS.Web.Models.DepartmentReports;
 using SRS.Web.Models.Shared;
 using System;
 using System.Linq;
@@ -40,9 +40,9 @@ namespace SRS.Web.Controllers
 
         public async Task<ActionResult> Index(int? reportId, int? stepIndex)
         {
-            var report = await _cathedraReportService.GetUserCathedraReportAsync(User.Identity.GetUserId(), reportId);
+            var report = await _cathedraReportService.GetUserDepartmentReportAsync(User.Identity.GetUserId(), reportId);
             var user = await _userAccountService.GetByIdAsync(report.UserId);
-            var viewModel = _mapper.Map<CathedraReportViewModel>(report);
+            var viewModel = _mapper.Map<DepartmentReportViewModel>(report);
             await FillPublications(viewModel, report);
             await FillThemes(user, report);
             await FillGrants(viewModel, report);
@@ -52,7 +52,7 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateAchievementSchoolInfo(CathedraReportAchievementSchoolModel reportOtherInfoViewModel, int? stepIndex)
+        public async Task<ActionResult> UpdateAchievementSchoolInfo(DepartmentReportAchievementSchoolModel reportOtherInfoViewModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
@@ -60,23 +60,23 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateThemeInfo(CathedraReportGrantsViewModel reportGrantsModel, int? stepIndex)
+        public async Task<ActionResult> UpdateThemeInfo(DepartmentReportGrantsViewModel reportGrantsModel, int? stepIndex)
         {
-            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportGrantsModel>(reportGrantsModel), User.Identity.GetUserId());
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<DepartmentReportGrantsModel>(reportGrantsModel), User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdatePublications(CathedraReportPublicationsViewModel reportPublicationsModel, int? stepIndex)
+        public async Task<ActionResult> UpdatePublications(DepartmentReportPublicationsViewModel reportPublicationsModel, int? stepIndex)
         {
-            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<CathedraReportPublicationsModel>(reportPublicationsModel), User.Identity.GetUserId());
+            var reportId = await _cathedraReportService.UpsertAsync(_mapper.Map<DepartmentReportPublicationsModel>(reportPublicationsModel), User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateOtherInfo(CathedraReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
+        public async Task<ActionResult> UpdateOtherInfo(DepartmentReportOtherInfoModel reportOtherInfoViewModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(reportOtherInfoViewModel, User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
@@ -84,7 +84,7 @@ namespace SRS.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateFinalInfo(CathedraReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
+        public async Task<ActionResult> UpdateFinalInfo(DepartmentReportFinalInfoModel reportFinalInfoViewModel, int? stepIndex)
         {
             var reportId = await _cathedraReportService.UpsertAsync(reportFinalInfoViewModel, User.Identity.GetUserId());
             return RedirectToAction(nameof(Index), new { ReportId = reportId, StepIndex = stepIndex });
@@ -97,15 +97,15 @@ namespace SRS.Web.Controllers
             return RedirectToAction(nameof(Index), new { ReportId = id, StepIndex = stepIndex });
         }
 
-        private async Task FillPublications(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport)
+        private async Task FillPublications(DepartmentReportViewModel viewModel, DepartmentReportModel cathedraReport)
         {
-            var filterModel = new CathedraReportPublicationFilterModel
+            var filterModel = new DepartmentReportPublicationFilterModel
             {
-                CathedraId = cathedraReport.CathedraId,
+                DepartmentId = cathedraReport.DepartmentId,
                 Date = cathedraReport.Date ?? DateTime.Now
             };
 
-            var availablePublications = await _publicationService.GetAvailableCathedraReportPublicationsAsync(filterModel);
+            var availablePublications = await _publicationService.GetAvailableDepartmentReportPublicationsAsync(filterModel, Departments.Cathedra);
             viewModel.Publications = availablePublications.Where(x => x.PublicationType != PublicationType.Заявка_на_винахід && x.PublicationType != PublicationType.Патент)
                 .Select(x => new CheckboxListItem()
                 {
@@ -131,14 +131,14 @@ namespace SRS.Web.Controllers
                 }).ToList();
         }
 
-        private async Task FillThemes(UserAccountModel user, CathedraReportModel cathedraReport)
+        private async Task FillThemes(UserAccountModel user, DepartmentReportModel cathedraReport)
         {
-            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(user.CathedraId.Value, cathedraReport.Date);
+            ViewBag.AllThemes = await _themeOfScientificWorkService.GetActiveForDepartmentReportAsync(user.CathedraId.Value, cathedraReport.Date, Departments.Cathedra);
         }
 
-        private async Task FillGrants(CathedraReportViewModel viewModel, CathedraReportModel cathedraReport)
+        private async Task FillGrants(DepartmentReportViewModel viewModel, DepartmentReportModel cathedraReport)
         {
-            var availableGrants = await _themeOfScientificWorkService.GetGrantsForCathedraReportAsync(cathedraReport.CathedraId, cathedraReport.Date);
+            var availableGrants = await _themeOfScientificWorkService.GetGrantsForCathedraReportAsync(cathedraReport.DepartmentId, cathedraReport.Date);
             viewModel.Grants = availableGrants
                 .Select(x => new CheckboxListItem()
                 {

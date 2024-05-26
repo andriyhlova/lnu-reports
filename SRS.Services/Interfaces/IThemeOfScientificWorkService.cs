@@ -1,4 +1,5 @@
 ﻿using SRS.Domain.Enums;
+using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using System;
@@ -15,7 +16,7 @@ namespace SRS.Services.Interfaces
 
         Task<IList<BaseThemeOfScientificWorkModel>> GetActiveAsync(ThemeOfScientificWorkFilterModel filterModel, params Financial[] financials);
 
-        Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime? date);
+        Task<Dictionary<Financial, IList<DepartmentReportThemeOfScientificWorkModel>>> GetActiveForDepartmentReportAsync(int departmentId, DateTime? date, string department);
 
         Task<IList<BaseThemeOfScientificWorkModel>> GetGrantsForCathedraReportAsync(int cathedraId, DateTime? date);
 

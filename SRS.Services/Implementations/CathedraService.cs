@@ -38,7 +38,8 @@ namespace SRS.Services.Implementations
         {
             var countFilterModel = new FacultyFilterModel
             {
-                Search = filterModel.Search
+                Search = filterModel.Search,
+                FacultyId = filterModel.FacultyId
             };
             return await _repo.CountAsync(new CathedraSpecification(countFilterModel));
         }

@@ -4,6 +4,7 @@ using SRS.Services.Implementations;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Web.Models.DissertationDefense;
@@ -26,6 +27,7 @@ namespace SRS.Web.Controllers
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
         private readonly IBaseCrudService<SpecializationModel> _specializationService;
+        private readonly IExportService _exportService;
         private readonly IMapper _mapper;
 
         public DissertationDefenseController(
@@ -34,6 +36,7 @@ namespace SRS.Web.Controllers
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
             IBaseCrudService<SpecializationModel> specializationService,
+            IExportService exportService,
             IMapper mapper)
         {
             _dissertationDefenseCrudService = dissertationDefenseCrudService;
@@ -41,6 +44,7 @@ namespace SRS.Web.Controllers
             _cathedraService = cathedraService;
             _facultyService = facultyService;
             _specializationService = specializationService;
+            _exportService = exportService;
             _mapper = mapper;
         }
 
@@ -80,6 +84,40 @@ namespace SRS.Web.Controllers
 
             await FillAvailableSpecializations();
             return View(dissertationDefense);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToCsv(DissertationDefenseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<DissertationDefenseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var defenses = await _dissertationDefenseService.GetAsync(filterModel);
+            var csvModel = new CsvModel<DisertationDefenseCsvModel>
+            {
+                Data = _mapper.Map<IList<DisertationDefenseCsvModel>>(defenses)
+            };
+
+            byte[] fileBytes = _exportService.WriteCsv(csvModel);
+            return File(fileBytes, "text/csv", "disertationDefense.csv");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ExportToExcel(DissertationDefenseFilterViewModel filterViewModel)
+        {
+            var filterModel = _mapper.Map<DissertationDefenseFilterModel>(filterViewModel);
+
+            filterModel.Take = null;
+            filterModel.Skip = null;
+            var defenses = await _dissertationDefenseService.GetAsync(filterModel);
+            var csvModel = new CsvModel<DisertationDefenseCsvModel>
+            {
+                Data = _mapper.Map<IList<DisertationDefenseCsvModel>>(defenses)
+            };
+
+            byte[] fileBytes = _exportService.WriteExcel(csvModel);
+            return File(fileBytes, "text/xcls", "disertationDefense.xlsx");
         }
 
         [HttpGet]

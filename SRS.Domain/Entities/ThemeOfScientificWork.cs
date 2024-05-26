@@ -45,6 +45,8 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<CathedraReport> CathedraReports { get; set; }
 
+        public virtual ICollection<FacultyReport> FacultyReports { get; set; }
+
         public string GetSupervisors(bool withTitle = false)
         {
             if (withTitle)

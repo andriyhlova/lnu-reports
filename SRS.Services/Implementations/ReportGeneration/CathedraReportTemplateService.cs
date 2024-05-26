@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DocumentFormat.OpenXml.Bibliography;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.UserSpecifications;
@@ -9,7 +8,7 @@ using SRS.Services.Interfaces;
 using SRS.Services.Interfaces.Bibliography;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.Constants;
-using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using SRS.Services.Models.ReportGenerationModels.DepartmentReport;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,11 +43,11 @@ namespace SRS.Services.Implementations.ReportGeneration
             _mapper = mapper;
         }
 
-        public async Task<CathedraReportTemplateModel> BuildAsync(int reportId)
+        public async Task<DepartmentReportTemplateModel> BuildAsync(int reportId)
         {
             var dbReport = await _repo.GetAsync(reportId);
             var facultyLeads = await _userRepo.GetAsync(new FacultyLeadSpecification(dbReport.User.Cathedra.FacultyId));
-            var report = new CathedraReportTemplateModel();
+            var report = new DepartmentReportTemplateModel();
             report.GeneralInfo = GetGeneralInfo(dbReport);
             report.Publications = GetPublications(dbReport);
             report.Signature = GetSignature(dbReport, facultyLeads);
@@ -58,10 +57,11 @@ namespace SRS.Services.Implementations.ReportGeneration
             return report;
         }
 
-        private CathedraReportGeneralInfoModel GetGeneralInfo(CathedraReport dbReport)
+        private DepartmentReportGeneralInfoModel GetGeneralInfo(CathedraReport dbReport)
         {
-            var generalInfo = new CathedraReportGeneralInfoModel();
-            generalInfo.Cathedra = dbReport.User.Cathedra.GenitiveCase.ToLower();
+            var generalInfo = new DepartmentReportGeneralInfoModel();
+            generalInfo.Department = "кафедри";
+            generalInfo.DepartmentName = dbReport.User.Cathedra.GenitiveCase.ToLower();
             generalInfo.Year = dbReport.Date?.Year ?? 0;
             generalInfo.AchievementSchool = dbReport.AchivementSchool;
             generalInfo.OtherFormsOfScientificWork = dbReport.OtherFormsOfScientificWork;
@@ -73,13 +73,13 @@ namespace SRS.Services.Implementations.ReportGeneration
             generalInfo.Patents = dbReport.Patents;
             generalInfo.Materials = dbReport.Materials;
             generalInfo.PropositionForNewForms = dbReport.PropositionForNewForms;
-            generalInfo.DissertationDefenseOfGraduates = _mapper.Map<List<CathedraReportDissertarionDefenseModel>>(dbReport.DissertationDefenseOfGraduates);
-            generalInfo.DissertationDefenseOfEmployees = _mapper.Map<List<CathedraReportDissertarionDefenseModel>>(dbReport.DissertationDefenseOfEmployees);
-            generalInfo.DissertationDefenseInAcademicCouncil = _mapper.Map<List<CathedraReportDissertarionDefenseModel>>(dbReport.DissertationDefenseInAcademicCouncil);
+            generalInfo.DissertationDefenseOfGraduates = _mapper.Map<List<DepartmentReportDissertarionDefenseModel>>(dbReport.DissertationDefenseOfGraduates);
+            generalInfo.DissertationDefenseOfEmployees = _mapper.Map<List<DepartmentReportDissertarionDefenseModel>>(dbReport.DissertationDefenseOfEmployees);
+            generalInfo.DissertationDefenseInAcademicCouncil = _mapper.Map<List<DepartmentReportDissertarionDefenseModel>>(dbReport.DissertationDefenseInAcademicCouncil);
             return generalInfo;
         }
 
-        private CathedraReportPublicationsModel GetPublications(CathedraReport dbReport)
+        private DepartmentReportPublicationsModel GetPublications(CathedraReport dbReport)
         {
             var distinctPublications = dbReport.Publications
                 .GroupBy(x => x.Id)
@@ -89,7 +89,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var reportApplicationsForInvention = dbReport.ApplicationsForInvention.ToList();
             var reportPatentsForInvention = dbReport.PatentsForInvention.ToList();
 
-            var publications = new CathedraReportPublicationsModel();
+            var publications = new DepartmentReportPublicationsModel();
             publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
@@ -110,10 +110,10 @@ namespace SRS.Services.Implementations.ReportGeneration
             return publications;
         }
 
-        private CathedraReportSignatureModel GetSignature(CathedraReport dbReport, List<ApplicationUser> facultyLeads)
+        private DepartmentReportSignatureModel GetSignature(CathedraReport dbReport, List<ApplicationUser> facultyLeads)
         {
             var facultyLead = facultyLeads.FirstOrDefault();
-            var signature = new CathedraReportSignatureModel();
+            var signature = new DepartmentReportSignatureModel();
             signature.Faculty = dbReport.User.Cathedra.Faculty.Name.Replace("Факультет ", string.Empty).ToLower();
             signature.Protocol = dbReport.Protocol;
             signature.Date = dbReport.Date?.ToString("dd.MM.yyyy");
@@ -122,10 +122,10 @@ namespace SRS.Services.Implementations.ReportGeneration
             return signature;
         }
 
-        private List<CathedraReportPublicationModel> GetPublicationsBibliographyModels(IEnumerable<Publication> publications)
+        private List<DepartmentReportPublicationModel> GetPublicationsBibliographyModels(IEnumerable<Publication> publications)
         {
             return publications
-                .Select(x => new CathedraReportPublicationModel
+                .Select(x => new DepartmentReportPublicationModel
                 {
                     Name = _bibliographyService.Get(x),
                     Size = x.SizeOfPages
@@ -138,17 +138,17 @@ namespace SRS.Services.Implementations.ReportGeneration
             return publications.Select(x => _bibliographyService.Get(x)).ToList();
         }
 
-        private async Task<List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>> GetThemeOfScientificWorksAsync(CathedraReport dbReport)
+        private async Task<List<(string, IList<DepartmentReportThemeOfScientificWorkModel>)>> GetThemeOfScientificWorksAsync(CathedraReport dbReport)
         {
-            var themes = await _themeOfScientificWorkService.GetActiveForCathedraReportAsync(dbReport.User.CathedraId.Value, dbReport.Date);
-            var results = new List<(string, IList<CathedraReportThemeOfScientificWorkModel>)>();
+            var themes = await _themeOfScientificWorkService.GetActiveForDepartmentReportAsync(dbReport.User.CathedraId.Value, dbReport.Date, Departments.Cathedra);
+            var results = new List<(string, IList<DepartmentReportThemeOfScientificWorkModel>)>();
             foreach (var financialThemes in themes)
             {
-                var item = (financialThemes.Key.GetDisplayName(), new List<CathedraReportThemeOfScientificWorkModel>());
+                var item = (financialThemes.Key.GetDisplayName(), new List<DepartmentReportThemeOfScientificWorkModel>());
 
                 foreach (var theme in financialThemes.Value)
                 {
-                    var model = new CathedraReportThemeOfScientificWorkModel
+                    var model = new DepartmentReportThemeOfScientificWorkModel
                     {
                         Code = theme.Code,
                         Value = theme.Value,

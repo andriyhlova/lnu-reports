@@ -10,7 +10,7 @@ using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models;
 using SRS.Services.Models.JournalModels;
 using SRS.Services.Models.PublicationModels;
-using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using SRS.Services.Models.ReportGenerationModels.DepartmentReport;
 using SRS.Services.Models.ReportGenerationModels.Report;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using SRS.Services.Models.UserModels;
@@ -64,7 +64,7 @@ namespace SRS.Services.Utilities
             Bind<ICathedraReportTemplateService>().To<CathedraReportTemplateService>();
             Bind<IHtmlCompiler>().To<HandlebarsHtmlCompiler>();
             Bind<IHtmlReportBuilderService<ReportTemplateModel>>().To<HtmlReportBuilderService<ReportTemplateModel>>();
-            Bind<IHtmlReportBuilderService<CathedraReportTemplateModel>>().To<HtmlReportBuilderService<CathedraReportTemplateModel>>();
+            Bind<IHtmlReportBuilderService<DepartmentReportTemplateModel>>().To<HtmlReportBuilderService<DepartmentReportTemplateModel>>();
             Bind<ITexReportBuilderService>().To<TexReportBuilderService>();
             Bind<IWordReportBuilderService>().To<WordReportBuilderService>();
             Bind<IBibliographyService<Publication>>().To<PublicationBibliographyService>();
@@ -74,6 +74,8 @@ namespace SRS.Services.Utilities
             Bind<ICsvService>().To<CsvService>();
             Bind<IExportService>().To<ExportService>();
             Bind<ISpecializationService>().To<SpecializationService>();
+            Bind<IFacultyReportService>().To<FacultyReportService>();
+            Bind<IFacultyReportTemplateService>().To<FacultyReportTemplateService>();
         }
     }
 }
