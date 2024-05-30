@@ -46,9 +46,9 @@ namespace SRS.Web.Controllers
             var cathedras = await _cathedraService.GetAllAsync(filterModel);
             var total = await _cathedraService.CountAsync(filterModel);
 
-            var viewModel = new ItemsViewModel<FacultyFilterViewModel, CathedraModel>
+            var viewModel = new ItemsViewModel<DepartmentFilterViewModel, CathedraModel>
             {
-                FilterModel = filterViewModel,
+                FilterModel = _mapper.Map<DepartmentFilterViewModel>(filterViewModel),
                 Items = new StaticPagedList<CathedraModel>(cathedras, filterViewModel.Page.Value, PaginationValues.PageSize, total)
             };
             return View(viewModel);

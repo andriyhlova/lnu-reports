@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Spreadsheet;
 using SRS.Domain.Entities;
 using SRS.Domain.Specifications.PublicationSpecifications;
 using SRS.Repositories.Interfaces;
@@ -7,8 +8,10 @@ using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.UserModels;
+using SRS.Services.Specifications.PublicationSpecifications;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -70,9 +73,19 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<BasePublicationModel>>(publications);
         }
 
-        public async Task<IList<BasePublicationModel>> GetAvailableCathedraReportPublicationsAsync(CathedraReportPublicationFilterModel filterModel)
+        public async Task<IList<BasePublicationModel>> GetAvailableDepartmentReportPublicationsAsync(DepartmentReportPublicationFilterModel filterModel, string department)
         {
-            var publications = await _repo.GetAsync(new CathedraReportPublicationSpecification(filterModel));
+            var publications = new List<Publication>();
+
+            if (department == Departments.Cathedra)
+            {
+                publications = await _repo.GetAsync(new CathedraReportPublicationSpecification(filterModel));
+            }
+            else if (department == Departments.Faculty)
+            {
+                publications = await _repo.GetAsync(new FacultyReportPublicationSpecification(filterModel));
+            }
+
             return _mapper.Map<IList<BasePublicationModel>>(publications.Distinct());
         }
     }

@@ -35,6 +35,12 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<CathedraReport> CathedraReportDefenseInAcademicCouncil { get; set; }
 
+        public virtual ICollection<FacultyReport> FacultyReportDefenseOfGraduates { get; set; }
+
+        public virtual ICollection<FacultyReport> FacultyReportDefenseOfEmployees { get; set; }
+
+        public virtual ICollection<FacultyReport> FacultyReportDefenseInAcademicCouncil { get; set; }
+
         public string GetSupervisor()
         {
             return Supervisor.I18nUserInitials.FirstOrDefault(x => x.Language == Language.UA)?.FullName;

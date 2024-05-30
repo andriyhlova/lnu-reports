@@ -2,8 +2,9 @@
 using SRS.Domain.Entities;
 using SRS.Services.Extensions;
 using SRS.Services.Models;
-using SRS.Services.Models.CathedraReportModels;
-using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using SRS.Services.Models.CsvModels;
+using SRS.Services.Models.DepartmentReportModels;
+using SRS.Services.Models.ReportGenerationModels.DepartmentReport;
 
 namespace SRS.Services.Mapping.Profiles
 {
@@ -19,7 +20,7 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<DissertationDefenseModel, DissertationDefense>();
 
-            CreateMap<DissertationDefense, CathedraReportDissertarionDefenseModel>()
+            CreateMap<DissertationDefense, DepartmentReportDissertarionDefenseModel>()
                 .ForMember(dest => dest.DefenseDate, opts => opts.MapFrom(src => src.DefenseDate.Date.ToString("yyyy-MM-dd")))
                 .ForMember(dest => dest.SubmissionDate, opts => opts.MapFrom(src => src.SubmissionDate.ToString("yyyy-MM-dd")))
                 .ForMember(dest => dest.SupervisorDescription, opts => opts.MapFrom(src => src.GetSupervisor()))
@@ -27,6 +28,13 @@ namespace SRS.Services.Mapping.Profiles
                 .ForMember(dest => dest.DissertationType, opts => opts.MapFrom(src => src.DissertationType.GetDisplayName()))
                 .ForMember(dest => dest.PositionAndCathedra, opts => opts.MapFrom(src =>
                 src.User.Position.Value + ", " + src.User.Cathedra.Name));
+
+            CreateMap<DissertationDefenseModel, DisertationDefenseCsvModel>()
+                .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Theme))
+                .ForMember(dest => dest.DefenseDate, opts => opts.MapFrom(src => src.DefenseDate.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.SubmissionDate, opts => opts.MapFrom(src => src.SubmissionDate.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.Specialization, opts => opts.MapFrom(src => src.SpecializationName))
+                .ForMember(dest => dest.DissertationType, opts => opts.MapFrom(src => src.DissertationType != null ? src.DissertationType.GetDisplayName() : string.Empty));
         }
     }
 }

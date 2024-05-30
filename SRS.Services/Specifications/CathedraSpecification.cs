@@ -11,11 +11,10 @@ namespace SRS.Services.Specifications
             : base(
                   filterModel.Skip,
                   filterModel.Take,
-                  x => (string.IsNullOrEmpty(filterModel.Search)
-                                || x.Name.Contains(filterModel.Search)
-                                || x.Faculty.Name.Contains(filterModel.Search))
-                                && (filterModel.FacultyId == null
-                                || x.FacultyId == filterModel.FacultyId),
+                  x => (string.IsNullOrEmpty(filterModel.Search) ||
+                                x.Name.Contains(filterModel.Search) ||
+                                x.Faculty.Name.Contains(filterModel.Search)) &&
+                        (filterModel.FacultyId == null || x.FacultyId == filterModel.FacultyId),
                   true)
         {
             AddInclude(x => x.Faculty);

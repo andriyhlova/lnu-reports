@@ -11,7 +11,7 @@ namespace SRS.Domain.Specifications
 {
     public class CathedraReportSpecification : BaseFilterSpecification<CathedraReport>
     {
-        public CathedraReportSpecification(CathedraReportFilterModel filterModel, Expression<Func<CathedraReport, bool>> expression)
+        public CathedraReportSpecification(DepartmentReportFilterModel filterModel, Expression<Func<CathedraReport, bool>> expression)
             : base(
                   filterModel.Skip,
                   filterModel.Take,

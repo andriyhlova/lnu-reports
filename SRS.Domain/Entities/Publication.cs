@@ -106,6 +106,12 @@ namespace SRS.Domain.Entities
 
         public virtual ICollection<CathedraReport> PatentsForInventionCathedraReport { get; set; }
 
+        public virtual ICollection<FacultyReport> PublicationsFacultyReport { get; set; }
+
+        public virtual ICollection<FacultyReport> ApplicationsForInventionFacultyReport { get; set; }
+
+        public virtual ICollection<FacultyReport> PatentsForInventionFacultyReport { get; set; }
+
         public string GetPages()
         {
             var spaceRegex = new Regex(@"\s{2,}");

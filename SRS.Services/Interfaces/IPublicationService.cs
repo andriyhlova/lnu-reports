@@ -14,6 +14,6 @@ namespace SRS.Services.Interfaces
 
         Task<IList<BasePublicationModel>> GetAvailableReportPublicationsAsync(ReportPublicationFilterModel filterModel);
 
-        Task<IList<BasePublicationModel>> GetAvailableCathedraReportPublicationsAsync(CathedraReportPublicationFilterModel filterModel);
+        Task<IList<BasePublicationModel>> GetAvailableDepartmentReportPublicationsAsync(DepartmentReportPublicationFilterModel filterModel, string department);
     }
 }

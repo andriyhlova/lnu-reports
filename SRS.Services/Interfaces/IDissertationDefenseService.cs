@@ -1,6 +1,4 @@
-﻿using SRS.Domain.Entities;
-using SRS.Services.Models;
-using SRS.Services.Models.CathedraReportModels;
+﻿using SRS.Services.Models;
 using SRS.Services.Models.FilterModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;

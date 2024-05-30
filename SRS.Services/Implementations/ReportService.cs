@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Spreadsheet;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
@@ -124,6 +125,17 @@ namespace SRS.Services.Implementations
             }
 
             return false;
+        }
+
+        public async Task<IList<ReportThemeOfScientificWorkModel>> GetAsyncReportThemeOfScientificWork(int reportThemeOfScientificWorkId)
+        {
+            var reports = await _repo.GetAllAsync();
+
+            var reportsThemeOfScientificWork = reports.SelectMany(report => report.ThemeOfScientificWorks)
+                                                      .Where(reportTheme => reportTheme.Id == reportThemeOfScientificWorkId)
+                                                      .ToList();
+
+            return _mapper.Map<IList<ReportThemeOfScientificWorkModel>>(reportsThemeOfScientificWork.FirstOrDefault());
         }
 
         private async Task UpdateUserSnapshotAsync(Report report)

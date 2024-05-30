@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.BaseModels;
-using SRS.Services.Models.CathedraReportModels;
 using SRS.Services.Models.Constants;
+using SRS.Services.Models.DepartmentReportModels;
 using SRS.Services.Models.FilterModels;
-using SRS.Services.Models.ReportModels;
 using SRS.Services.Models.UserModels;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SRS.Services.Implementations
 {
@@ -26,7 +25,7 @@ namespace SRS.Services.Implementations
             _roleActionService = roleActionService;
         }
 
-        public async Task<IList<BaseCathedraReportModel>> GetForUserAsync(UserAccountModel user, CathedraReportFilterModel filterModel)
+        public async Task<IList<BaseDepartmentReportModel>> GetForUserAsync(UserAccountModel user, DepartmentReportFilterModel filterModel)
         {
             var actions = new Dictionary<string, Func<Task<IList<CathedraReport>>>>
             {
@@ -37,12 +36,12 @@ namespace SRS.Services.Implementations
             };
 
             var cathedraReports = await _roleActionService.TakeRoleActionAsync(user, actions);
-            return _mapper.Map<IList<BaseCathedraReportModel>>(cathedraReports ?? new List<CathedraReport>());
+            return _mapper.Map<IList<BaseDepartmentReportModel>>(cathedraReports ?? new List<CathedraReport>());
         }
 
-        public async Task<int> CountForUserAsync(UserAccountModel user, CathedraReportFilterModel filterModel)
+        public async Task<int> CountForUserAsync(UserAccountModel user, DepartmentReportFilterModel filterModel)
         {
-            var countFilterModel = new CathedraReportFilterModel
+            var countFilterModel = new DepartmentReportFilterModel
             {
                 Search = filterModel.Search,
                 CathedraId = filterModel.CathedraId,
@@ -62,7 +61,7 @@ namespace SRS.Services.Implementations
             return await _roleActionService.TakeRoleActionAsync(user, actions);
         }
 
-        public async Task<CathedraReportModel> GetUserCathedraReportAsync(string userId, int? reportId)
+        public async Task<DepartmentReportModel> GetUserDepartmentReportAsync(string userId, int? reportId)
         {
             CathedraReport oldReport;
             if (!reportId.HasValue)
@@ -74,7 +73,7 @@ namespace SRS.Services.Implementations
                 oldReport = await _repo.GetAsync(reportId.Value);
             }
 
-            return _mapper.Map<CathedraReportModel>(oldReport ?? new CathedraReport { UserId = userId });
+            return _mapper.Map<DepartmentReportModel>(oldReport ?? new CathedraReport { UserId = userId });
         }
 
         public async Task<int> UpsertAsync<TModel>(TModel model, string currentUserId)

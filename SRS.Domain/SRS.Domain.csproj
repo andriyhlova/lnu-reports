@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\DissertationDefense.cs" />
+    <Compile Include="Entities\FacultyReport.cs" />
     <Compile Include="Entities\ReportThemeOfScientificWork.cs" />
     <Compile Include="Entities\ApplicationUserHonoraryTitle.cs" />
     <Compile Include="Entities\HonoraryTitle.cs" />

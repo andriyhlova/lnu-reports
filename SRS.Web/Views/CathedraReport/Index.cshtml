@@ -3,7 +3,7 @@
 @using SRS.Services.Extensions
 @using SRS.Domain.Enums
 
-@model SRS.Web.Models.CathedraReports.CathedraReportViewModel
+@model SRS.Web.Models.DepartmentReports.DepartmentReportViewModel
 
 @{
     ViewBag.Title = "Кафедральний звіт";
@@ -41,29 +41,33 @@
             @Html.AntiForgeryToken()
 
             var counter = 1;
-            foreach (var item in (Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>)ViewBag.AllThemes)
+            foreach (var item in (Dictionary<Financial, IList<DepartmentReportThemeOfScientificWorkModel>>)ViewBag.AllThemes)
             {
-                <div class="form-group">
-                    <label class="control-label">
-                        2.@(counter++) @(item.Key.GetDisplayName()):
-                    </label>
-                    @foreach (var theme in item.Value)
-                    {
-                        <div><b>Тема @theme.Code “@theme.Value”</b></div>
-                        <div><b>Наукові керівники:</b> @theme.GetSupervisors()</div>
-                        <div>Номер державної реєстрації: @theme.ThemeNumber.</div>
-                        {
-                            <div>Термін дії теми: @theme.PeriodFrom.ToString(Dates.UaDatePattern)&mdash;@theme.PeriodTo.ToString(Dates.UaDatePattern) р. Обсяг фінансування: @(theme.FinancialAmount ?? 0m) грн. у @(theme.FinancialYear ?? DateTime.Now.Year) році.</div>
-                        }
-                        <div><b>Резюме</b></div>
-                        <div>@theme.Resume</div>
-                        <div><b>Публікації</b></div>
-                        <div>@theme.Publications</div>
-                        <div><b>Захищені дисертації</b></div>
-                        <div>@theme.DefendedDissertation</div>
-                        <br />
-                    }
-                </div>
+        <div class="form-group">
+            <label class="control-label">
+                2.@(counter++) @(item.Key.GetDisplayName()):
+            </label>
+            @foreach (var theme in item.Value)
+            {
+                <div><b>Тема @theme.Code “@theme.Value”</b></div>
+                <div><b>Наукові керівники:</b> @theme.GetSupervisors()</div>
+                <div>Номер державної реєстрації: @theme.ThemeNumber.</div>
+                {
+                    <div>Термін дії теми: @theme.PeriodFrom.ToString(Dates.UaDatePattern)&mdash;@theme.PeriodTo.ToString(Dates.UaDatePattern) р. Обсяг фінансування: @(theme.FinancialAmount ?? 0m) грн. у @(theme.FinancialYear ?? DateTime.Now.Year) році.</div>
+                }
+                <div><b>Резюме</b></div>
+                <div>@theme.Resume</div>
+                <div><b>Публікації</b></div>
+                <div>@theme.Publications</div>
+                <div><b>Захищені дисертації</b></div>
+                <div>@theme.DefendedDissertation</div>
+                <div><b>Виконавці:</b></div>
+                <div>Штатні - @theme.AmountOfApplicationUserFullTime</div>
+                <div>Сумісники - @theme.AmountOfApplicationUserExternalPartTime</div>
+                <div>За цивільно-правовим договором - @theme.AmountOfApplicationUserLawContract</div>
+                <br />
+            }
+        </div>
                 <hr />
             }
             if (Model.Grants.Count > 0)
@@ -415,7 +419,7 @@
             @Html.ActionLink("Експорт у PDF", "PreviewPdf", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default", @target = "_blank" })
             @Html.ActionLink("Експорт у LaTex", "GetLatex", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
             @Html.ActionLink("Експорт у Word (тест-версія)", "GetWord", "CathedraReportGeneration", new { reportId = Model.Id }, new { @class = "btn btn-default" })
-            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id })"
+            <a href="@Url.Action("Preview", "CathedraReportGeneration", new { reportId = Model.Id, department = Departments.Cathedra })"
                target="_blank"
                class="btn btn-default">
                 Переглянути

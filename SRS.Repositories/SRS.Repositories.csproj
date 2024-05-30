@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Implementation\CathedraReportRepository.cs" />
+    <Compile Include="Implementation\FacultyReportRepository.cs" />
     <Compile Include="Implementation\JournalRepository.cs" />
     <Compile Include="Implementation\ThemeOfScientificWorkRepository.cs" />
     <Compile Include="Implementation\ReportRepository.cs" />
@@ -299,6 +300,14 @@
     <Compile Include="Migrations\202403061153210_ModifyCathedraReport.designer.cs">
       <DependentUpon>202403061153210_ModifyCathedraReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202403291630493_ModifyReport.cs" />
+    <Compile Include="Migrations\202403291630493_ModifyReport.designer.cs">
+      <DependentUpon>202403291630493_ModifyReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405061802392_CreateFacultyReport.cs" />
+    <Compile Include="Migrations\202405061802392_CreateFacultyReport.designer.cs">
+      <DependentUpon>202405061802392_CreateFacultyReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -469,6 +478,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202403061153210_ModifyCathedraReport.resx">
       <DependentUpon>202403061153210_ModifyCathedraReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403291630493_ModifyReport.resx">
+      <DependentUpon>202403291630493_ModifyReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405061802392_CreateFacultyReport.resx">
+      <DependentUpon>202405061802392_CreateFacultyReport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

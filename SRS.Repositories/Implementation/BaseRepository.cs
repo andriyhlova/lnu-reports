@@ -41,7 +41,19 @@ namespace SRS.Repositories.Implementations
 
             UpdateRelatedEntities(existingEntity, entity);
             _context.Entry(existingEntity).CurrentValues.SetValues(entity);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+#pragma warning disable S3445 // Exceptions should not be explicitly rethrown
+#pragma warning disable RCS1044 // Remove original exception from throw statement.
+                throw e;
+#pragma warning restore RCS1044 // Remove original exception from throw statement.
+#pragma warning restore S3445 // Exceptions should not be explicitly rethrown
+            }
 
             return existingEntity;
         }

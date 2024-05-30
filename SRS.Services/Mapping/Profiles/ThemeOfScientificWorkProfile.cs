@@ -48,7 +48,7 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<ThemeOfScientificWorkCathedraModel, ThemeOfScientificWorkCathedra>();
 
-            CreateMap<ThemeOfScientificWork, CathedraReportThemeOfScientificWorkModel>();
+            CreateMap<ThemeOfScientificWork, DepartmentReportThemeOfScientificWorkModel>();
 
             CreateMap<BaseThemeOfScientificWorkWithFinancialsModel, ThemeOfScientificWork>().ReverseMap();
 

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using SRS.Services.Models.ReportGenerationModels.DepartmentReport;
 
 namespace SRS.Services.Interfaces.ReportGeneration
 {
     public interface ICathedraReportTemplateService
     {
-        Task<CathedraReportTemplateModel> BuildAsync(int reportId);
+        Task<DepartmentReportTemplateModel> BuildAsync(int reportId);
     }
 }

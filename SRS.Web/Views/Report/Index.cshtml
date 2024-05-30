@@ -38,7 +38,7 @@
                         {
                             <input type="hidden" class="initial-scientific-work"
                                    data-id="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWorkId"
-                                   data-themeid="@Model.ThemeOfScientificWorks[i].Id"
+                                   data-reportthemeid="@Model.ThemeOfScientificWorks[i].Id"
                                    data-themenumber="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeNumber"
                                    data-code="@Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.Code"
                                    data-supervisorsdescription="@string.Join(", ", Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorName))"
@@ -47,7 +47,13 @@
                                    data-resume="@Model.ThemeOfScientificWorks[i].Resume"
                                    data-supervisorsid="@string.Join(",", Model.ThemeOfScientificWorks[i].ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Select(x => x.SupervisorId))"
                                    data-publications="@Model.ThemeOfScientificWorks[i].Publications"
-                                   data-defendeddissertation="@Model.ThemeOfScientificWorks[i].DefendedDissertation"/>
+                                   data-defendeddissertation="@Model.ThemeOfScientificWorks[i].DefendedDissertation"
+                                   data-applicationsuserfulltime="@Model.ThemeOfScientificWorks[i].GetApplicationUserFullTime()"
+                                   data-applicationsuserfulltimeid="@Model.ThemeOfScientificWorks[i].GetApplicationUserFullTime(false)"
+                                   data-applicationsuserexternalparttime="@Model.ThemeOfScientificWorks[i].GetApplicationUserExternalPartTime()"
+                                   data-applicationsuserexternalparttimeid="@Model.ThemeOfScientificWorks[i].GetApplicationUserExternalPartTime(false)"
+                                   data-applicationsuserlawcontract="@Model.ThemeOfScientificWorks[i].GetApplicationUserLawContract()"
+                                   data-applicationsuserlawcontractid="@Model.ThemeOfScientificWorks[i].GetApplicationUserLawContract(false)"  />
                         }
                     }
                     <div class="selected-items selected-scientific-works">
@@ -393,6 +399,7 @@
     @Styles.Render("~/Content/search/bundle")
     @Styles.Render("~/Content/steps/bundle")
     @Styles.Render("~/Content/reports/bundle")
+    @Styles.Render("~/Content/relatedEntity/bundle")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -400,5 +407,6 @@
     @Scripts.Render("~/bundles/steps")
     @Scripts.Render("~/bundles/stepper")
     @Scripts.Render("~/bundles/searchComponent")
+    @Scripts.Render("~/bundles/relatedEntityComponent")
     @Scripts.Render("~/bundles/reports/edit")
 }

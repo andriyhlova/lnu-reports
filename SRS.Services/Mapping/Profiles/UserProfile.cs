@@ -44,6 +44,8 @@ namespace SRS.Services.Mapping.Profiles
 
             CreateMap<UserInitialsModel, ApplicationUser>();
 
+            CreateMap<BaseUserInfoModel, ApplicationUser>();
+
             CreateMap<ApplicationUser, UserInfoModel>()
                 .IncludeBase<ApplicationUser, BaseUserInfoModel>()
                 .ForMember(dest => dest.FacultyId, opts => opts.MapFrom(src => src.Cathedra.FacultyId))

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Bibliography;
 using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Interfaces;
+using SRS.Services.Models.Constants;
 using SRS.Services.Models.FilterModels;
 using SRS.Services.Models.ThemeOfScientificWorkModels;
 using System;
@@ -53,33 +55,58 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<BaseThemeOfScientificWorkModel>>(themes);
         }
 
-        public async Task<Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>> GetActiveForCathedraReportAsync(int cathedraId, DateTime? date)
+        public async Task<Dictionary<Financial, IList<DepartmentReportThemeOfScientificWorkModel>>> GetActiveForDepartmentReportAsync(
+            int departmentId,
+            DateTime? date,
+            string department)
         {
             var reportDate = date ?? DateTime.Now;
             var currentYear = reportDate.Year;
             var previousYear = currentYear - 1;
-            var themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == cathedraId) &&
+            var themes = new List<ThemeOfScientificWork>();
+
+            if (department == Departments.Cathedra)
+            {
+                themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.CathedraId == departmentId) &&
                                                     x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) &&
-                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.CathedraId == cathedraId) &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.CathedraId == departmentId) &&
                                                     x.Financial != Financial.InternationalGrant &&
                                                     x.IsActive);
+            }
+            else if (department == Departments.Faculty)
+            {
+                themes = await _repo.GetAsync(x => x.ThemeOfScientificWorkCathedras.Any(y => y.Cathedra.FacultyId == departmentId) &&
+                                                    x.PeriodFrom.Year <= currentYear && (x.PeriodTo.Year >= currentYear || x.PeriodTo.Year == previousYear) &&
+                                                    x.Reports.Any(y => y.Report.Date.Value.Year == reportDate.Year && y.Report.User.Cathedra.FacultyId == departmentId) &&
+                                                    x.Financial != Financial.InternationalGrant &&
+                                                    x.IsActive);
+            }
 
             var groupped = themes.GroupBy(x => x.Financial);
-            var result = new Dictionary<Financial, IList<CathedraReportThemeOfScientificWorkModel>>();
+            var result = new Dictionary<Financial, IList<DepartmentReportThemeOfScientificWorkModel>>();
             foreach (var group in groupped)
             {
-                result.Add(group.Key, new List<CathedraReportThemeOfScientificWorkModel>());
+                result.Add(group.Key, new List<DepartmentReportThemeOfScientificWorkModel>());
                 foreach (var theme in group)
                 {
-                    var mapped = _mapper.Map<CathedraReportThemeOfScientificWorkModel>(theme);
+                    var mapped = _mapper.Map<DepartmentReportThemeOfScientificWorkModel>(theme);
 
-                    var report = theme.Reports
+                    var report = new ReportThemeOfScientificWork();
+
+                    if (department == Departments.Cathedra)
+                    {
+                        report = theme.Reports
                             .FirstOrDefault(r => r.Report.Date.HasValue &&
                                 r.Report.Date.Value.Year == reportDate.Year &&
-                                r.Report.User.CathedraId == cathedraId &&
-                                !string.IsNullOrEmpty(r.Resume) &&
-                                !string.IsNullOrEmpty(r.DefendedDissertation) &&
-                                !string.IsNullOrEmpty(r.Publications));
+                                r.Report.User.CathedraId == departmentId);
+                    }
+                    else if (department == Departments.Faculty)
+                    {
+                        report = theme.Reports
+                            .FirstOrDefault(r => r.Report.Date.HasValue &&
+                                r.Report.Date.Value.Year == reportDate.Year &&
+                                r.Report.User.Cathedra.FacultyId == departmentId);
+                    }
 
                     var financial = theme.ThemeOfScientificWorkFinancials.FirstOrDefault(x => x.Year == reportDate.Year);
 
@@ -88,6 +115,9 @@ namespace SRS.Services.Implementations
                     mapped.Publications = report?.Publications;
                     mapped.FinancialAmount = financial?.Amount;
                     mapped.FinancialYear = financial?.Year;
+                    mapped.AmountOfApplicationUserFullTime = report?.ApplicationUserFullTime.Count;
+                    mapped.AmountOfApplicationUserExternalPartTime = report?.ApplicationUserExternalPartTime.Count;
+                    mapped.AmountOfApplicationUserLawContract = report?.ApplicationUserLawContract.Count;
 
                     result[group.Key].Add(mapped);
                 }

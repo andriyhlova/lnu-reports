@@ -6,7 +6,7 @@ using System.Web.Security;
 using Rotativa;
 using SRS.Services.Interfaces.ReportGeneration;
 using SRS.Services.Models.Constants;
-using SRS.Services.Models.ReportGenerationModels.CathedraReport;
+using SRS.Services.Models.ReportGenerationModels.DepartmentReport;
 
 namespace SRS.Web.Controllers
 {
@@ -14,27 +14,42 @@ namespace SRS.Web.Controllers
     public class CathedraReportGenerationController : Controller
     {
         private readonly ICathedraReportTemplateService _cathedraReportTemplateService;
-        private readonly IHtmlReportBuilderService<CathedraReportTemplateModel> _htmlCathedraReportBuilderService;
+        private readonly IFacultyReportTemplateService _facultyReportTemplateService;
+        private readonly IHtmlReportBuilderService<DepartmentReportTemplateModel> _htmlCathedraReportBuilderService;
         private readonly ITexReportBuilderService _texReportBuilderService;
         private readonly IWordReportBuilderService _wordCathedraReportBuilderService;
 
         public CathedraReportGenerationController(
             ICathedraReportTemplateService cathedraReportTemplateService,
-            IHtmlReportBuilderService<CathedraReportTemplateModel> htmlCathedraReportBuilderService,
+            IFacultyReportTemplateService facultyReportTemplateService,
+            IHtmlReportBuilderService<DepartmentReportTemplateModel> htmlCathedraReportBuilderService,
             ITexReportBuilderService texReportBuilderService,
             IWordReportBuilderService wordCathedraReportBuilderService)
         {
             _cathedraReportTemplateService = cathedraReportTemplateService;
+            _facultyReportTemplateService = facultyReportTemplateService;
             _htmlCathedraReportBuilderService = htmlCathedraReportBuilderService;
             _texReportBuilderService = texReportBuilderService;
             _wordCathedraReportBuilderService = wordCathedraReportBuilderService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> Preview(int reportId)
+        public async Task<ActionResult> Preview(int reportId, string department)
         {
-            var model = await _cathedraReportTemplateService.BuildAsync(reportId);
-            return Content(_htmlCathedraReportBuilderService.Build(ReportTemplates.CathedraReport, model));
+            if (department == Departments.Cathedra)
+            {
+                var model = await _cathedraReportTemplateService.BuildAsync(reportId);
+
+                return Content(_htmlCathedraReportBuilderService.Build(ReportTemplates.CathedraReport, model));
+            }
+            else if (department == Departments.Faculty)
+            {
+                var model = await _facultyReportTemplateService.BuildAsync(reportId);
+
+                return Content(_htmlCathedraReportBuilderService.Build(ReportTemplates.CathedraReport, model));
+            }
+
+            return View();
         }
 
         [HttpGet]

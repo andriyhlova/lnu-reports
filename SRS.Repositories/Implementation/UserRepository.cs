@@ -80,6 +80,9 @@ namespace SRS.Repositories.Implementations
             var cathedraReports = _context.CathedraReport.Include(x => x.User).Where(x => x.User.Id == id);
             _context.CathedraReport.RemoveRange(cathedraReports);
 
+            var facultyReports = _context.FacultyReport.Include(x => x.User).Where(x => x.User.Id == id);
+            _context.FacultyReport.RemoveRange(facultyReports);
+
             foreach (var item in _context.Users.Where(x => x.ApprovedById == id))
             {
                 item.ApprovedById = null;

@@ -156,6 +156,9 @@ namespace SRS.Services.Implementations.ReportGeneration
             var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
             themeOfScientificWork.Theme = _themeBibliographyService.Get(theme.ThemeOfScientificWork);
             themeOfScientificWork.Description = theme.Description;
+            themeOfScientificWork.AmountOfApplicationUserFullTime = theme.ApplicationUserFullTime.Count;
+            themeOfScientificWork.AmountOfApplicationUserExternalPartTime = theme.ApplicationUserExternalPartTime.Count;
+            themeOfScientificWork.AmountOfApplicationUserLawContract = theme.ApplicationUserLawContract.Count;
             return themeOfScientificWork;
         }
 

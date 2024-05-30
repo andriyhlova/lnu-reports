@@ -7,6 +7,7 @@ class RelatedEntityComponent {
     _getSelectedRelatedEntityHtml;
     _identifierClass = '.id';
     _identifierProperty = 'Id';
+    _idOfIterator;
 
     constructor(settings) {
         this._relatedEntityContainerId = settings.relatedEntityContainerId;
@@ -17,6 +18,7 @@ class RelatedEntityComponent {
         this._getSelectedRelatedEntityHtml = settings.getSelectedRelatedEntityHtml;
         this._identifierClass = settings.identifierClass || this._identifierClass;
         this._identifierProperty = settings.identifierProperty || this._identifierProperty;
+        this._idOfIterator = settings.idOfIterator;
     }
 
     load() {
@@ -32,7 +34,7 @@ class RelatedEntityComponent {
             if (form.children().length == 0) {
                 form.html(this.renderFormHtml());
                 if (this._postLoadForm) {
-                    this._postLoadForm();
+                    this._postLoadForm((this._idOfIterator));
                 }
             }
         });
@@ -59,7 +61,7 @@ class RelatedEntityComponent {
 
     saveRelatedEntityEvent() {
         $(this._relatedEntityContainerId).on('click', '.save-related-entity', () => {
-            const item = this._getRelatedEntityFormObject();
+            const item = this._getRelatedEntityFormObject(this._idOfIterator);
             if (!item) {
                 return;
             }

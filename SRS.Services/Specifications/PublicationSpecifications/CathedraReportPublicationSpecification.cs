@@ -6,14 +6,14 @@ namespace SRS.Domain.Specifications.PublicationSpecifications
 {
     public class CathedraReportPublicationSpecification : BaseSpecification<Publication>
     {
-        public CathedraReportPublicationSpecification(CathedraReportPublicationFilterModel filterModel)
+        public CathedraReportPublicationSpecification(DepartmentReportPublicationFilterModel filterModel)
             : base(
-                  x => x.PrintedPublicationReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.Date.Value.Year == filterModel.Date.Year) ||
-                       x.RecomendedPublicationReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.Date.Value.Year == filterModel.Date.Year) ||
-                  x.AcceptedToPrintPublicationReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.Date.Value.Year == filterModel.Date.Year) ||
-                  x.StudentPublicationReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.Date.Value.Year == filterModel.Date.Year) ||
-                  x.PatentsForInventionReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.Date.Value.Year == filterModel.Date.Year) ||
-                  x.ApplicationsForInventionReport.Any(y => y.User.CathedraId == filterModel.CathedraId && y.Date.Value.Year == filterModel.Date.Year),
+                  x => x.PrintedPublicationReport.Any(y => y.User.CathedraId == filterModel.DepartmentId && y.Date.Value.Year == filterModel.Date.Year) ||
+                       x.RecomendedPublicationReport.Any(y => y.User.CathedraId == filterModel.DepartmentId && y.Date.Value.Year == filterModel.Date.Year) ||
+                  x.AcceptedToPrintPublicationReport.Any(y => y.User.CathedraId == filterModel.DepartmentId && y.Date.Value.Year == filterModel.Date.Year) ||
+                  x.StudentPublicationReport.Any(y => y.User.CathedraId == filterModel.DepartmentId && y.Date.Value.Year == filterModel.Date.Year) ||
+                  x.PatentsForInventionReport.Any(y => y.User.CathedraId == filterModel.DepartmentId && y.Date.Value.Year == filterModel.Date.Year) ||
+                  x.ApplicationsForInventionReport.Any(y => y.User.CathedraId == filterModel.DepartmentId && y.Date.Value.Year == filterModel.Date.Year),
                   true)
         {
             AddIncludes(

@@ -5,7 +5,7 @@
 @using SRS.Services.Extensions
 @using SRS.Services.Models
 @using SRS.Web.Models.Shared
-@model ItemsViewModel<FacultyFilterViewModel, CathedraModel>
+@model ItemsViewModel<DepartmentFilterViewModel, CathedraModel>
 @{
     ViewBag.Title = "Кафедри";
 }
@@ -30,11 +30,11 @@
         <thead>
             <tr>
                 <th>
-                    @Html.ActionLink("Назва", "Index", new FacultyFilterViewModel { Page = 1, OrderBy = (int)CathedraOrderType.Name, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Назва", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)CathedraOrderType.Name, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraOrderType.Name, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th>
-                    @Html.ActionLink("Факультет", "Index", new FacultyFilterViewModel { Page = 1, OrderBy = (int)CathedraOrderType.Faculty, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
+                    @Html.ActionLink("Факультет", "Index", new DepartmentFilterViewModel { Page = 1, OrderBy = (int)CathedraOrderType.Faculty, Desc = !Model.FilterModel.Desc, Search = Model.FilterModel.Search })
                     @{Html.RenderPartial("Ordering/OrderDirection", new OrderDirectionViewModel { OrderType = (int)CathedraOrderType.Faculty, OrderBy = Model.FilterModel.OrderBy, Desc = Model.FilterModel.Desc });}
                 </th>
                 <th></th>
@@ -61,7 +61,7 @@
 </div>
 
 @{Html.RenderPartial("Pagination/PageInfo", new PageInfoViewModel { PageNumber = Model.Items.PageNumber, PageCount = Model.Items.PageCount, PageItemCount = Model.Items.Count, TotalItemCount = Model.Items.TotalItemCount });}
-@Html.PagedListPager(Model.Items, page => Url.Action("Index", new FacultyFilterViewModel { Page = page, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))
+@Html.PagedListPager(Model.Items, page => Url.Action("Index", new DepartmentFilterViewModel { Page = page, Desc = Model.FilterModel.Desc, Search = Model.FilterModel.Search }))
 
 
 @section Styles {

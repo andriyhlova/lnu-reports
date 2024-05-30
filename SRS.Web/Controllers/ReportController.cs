@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
+using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
@@ -36,6 +38,7 @@ namespace SRS.Web.Controllers
             await FillPublications(viewModel, report, publicationDateFilter);
             FillFilters(publicationDateFilter);
             FillStepIndex(stepIndex);
+
             return View(viewModel);
         }
 

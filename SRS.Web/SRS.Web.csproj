@@ -252,6 +252,7 @@
     <Compile Include="Areas\Api\Controllers\AcademicStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\DegreesApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalTypesController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportThemeOfScientificWorkPerformersApiController.cs" />
     <Compile Include="Areas\Api\Controllers\ThemeOfScientificWorksApiController.cs" />
     <Compile Include="Areas\Api\Controllers\JournalsApiController.cs" />
     <Compile Include="Areas\Api\Controllers\UsersController.cs" />
@@ -263,6 +264,8 @@
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FacultyReportController.cs" />
+    <Compile Include="Controllers\FacultyReportListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HonoraryTitlesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -304,18 +307,18 @@
     <Compile Include="Models\Account\UserDegreeViewModel.cs" />
     <Compile Include="Models\Account\UpdateProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportBudgetThemeViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportHospDohovirThemeViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportGrantsViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportPublicationsViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportInTimeThemeViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportBudgetThemeViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportHospDohovirThemeViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportGrantsViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportPublicationsViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportInTimeThemeViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportViewModel.cs" />
     <Compile Include="Models\Constants\CookieNames.cs" />
     <Compile Include="Models\DissertationDefense\DissertationDefenseFilterViewModel.cs" />
     <Compile Include="Models\Journals\JournalFilterViewModel.cs" />
     <Compile Include="Models\Publications\PublicationEditViewModel.cs" />
     <Compile Include="Models\Publications\PublicationFilterViewModel.cs" />
-    <Compile Include="Models\CathedraReports\CathedraReportFilterViewModel.cs" />
+    <Compile Include="Models\DepartmentReports\DepartmentReportFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsFilterViewModel.cs" />
     <Compile Include="Models\Reports\ReportScientificWorkViewModel.cs" />
     <Compile Include="Models\Reports\ReportPublicationsViewModel.cs" />
@@ -547,9 +550,12 @@
     <Content Include="Views\Specializations\Create.cshtml" />
     <Content Include="Views\Specializations\Edit.cshtml" />
     <Content Include="Views\Specializations\Delete.cshtml" />
+    <Content Include="Views\FacultyReport\Index.cshtml" />
+    <Content Include="Views\FacultyReportList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Api\Views\ReportThemeOfScientificWorkPerformers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
