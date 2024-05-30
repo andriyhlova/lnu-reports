@@ -133,7 +133,7 @@ function submitDateForm() {
                 ReportThemeId: $(scientificWorks[i])[0].dataset.themeid,
                 ThemeNumber: $(scientificWorks[i])[0].dataset.themenumber,
                 Code: $(scientificWorks[i])[0].dataset.code,
-                SupervisorDescription: $(scientificWorks[i])[0].dataset.supervisorsdescription,
+                ScientificHead: $(scientificWorks[i])[0].dataset.supervisorsdescription,
                 Value: $(scientificWorks[i])[0].dataset.value,
                 Description: $(scientificWorks[i])[0].dataset.description,
                 Resume: $(scientificWorks[i])[0].dataset.resume,
@@ -149,7 +149,7 @@ function submitDateForm() {
     }
 
     function getScientificWorkSearchResultText(scientificWork) {
-        return `<div>${scientificWork.ThemeNumber || ''} ${scientificWork.Code || ''} ${scientificWork.SupervisorDescription || ''}  <span class="theme-name">${scientificWork.Value}</span></div>`;
+        return `<div>${scientificWork.ThemeNumber || ''} ${scientificWork.Code || ''} ${scientificWork.ScientificHead || ''}  <span class="theme-name">${scientificWork.Value}</span></div>`;
     };
 
     function appendScientificWorkSearchResultItem(scientificWork, settings) {
@@ -193,32 +193,33 @@ function submitDateForm() {
     function getScientificWorkHtml(index, scientificWork, fieldName) {
         let aditionalFileds = ``;
 
-
-        if (scientificWork.SupervisorId.split(",").some(x => x == CurrentUserId))
+        if (scientificWork.SupervisorId && scientificWork.SupervisorId != undefined)
         {
-            aditionalFileds = `<label class="control-label">
-                                   Резюме
-                               </label>
+            if (scientificWork.SupervisorId.split(",").some(x => x == CurrentUserId)) {
+                aditionalFileds = `<label class="control-label">
+                                       Резюме
+                                   </label>
 
-                               <div>
-                                   <textarea class="form-control" name="${fieldName}[${index}].Resume" style="max-width:100%" rows="6" data-value="${scientificWork.Resume}">${scientificWork.Resume || ''}</textarea>
-                               </div>
+                                   <div>
+                                       <textarea class="form-control" name="${fieldName}[${index}].Resume" style="max-width:100%" rows="6" data-value="${scientificWork.Resume}">${scientificWork.Resume || ''}</textarea>
+                                   </div>
 
-                               <label class="control-label">
-                                   Публікації
-                               </label >
+                                   <label class="control-label">
+                                       Публікації
+                                   </label >
 
-                               <div>
-                                   <textarea class="form-control" name="${fieldName}[${index}].Publications" style="max-width:100%" rows="6" data-value="${scientificWork.Publications}">${scientificWork.Publications || ''}</textarea>
-                               </div>
+                                   <div>
+                                       <textarea class="form-control" name="${fieldName}[${index}].Publications" style="max-width:100%" rows="6" data-value="${scientificWork.Publications}">${scientificWork.Publications || ''}</textarea>
+                                   </div>
 
-                               <label class="control-label">
-                                   Захищено дисертацій за тематикою роботи
-                               </label>
+                                   <label class="control-label">
+                                       Захищено дисертацій за тематикою роботи
+                                   </label>
 
-                               <div>
-                                   <textarea class="form-control" name="${fieldName}[${index}].DefendedDissertation" style="max-width:100%" rows="6" data-value="${scientificWork.DefendedDissertation}">${scientificWork.DefendedDissertation || ''}</textarea>
-                               </div>`;
+                                   <div>
+                                       <textarea class="form-control" name="${fieldName}[${index}].DefendedDissertation" style="max-width:100%" rows="6" data-value="${scientificWork.DefendedDissertation}">${scientificWork.DefendedDissertation || ''}</textarea>
+                                   </div>`;
+            }
         }
 
         return `<div class="selected-item scientific-work">

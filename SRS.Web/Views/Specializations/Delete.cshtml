@@ -1,0 +1,40 @@
+﻿@using SRS.Services.Models
+@model SpecializationModel
+
+@{
+    ViewBag.Title = "Видалити";
+}
+
+<h2>Видалити</h2>
+
+<h3>Ви впевнені, що хочете видалити?</h3>
+<div>
+    <h4>Спеціальність</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Назва
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+        <dt>
+            Код
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Повернутися до списку", "Index")
+        </div>
+    }
+</div>

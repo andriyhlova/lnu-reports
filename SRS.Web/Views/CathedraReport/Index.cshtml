@@ -126,7 +126,7 @@
                     @Html.EditorFor(model => model.PatentsForInvention)
                 </div>
             }
-            if (Model.Publications.Count == 0 
+            if (Model.Publications.Count == 0
                 && Model.ApplicationsForInvention.Count == 0
                 && Model.PatentsForInvention.Count == 0)
             {
@@ -194,7 +194,101 @@
                         })
                     </div>
                 </div>
+            </div>
 
+            <div class="form-group">
+                <label class="control-label">
+                    7. Аспірантура та докторантура
+                </label>
+                <div class="form-group">
+                    <label class="control-label">
+                        7.1. Захист дисертацій випускниками докторантури та аспірантури*
+                    </label>
+                    <div id="dissertation-defense-graduates-search" class="search-container">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Пошук за назвою теми, науковим керівником" />
+                        </div>
+                        <div class="search-results">
+                        </div>
+                    </div>
+                    @if (Model.DissertationDefenseOfGraduates != null)
+                    {
+                        for (var i = 0; i < Model.DissertationDefenseOfGraduates.Count; i++)
+                        {
+                            <input type="hidden" class="initial-defense-graduates"
+                                   data-id="@Model.DissertationDefenseOfGraduates[i].Id"
+                                   data-theme="@Model.DissertationDefenseOfGraduates[i].Theme"
+                                   data-specializationname="@Model.DissertationDefenseOfGraduates[i].Specialization.Value"
+                                   data-specializationcode="@Model.DissertationDefenseOfGraduates[i].Specialization.Code"
+                                   data-supervisordescription="@Model.DissertationDefenseOfGraduates[i].SupervisorDescription"
+                                   data-yearofgraduating="@Model.DissertationDefenseOfGraduates[i].YearOfGraduating" />
+                        }
+                    }
+                    <div class="selected-items selected-dissertation-defense-graduates">
+                    </div>
+                    *Випускниками докторантури та аспірантури.
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        7.2. Захист дисертацій співробітниками*
+                    </label>
+                    <div id="dissertation-defense-employee-search" class="search-container">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Пошук за назвою теми, науковим керівником" />
+                        </div>
+                        <div class="search-results">
+                        </div>
+                    </div>
+                    @if (Model.DissertationDefenseOfEmployees != null)
+                    {
+                        for (var i = 0; i < Model.DissertationDefenseOfEmployees.Count; i++)
+                        {
+                            <input type="hidden" class="initial-defense-employee"
+                                   data-id="@Model.DissertationDefenseOfEmployees[i].Id"
+                                   data-theme="@Model.DissertationDefenseOfEmployees[i].Theme"
+                                   data-specializationname="@Model.DissertationDefenseOfEmployees[i].Specialization.Value"
+                                   data-specializationcode="@Model.DissertationDefenseOfEmployees[i].Specialization.Code"
+                                   data-supervisordescription="@Model.DissertationDefenseOfEmployees[i].SupervisorDescription"
+                                   data-yearofgraduating="@Model.DissertationDefenseOfEmployees[i].YearOfGraduating" />
+                        }
+                    }
+                    <div class="selected-items selected-dissertation-defense-employee">
+                    </div>
+                    *Співробітники.
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        7.3. Захист у спеціалізованих вчених радах університету сторонніми працівниками*
+                    </label>
+                    <div id="dissertation-defense-academic-council-search" class="search-container">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Пошук за назвою теми, науковим керівником" />
+                        </div>
+                        <div class="search-results">
+                        </div>
+                    </div>
+                    @if (Model.DissertationDefenseInAcademicCouncil != null)
+                    {
+                        for (var i = 0; i < Model.DissertationDefenseInAcademicCouncil.Count; i++)
+                        {
+                            <input type="hidden" class="initial-defense-academic-council"
+                                   data-id="@Model.DissertationDefenseInAcademicCouncil[i].Id"
+                                   data-theme="@Model.DissertationDefenseInAcademicCouncil[i].Theme"
+                                   data-specializationname="@Model.DissertationDefenseInAcademicCouncil[i].Specialization.Value"
+                                   data-specializationcode="@Model.DissertationDefenseInAcademicCouncil[i].Specialization.Code"
+                                   data-supervisordescription="@Model.DissertationDefenseInAcademicCouncil[i].SupervisorDescription"
+                                   data-yearofgraduating="@Model.DissertationDefenseInAcademicCouncil[i].YearOfGraduating" />
+                        }
+                    }
+                    <div class="selected-items selected-dissertation-defense-academic-council">
+                    </div>
+                    *Співробітники.
+                </div>
             </div>
 
             <div class="form-group">
@@ -332,6 +426,7 @@
 
 @section Styles {
     @Styles.Render("~/Content/chosen/bundle")
+    @Styles.Render("~/Content/search/bundle")
     @Styles.Render("~/Content/steps/bundle")
     @Styles.Render("~/Content/reports/bundle")
 }
@@ -340,5 +435,6 @@
     @Scripts.Render("~/bundles/chosen")
     @Scripts.Render("~/bundles/steps")
     @Scripts.Render("~/bundles/stepper")
+    @Scripts.Render("~/bundles/searchComponent")
     @Scripts.Render("~/bundles/cathedrareports/edit")
 }

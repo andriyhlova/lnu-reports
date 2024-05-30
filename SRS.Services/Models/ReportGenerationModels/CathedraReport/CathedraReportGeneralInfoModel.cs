@@ -1,4 +1,6 @@
-﻿namespace SRS.Services.Models.ReportGenerationModels.CathedraReport
+﻿using System.Collections.Generic;
+
+namespace SRS.Services.Models.ReportGenerationModels.CathedraReport
 {
     public class CathedraReportGeneralInfoModel
     {
@@ -25,5 +27,11 @@
         public string Materials { get; set; }
 
         public string PropositionForNewForms { get; set; }
+
+        public IList<CathedraReportDissertarionDefenseModel> DissertationDefenseOfGraduates { get; set; }
+
+        public IList<CathedraReportDissertarionDefenseModel> DissertationDefenseOfEmployees { get; set; }
+
+        public IList<CathedraReportDissertarionDefenseModel> DissertationDefenseInAcademicCouncil { get; set; }
     }
 }

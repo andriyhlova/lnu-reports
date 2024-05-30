@@ -39,6 +39,7 @@ namespace SRS.Services.Utilities
             Bind<IBaseCrudService<JournalModel>>().To<BaseCrudService<Journal, JournalModel>>();
             Bind<IBaseCrudService<JournalTypeModel>>().To<BaseCrudService<JournalType, JournalTypeModel>>();
             Bind<IBaseCrudService<DissertationDefenseModel>>().To<BaseCrudService<DissertationDefense, DissertationDefenseModel>>();
+            Bind<IBaseCrudService<SpecializationModel>>().To<BaseCrudService<Specialization, SpecializationModel>>();
         }
 
         private void AddCustomServices()
@@ -72,6 +73,7 @@ namespace SRS.Services.Utilities
             Bind<IDissertationDefenseService>().To<DissertationDefenseService>();
             Bind<ICsvService>().To<CsvService>();
             Bind<IExportService>().To<ExportService>();
+            Bind<ISpecializationService>().To<SpecializationService>();
         }
     }
 }

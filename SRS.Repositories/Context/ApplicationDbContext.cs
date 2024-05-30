@@ -39,6 +39,8 @@ namespace SRS.Repositories.Context
 
         public DbSet<DissertationDefense> DissertationDefenses { get; set; }
 
+        public DbSet<Specialization> Specializations { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

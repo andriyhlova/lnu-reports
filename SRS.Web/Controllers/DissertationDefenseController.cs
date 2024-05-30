@@ -25,6 +25,7 @@ namespace SRS.Web.Controllers
         private readonly IDissertationDefenseService _dissertationDefenseService;
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly IBaseCrudService<SpecializationModel> _specializationService;
         private readonly IMapper _mapper;
 
         public DissertationDefenseController(
@@ -32,12 +33,14 @@ namespace SRS.Web.Controllers
             IDissertationDefenseService dissertationDefenseService,
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
+            IBaseCrudService<SpecializationModel> specializationService,
             IMapper mapper)
         {
             _dissertationDefenseCrudService = dissertationDefenseCrudService;
             _dissertationDefenseService = dissertationDefenseService;
             _cathedraService = cathedraService;
             _facultyService = facultyService;
+            _specializationService = specializationService;
             _mapper = mapper;
         }
 
@@ -59,8 +62,9 @@ namespace SRS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            await FillAvailableSpecializations();
             return View(new DissertationDefenseModel());
         }
 
@@ -74,12 +78,14 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index), new { IsActive = true });
             }
 
+            await FillAvailableSpecializations();
             return View(dissertationDefense);
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
+            await FillAvailableSpecializations();
             return await Details(id);
         }
 
@@ -93,6 +99,7 @@ namespace SRS.Web.Controllers
                 return RedirectToAction(nameof(Index), new { IsActive = true });
             }
 
+            await FillAvailableSpecializations();
             return View(dissertationDefense);
         }
 
@@ -127,6 +134,14 @@ namespace SRS.Web.Controllers
         {
             ViewBag.AllCathedras = await _cathedraService.GetByFacultyAsync(null);
             ViewBag.AllFaculties = await _facultyService.GetAllAsync();
+        }
+
+        private async Task FillAvailableSpecializations()
+        {
+            if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
+            {
+                ViewBag.AllSpecializations = await _specializationService.GetAllAsync();
+            }
         }
     }
 }

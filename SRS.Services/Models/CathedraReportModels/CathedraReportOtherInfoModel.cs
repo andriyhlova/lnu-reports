@@ -1,4 +1,5 @@
 ﻿using SRS.Services.Models.BaseModels;
+using System.Collections.Generic;
 
 namespace SRS.Services.Models.ReportModels
 {
@@ -9,6 +10,12 @@ namespace SRS.Services.Models.ReportModels
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1
 
         public string CooperationWithForeignScientificInstitution { get; set; } // 6.2
+
+        public virtual IList<DissertationDefenseModel> DissertationDefenseOfGraduates { get; set; }// 7.1
+
+        public virtual IList<DissertationDefenseModel> DissertationDefenseOfEmployees { get; set; }// 7.2
+
+        public virtual IList<DissertationDefenseModel> DissertationDefenseInAcademicCouncil { get; set; }// 7.3
 
         public string StudentsWorks { get; set; }// 8
 

@@ -14,6 +14,8 @@ namespace SRS.Services.Models.ThemeOfScientificWorkModels
 
         public string ScientificHead { get; set; }
 
+        public string SupervisorId { get; set; }
+
         [RequiredField]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

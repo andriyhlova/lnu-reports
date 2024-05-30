@@ -287,6 +287,18 @@
     <Compile Include="Migrations\202402231354491_EditThemeOfScientificWork.designer.cs">
       <DependentUpon>202402231354491_EditThemeOfScientificWork.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202403040927346_CreateSpecializations.cs" />
+    <Compile Include="Migrations\202403040927346_CreateSpecializations.designer.cs">
+      <DependentUpon>202403040927346_CreateSpecializations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202403040932225_ModifyDissertationDefenses.cs" />
+    <Compile Include="Migrations\202403040932225_ModifyDissertationDefenses.designer.cs">
+      <DependentUpon>202403040932225_ModifyDissertationDefenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202403061153210_ModifyCathedraReport.cs" />
+    <Compile Include="Migrations\202403061153210_ModifyCathedraReport.designer.cs">
+      <DependentUpon>202403061153210_ModifyCathedraReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -448,6 +460,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202402231354491_EditThemeOfScientificWork.resx">
       <DependentUpon>202402231354491_EditThemeOfScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403040927346_CreateSpecializations.resx">
+      <DependentUpon>202403040927346_CreateSpecializations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403040932225_ModifyDissertationDefenses.resx">
+      <DependentUpon>202403040932225_ModifyDissertationDefenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403061153210_ModifyCathedraReport.resx">
+      <DependentUpon>202403061153210_ModifyCathedraReport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

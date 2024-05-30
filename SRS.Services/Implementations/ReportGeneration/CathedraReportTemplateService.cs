@@ -1,4 +1,6 @@
-﻿using SRS.Domain.Entities;
+﻿using AutoMapper;
+using DocumentFormat.OpenXml.Bibliography;
+using SRS.Domain.Entities;
 using SRS.Domain.Enums;
 using SRS.Domain.Specifications.UserSpecifications;
 using SRS.Repositories.Interfaces;
@@ -21,19 +23,25 @@ namespace SRS.Services.Implementations.ReportGeneration
         private readonly IBibliographyService<Publication> _bibliographyService;
         private readonly IThemeOfScientificWorkService _themeOfScientificWorkService;
         private readonly IBibliographyService<ThemeOfScientificWork> _themeBibliographyService;
+        private readonly IDissertationDefenseService _dissertationDefenseService;
+        private readonly IMapper _mapper;
 
         public CathedraReportTemplateService(
             IBaseRepository<CathedraReport> repo,
             IUserRepository userRepo,
             IBibliographyService<Publication> bibliographyService,
             IThemeOfScientificWorkService themeOfScientificWorkService,
-            IBibliographyService<ThemeOfScientificWork> themeBibliographyService)
+            IBibliographyService<ThemeOfScientificWork> themeBibliographyService,
+            IDissertationDefenseService dissertationDefenseService,
+            IMapper mapper)
         {
             _repo = repo;
             _userRepo = userRepo;
             _bibliographyService = bibliographyService;
             _themeOfScientificWorkService = themeOfScientificWorkService;
             _themeBibliographyService = themeBibliographyService;
+            _dissertationDefenseService = dissertationDefenseService;
+            _mapper = mapper;
         }
 
         public async Task<CathedraReportTemplateModel> BuildAsync(int reportId)
@@ -65,6 +73,9 @@ namespace SRS.Services.Implementations.ReportGeneration
             generalInfo.Patents = dbReport.Patents;
             generalInfo.Materials = dbReport.Materials;
             generalInfo.PropositionForNewForms = dbReport.PropositionForNewForms;
+            generalInfo.DissertationDefenseOfGraduates = _mapper.Map<List<CathedraReportDissertarionDefenseModel>>(dbReport.DissertationDefenseOfGraduates);
+            generalInfo.DissertationDefenseOfEmployees = _mapper.Map<List<CathedraReportDissertarionDefenseModel>>(dbReport.DissertationDefenseOfEmployees);
+            generalInfo.DissertationDefenseInAcademicCouncil = _mapper.Map<List<CathedraReportDissertarionDefenseModel>>(dbReport.DissertationDefenseInAcademicCouncil);
             return generalInfo;
         }
 

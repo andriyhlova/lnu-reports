@@ -1,5 +1,7 @@
-﻿using SRS.Services.Models.CathedraReportModels;
+﻿using SRS.Domain.Entities;
+using SRS.Services.Models.CathedraReportModels;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SRS.Services.Models.ReportModels
 {
@@ -48,6 +50,12 @@ namespace SRS.Services.Models.ReportModels
         public string CooperationWithAcadamyOfScience { get; set; } // 6.1
 
         public string CooperationWithForeignScientificInstitution { get; set; } // 6.2
+
+        public virtual IList<DissertationDefenseModel> DissertationDefenseOfGraduates { get; set; }// 7.1
+
+        public virtual IList<DissertationDefenseModel> DissertationDefenseOfEmployees { get; set; }// 7.2
+
+        public virtual IList<DissertationDefenseModel> DissertationDefenseInAcademicCouncil { get; set; }// 7.3
 
         public string StudentsWorks { get; set; }// 8
 
