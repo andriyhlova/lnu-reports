@@ -2,7 +2,7 @@ name: Build and Publish
 
 env:
   BUILD_PATH: ${{ github.workspace }}\_build\
-  DEPLOYMENT_PATH: C:\Users\user\actions-runner\_work\lnu-reports\lnu-reports\deployment
+  DEPLOYMENT_PATH: C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment
   XUNIT_TOOLS_PATH: .\tools\xunit
   SERVER_IP: 127.0.0.1
 
