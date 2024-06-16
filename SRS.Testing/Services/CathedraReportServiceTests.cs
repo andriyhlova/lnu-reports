@@ -3,8 +3,6 @@ using Moq;
 using SRS.Domain.Entities;
 using SRS.Repositories.Interfaces;
 using SRS.Services.Implementations;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace SRS.Testing.Services
 {
@@ -22,12 +20,6 @@ namespace SRS.Testing.Services
             _repo = repo;
             _mapperMock = mapperMock;
             _cathedraReportService = cathedraReportService;
-        }
-
-        [Fact]
-        public async Task GetForUserAsync_ShouldReturnAllCathedraReportsAsync()
-        {
-
         }
     }
 }
