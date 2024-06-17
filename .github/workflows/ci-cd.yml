@@ -70,5 +70,5 @@ jobs:
 
       - name: Deploy to IIS using Web Deploy
         run: |
-          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="${{ env.DEPLOYMENT_PATH }}" -dest:contentPath="%SystemDrive%\Websites\ScientificReport",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=ScientificReport",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
+          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="${{ env.DEPLOYMENT_PATH }}" -dest:contentPath="%SystemDrive%\Websites\ScientificReport",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=ScientificReport",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted -enableRule:DoNotDeleteRule
           
