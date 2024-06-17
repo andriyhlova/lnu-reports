@@ -2,7 +2,7 @@ name: Build and Publish
 
 env:
   BUILD_PATH: ${{ github.workspace }}\_build\
-  DEPLOYMENT_PATH: actions-runner\_work\lnu-reports\lnu-reports\deployment
+  DEPLOYMENT_PATH: C:\Users\user\actions-runner\_work\lnu-reports\lnu-reports\deployment
   XUNIT_TOOLS_PATH: .\tools\xunit
   SERVER_IP: 127.0.0.1
 
@@ -70,5 +70,5 @@ jobs:
 
       - name: Deploy to IIS using Web Deploy
         run: |
-          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="%userprofile%\${{ env.DEPLOYMENT_PATH }}" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
+          & "C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" --% -verb:sync -source:contentPath="${{ env.DEPLOYMENT_PATH }}" -dest:contentPath="%SystemDrive%\inetpub\wwwroot",ComputerName="https://127.0.0.1:8172/MsDeploy.axd?site=Default Web Site",UserName="${{ secrets.SERVER_USER }}",Password="${{ secrets.SERVER_PASSWORD }}",AuthType='Basic' -allowUntrusted
           
