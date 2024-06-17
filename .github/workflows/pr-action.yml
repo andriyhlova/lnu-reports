@@ -2,9 +2,6 @@ name: Sonar scan
 
 env:
   BUILD_PATH: ${{ github.workspace }}\_build\
-  DEPLOYMENT_PATH: C:\Users\Administrator\actions-runner\_work\lnu-reports\lnu-reports\deployment
-  XUNIT_TOOLS_PATH: .\tools\xunit
-  SERVER_IP: 13.51.245.49
 
 on:
   workflow_dispatch:
@@ -12,7 +9,7 @@ on:
     types:
       - opened
     branches:
-      - features/SRS-52390
+      - development
 
 jobs:
   build:
@@ -56,7 +53,7 @@ jobs:
 
       - name: Run SonarScanner Begin Command
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"SRS" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="http://${{ env.SERVER_IP }}:9000/"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"andriyhlova_lnu-reports" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
 
       - name: Build app for release
         run: |
