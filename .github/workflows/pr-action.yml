@@ -59,7 +59,7 @@ jobs:
 
       - name: Run SonarScanner Begin Command
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"andriyhlova_lnu-reports" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"andriyhlova_lnu-reports" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"andriyhlova"
 
       - name: Build app for release
         run: |
