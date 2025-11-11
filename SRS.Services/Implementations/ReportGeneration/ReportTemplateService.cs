@@ -60,6 +60,13 @@ namespace SRS.Services.Implementations.ReportGeneration
             generalInfo.PatentForInevention = dbReport.PatentForInevention;
             generalInfo.ReviewForTheses = dbReport.ReviewForTheses;
             generalInfo.MembershipInCouncils = dbReport.MembershipInCouncils;
+            generalInfo.ApplicationsForInternationGrantsHorizonEurope = dbReport.ApplicationsForInternationGrantsHorizonEurope;
+            generalInfo.ApplicationsForInternationGrantsErasmus = dbReport.ApplicationsForInternationGrantsErasmus;
+            generalInfo.ApplicationsForGrantsOfOtherFunds = dbReport.ApplicationsForGrantsOfOtherFunds;
+            generalInfo.ApplicationsForNationwideCompetitionsOfNRFU = dbReport.ApplicationsForNationwideCompetitionsOfNRFU;
+            generalInfo.ApplicationsForOtherCompetitions = dbReport.ApplicationsForOtherCompetitions;
+            generalInfo.ExpertiseInInternationalCompetitions = dbReport.ExpertiseInInternationalCompetitions;
+            generalInfo.ExpertiseInNationwideCompetitiveSelections = dbReport.ExpertiseInNationwideCompetitiveSelections;
             generalInfo.Other = dbReport.Other;
             return generalInfo;
         }
@@ -168,12 +175,26 @@ namespace SRS.Services.Implementations.ReportGeneration
             var publicationCounters = new ReportPublicationCountersModel();
             publicationCounters.MonographsAllCount = dbReport.User.MonographCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
-                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві);
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні
+                || x.PublicationType == PublicationType.Інші_монографії);
             publicationCounters.MonographsPeriodCount = reportPrintedPublications.Count(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
-                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві);
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні
+                || x.PublicationType == PublicationType.Інші_монографії);
             publicationCounters.BooksAllCount = dbReport.User.BookCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Підручник);
             publicationCounters.BooksPeriodCount = reportPrintedPublications.Count(x => x.PublicationType == PublicationType.Підручник);
             publicationCounters.TrainingBooksAllCount = dbReport.User.TrainingBookCounterBeforeRegistration + allPrintedPublications.Count(x => x.PublicationType == PublicationType.Навчальний_Посібник);
@@ -199,13 +220,23 @@ namespace SRS.Services.Implementations.ReportGeneration
             var publications = new ReportPublicationsModel();
             publications.Monographs = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
-                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві));
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні
+                || x.PublicationType == PublicationType.Інші_монографії));
             publications.Books = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.TrainingBooks = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.OtherWritings = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));
             publications.ImpactFactorArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор));
             publications.InternationalMetricArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних));
+            publications.InternationalQ1Q2Articles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2));
+            publications.InternationalQ3Q4Articles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4));
+            publications.ImpactFactorConferences = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних));
             publications.OtherInternationalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях));
             publications.NationalProfessionalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України));
             publications.OtherNationalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));
@@ -213,15 +244,29 @@ namespace SRS.Services.Implementations.ReportGeneration
             publications.NationalConferences = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції));
             publications.RecommendedPublications = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType != PublicationType.Монографія_У_Закордонному_Видавництві
                 && x.PublicationType != PublicationType.Монографія_У_Вітчизняному_Видавництві
+                && x.PublicationType != PublicationType.Монографія_У_Наукометричних_Базах
+                && x.PublicationType != PublicationType.Монографія_Опубліковані_За_Кордоном
+                && x.PublicationType != PublicationType.Монографія_Опубліковані_В_Україні
                 && x.PublicationType != PublicationType.Розділ_монографії_У_Закордонному_Видавництві
                 && x.PublicationType != PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
+                && x.PublicationType != PublicationType.Розділ_монографії_У_Наукометричних_Базах
+                && x.PublicationType != PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
+                && x.PublicationType != PublicationType.Розділ_монографії_Опубліковані_В_Україні
+                && x.PublicationType != PublicationType.Інші_монографії
                 && x.PublicationType != PublicationType.Підручник
                 && x.PublicationType != PublicationType.Навчальний_Посібник
                 && x.PublicationType != PublicationType.Інше_Наукове_Видання));
             publications.RecommendedMonographs = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
-                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві));
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні
+                || x.PublicationType == PublicationType.Інші_монографії));
             publications.RecommendedBooks = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.RecommendedTrainingBooks = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.RecommendedOtherWritings = GetPublicationsBibliography(reportRecommendedPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));

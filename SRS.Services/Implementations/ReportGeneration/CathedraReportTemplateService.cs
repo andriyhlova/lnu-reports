@@ -92,13 +92,23 @@ namespace SRS.Services.Implementations.ReportGeneration
             var publications = new DepartmentReportPublicationsModel();
             publications.Monographs = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
-                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві));
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні
+                || x.PublicationType == PublicationType.Інші_монографії));
             publications.Books = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.TrainingBooks = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.OtherWritings = GetPublicationsBibliographyModels(distinctPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));
             publications.ImpactFactorArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор));
             publications.InternationalMetricArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних));
+            publications.InternationalQ1Q2Articles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2));
+            publications.InternationalQ3Q4Articles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4));
+            publications.ImpactFactorConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних));
             publications.OtherInternationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях));
             publications.NationalProfessionalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України));
             publications.OtherNationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));

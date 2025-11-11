@@ -26,7 +26,21 @@ namespace SRS.Domain.Entities
 
         public string MembershipInCouncils { get; set; } // Пункт 9
 
-        public string Other { get; set; }// Пункт 10
+        public string ApplicationsForInternationGrantsHorizonEurope { get; set; }// Пункт 10.1
+
+        public string ApplicationsForInternationGrantsErasmus { get; set; }// Пункт 10.2
+
+        public string ApplicationsForGrantsOfOtherFunds { get; set; }// Пункт 10.3
+
+        public string ApplicationsForNationwideCompetitionsOfNRFU { get; set; }// Пункт 10.4
+
+        public string ApplicationsForOtherCompetitions { get; set; }// Пункт 10.5
+
+        public string ExpertiseInInternationalCompetitions { get; set; }// Пункт 11.1
+
+        public string ExpertiseInNationwideCompetitiveSelections { get; set; }// Пункт 11.2
+
+        public string Other { get; set; }// Пункт 12
 
         public string Protocol { get; set; }
 

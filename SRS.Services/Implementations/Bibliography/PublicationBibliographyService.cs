@@ -15,20 +15,30 @@ namespace SRS.Services.Implementations.Bibliography
             {
                 case PublicationType.Монографія_У_Закордонному_Видавництві:
                 case PublicationType.Монографія_У_Вітчизняному_Видавництві:
+                case PublicationType.Монографія_У_Наукометричних_Базах:
+                case PublicationType.Монографія_Опубліковані_За_Кордоном:
+                case PublicationType.Монографія_Опубліковані_В_Україні:
+                case PublicationType.Інші_монографії:
                 case PublicationType.Підручник:
                 case PublicationType.Навчальний_Посібник:
                 case PublicationType.Інше_Наукове_Видання:
                 case PublicationType.Розділ_монографії_У_Закордонному_Видавництві:
                 case PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві:
+                case PublicationType.Розділ_монографії_У_Наукометричних_Базах:
+                case PublicationType.Розділ_монографії_Опубліковані_За_Кордоном:
+                case PublicationType.Розділ_монографії_Опубліковані_В_Україні:
                     return GetBookBibliography(publication);
                 case PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор:
                 case PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4:
                 case PublicationType.Стаття_В_Інших_Закордонних_Виданнях:
                 case PublicationType.Стаття_В_Фахових_Виданнях_України:
                 case PublicationType.Стаття_В_Інших_Виданнях_України:
                     return GetArticleBibliography(publication);
                 case PublicationType.Тези_Доповіді_На_Міжнародній_Конференції:
                 case PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції:
+                case PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних:
                     return GetConferenceBibliography(publication);
                 case PublicationType.Заявка_на_винахід:
                 case PublicationType.Патент:
@@ -93,6 +103,10 @@ namespace SRS.Services.Implementations.Bibliography
             var pageTitle = GetPageTitle(publication.Language);
             if (publication.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві ||
                 publication.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві ||
+                publication.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах ||
+                publication.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном ||
+                publication.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні ||
+                publication.PublicationType == PublicationType.Інші_монографії ||
                 publication.PublicationType == PublicationType.Підручник ||
                 publication.PublicationType == PublicationType.Навчальний_Посібник)
             {

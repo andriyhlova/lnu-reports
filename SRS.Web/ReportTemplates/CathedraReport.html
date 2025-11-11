@@ -53,7 +53,7 @@
         {{#with GeneralInfo}}
         <div class="header">
             <h2>
-                Звіт про наукову роботу {{Department}} {{DepartmentName}} у {{Year}}
+                Звіт про наукову роботу {{Department}} {{DepartmentName}} у {{#if Year}}{{Year}}{{/if}} році
             </h2>
         </div>
 
@@ -176,12 +176,13 @@
         {{/if}}
         {{/if}}
 
+        {{#anyNotEmptyList DissertationDefenseOfGraduates DissertationDefenseOfEmployees DissertationDefenseInAcademicCouncil}}
         <div class="top-ident">
             <p>
                 7. Аспірантура та докторантура
             </p>
         </div>
-
+        {{/anyNotEmptyList}}
 
         {{#if DissertationDefenseOfGraduates}}
         <div class="top-ident">
@@ -408,6 +409,19 @@
         </div>
         {{/if}}
 
+        {{#if InternationalQ1Q2Articles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q1, Q2):
+            </p>
+            <p>
+                {{#each InternationalQ1Q2Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
         {{#if InternationalMetricArticles.Count}}
         <div class="top-ident">
             <p>
@@ -416,6 +430,32 @@
             </p>
             <p>
                 {{#each InternationalMetricArticles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if InternationalQ3Q4Articles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q3, Q4, без квартиля):
+            </p>
+            <p>
+                {{#each InternationalQ3Q4Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if ImpactFactorConferences.Count}}
+        <div class="top-ident">
+            <p>
+                Матеріали конференцій, які індексуються у міжнародних наукометричних баз даних Web of Science, Scopus:
+            </p>
+            <p>
+                {{#each ImpactFactorConferences}}
                 {{inc @index}}. {{this}}<br />
                 {{/each}}
             </p>

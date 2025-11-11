@@ -157,7 +157,7 @@
         {{#each ThemeOfScientificWorks}}
         <p class="bottom-ident">Тема {{this.Theme}}</p>
         <p class="bottom-ident pre-line">{{this.Description}}</p>
-        
+
         <div class="top-ident">
             <p class="bottom-ident pre-line">Виконавці:</p>
             <p>Штатні - {{this.AmountOfApplicationUserFullTime}}</p>
@@ -357,6 +357,19 @@
         </div>
         {{/if}}
 
+        {{#if InternationalQ1Q2Articles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.1  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q1, Q2):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalQ1Q2Articles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
         {{#if InternationalMetricArticles.Count}}
         <div class="top-ident">
             <p>
@@ -371,10 +384,36 @@
         </div>
         {{/if}}
 
+        {{#if InternationalQ3Q4Articles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.2  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q3, Q4, без квартиля):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalQ3Q4Articles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if ImpactFactorConferences.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.3  Матеріали конференцій, які індексуються у міжнародних наукометричних баз даних Web of Science, Scopus:
+            </p>
+        </div>
+        <div>
+            {{#each ImpactFactorConferences}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
         {{#if OtherInternationalArticles.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.3 Статті в інших закордонних виданнях:
+                6.1.5.4 Статті в інших закордонних виданнях:
             </p>
         </div>
         <div>
@@ -387,7 +426,7 @@
         {{#if NationalProfessionalArticles.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.4 Статті у фахових виданнях України:
+                6.1.5.5 Статті у фахових виданнях України:
             </p>
         </div>
         <div>
@@ -400,7 +439,7 @@
         {{#if OtherNationalArticles.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.5 Статті в інших виданнях України:
+                6.1.5.6 Статті в інших виданнях України:
             </p>
         </div>
         <div>
@@ -584,10 +623,89 @@
         </div>
         {{/if}}
 
+        {{#anyNotEmptyString ApplicationsForInternationGrantsHorizonEurope ApplicationsForInternationGrantsErasmus ApplicationsForGrantsOfOtherFunds ApplicationsForNationwideCompetitionsOfNRFU ApplicationsForOtherCompetitions}}
+        <div class="top-ident">
+            <p>
+                10. Участь у конкурсах НДР
+            </p>
+        </div>
+        {{/anyNotEmptyString}}
+
+        {{#if ApplicationsForInternationGrantsHorizonEurope}}
+        <div class="top-ident">
+            <p>
+                10.1. Заявки на міжнародні ґранти за програмами Горизонт Європа, Євратом, НАТО, УНТЦ:
+            </p>
+            <p class="pre-line">{{ApplicationsForInternationGrantsHorizonEurope}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ApplicationsForInternationGrantsErasmus}}
+        <div class="top-ident">
+            <p>
+                10.2. Заявки на міжнародні ґранти Erasmus+, Creative Europe та інші наукові грантові програми країн ЄС:
+            </p>
+            <p class="pre-line">{{ApplicationsForInternationGrantsErasmus}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ApplicationsForGrantsOfOtherFunds}}
+        <div class="top-ident">
+            <p>
+                10.3. Заявки на міжнародні ґранти інших фондів:
+            </p>
+            <p class="pre-line">{{ApplicationsForGrantsOfOtherFunds}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ApplicationsForNationwideCompetitionsOfNRFU}}
+        <div class="top-ident">
+            <p>
+                10.4. Заявки на загальнодержавні конкурси Національного фонду досліджень України, Міністерства освіти і  науки України, Національної академії наук України, Українського фонду стартапів, Українського культурного фонду:
+            </p>
+            <p class="pre-line">{{ApplicationsForNationwideCompetitionsOfNRFU}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ApplicationsForOtherCompetitions}}
+        <div class="top-ident">
+            <p>
+                10.5. Заявки на інші конкурси:
+            </p>
+            <p class="pre-line">{{ApplicationsForOtherCompetitions}}</p>
+        </div>
+        {{/if}}
+
+        {{#anyNotEmptyString ExpertiseInInternationalCompetitions ExpertiseInNationwideCompetitiveSelections}}
+        <div class="top-ident">
+            <p>
+                11. Експертна діяльність
+            </p>
+        </div>
+        {{/anyNotEmptyString}}
+
+        {{#if ExpertiseInInternationalCompetitions}}
+        <div class="top-ident">
+            <p>
+                11.1. Експертиза міжнародних конкурсів: Горизонт 2020, Горизонт Європа, Євратом, Erasmus+, Creative Europe, та інші:
+            </p>
+            <p class="pre-line">{{ExpertiseInInternationalCompetitions}}</p>
+        </div>
+        {{/if}}
+
+        {{#if ExpertiseInNationwideCompetitiveSelections}}
+        <div class="top-ident">
+            <p>
+                11.2. Експертиза загальнодержавних конкурсних відборів Національного фонду досліджень України, Міністерства освіти і  науки України; участь в експертних групах та комісіях МОН з питань державної атестації НУ/ЗВО:
+            </p>
+            <p class="pre-line">{{ExpertiseInNationwideCompetitiveSelections}}</p>
+        </div>
+        {{/if}}
+
         {{#if Other}}
         <div class="top-ident">
             <p>
-                10. Інше:
+                12. Інше:
             </p>
             <p class="pre-line">{{Other}}</p>
         </div>

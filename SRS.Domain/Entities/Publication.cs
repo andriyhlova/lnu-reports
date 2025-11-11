@@ -137,6 +137,9 @@ namespace SRS.Domain.Entities
                 || PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях
                 || PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор
                 || PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4
+                || PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних
                 || PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України;
         }
 

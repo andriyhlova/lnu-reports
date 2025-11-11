@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SRS.Services.Models.ReportModels;
+using SRS.Web.Models.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SRS.Services.Models.ReportModels;
-using SRS.Web.Models.Shared;
 
 namespace SRS.Web.Models.Reports
 {
@@ -27,6 +27,20 @@ namespace SRS.Web.Models.Reports
         public string ReviewForTheses { get; set; }
 
         public string MembershipInCouncils { get; set; }
+
+        public string ApplicationsForInternationGrantsHorizonEurope { get; set; }
+
+        public string ApplicationsForInternationGrantsErasmus { get; set; }
+
+        public string ApplicationsForGrantsOfOtherFunds { get; set; }
+
+        public string ApplicationsForNationwideCompetitionsOfNRFU { get; set; }
+
+        public string ApplicationsForOtherCompetitions { get; set; }
+
+        public string ExpertiseInInternationalCompetitions { get; set; }
+
+        public string ExpertiseInNationwideCompetitiveSelections { get; set; }
 
         public string Other { get; set; }
 

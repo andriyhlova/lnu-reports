@@ -305,7 +305,127 @@
 
             <div class="form-group">
                 <label class="control-label">
-                    10. Інше:
+                    10. Участь у конкурсах НДР
+                </label>
+                <div>
+                    <label class="text-danger">
+                        У полі необхідно зазначити дату подання заявки, організатора конкурсу, назву конкурсу/програми, назву конкурсної заявки, номер заявки (ID), наукового керівника
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    10.1. Заявки на міжнародні ґранти за програмами Горизонт Європа, Євратом, НАТО, УНТЦ:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ApplicationsForInternationGrantsHorizonEurope, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ApplicationsForInternationGrantsHorizonEurope,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    10.2. Заявки на міжнародні ґранти Erasmus+, Creative Europe та інші наукові грантові програми країн ЄС:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ApplicationsForInternationGrantsErasmus, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ApplicationsForInternationGrantsErasmus,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    10.3. Заявки на міжнародні ґранти інших фондів:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ApplicationsForGrantsOfOtherFunds, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ApplicationsForGrantsOfOtherFunds,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    10.4. Заявки на загальнодержавні конкурси Національного фонду досліджень України, Міністерства освіти і  науки України, Національної академії наук України, Українського фонду стартапів, Українського культурного фонду:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ApplicationsForNationwideCompetitionsOfNRFU, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ApplicationsForNationwideCompetitionsOfNRFU,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    10.5. Заявки на інші конкурси:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ApplicationsForOtherCompetitions, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ApplicationsForOtherCompetitions,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    11. Експертна діяльність
+                </label>
+                <div>
+                    <label class="text-danger">
+                        У полі необхідно зазначити ідентифікатор експерта, рік проведення експертизи, організатора конкурсу, назву конкурсної програми/назву конкурсу, посилання на оголошення конкурсу
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    11.1. Експертиза міжнародних конкурсів: Горизонт 2020, Горизонт Європа, Євратом, Erasmus+, Creative Europe, та інші:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ExpertiseInInternationalCompetitions, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ExpertiseInInternationalCompetitions,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    11.2. Експертиза загальнодержавних конкурсних відборів Національного фонду досліджень України, Міністерства освіти і  науки України; участь в експертних групах та комісіях МОН з питань державної атестації НУ/ЗВО:
+                </label>
+                <div>
+                    @Html.TextAreaFor(model => model.ExpertiseInNationwideCompetitiveSelections, 6, 70, new
+                    {
+                        @class = "form-control",
+                        @style = "max-width: 100%",
+                        @Value = Model.ExpertiseInNationwideCompetitiveSelections,
+                    })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    12. Інше:
                 </label>
                 <div>
                     @Html.TextAreaFor(model => model.Other, 6, 70, new

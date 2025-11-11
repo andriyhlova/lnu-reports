@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PagedList;
-using SRS.Services.Implementations;
+using SRS.Domain.Enums;
 using SRS.Services.Interfaces;
 using SRS.Services.Models;
 using SRS.Services.Models.Constants;
@@ -15,6 +11,10 @@ using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.UserModels;
 using SRS.Web.Models.Publications;
 using SRS.Web.Models.Shared;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace SRS.Web.Controllers
 {
@@ -161,6 +161,8 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
+            publication.PublicationType = GetOverridenPublicationType(publication.PublicationType);
+
             ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(_mapper.Map<PublicationEditViewModel>(publication));
         }
@@ -219,6 +221,27 @@ namespace SRS.Web.Controllers
         {
             var returnUrl = Request.QueryString["returnUrl"];
             return Redirect(Url.Action(nameof(Index)) + (!string.IsNullOrWhiteSpace(returnUrl) ? "?" + returnUrl : string.Empty));
+        }
+
+        private PublicationType GetOverridenPublicationType(PublicationType publicationType)
+        {
+            switch (publicationType)
+            {
+                case PublicationType.Монографія_У_Закордонному_Видавництві:
+                    return PublicationType.Монографія_У_Наукометричних_Базах;
+                case PublicationType.Монографія_У_Вітчизняному_Видавництві:
+                    return PublicationType.Монографія_Опубліковані_В_Україні;
+                case PublicationType.Розділ_монографії_У_Закордонному_Видавництві:
+                    return PublicationType.Розділ_монографії_У_Наукометричних_Базах;
+                case PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві:
+                    return PublicationType.Розділ_монографії_Опубліковані_В_Україні;
+                case PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2;
+                case PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4;
+                default:
+                    return publicationType;
+            }
         }
     }
 }

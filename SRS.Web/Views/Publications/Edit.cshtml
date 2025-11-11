@@ -40,7 +40,15 @@
         <label class="control-label col-md-2">Тип публікації <span class="text-danger">*</span></label>
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.PublicationType,
-                                   new SelectList(EnumExtensions.GetValues<PublicationType>().OrderBy(x => (int)x).Select(x => new { Id = (int)x, Value = x.GetDisplayName() }), "Id", "Value"),
+                                   new SelectList(EnumExtensions.GetValues<PublicationType>()
+                                   .OrderBy(x => (int)x)
+                                   .Where(x => x != PublicationType.Монографія_У_Закордонному_Видавництві &&
+                                               x != PublicationType.Монографія_У_Вітчизняному_Видавництві &&
+                                               x != PublicationType.Розділ_монографії_У_Закордонному_Видавництві &&
+                                               x != PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві &&
+                                               x != PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор &&
+                                               x != PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних)
+                                   .Select(x => new { Id = (int)x, Value = x.GetDisplayName() }), "Id", "Value"),
                                    new { @class = "form-control chosen-select" })
             @Html.ValidationMessageFor(model => model.PublicationType, "", new { @class = "text-danger" })
         </div>

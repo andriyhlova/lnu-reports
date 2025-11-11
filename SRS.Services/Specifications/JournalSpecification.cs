@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using SRS.Domain.Entities;
+﻿using SRS.Domain.Entities;
 using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Models.FilterModels;
+using System.Linq;
 
 namespace SRS.Domain.Specifications
 {
@@ -11,7 +11,8 @@ namespace SRS.Domain.Specifications
             : base(
                   filterModel.Skip,
                   filterModel.Take,
-                  x => (filterModel.PublicationType == null || x.JournalTypes.Any(y => y.PublicationType == filterModel.PublicationType)) &&
+                  x => (filterModel.PublicationType == null || x.JournalTypes.Any(y => y.JournalTypePublicationTypes.Any(jt => jt.PublicationType == filterModel.PublicationType))) &&
+                          (filterModel.Quartiles.Count == 0 || filterModel.Quartiles.Contains(x.BestQuartile)) &&
                           (string.IsNullOrEmpty(filterModel.Search)
                                 || x.Name.Contains(filterModel.Search)
                                 || x.ShortName.Contains(filterModel.Search)
