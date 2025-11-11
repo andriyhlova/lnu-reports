@@ -5,7 +5,7 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
     public class ReportPublicationsModel
     {
         public int PrintedPublicationCount =>
-            Monographs.Count
+            MonographsCount
             + Books.Count
             + TrainingBooks.Count
             + OtherWritings.Count
@@ -18,7 +18,19 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
             + RecommendedOtherWritings.Count
             + AcceptedToPrintPublications.Count;
 
-        public List<string> Monographs { get; set; }
+        public int MonographsCount =>
+            MonographsOrChaptersInInternationalScientometricDB.Count
+            + MonographsOrChaptersPublishedAbroad.Count
+            + MonographsOrChaptersPublishedInUkraine.Count
+            + OtherMonographs.Count;
+
+        public List<string> MonographsOrChaptersInInternationalScientometricDB { get; set; }
+
+        public List<string> MonographsOrChaptersPublishedAbroad { get; set; }
+
+        public List<string> MonographsOrChaptersPublishedInUkraine { get; set; }
+
+        public List<string> OtherMonographs { get; set; }
 
         public List<string> Books { get; set; }
 

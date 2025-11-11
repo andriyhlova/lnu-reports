@@ -218,17 +218,17 @@ namespace SRS.Services.Implementations.ReportGeneration
             var reportApplicationsForInvention = dbReport.ApplicationsForInvention.ToList();
             var reportPatentsForInvention = dbReport.PatentsForInvention.ToList();
             var publications = new ReportPublicationsModel();
-            publications.Monographs = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
-                || x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+            publications.MonographsOrChaptersInInternationalScientometricDB = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Закордонному_Видавництві
                 || x.PublicationType == PublicationType.Монографія_У_Наукометричних_Базах
-                || x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
-                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Закордонному_Видавництві
+                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах));
+            publications.MonographsOrChaptersPublishedAbroad = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія_Опубліковані_За_Кордоном
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном));
+            publications.MonographsOrChaptersPublishedInUkraine = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Монографія_У_Вітчизняному_Видавництві
+                || x.PublicationType == PublicationType.Монографія_Опубліковані_В_Україні
                 || x.PublicationType == PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві
-                || x.PublicationType == PublicationType.Розділ_монографії_У_Наукометричних_Базах
-                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_За_Кордоном
-                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні
-                || x.PublicationType == PublicationType.Інші_монографії));
+                || x.PublicationType == PublicationType.Розділ_монографії_Опубліковані_В_Україні));
+            publications.OtherMonographs = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Інші_монографії));
             publications.Books = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Підручник));
             publications.TrainingBooks = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник));
             publications.OtherWritings = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання));
@@ -236,7 +236,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             publications.InternationalMetricArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних));
             publications.InternationalQ1Q2Articles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2));
             publications.InternationalQ3Q4Articles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4));
-            publications.ImpactFactorConferences = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних));
+            publications.ImpactFactorConferences = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_базах_даних));
             publications.OtherInternationalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях));
             publications.NationalProfessionalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України));
             publications.OtherNationalArticles = GetPublicationsBibliography(reportPrintedPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));

@@ -38,7 +38,7 @@ namespace SRS.Services.Implementations.Bibliography
                     return GetArticleBibliography(publication);
                 case PublicationType.Тези_Доповіді_На_Міжнародній_Конференції:
                 case PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції:
-                case PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних:
+                case PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_базах_даних:
                     return GetConferenceBibliography(publication);
                 case PublicationType.Заявка_на_винахід:
                 case PublicationType.Патент:

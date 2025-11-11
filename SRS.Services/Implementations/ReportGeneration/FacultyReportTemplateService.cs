@@ -108,7 +108,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             publications.InternationalMetricArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних));
             publications.InternationalQ1Q2Articles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2));
             publications.InternationalQ3Q4Articles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4));
-            publications.ImpactFactorConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_баз_даних));
+            publications.ImpactFactorConferences = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_базах_даних));
             publications.OtherInternationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях));
             publications.NationalProfessionalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України));
             publications.OtherNationalArticles = GetPublicationsBibliography(distinctPublications.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України));

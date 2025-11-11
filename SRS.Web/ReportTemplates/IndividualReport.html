@@ -283,14 +283,61 @@
             </p>
         </div>
 
-        {{#if Monographs.Count}}
+        {{#if MonographsCount}}
         <div class="top-ident">
             <p>
                 6.1.1 Монографії:
             </p>
         </div>
+        {{/if}}
+
+        {{#if MonographsOrChaptersInInternationalScientometricDB.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.1.1  Монографії (розділи монографій), які індексуються у міжнародних наукометричних базах даних Web of Science, Scopus:
+            </p>
+        </div>
         <div>
-            {{#each Monographs}}
+            {{#each MonographsOrChaptersInInternationalScientometricDB}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if MonographsOrChaptersPublishedAbroad.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.1.2  Монографії (розділи монографій), які опубліковані за кордоном мовами країн ОЕСР та / або ЄС:
+            </p>
+        </div>
+        <div>
+            {{#each MonographsOrChaptersPublishedAbroad}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if MonographsOrChaptersPublishedInUkraine.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.1.3  Монографії (розділи монографій), які опубліковані в Україні:
+            </p>
+        </div>
+        <div>
+            {{#each MonographsOrChaptersPublishedInUkraine}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if OtherMonographs.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.1.4  Інші монографії:
+            </p>
+        </div>
+        <div>
+            {{#each OtherMonographs}}
             {{inc @index}}. {{this}}<br />
             {{/each}}
         </div>
@@ -400,7 +447,7 @@
         {{#if ImpactFactorConferences.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.3  Матеріали конференцій, які індексуються у міжнародних наукометричних баз даних Web of Science, Scopus:
+                6.1.5.3  Матеріали конференцій, які індексуються у міжнародних наукометричних базах даних Web of Science, Scopus:
             </p>
         </div>
         <div>
