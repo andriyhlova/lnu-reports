@@ -59,7 +59,7 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", publication.Tome, showTomePages ? GetNumberOfPages(publication) : null)))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(GetPagesPart(publication)))}" +
                 $"{GetBibliographyPart($" {_dash} ISBN ", GetPartWithDot(publication.ISBN))}" +
-                $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(publication.Link))}")
+                $"{GetBibliographyPart($" {_dash} ", GetReferencePart(publication))}")
                 .Trim();
         }
 
