@@ -70,7 +70,8 @@ namespace SRS.Services.Implementations.Bibliography
                 $"{GetBibliographyPart(" / ", publication.AuthorsOrder)}" +
                 $"{GetBibliographyPart(" // ", StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.ConferenceName, publication.ConferenceEdition), publication.ConferencePlace, publication.ConferenceCountry, publication.ConferenceDate))}" +
                 $"{GetBibliographyPart($" {_dash} ", GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(", ", StringUtilities.JoinNotNullOrWhitespace(" : ", publication.Place, publication.Edition), publication.Date.Year.ToString())))}" +
-                $"{GetBibliographyPart($" {_dash} ", GetPagesPart(publication))}")
+                $"{GetBibliographyPart($" {_dash} ", GetPagesPart(publication))}" +
+                $"{GetBibliographyPart($" {_dash} ", GetReferencePart(publication))}")
                 .Trim();
         }
 

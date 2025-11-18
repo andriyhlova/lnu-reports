@@ -20,7 +20,7 @@
                 <div>
                     <label class="text-danger">
                         <span class="text-danger">*</span>
-                        Якщо теми не є зареєстрованими, перейдіть у вкладку "Інше" та введіть їх у пункті 10
+                        Якщо теми не є зареєстрованими, перейдіть у вкладку "Інше" та введіть їх у пункті 12
                     </label>
                 </div>
                 <div>
@@ -81,7 +81,7 @@
                 <div>
                     <label class="text-danger">
                         <span class="text-danger">*</span>
-                        Якщо ґранти не є зареєстрованими, перейдіть у вкладку "Інше" та введіть їх у пункті 10
+                        Якщо ґранти не є зареєстрованими, перейдіть у вкладку "Інше" та введіть їх у пункті 12
                     </label>
                 </div>
                 <div>
@@ -275,19 +275,24 @@
         @using (@Html.BeginForm("UpdateOtherInfo", "Report", FormMethod.Post, new { @id = "updateOtherForm" }))
         {
             @Html.AntiForgeryToken()
-            <div class="form-group">
-                <label class="control-label">
-                    8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
+        <div class="form-group">
+            <label class="control-label">
+                8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
+            </label>
+            <div>
+                <label class="text-danger">
+                    У полі необхідно зазначити ідентифікатор експерта (за наявності), рік проведення експертизи, організатора захисту, шифр і назву спеціалізованої вченої ради, посилання на оголошення про захист дисертації
                 </label>
-                <div>
-                    @Html.TextAreaFor(model => model.ReviewForTheses, 6, 70, new
-                    {
-                        @class = "form-control",
-                        @style = "max-width: 100%",
-                        @Value = Model.ReviewForTheses,
-                    })
-                </div>
             </div>
+            <div>
+                @Html.TextAreaFor(model => model.ReviewForTheses, 6, 70, new
+                {
+                    @class = "form-control",
+                    @style = "max-width: 100%",
+                    @Value = Model.ReviewForTheses,
+                })
+            </div>
+        </div>
 
             <div class="form-group">
                 <label class="control-label">
