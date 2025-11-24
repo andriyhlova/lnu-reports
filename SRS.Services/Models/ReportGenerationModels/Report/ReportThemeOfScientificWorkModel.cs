@@ -6,6 +6,8 @@
 
         public string Description { get; set; }
 
+        public bool IsSupervisor { get; set; }
+
         public int AmountOfApplicationUserFullTime { get; set; }
 
         public int AmountOfApplicationUserExternalPartTime { get; set; }

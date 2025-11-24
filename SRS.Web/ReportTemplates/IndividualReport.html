@@ -157,13 +157,14 @@
         {{#each ThemeOfScientificWorks}}
         <p class="bottom-ident">Тема {{this.Theme}}</p>
         <p class="bottom-ident pre-line">{{this.Description}}</p>
-
+        {{#if this.IsSupervisor}}
         <div class="top-ident">
             <p class="bottom-ident pre-line">Виконавці:</p>
             <p>Штатні - {{this.AmountOfApplicationUserFullTime}}</p>
             <p>Сумісники - {{this.AmountOfApplicationUserExternalPartTime}}</p>
             <p>За цивільно-правовим договором - {{this.AmountOfApplicationUserLawContract}}</p>
         </div>
+        {{/if}}
         {{/each}}
         {{/if}}
 

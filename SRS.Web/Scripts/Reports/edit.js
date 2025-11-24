@@ -517,7 +517,7 @@ function submitDateForm() {
 
     function updatePerformerFullTimeList() {
         const performerFullTimeElement = $(`#performer-full-time-selector`);
-        if (!performerFullTimeElement.length || performerFullTimeElement.children().length) {
+        if (!performerFullTimeElement.length || performerFullTimeElement.children("option:not([value=''])").length) {
             return;
         }
 
@@ -589,7 +589,7 @@ function submitDateForm() {
 
     function updatePerformerExternalPartTimeList() {
         const performerExternalPartTimeElement = $(`#performer-external-part-time-selector`);
-        if (!performerExternalPartTimeElement.length || performerExternalPartTimeElement.children().length) {
+        if (!performerExternalPartTimeElement.length || performerExternalPartTimeElement.children("option:not([value=''])").length) {
             return;
         }
 
@@ -661,7 +661,7 @@ function submitDateForm() {
 
     function updatePerformerLawContractList() {
         const performerLawContractElement = $(`#performer-law-contract-selector`);
-        if (!performerLawContractElement.length || performerLawContractElement.children().length) {
+        if (!performerLawContractElement.length || performerLawContractElement.children("option:not([value=''])").length) {
             return;
         }
 

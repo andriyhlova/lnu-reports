@@ -140,7 +140,7 @@ namespace SRS.Services.Implementations.ReportGeneration
             var themes = dbReport.ThemeOfScientificWorks.Where(x => x.ThemeOfScientificWork.Financial != Financial.InternationalGrant);
             foreach (var theme in themes)
             {
-                result.Add(ConvertToReportTheme(theme));
+                result.Add(ConvertToReportTheme(theme, dbReport.UserId));
             }
 
             return result;
@@ -152,15 +152,16 @@ namespace SRS.Services.Implementations.ReportGeneration
             var grants = dbReport.ThemeOfScientificWorks.Where(x => x.ThemeOfScientificWork.Financial == Financial.InternationalGrant);
             foreach (var grant in grants)
             {
-                result.Add(ConvertToReportTheme(grant));
+                result.Add(ConvertToReportTheme(grant, dbReport.UserId));
             }
 
             return result;
         }
 
-        private ReportThemeOfScientificWorkModel ConvertToReportTheme(ReportThemeOfScientificWork theme)
+        private ReportThemeOfScientificWorkModel ConvertToReportTheme(ReportThemeOfScientificWork theme, string reportUserId)
         {
             var themeOfScientificWork = new ReportThemeOfScientificWorkModel();
+            themeOfScientificWork.IsSupervisor = theme.ThemeOfScientificWork.ThemeOfScientificWorkSupervisors.Any(x => x.SupervisorId == reportUserId);
             themeOfScientificWork.Theme = _themeBibliographyService.Get(theme.ThemeOfScientificWork);
             themeOfScientificWork.Description = theme.Description;
             themeOfScientificWork.AmountOfApplicationUserFullTime = theme.ApplicationUserFullTime.Count;
