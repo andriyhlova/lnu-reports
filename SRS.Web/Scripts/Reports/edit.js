@@ -89,7 +89,10 @@ function submitDateForm() {
         $('.selected-grants').on('blur', 'textarea', (element) => saveScientificWork(element, scientificWorksSettings));
         events();
         publicationCheckboxChanged();
-        getPerformers();
+        const stepIndex = +$('input[name=stepIndex]').val();
+        if (stepIndex == 0) {
+            getPerformers();
+        }
     });
 
     function events() {
@@ -484,7 +487,7 @@ function submitDateForm() {
     }
 
     function getPerformers() {
-        $.ajax('/api/users/getByFacultyAndCathedra?')
+        $.ajax('/api/users/searchAll?')
             .done(function (users) {
                 allUsers = users;
                 updatePerformerFullTimeList();

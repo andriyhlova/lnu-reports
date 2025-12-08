@@ -7,7 +7,7 @@ namespace SRS.Domain.Specifications.UserSpecifications
     {
         public CathedraLeadSpecification(int? cathedraId)
             : base(
-                  x => x.CathedraId == cathedraId && x.Position.Value == PositionNames.CathedraLead,
+                  x => x.CathedraId == cathedraId && x.Position.Value == PositionNames.CathedraLead && x.IsActive,
                   true)
         {
             AddIncludes(x => x.I18nUserInitials, x => x.AcademicStatuses);
