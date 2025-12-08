@@ -41,7 +41,7 @@ namespace SRS.Web.Areas.Api.Controllers
                 {
                     RoleIds = new List<string> { RolesProvider.AllRoles.FirstOrDefault(x => x.Value == RoleNames.Superadmin).Key }
                 },
-                new UserFilterModel { Search = search, OrderBy = (int)UserOrderType.LastName });
+                new UserFilterModel { Search = search, OrderBy = (int)UserOrderType.LastName, IsActive = true });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
     }
