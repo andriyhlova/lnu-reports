@@ -19,6 +19,8 @@ namespace SRS.Web.Models.Publications
         [RequiredField]
         public PublicationType PublicationType { get; set; }
 
+        public PublicationCategory? Category { get; set; }
+
         [RequiredField]
         public string Name { get; set; }
 

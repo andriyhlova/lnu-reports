@@ -30,8 +30,10 @@ namespace SRS.Services.Mapping.Profiles
             CreateMap<BasePublicationModel, PublicationCsvModel>()
                 .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.Date.ToString("yyyy")))
                 .ForMember(dest => dest.PublicationType, opts => opts.MapFrom(src => src.PublicationType.GetDisplayName()))
+                .ForMember(dest => dest.Category, opts => opts.MapFrom(src => src.Category.HasValue ? src.Category.Value.GetDisplayName() : null))
                 .ForMember(dest => dest.JournalOrChapterMonographyOrConference, opts => opts.MapFrom(src => StringUtilities.JoinNotNullOrWhitespace(" / ", src.JournalName, src.ChapterMonographyName, src.ConferenceName)))
-                .ForMember(dest => dest.Authors, opts => opts.MapFrom(src => src.AuthorsOrder));
+                .ForMember(dest => dest.Authors, opts => opts.MapFrom(src => src.AuthorsOrder))
+                .ForMember(dest => dest.JournalQuartile, opts => opts.MapFrom(src => src.JournalBestQuartile.HasValue ? src.JournalBestQuartile.Value.GetDisplayName() : null));
         }
     }
 }

@@ -316,6 +316,14 @@
     <Compile Include="Migrations\202511102321459_ChangedJournalTypes.Designer.cs">
       <DependentUpon>202511102321459_ChangedJournalTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610171314001_AddInternationalDatabaseArticlePublicationTypesToJournalTypes.cs" />
+    <Compile Include="Migrations\202610171314001_AddInternationalDatabaseArticlePublicationTypesToJournalTypes.Designer.cs">
+      <DependentUpon>202610171314001_AddInternationalDatabaseArticlePublicationTypesToJournalTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610172150001_AddedPublicationCategory.cs" />
+    <Compile Include="Migrations\202610172150001_AddedPublicationCategory.Designer.cs">
+      <DependentUpon>202610172150001_AddedPublicationCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RepositoriesDependencyInjection.cs" />
@@ -498,6 +506,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511102321459_ChangedJournalTypes.resx">
       <DependentUpon>202511102321459_ChangedJournalTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610171314001_AddInternationalDatabaseArticlePublicationTypesToJournalTypes.resx">
+      <DependentUpon>202610171314001_AddInternationalDatabaseArticlePublicationTypesToJournalTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610172150001_AddedPublicationCategory.resx">
+      <DependentUpon>202610172150001_AddedPublicationCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -418,6 +418,32 @@
         </div>
         {{/if}}
 
+        {{#if InternationalQ1Articles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.1  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q1):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalQ1Articles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if InternationalQ2Articles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.2  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q2):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalQ2Articles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
         {{#if InternationalMetricArticles.Count}}
         <div class="top-ident">
             <p>
@@ -445,10 +471,49 @@
         </div>
         {{/if}}
 
+        {{#if InternationalQ3Articles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.3  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q3):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalQ3Articles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if InternationalQ4Articles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.4  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q4):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalQ4Articles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if InternationalWithoutQuartileArticles.Count}}
+        <div class="top-ident">
+            <p>
+                6.1.5.5  Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (без квартиля):
+            </p>
+        </div>
+        <div>
+            {{#each InternationalWithoutQuartileArticles}}
+            {{inc @index}}. {{this}}<br />
+            {{/each}}
+        </div>
+        {{/if}}
+
         {{#if ImpactFactorConferences.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.3  Матеріали конференцій, які індексуються у міжнародних наукометричних базах даних Web of Science, Scopus:
+                6.1.5.6  Матеріали конференцій, які індексуються у міжнародних наукометричних базах даних Web of Science, Scopus:
             </p>
         </div>
         <div>
@@ -461,7 +526,7 @@
         {{#if OtherInternationalArticles.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.4 Статті в інших закордонних виданнях:
+                6.1.5.7 Статті в інших закордонних виданнях:
             </p>
         </div>
         <div>
@@ -474,7 +539,7 @@
         {{#if NationalProfessionalArticles.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.5 Статті у фахових виданнях України:
+                6.1.5.8 Статті у фахових виданнях України:
             </p>
         </div>
         <div>
@@ -487,7 +552,7 @@
         {{#if OtherNationalArticles.Count}}
         <div class="top-ident">
             <p>
-                6.1.5.6 Статті в інших виданнях України:
+                6.1.5.9 Статті в інших виданнях України:
             </p>
         </div>
         <div>

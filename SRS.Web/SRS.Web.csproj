@@ -358,6 +358,7 @@
     <Content Include="Content\Chosen\DocSupport\style.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\RelatedEntity\relatedEntity.css" />
+    <Content Include="Content\Publications\edit.css" />
     <Content Include="Content\Reports\edit.css" />
     <Content Include="Content\Search\search.css" />
     <Content Include="Content\step.css" />

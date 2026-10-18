@@ -115,6 +115,7 @@
     <Compile Include="Enums\OrderTypes\JournalOrderType.cs" />
     <Compile Include="Enums\OrderTypes\CathedraReportOrderType.cs" />
     <Compile Include="Enums\OrderTypes\ReportOrderType.cs" />
+    <Compile Include="Enums\PublicationCategory.cs" />
     <Compile Include="Enums\Quartile.cs" />
     <Compile Include="Enums\OrderTypes\ThemeOfScientificWorkOrderType.cs" />
     <Compile Include="Enums\OrderTypes\PublicationOrderType.cs" />

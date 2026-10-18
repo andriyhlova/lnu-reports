@@ -7,10 +7,13 @@ using SRS.Services.Models;
 using SRS.Services.Models.Constants;
 using SRS.Services.Models.CsvModels;
 using SRS.Services.Models.FilterModels;
+using SRS.Services.Models.JournalModels;
 using SRS.Services.Models.PublicationModels;
 using SRS.Services.Models.UserModels;
+using SRS.Web.Enums;
 using SRS.Web.Models.Publications;
 using SRS.Web.Models.Shared;
+using SRS.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,6 +26,7 @@ namespace SRS.Web.Controllers
     {
         private readonly ICathedraService _cathedraService;
         private readonly IBaseCrudService<FacultyModel> _facultyService;
+        private readonly IBaseCrudService<JournalModel> _journalCrudService;
         private readonly IBaseCrudService<PublicationModel> _publicationCrudService;
         private readonly IPublicationService _publicationService;
         private readonly IUserService<UserAccountModel> _userService;
@@ -33,6 +37,7 @@ namespace SRS.Web.Controllers
         public PublicationsController(
             ICathedraService cathedraService,
             IBaseCrudService<FacultyModel> facultyService,
+            IBaseCrudService<JournalModel> journalCrudService,
             IBaseCrudService<PublicationModel> publicationCrudService,
             IPublicationService publicationService,
             IUserService<UserAccountModel> userService,
@@ -42,6 +47,7 @@ namespace SRS.Web.Controllers
         {
             _cathedraService = cathedraService;
             _facultyService = facultyService;
+            _journalCrudService = journalCrudService;
             _publicationCrudService = publicationCrudService;
             _publicationService = publicationService;
             _userService = userService;
@@ -99,6 +105,7 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(PublicationEditViewModel model)
         {
+            ValidateRequiredFields(model);
             if (ModelState.IsValid)
             {
                 var id = await _publicationCrudService.AddAsync(_mapper.Map<PublicationModel>(model));
@@ -161,7 +168,7 @@ namespace SRS.Web.Controllers
                 return HttpNotFound();
             }
 
-            publication.PublicationType = GetOverridenPublicationType(publication.PublicationType);
+            publication.PublicationType = await GetOverridenPublicationType(publication);
 
             ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
             return View(_mapper.Map<PublicationEditViewModel>(publication));
@@ -171,6 +178,7 @@ namespace SRS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(PublicationEditViewModel model)
         {
+            ValidateRequiredFields(model);
             if (ModelState.IsValid)
             {
                 var entity = await _publicationCrudService.UpdateAsync(_mapper.Map<PublicationModel>(model));
@@ -204,6 +212,14 @@ namespace SRS.Web.Controllers
             return RedirectToIndex();
         }
 
+        private void ValidateRequiredFields(PublicationEditViewModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.DOI) && PublicationFieldsService.IsRequired(PublicationField.DOI, model.PublicationType))
+            {
+                ModelState.AddModelError(nameof(model.DOI), "Це поле є обов'язковим");
+            }
+        }
+
         private async Task FillAvailableDepartments(int? facultyId)
         {
             if (User.IsInRole(RoleNames.Superadmin) || User.IsInRole(RoleNames.RectorateAdmin))
@@ -223,9 +239,9 @@ namespace SRS.Web.Controllers
             return Redirect(Url.Action(nameof(Index)) + (!string.IsNullOrWhiteSpace(returnUrl) ? "?" + returnUrl : string.Empty));
         }
 
-        private PublicationType GetOverridenPublicationType(PublicationType publicationType)
+        private async Task<PublicationType> GetOverridenPublicationType(PublicationModel publication)
         {
-            switch (publicationType)
+            switch (publication.PublicationType)
             {
                 case PublicationType.Монографія_У_Закордонному_Видавництві:
                     return PublicationType.Монографія_У_Наукометричних_Базах;
@@ -236,11 +252,38 @@ namespace SRS.Web.Controllers
                 case PublicationType.Розділ_монографії_У_Вітчизняному_Видавництві:
                     return PublicationType.Розділ_монографії_Опубліковані_В_Україні;
                 case PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор:
-                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2;
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2:
+                    return await GetInternationalArticleType(publication.JournalId, PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1);
                 case PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних:
-                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4;
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4:
+                    return await GetInternationalArticleType(publication.JournalId, PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_без_квартиля);
                 default:
-                    return publicationType;
+                    return publication.PublicationType;
+            }
+        }
+
+        private async Task<PublicationType> GetInternationalArticleType(int? journalId, PublicationType defaultType)
+        {
+            if (!journalId.HasValue)
+            {
+                return defaultType;
+            }
+
+            var journal = await _journalCrudService.GetAsync(journalId.Value);
+            switch (journal?.BestQuartile)
+            {
+                case Quartile.Q1:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1;
+                case Quartile.Q2:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q2;
+                case Quartile.Q3:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3;
+                case Quartile.Q4:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q4;
+                case Quartile.None:
+                    return PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_без_квартиля;
+                default:
+                    return defaultType;
             }
         }
     }

@@ -43,6 +43,11 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
             + InternationalMetricArticles.Count
             + InternationalQ1Q2Articles.Count
             + InternationalQ3Q4Articles.Count
+            + InternationalQ1Articles.Count
+            + InternationalQ2Articles.Count
+            + InternationalQ3Articles.Count
+            + InternationalQ4Articles.Count
+            + InternationalWithoutQuartileArticles.Count
             + ImpactFactorConferences.Count
             + OtherInternationalArticles.Count
             + NationalProfessionalArticles.Count
@@ -55,6 +60,16 @@ namespace SRS.Services.Models.ReportGenerationModels.Report
         public List<string> InternationalQ1Q2Articles { get; set; }
 
         public List<string> InternationalQ3Q4Articles { get; set; }
+
+        public List<string> InternationalQ1Articles { get; set; }
+
+        public List<string> InternationalQ2Articles { get; set; }
+
+        public List<string> InternationalQ3Articles { get; set; }
+
+        public List<string> InternationalQ4Articles { get; set; }
+
+        public List<string> InternationalWithoutQuartileArticles { get; set; }
 
         public List<string> ImpactFactorConferences { get; set; }
 

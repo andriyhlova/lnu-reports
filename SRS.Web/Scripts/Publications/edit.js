@@ -16,6 +16,7 @@
             fillJournals(e.target.value);
         });
         $('select[name=PublicationType]').change();
+        $('#journal-selector').on('change', showJournalQuartile);
     }
 
     function languageChanged() {
@@ -94,10 +95,13 @@
                         </div>`;
     };
 
+    let loadedJournals = [];
+
     function fillJournals(publicationType) {
         let selectedJournal = $('#journal-selector').val() || $('#journal-selector')[0].dataset.selected;
         $.ajax(`/api/journalsapi/getByPublicationType?publicationType=${publicationType}`)
             .done(function (journals) {
+                loadedJournals = journals;
                 let str = "<option value=''>Виберіть журнал</option>";
                 for (var i = 0; i < journals.length; i++) {
                     let journal = journals[i];
@@ -106,6 +110,29 @@
 
                 $("#journal-selector").html(str);
                 $("#journal-selector").trigger("chosen:updated");
+                showJournalQuartile();
             });
+    }
+
+    function showJournalQuartile() {
+        const info = $('#journal-quartile-info');
+        const journal = loadedJournals.find(x => x.Id == $('#journal-selector').val());
+        info.removeClass('text-success text-danger');
+        if (!journal) {
+            info.text('');
+            return;
+        }
+
+        let text = `Квартиль: ${journal.Quartile}`;
+        if (journal.Matches === true) {
+            text += ' — відповідає типу статті';
+            info.addClass('text-success');
+        }
+        else if (journal.Matches === false) {
+            text += ' — не відповідає типу статті';
+            info.addClass('text-danger');
+        }
+
+        info.text(text);
     }
 }());

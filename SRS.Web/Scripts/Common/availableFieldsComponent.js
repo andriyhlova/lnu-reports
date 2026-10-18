@@ -12,7 +12,7 @@ class AvailableFieldsComponent {
     load() {
         const element = $(this._selectElementSelector);
         $(element).change((e) => {
-            this.onTypeChanged(e.target.value);
+            this.onTypeChanged(e.target.value, true);
         });
         this.initLabels();
         this.onTypeChanged(element.val());
@@ -26,7 +26,7 @@ class AvailableFieldsComponent {
             }
         }
     }
-    onTypeChanged(value) {
+    onTypeChanged(value, clearValidationErrors = false) {
         const fields = $('.field');
         for (let i = 0; i < fields.length; i++) {
             const types = fields[i].dataset[this._attributeName].split(this._separator);
@@ -35,19 +35,26 @@ class AvailableFieldsComponent {
                 const values = x.split(';');
                 return {
                     type: values[0],
-                    name: values[1]
+                    name: values[1],
+                    required: values[2] === '1'
                 };
-            }).find(x => x.type == value);
-            if (type) {
-                field.show();
-                const label = field.find('.field-label');
-                label?.text(type.name || field[0].dataset['name']);
-                field.find('[name]').prop("disabled", false);
-            }
-            else {
-                field.hide();
-                field.find('[name]').prop("disabled", true);
-            }
+                }).find(x => x.type == value);
+                if (clearValidationErrors && !type?.required && field.find('.required-mark').length) {
+                    field.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid').empty();
+                    field.find('.input-validation-error').removeClass('input-validation-error');
+                }
+
+                if (type) {
+                    field.show();
+                    const label = field.find('.field-label');
+                    label?.text(type.name || field[0].dataset['name']);
+                    field.find('.required-mark').toggle(type.required);
+                    field.find('[name]').prop("disabled", false);
+                }
+                else {
+                    field.hide();
+                    field.find('[name]').prop("disabled", true);
+                }
         }
         $('.chosen-select').trigger('chosen:updated');
     }

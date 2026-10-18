@@ -422,6 +422,32 @@
         </div>
         {{/if}}
 
+        {{#if InternationalQ1Articles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q1):
+            </p>
+            <p>
+                {{#each InternationalQ1Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if InternationalQ2Articles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q2):
+            </p>
+            <p>
+                {{#each InternationalQ2Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
         {{#if InternationalMetricArticles.Count}}
         <div class="top-ident">
             <p>
@@ -443,6 +469,45 @@
             </p>
             <p>
                 {{#each InternationalQ3Q4Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if InternationalQ3Articles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q3):
+            </p>
+            <p>
+                {{#each InternationalQ3Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if InternationalQ4Articles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (Q4):
+            </p>
+            <p>
+                {{#each InternationalQ4Articles}}
+                {{inc @index}}. {{this}}<br />
+                {{/each}}
+            </p>
+        </div>
+        {{/if}}
+
+        {{#if InternationalWithoutQuartileArticles.Count}}
+        <div class="top-ident">
+            <p>
+                Статті у виданнях, які включені до міжнародних наукометричних баз даних Web of Science, Scopus (без квартиля):
+            </p>
+            <p>
+                {{#each InternationalWithoutQuartileArticles}}
                 {{inc @index}}. {{this}}<br />
                 {{/each}}
             </p>

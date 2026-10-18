@@ -32,6 +32,8 @@ namespace SRS.Domain.Entities
 
         public PublicationType PublicationType { get; set; }
 
+        public PublicationCategory? Category { get; set; }
+
         public Language Language { get; set; }
 
         public string OtherLanguage { get; set; }
@@ -139,6 +141,11 @@ namespace SRS.Domain.Entities
                 || PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних
                 || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2
                 || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q2
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q4
+                || PublicationType == PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_без_квартиля
                 || PublicationType == PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_базах_даних
                 || PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України;
         }

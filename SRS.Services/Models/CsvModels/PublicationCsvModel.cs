@@ -15,14 +15,34 @@ namespace SRS.Services.Models.CsvModels
         [DisplayName("Тип")]
         public string PublicationType { get; set; }
 
-        [Name("Журнал / Видання / Конференція")]
+        [Name("Категорія")]
         [Index(3)]
+        [DisplayName("Категорія")]
+        public string Category { get; set; }
+
+        [Name("Журнал / Видання / Конференція")]
+        [Index(4)]
         [DisplayName("Журнал / Видання / Конференція")]
         public string JournalOrChapterMonographyOrConference { get; set; }
 
         [Name("Автори")]
-        [Index(4)]
+        [Index(5)]
         [DisplayName("Автори")]
         public string Authors { get; set; }
+
+        [Name("Квартиль")]
+        [Index(6)]
+        [DisplayName("Квартиль")]
+        public string JournalQuartile { get; set; }
+
+        [Name("Друкований ISSN")]
+        [Index(7)]
+        [DisplayName("Друкований ISSN")]
+        public string JournalPrintIssn { get; set; }
+
+        [Name("Електронний ISSN")]
+        [Index(8)]
+        [DisplayName("Електронний ISSN")]
+        public string JournalElectronicIssn { get; set; }
     }
 }

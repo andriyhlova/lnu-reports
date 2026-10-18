@@ -114,6 +114,9 @@ namespace SRS.Web
 
             bundles.Add(new StyleBundle("~/Content/reports/bundle").Include(
                       "~/Content/Reports/edit.css"));
+
+            bundles.Add(new StyleBundle("~/Content/publications/bundle").Include(
+                      "~/Content/Publications/edit.css"));
         }
     }
 }

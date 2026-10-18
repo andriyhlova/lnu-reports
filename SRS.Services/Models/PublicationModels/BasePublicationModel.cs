@@ -20,10 +20,18 @@ namespace SRS.Services.Models.PublicationModels
         [RequiredField]
         public PublicationType PublicationType { get; set; }
 
+        public PublicationCategory? Category { get; set; }
+
         [RequiredField]
         public string AuthorsOrder { get; set; }
 
         public string JournalName { get; set; }
+
+        public Quartile? JournalBestQuartile { get; set; }
+
+        public string JournalPrintIssn { get; set; }
+
+        public string JournalElectronicIssn { get; set; }
 
         public string ChapterMonographyName { get; set; }
 

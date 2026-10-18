@@ -32,6 +32,11 @@ namespace SRS.Services.Implementations.Bibliography
                 case PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних:
                 case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2:
                 case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q2:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q4:
+                case PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_без_квартиля:
                 case PublicationType.Стаття_В_Інших_Закордонних_Виданнях:
                 case PublicationType.Стаття_В_Фахових_Виданнях_України:
                 case PublicationType.Стаття_В_Інших_Виданнях_України:
@@ -151,12 +156,22 @@ namespace SRS.Services.Implementations.Bibliography
 
         private string GetReferencePart(Publication publication)
         {
+            var issnPart = GetPartWithDot(StringUtilities.JoinNotNullOrWhitespace(
+                ", ",
+                GetIssnPart(publication.Journal?.PrintIssn, "друк."),
+                GetIssnPart(publication.Journal?.ElectronicIssn, "електрон.")));
+
             if (!string.IsNullOrWhiteSpace(publication.DOI))
             {
-                return "DOI: " + GetPartWithDot(publication.DOI);
+                return StringUtilities.JoinNotNullOrWhitespace($" {_dash} ", "DOI: " + GetPartWithDot(publication.DOI), issnPart);
             }
 
-            return GetPartWithDot(publication.Link);
+            return StringUtilities.JoinNotNullOrWhitespace(" ", issnPart, GetPartWithDot(publication.Link));
+        }
+
+        private string GetIssnPart(string issn, string type)
+        {
+            return !string.IsNullOrWhiteSpace(issn) ? $"ISSN: {issn.Trim()} ({type})" : null;
         }
     }
 }
