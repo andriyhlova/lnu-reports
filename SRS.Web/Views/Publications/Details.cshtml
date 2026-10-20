@@ -31,13 +31,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <label class="col-md-2">Категорія</label>
-            <div class="col-md-10">
-                @(Model.Category.HasValue ? Model.Category.Value.GetDisplayName() : string.Empty)
-            </div>
-        </div>
-
         <div class="row field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
             <label class="col-md-2">Журнал</label>
