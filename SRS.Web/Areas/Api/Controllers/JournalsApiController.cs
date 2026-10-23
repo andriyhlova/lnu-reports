@@ -1,17 +1,19 @@
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using SRS.Domain.Enums;
 using SRS.Domain.Enums.OrderTypes;
 using SRS.Services.Extensions;
 using SRS.Services.Interfaces;
 using SRS.Services.Models.FilterModels;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace SRS.Web.Areas.Api.Controllers
 {
     [Authorize]
     public class JournalsApiController : Controller
     {
+        private const int SearchResultsLimit = 50;
+
         private readonly IJournalService _journalService;
 
         public JournalsApiController(IJournalService journalService)
@@ -20,9 +22,16 @@ namespace SRS.Web.Areas.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetByPublicationType(PublicationType? publicationType)
+        public async Task<ActionResult> GetByPublicationType(PublicationType? publicationType, string search)
         {
-            var journals = await _journalService.GetAllAsync(new JournalFilterModel { PublicationType = publicationType, OrderBy = (int)JournalOrderType.Name });
+            var journals = await _journalService.GetAllAsync(new JournalFilterModel
+            {
+                PublicationType = publicationType,
+                OrderBy = (int)JournalOrderType.Name,
+                Search = search,
+                Skip = 0,
+                Take = SearchResultsLimit
+            });
             var requiredQuartile = GetRequiredQuartile(publicationType);
             var result = journals.Select(x => new
             {
@@ -31,6 +40,27 @@ namespace SRS.Web.Areas.Api.Controllers
                 Quartile = x.BestQuartile.GetDisplayName(),
                 Matches = requiredQuartile.HasValue ? (bool?)(x.BestQuartile == requiredQuartile.Value) : null
             });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetById(int id, PublicationType? publicationType)
+        {
+            var journal = await _journalService.GetFirstOrDefaultAsync(id);
+            if (journal == null)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+
+            var requiredQuartile = GetRequiredQuartile(publicationType);
+            var result = new
+            {
+                journal.Id,
+                journal.Name,
+                Quartile = journal.BestQuartile.GetDisplayName(),
+                Matches = requiredQuartile.HasValue ? (bool?)(journal.BestQuartile == requiredQuartile.Value) : null
+            };
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

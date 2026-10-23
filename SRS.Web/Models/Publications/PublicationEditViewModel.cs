@@ -22,6 +22,9 @@ namespace SRS.Web.Models.Publications
         public PublicationCategory? Category { get; set; }
 
         [RequiredField]
+        public bool? IsOpenAccess { get; set; }
+
+        [RequiredField]
         public string Name { get; set; }
 
         public string MainAuthor { get; set; }

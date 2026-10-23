@@ -31,6 +31,11 @@
             </div>
         </div>
 
+        <div class="row">
+            <label class="col-md-2">Чи є публікація у відкритому доступі (Open Access)</label>
+            <div class="col-md-10">@(Model.IsOpenAccess.HasValue ? (Model.IsOpenAccess.Value ? "Так" : "Ні") : "Не вказано")</div>
+        </div>
+
         <div class="row field"
              data-types="@(string.Join<FieldInfo>(publicationTypeSeparator, PublicationFieldsService.GetAvailablePublicationTypes(PublicationField.Journal)))">
             <label class="col-md-2">Журнал</label>

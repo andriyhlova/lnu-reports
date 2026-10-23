@@ -1,10 +1,14 @@
 (function () {
     const selectedUsers = [];
+    let journalSearchComponent;
+    let selectedJournal = null;
+
     $(function () {
         const searchComponent = new SearchComponent('#user-search', '/api/users/searchAll', getUserSearchResultText, appendUserSearchResultItem);
         searchComponent.load();
         getSelectedUsers();
         $('.selected-users').on('click', '.bi-file-x-fill', removeUser);
+        journalSelectorSetup();
         publicationTypeChanged();
         languageChanged();
         const availableFieldsComponent = new AvailableFieldsComponent('select[name=PublicationType]', 'types', separator);
@@ -13,10 +17,14 @@
 
     function publicationTypeChanged() {
         $('select[name=PublicationType]').change((e) => {
-            fillJournals(e.target.value);
+            onPublicationTypeChanged(e.target.value);
         });
         $('select[name=PublicationType]').change();
-        $('#journal-selector').on('change', showJournalQuartile);
+    }
+
+    function onPublicationTypeChanged(publicationType) {
+        journalSearchComponent.setSearchUrl(getJournalSearchUrl(publicationType));
+        refreshSelectedJournalInfo(publicationType);
     }
 
     function languageChanged() {
@@ -95,40 +103,84 @@
                         </div>`;
     };
 
-    let loadedJournals = [];
+    function getJournalSearchUrl(publicationType) {
+        return `/api/journalsapi/getByPublicationType?publicationType=${publicationType || ''}`;
+    }
 
-    function fillJournals(publicationType) {
-        let selectedJournal = $('#journal-selector').val() || $('#journal-selector')[0].dataset.selected;
-        $.ajax(`/api/journalsapi/getByPublicationType?publicationType=${publicationType}`)
-            .done(function (journals) {
-                loadedJournals = journals;
-                let str = "<option value=''>Виберіть журнал</option>";
-                for (var i = 0; i < journals.length; i++) {
-                    let journal = journals[i];
-                    str += `<option value='${journal.Id}' ${journal.Id == selectedJournal ? 'selected' : ''}>${journal.Name}</option>`;
+    function getJournalSearchResultText(journal) {
+        return journal.Name;
+    }
+
+    function journalSelectorSetup() {
+        const initialId = $('#journal-selector').val();
+        journalSearchComponent = new SearchComponent('#journal-search', getJournalSearchUrl($('select[name=PublicationType]').val()), getJournalSearchResultText, selectJournal);
+        journalSearchComponent.load();
+        $('.selected-journal').on('click', '.bi-file-x-fill', removeJournal);
+
+        if (initialId) {
+            loadJournalById(initialId, $('select[name=PublicationType]').val());
+        }
+    }
+
+    function selectJournal(journal) {
+        selectedJournal = journal;
+        $('#journal-selector').val(journal.Id);
+        renderSelectedJournal();
+        showJournalQuartile();
+    }
+
+    function removeJournal() {
+        selectedJournal = null;
+        $('#journal-selector').val('');
+        renderSelectedJournal();
+        showJournalQuartile();
+    }
+
+    function renderSelectedJournal() {
+        const container = $('.selected-journal');
+        container.html('');
+        if (selectedJournal) {
+            container.append(getJournalHtml(selectedJournal));
+        }
+    }
+
+    function getJournalHtml(journal) {
+        return `<div class="selected-item">
+                    <div class="name">${getJournalSearchResultText(journal)} <i class="bi bi-file-x-fill text-danger cursor-pointer"></i></div>
+                </div>`;
                 }
 
-                $("#journal-selector").html(str);
-                $("#journal-selector").trigger("chosen:updated");
+    function loadJournalById(id, publicationType) {
+        $.ajax(`/api/journalsapi/getById?id=${id}&publicationType=${publicationType || ''}`)
+            .done(function (journal) {
+                if (journal) {
+                    selectedJournal = journal;
+                    renderSelectedJournal();
                 showJournalQuartile();
+                }
             });
+    }
+
+    function refreshSelectedJournalInfo(publicationType) {
+        if (selectedJournal) {
+            loadJournalById(selectedJournal.Id, publicationType);
+        }
     }
 
     function showJournalQuartile() {
         const info = $('#journal-quartile-info');
-        const journal = loadedJournals.find(x => x.Id == $('#journal-selector').val());
         info.removeClass('text-success text-danger');
-        if (!journal) {
+        if (!selectedJournal) {
             info.text('');
             return;
         }
 
-        let text = `Квартиль: ${journal.Quartile}`;
-        if (journal.Matches === true) {
+        let text = `Квартиль: ${selectedJournal.Quartile}`;
+        if (selectedJournal.Matches === true) {
             text += ' — відповідає типу статті';
             info.addClass('text-success');
         }
-        else if (journal.Matches === false) {
+        else if (selectedJournal.Matches === false) {
             text += ' — не відповідає типу статті';
             info.addClass('text-danger');
         }

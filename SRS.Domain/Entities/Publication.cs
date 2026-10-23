@@ -34,6 +34,8 @@ namespace SRS.Domain.Entities
 
         public PublicationCategory? Category { get; set; }
 
+        public bool? IsOpenAccess { get; set; }
+
         public Language Language { get; set; }
 
         public string OtherLanguage { get; set; }

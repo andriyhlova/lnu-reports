@@ -23,6 +23,12 @@ namespace SRS.Services.Implementations
             return _mapper.Map<IList<JournalModel>>(journals);
         }
 
+        public async Task<JournalModel> GetFirstOrDefaultAsync(int id)
+        {
+            var journal = await _repo.GetFirstOrDefaultAsync(j => j.Id == id);
+            return _mapper.Map<JournalModel>(journal);
+        }
+
         public async Task<int> CountAsync(JournalFilterModel filterModel)
         {
             var countFilterModel = new JournalFilterModel

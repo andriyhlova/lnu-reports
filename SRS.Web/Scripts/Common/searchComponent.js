@@ -12,6 +12,10 @@ class SearchComponent {
         this._appendSearchResultItem = appendSearchResultItem;
     }
 
+    setSearchUrl(searchUrl) {
+        this._searchUrl = searchUrl;
+    }
+
     load() {
         this.addKeyUpEvent();
         this.addFocusEvent();

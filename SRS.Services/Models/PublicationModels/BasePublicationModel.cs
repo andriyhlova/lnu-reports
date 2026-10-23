@@ -22,6 +22,8 @@ namespace SRS.Services.Models.PublicationModels
 
         public PublicationCategory? Category { get; set; }
 
+        public bool? IsOpenAccess { get; set; }
+
         [RequiredField]
         public string AuthorsOrder { get; set; }
 

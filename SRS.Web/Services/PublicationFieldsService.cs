@@ -229,6 +229,17 @@ namespace SRS.Web.Services
                         new FieldInfo { Type = (int)PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції, Name = "Ідентифікатор (номер) тези" },
                         new FieldInfo { Type = (int)PublicationType.Матеріали_Конференцій_які_індексуються_у_міжнародних_наукометричних_базах_даних, Name = "Ідентифікатор (номер) тези" }
                     };
+                case PublicationField.OtherJournal:
+                    return new FieldInfo[]
+                    {
+                        new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних },
+                        new FieldInfo { Type = (int)PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор },
+                        new FieldInfo { Type = (int)PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q1_Q2 },
+                        new FieldInfo { Type = (int)PublicationType.Стаття_У_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних_Q3_Q4 },
+                        new FieldInfo { Type = (int)PublicationType.Стаття_В_Фахових_Виданнях_України },
+                        new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Виданнях_України },
+                        new FieldInfo { Type = (int)PublicationType.Стаття_В_Інших_Закордонних_Виданнях }
+                    };
                 case PublicationField.Journal:
                 case PublicationField.Issue:
                     return new FieldInfo[]
